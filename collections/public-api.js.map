@@ -1,0 +1,1 @@
+{"version":3,"file":"public-api.js","sourceRoot":"","sources":["../../../../src/cdk/collections/public-api.ts"],"names":[],"mappings":";;;;AACA,yFAAc,aAAa,CAAC","sourcesContent":["\nexport * from './selection';\n"]}
