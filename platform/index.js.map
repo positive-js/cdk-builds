@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../../src/cdk/platform/index.ts"],"names":[],"mappings":";;;;;;;AAIA,gGAAc,cAAc,CAAC","sourcesContent":["/**\n * Generated bundle index. Do not edit.\n */\n\nexport * from './public-api';\n"]}
