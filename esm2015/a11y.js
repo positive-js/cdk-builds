@@ -543,7 +543,7 @@ class FocusMonitor {
     }
     _incrementMonitoredElementCount() {
         // Register global listeners when first element is monitored.
-        if (++this._monitoredElementCount == 1) {
+        if (++this._monitoredElementCount === 1) {
             this._registerGlobalListeners();
         }
     }
@@ -551,8 +551,7 @@ class FocusMonitor {
         // Unregister global listeners when last element is unmonitored.
         if (!--this._monitoredElementCount) {
             this._unregisterGlobalListeners();
-            this._unregisterGlobalListeners = () => {
-            };
+            this._unregisterGlobalListeners = () => { };
         }
     }
 }

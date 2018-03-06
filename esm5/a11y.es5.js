@@ -783,7 +783,7 @@ var FocusMonitor = /** @class */ (function () {
     };
     FocusMonitor.prototype._incrementMonitoredElementCount = function () {
         // Register global listeners when first element is monitored.
-        if (++this._monitoredElementCount == 1) {
+        if (++this._monitoredElementCount === 1) {
             this._registerGlobalListeners();
         }
     };
@@ -791,8 +791,7 @@ var FocusMonitor = /** @class */ (function () {
         // Unregister global listeners when last element is unmonitored.
         if (!--this._monitoredElementCount) {
             this._unregisterGlobalListeners();
-            this._unregisterGlobalListeners = function () {
-            };
+            this._unregisterGlobalListeners = function () { };
         }
     };
     FocusMonitor.decorators = [
