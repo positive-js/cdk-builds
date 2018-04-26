@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 /**
  * Class to be used to power selecting one or more options from a list.
  */
@@ -69,16 +69,19 @@ export declare class SelectionModel<T> {
  * @docs-private
  */
 export declare class SelectionChange<T> {
-    /** Model that dispatched the event. */ source: SelectionModel<T>;
+    /** Model that dispatched the event. */
+    source: SelectionModel<T>;
     /** Options that were added to the model. */
-    added: T[] | undefined;
+    added: T[];
     /** Options that were removed from the model. */
-    removed: T[] | undefined;
-    constructor(/** Model that dispatched the event. */ source: SelectionModel<T>, 
+    removed: T[];
+    constructor(
+        /** Model that dispatched the event. */
+        source: SelectionModel<T>, 
         /** Options that were added to the model. */
-        added?: T[] | undefined, 
+        added: T[], 
         /** Options that were removed from the model. */
-        removed?: T[] | undefined);
+        removed: T[]);
 }
 /**
  * Returns an error that reports that multiple values are passed into a selection model

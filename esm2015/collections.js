@@ -4,7 +4,8 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
+import { Injectable, Optional, SkipSelf } from '@angular/core';
 
 /**
  * @fileoverview added by tsickle
@@ -202,8 +203,8 @@ class SelectionModel {
 class SelectionChange {
     /**
      * @param {?} source
-     * @param {?=} added
-     * @param {?=} removed
+     * @param {?} added
+     * @param {?} removed
      */
     constructor(source, added, removed) {
         this.source = source;
@@ -224,11 +225,80 @@ function getMultipleValuesInSingleSelectionError() {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+/**
+ * Class to coordinate unique selection based on name.
+ * Intended to be consumed as an Angular service.
+ * This service is needed because native radio change events are only fired on the item currently
+ * being selected, and we still need to uncheck the previous selection.
+ *
+ * This service does not *store* any IDs and names because they may change at any time, so it is
+ * less error-prone if they are simply passed through when the events occur.
+ */
+class UniqueSelectionDispatcher {
+    constructor() {
+        this._listeners = [];
+    }
+    /**
+     * Notify other items that selection for the given name has been set.
+     * @param {?} id ID of the item.
+     * @param {?} name Name of the item.
+     * @return {?}
+     */
+    notify(id, name) {
+        for (const /** @type {?} */ listener of this._listeners) {
+            listener(id, name);
+        }
+    }
+    /**
+     * Listen for future changes to item selection.
+     * @param {?} listener
+     * @return {?} Function used to deregister listener
+     */
+    listen(listener) {
+        this._listeners.push(listener);
+        return () => {
+            this._listeners = this._listeners.filter((registered) => {
+                return listener !== registered;
+            });
+        };
+    }
+    /**
+     * @return {?}
+     */
+    ngOnDestroy() {
+        this._listeners = [];
+    }
+}
+UniqueSelectionDispatcher.decorators = [
+    { type: Injectable },
+];
+/**
+ * \@docs-private
+ * @param {?} parentDispatcher
+ * @return {?}
+ */
+function UNIQUE_SELECTION_DISPATCHER_PROVIDER_FACTORY(parentDispatcher) {
+    return parentDispatcher || new UniqueSelectionDispatcher();
+}
+/**
+ * \@docs-private
+ */
+const /** @type {?} */ UNIQUE_SELECTION_DISPATCHER_PROVIDER = {
+    // If there is already a dispatcher available, use that. Otherwise, provide a new one.
+    provide: UniqueSelectionDispatcher,
+    deps: [[new Optional(), new SkipSelf(), UniqueSelectionDispatcher]],
+    useFactory: UNIQUE_SELECTION_DISPATCHER_PROVIDER_FACTORY
+};
 
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
 
-export { SelectionModel, SelectionChange, getMultipleValuesInSingleSelectionError };
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+
+export { UniqueSelectionDispatcher, UNIQUE_SELECTION_DISPATCHER_PROVIDER, SelectionModel, SelectionChange, getMultipleValuesInSingleSelectionError, UNIQUE_SELECTION_DISPATCHER_PROVIDER_FACTORY as ɵa };
 //# sourceMappingURL=collections.js.map

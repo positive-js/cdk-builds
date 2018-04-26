@@ -4,17 +4,12 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
-import { debounceTime } from 'rxjs/operators/debounceTime';
-import { filter } from 'rxjs/operators/filter';
-import { map } from 'rxjs/operators/map';
-import { tap } from 'rxjs/operators/tap';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject, Subscription, of } from 'rxjs';
+import { debounceTime, filter, map, tap } from 'rxjs/operators';
 import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, TAB, A, Z, ZERO, NINE } from '@ptsecurity/cdk/keycodes';
 import { __extends } from 'tslib';
-import { Platform, supportsPassiveEventListeners } from '@ptsecurity/cdk/platform';
 import { Directive, ElementRef, EventEmitter, Injectable, NgZone, Optional, Output, Renderer2, SkipSelf, NgModule } from '@angular/core';
-import { of } from 'rxjs/observable/of';
+import { Platform, supportsPassiveEventListeners, PlatformModule } from '@ptsecurity/cdk/platform';
 import { CommonModule } from '@angular/common';
 
 /**
@@ -29,13 +24,6 @@ ListKeyManager = /** @class */ (function () {
     function ListKeyManager(_items) {
         var _this = this;
         this._items = _items;
-        this._activeItemIndex = -1;
-        this._wrap = false;
-        this._letterKeyStream = new Subject();
-        this._typeaheadSubscription = Subscription.EMPTY;
-        this._vertical = true;
-        // Buffer for the letters that the user has pressed when the typeahead option is turned on.
-        this._pressedLetters = [];
         /**
              * Stream that emits any time the TAB key is pressed, so components can react
              * when focus is shifted off of the list.
@@ -43,6 +31,14 @@ ListKeyManager = /** @class */ (function () {
         this.tabOut = new Subject();
         /** Stream that emits whenever the active item of the list manager changes. */
         this.change = new Subject();
+        this._activeItemIndex = -1;
+        this._wrap = false;
+        this._scrollSize = 0;
+        this._letterKeyStream = new Subject();
+        this._typeaheadSubscription = Subscription.EMPTY;
+        this._vertical = true;
+        // Buffer for the letters that the user has pressed when the typeahead option is turned on.
+        this._pressedLetters = [];
         _items.changes.subscribe(function (newItems) {
             if (_this._activeItem) {
                 var itemArray = newItems.toArray();
@@ -67,6 +63,10 @@ ListKeyManager = /** @class */ (function () {
          */
     function () {
         this._wrap = true;
+        return this;
+    };
+    ListKeyManager.prototype.setScrollSize = function (size) {
+        this._scrollSize = size;
         return this;
     };
     /**
@@ -124,9 +124,8 @@ ListKeyManager = /** @class */ (function () {
             throw Error('ListKeyManager items in typeahead mode must implement the `getLabel` method.');
         }
         this._typeaheadSubscription.unsubscribe();
-        // Debounce the presses of non-navigational keys, collect the ones that correspond to letters
-        // and convert those letters back into a string. Afterwards find the first item that starts
-        // with that string and select it.
+        // Debounce the presses of non-navigational keys, collect the ones that correspond to letters and convert those
+        // letters back into a string. Afterwards find the first item that starts with that string and select it.
         this._typeaheadSubscription = this._letterKeyStream.pipe(tap(function (keyCode) { return _this._pressedLetters.push(keyCode); }), debounceTime(debounceInterval), filter(function () { return _this._pressedLetters.length > 0; }), map(function () { return _this._pressedLetters.join(''); })).subscribe(function (inputString) {
             var items = _this._items.toArray();
             // Start at 1 because we want to start searching at the item immediately
@@ -186,10 +185,16 @@ ListKeyManager = /** @class */ (function () {
                     this.setNextItemActive();
                     break;
                 }
+                else {
+                    return;
+                }
             case UP_ARROW:
                 if (this._vertical) {
                     this.setPreviousItemActive();
                     break;
+                }
+                else {
+                    return;
                 }
             case RIGHT_ARROW:
                 if (this._horizontal === 'ltr') {
@@ -200,6 +205,9 @@ ListKeyManager = /** @class */ (function () {
                     this.setPreviousItemActive();
                     break;
                 }
+                else {
+                    return;
+                }
             case LEFT_ARROW:
                 if (this._horizontal === 'ltr') {
                     this.setPreviousItemActive();
@@ -208,6 +216,9 @@ ListKeyManager = /** @class */ (function () {
                 else if (this._horizontal === 'rtl') {
                     this.setNextItemActive();
                     break;
+                }
+                else {
+                    return;
                 }
             default:
                 // Attempt to use the `event.key` which also maps it to the user's keyboard language,
@@ -273,6 +284,24 @@ ListKeyManager = /** @class */ (function () {
     function () {
         this._activeItemIndex < 0 && this._wrap ? this.setLastItemActive()
             : this._setActiveItemByDelta(-1);
+    };
+    ListKeyManager.prototype.setNextPageItemActive = function () {
+        var nextItemIndex = this._activeItemIndex + this._scrollSize;
+        if (nextItemIndex >= this._items.length) {
+            this.setLastItemActive();
+        }
+        else {
+            this._setActiveItemByDelta(this._scrollSize);
+        }
+    };
+    ListKeyManager.prototype.setPreviousPageItemActive = function () {
+        var nextItemIndex = this._activeItemIndex - this._scrollSize;
+        if (nextItemIndex <= 0) {
+            this.setFirstItemActive();
+        }
+        else {
+            this._setActiveItemByDelta(-this._scrollSize);
+        }
     };
     /**
      * Allows setting of the activeItemIndex without any other effects.
@@ -369,8 +398,9 @@ ListKeyManager = /** @class */ (function () {
          * item is disabled, it will move in the fallbackDelta direction until it either
          * finds an enabled item or encounters the end of the list.
          */
-    function (index, fallbackDelta, items) {
+    function (_index, fallbackDelta, items) {
         if (items === void 0) { items = this._items.toArray(); }
+        var index = _index;
         if (!items[index]) {
             return;
         }
@@ -858,7 +888,7 @@ var A11yModule = /** @class */ (function () {
     }
     A11yModule.decorators = [
         { type: NgModule, args: [{
-                    imports: [CommonModule],
+                    imports: [CommonModule, PlatformModule],
                     declarations: [CdkMonitorFocus],
                     exports: [CdkMonitorFocus],
                     providers: [
@@ -866,8 +896,6 @@ var A11yModule = /** @class */ (function () {
                     ]
                 },] },
     ];
-    /** @nocollapse */
-    A11yModule.ctorParameters = function () { return []; };
     return A11yModule;
 }());
 

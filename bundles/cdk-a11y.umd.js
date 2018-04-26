@@ -5,10 +5,10 @@
  * Use of this source code is governed by an MIT-style license.
  */
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs/operators/debounceTime'), require('rxjs/operators/filter'), require('rxjs/operators/map'), require('rxjs/operators/tap'), require('rxjs/Subject'), require('rxjs/Subscription'), require('@ptsecurity/cdk/keycodes'), require('@ptsecurity/cdk/platform'), require('@angular/core'), require('rxjs/observable/of'), require('@angular/common')) :
-	typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/a11y', ['exports', 'rxjs/operators/debounceTime', 'rxjs/operators/filter', 'rxjs/operators/map', 'rxjs/operators/tap', 'rxjs/Subject', 'rxjs/Subscription', '@ptsecurity/cdk/keycodes', '@ptsecurity/cdk/platform', '@angular/core', 'rxjs/observable/of', '@angular/common'], factory) :
-	(factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.a11y = {}),global.Rx.operators,global.Rx.operators,global.Rx.operators,global.Rx.operators,global.Rx,global.Rx,global.ng.cdk.keycodes,global.ng.cdk.platform,global.ng.core,global.Rx.Observable,global.ng.common));
-}(this, (function (exports,debounceTime,filter,map,tap,Subject,Subscription,keycodes,platform,core,of,common) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs'), require('rxjs/operators'), require('@ptsecurity/cdk/keycodes'), require('@angular/core'), require('@ptsecurity/cdk/platform'), require('@angular/common')) :
+	typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/a11y', ['exports', 'rxjs', 'rxjs/operators', '@ptsecurity/cdk/keycodes', '@angular/core', '@ptsecurity/cdk/platform', '@angular/common'], factory) :
+	(factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.a11y = {}),global.Rx,global.Rx.operators,global.ng.cdk.keycodes,global.ng.core,global.ng.cdk.platform,global.ng.common));
+}(this, (function (exports,rxjs,operators,keycodes,core,platform,common) { 'use strict';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -48,20 +48,21 @@ ListKeyManager = /** @class */ (function () {
     function ListKeyManager(_items) {
         var _this = this;
         this._items = _items;
-        this._activeItemIndex = -1;
-        this._wrap = false;
-        this._letterKeyStream = new Subject.Subject();
-        this._typeaheadSubscription = Subscription.Subscription.EMPTY;
-        this._vertical = true;
-        // Buffer for the letters that the user has pressed when the typeahead option is turned on.
-        this._pressedLetters = [];
         /**
              * Stream that emits any time the TAB key is pressed, so components can react
              * when focus is shifted off of the list.
              */
-        this.tabOut = new Subject.Subject();
+        this.tabOut = new rxjs.Subject();
         /** Stream that emits whenever the active item of the list manager changes. */
-        this.change = new Subject.Subject();
+        this.change = new rxjs.Subject();
+        this._activeItemIndex = -1;
+        this._wrap = false;
+        this._scrollSize = 0;
+        this._letterKeyStream = new rxjs.Subject();
+        this._typeaheadSubscription = rxjs.Subscription.EMPTY;
+        this._vertical = true;
+        // Buffer for the letters that the user has pressed when the typeahead option is turned on.
+        this._pressedLetters = [];
         _items.changes.subscribe(function (newItems) {
             if (_this._activeItem) {
                 var itemArray = newItems.toArray();
@@ -86,6 +87,10 @@ ListKeyManager = /** @class */ (function () {
          */
     function () {
         this._wrap = true;
+        return this;
+    };
+    ListKeyManager.prototype.setScrollSize = function (size) {
+        this._scrollSize = size;
         return this;
     };
     /**
@@ -143,10 +148,9 @@ ListKeyManager = /** @class */ (function () {
             throw Error('ListKeyManager items in typeahead mode must implement the `getLabel` method.');
         }
         this._typeaheadSubscription.unsubscribe();
-        // Debounce the presses of non-navigational keys, collect the ones that correspond to letters
-        // and convert those letters back into a string. Afterwards find the first item that starts
-        // with that string and select it.
-        this._typeaheadSubscription = this._letterKeyStream.pipe(tap.tap(function (keyCode) { return _this._pressedLetters.push(keyCode); }), debounceTime.debounceTime(debounceInterval), filter.filter(function () { return _this._pressedLetters.length > 0; }), map.map(function () { return _this._pressedLetters.join(''); })).subscribe(function (inputString) {
+        // Debounce the presses of non-navigational keys, collect the ones that correspond to letters and convert those
+        // letters back into a string. Afterwards find the first item that starts with that string and select it.
+        this._typeaheadSubscription = this._letterKeyStream.pipe(operators.tap(function (keyCode) { return _this._pressedLetters.push(keyCode); }), operators.debounceTime(debounceInterval), operators.filter(function () { return _this._pressedLetters.length > 0; }), operators.map(function () { return _this._pressedLetters.join(''); })).subscribe(function (inputString) {
             var items = _this._items.toArray();
             // Start at 1 because we want to start searching at the item immediately
             // following the current active item.
@@ -205,10 +209,16 @@ ListKeyManager = /** @class */ (function () {
                     this.setNextItemActive();
                     break;
                 }
+                else {
+                    return;
+                }
             case keycodes.UP_ARROW:
                 if (this._vertical) {
                     this.setPreviousItemActive();
                     break;
+                }
+                else {
+                    return;
                 }
             case keycodes.RIGHT_ARROW:
                 if (this._horizontal === 'ltr') {
@@ -219,6 +229,9 @@ ListKeyManager = /** @class */ (function () {
                     this.setPreviousItemActive();
                     break;
                 }
+                else {
+                    return;
+                }
             case keycodes.LEFT_ARROW:
                 if (this._horizontal === 'ltr') {
                     this.setPreviousItemActive();
@@ -227,6 +240,9 @@ ListKeyManager = /** @class */ (function () {
                 else if (this._horizontal === 'rtl') {
                     this.setNextItemActive();
                     break;
+                }
+                else {
+                    return;
                 }
             default:
                 // Attempt to use the `event.key` which also maps it to the user's keyboard language,
@@ -292,6 +308,24 @@ ListKeyManager = /** @class */ (function () {
     function () {
         this._activeItemIndex < 0 && this._wrap ? this.setLastItemActive()
             : this._setActiveItemByDelta(-1);
+    };
+    ListKeyManager.prototype.setNextPageItemActive = function () {
+        var nextItemIndex = this._activeItemIndex + this._scrollSize;
+        if (nextItemIndex >= this._items.length) {
+            this.setLastItemActive();
+        }
+        else {
+            this._setActiveItemByDelta(this._scrollSize);
+        }
+    };
+    ListKeyManager.prototype.setPreviousPageItemActive = function () {
+        var nextItemIndex = this._activeItemIndex - this._scrollSize;
+        if (nextItemIndex <= 0) {
+            this.setFirstItemActive();
+        }
+        else {
+            this._setActiveItemByDelta(-this._scrollSize);
+        }
     };
     /**
      * Allows setting of the activeItemIndex without any other effects.
@@ -388,8 +422,9 @@ ListKeyManager = /** @class */ (function () {
          * item is disabled, it will move in the fallbackDelta direction until it either
          * finds an enabled item or encounters the end of the list.
          */
-    function (index, fallbackDelta, items) {
+    function (_index, fallbackDelta, items) {
         if (items === void 0) { items = this._items.toArray(); }
+        var index = _index;
         if (!items[index]) {
             return;
         }
@@ -507,7 +542,7 @@ var FocusMonitor = /** @class */ (function () {
         }
         checkChildren = !!checkChildren;
         if (!this._platform.isBrowser) {
-            return of.of(null);
+            return rxjs.of(null);
         }
         // Check if we're already monitoring this element.
         if (this._elementInfo.has(element)) {
@@ -520,7 +555,7 @@ var FocusMonitor = /** @class */ (function () {
             unlisten: function () {
             },
             checkChildren: checkChildren,
-            subject: new Subject.Subject()
+            subject: new rxjs.Subject()
         };
         this._elementInfo.set(element, info);
         this._incrementMonitoredElementCount();
@@ -877,7 +912,7 @@ var A11yModule = /** @class */ (function () {
     }
     A11yModule.decorators = [
         { type: core.NgModule, args: [{
-                    imports: [common.CommonModule],
+                    imports: [common.CommonModule, platform.PlatformModule],
                     declarations: [CdkMonitorFocus],
                     exports: [CdkMonitorFocus],
                     providers: [
@@ -885,8 +920,6 @@ var A11yModule = /** @class */ (function () {
                     ]
                 },] },
     ];
-    /** @nocollapse */
-    A11yModule.ctorParameters = function () { return []; };
     return A11yModule;
 }());
 

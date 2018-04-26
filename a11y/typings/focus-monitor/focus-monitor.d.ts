@@ -1,6 +1,6 @@
-import { Platform } from '@ptsecurity/cdk/platform';
 import { ElementRef, EventEmitter, NgZone, OnDestroy, Optional, Renderer2 } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { Platform } from '@ptsecurity/cdk/platform';
 export declare const TOUCH_BUFFER_MS = 650;
 export declare type FocusOrigin = 'touch' | 'mouse' | 'keyboard' | 'program' | null;
 /** Monitors mouse and keyboard events to determine the cause of focus events. */
@@ -112,5 +112,5 @@ export declare function FOCUS_MONITOR_PROVIDER_FACTORY(parentDispatcher: FocusMo
 export declare const FOCUS_MONITOR_PROVIDER: {
     provide: typeof FocusMonitor;
     deps: (Optional[] | typeof NgZone | typeof Platform)[];
-    useFactory: (parentDispatcher: FocusMonitor, ngZone: NgZone, platform: Platform) => FocusMonitor;
+    useFactory: typeof FOCUS_MONITOR_PROVIDER_FACTORY;
 };

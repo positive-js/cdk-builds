@@ -1,0 +1,7 @@
+{
+  "name": "@ptsecurity/cdk/style-manager",
+  "typings": "../style-manager.d.ts",
+  "main": "../bundles/cdk-style-manager.umd.js",
+  "module": "../esm5/style-manager.es5.js",
+  "es2015": "../esm2015/style-manager.js"
+}

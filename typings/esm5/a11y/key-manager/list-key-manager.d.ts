@@ -1,5 +1,5 @@
 import { QueryList } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 export interface IListKeyManagerOption {
     disabled?: boolean;
     getLabel?(): string;
@@ -10,15 +10,6 @@ export interface IListKeyManagerOption {
  */
 export declare class ListKeyManager<T extends IListKeyManagerOption> {
     private _items;
-    private _activeItemIndex;
-    private _activeItem;
-    private _wrap;
-    private _letterKeyStream;
-    private _typeaheadSubscription;
-    private _vertical;
-    private _horizontal;
-    private _pressedLetters;
-    constructor(_items: QueryList<T>);
     /**
      * Stream that emits any time the TAB key is pressed, so components can react
      * when focus is shifted off of the list.
@@ -26,11 +17,22 @@ export declare class ListKeyManager<T extends IListKeyManagerOption> {
     tabOut: Subject<void>;
     /** Stream that emits whenever the active item of the list manager changes. */
     change: Subject<number>;
+    private _activeItemIndex;
+    private _activeItem;
+    private _wrap;
+    private _scrollSize;
+    private _letterKeyStream;
+    private _typeaheadSubscription;
+    private _vertical;
+    private _horizontal;
+    private _pressedLetters;
+    constructor(_items: QueryList<T>);
     /**
      * Turns on wrapping mode, which ensures that the active item will wrap to
      * the other end of list when there are no more items in the given direction.
      */
     withWrap(): this;
+    setScrollSize(size: number): this;
     /**
      * Configures whether the key manager should be able to move the selection vertically.
      * @param enabled Whether vertical selection should be enabled.
@@ -63,6 +65,8 @@ export declare class ListKeyManager<T extends IListKeyManagerOption> {
     setLastItemActive(): void;
     setNextItemActive(): void;
     setPreviousItemActive(): void;
+    setNextPageItemActive(): void;
+    setPreviousPageItemActive(): void;
     /**
      * Allows setting of the activeItemIndex without any other effects.
      * @param index The new activeItemIndex.
@@ -91,5 +95,5 @@ export declare class ListKeyManager<T extends IListKeyManagerOption> {
      * item is disabled, it will move in the fallbackDelta direction until it either
      * finds an enabled item or encounters the end of the list.
      */
-    private _setActiveItemByIndex(index, fallbackDelta, items?);
+    private _setActiveItemByIndex(_index, fallbackDelta, items?);
 }

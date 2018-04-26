@@ -62,8 +62,6 @@ var Platform = /** @class */ (function () {
     Platform.decorators = [
         { type: Injectable },
     ];
-    /** @nocollapse */
-    Platform.ctorParameters = function () { return []; };
     return Platform;
 }());
 
@@ -159,8 +157,6 @@ var PlatformModule = /** @class */ (function () {
                     providers: [Platform]
                 },] },
     ];
-    /** @nocollapse */
-    PlatformModule.ctorParameters = function () { return []; };
     return PlatformModule;
 }());
 

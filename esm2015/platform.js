@@ -63,8 +63,6 @@ class Platform {
 Platform.decorators = [
     { type: Injectable },
 ];
-/** @nocollapse */
-Platform.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -157,8 +155,6 @@ PlatformModule.decorators = [
                 providers: [Platform]
             },] },
 ];
-/** @nocollapse */
-PlatformModule.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
