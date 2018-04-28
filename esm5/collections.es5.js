@@ -27,6 +27,10 @@ SelectionModel = /** @class */ (function () {
         this._multiple = _multiple;
         this._emitChanges = _emitChanges;
         /**
+         * Event emitted when the value has changed.
+         */
+        this.onChange = this._emitChanges ? new Subject() : null;
+        /**
          * Currently-selected values.
          */
         this._selection = new Set();
@@ -38,10 +42,6 @@ SelectionModel = /** @class */ (function () {
          * Keeps track of the selected options that haven't been emitted by the change event.
          */
         this._selectedToEmit = [];
-        /**
-         * Event emitted when the value has changed.
-         */
-        this.onChange = this._emitChanges ? new Subject() : null;
         if (initiallySelectedValues && initiallySelectedValues.length) {
             if (_multiple) {
                 initiallySelectedValues.forEach(function (value) { return _this._markSelected(value); });

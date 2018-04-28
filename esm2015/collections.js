@@ -25,6 +25,10 @@ class SelectionModel {
         this._multiple = _multiple;
         this._emitChanges = _emitChanges;
         /**
+         * Event emitted when the value has changed.
+         */
+        this.onChange = this._emitChanges ? new Subject() : null;
+        /**
          * Currently-selected values.
          */
         this._selection = new Set();
@@ -36,13 +40,9 @@ class SelectionModel {
          * Keeps track of the selected options that haven't been emitted by the change event.
          */
         this._selectedToEmit = [];
-        /**
-         * Event emitted when the value has changed.
-         */
-        this.onChange = this._emitChanges ? new Subject() : null;
         if (initiallySelectedValues && initiallySelectedValues.length) {
             if (_multiple) {
-                initiallySelectedValues.forEach(value => this._markSelected(value));
+                initiallySelectedValues.forEach((value) => this._markSelected(value));
             }
             else {
                 this._markSelected(initiallySelectedValues[0]);
@@ -68,7 +68,7 @@ class SelectionModel {
      */
     select(...values) {
         this._verifyValueAssignment(values);
-        values.forEach(value => this._markSelected(value));
+        values.forEach((value) => this._markSelected(value));
         this._emitChangeEvent();
     }
     /**
@@ -78,7 +78,7 @@ class SelectionModel {
      */
     deselect(...values) {
         this._verifyValueAssignment(values);
-        values.forEach(value => this._unmarkSelected(value));
+        values.forEach((value) => this._unmarkSelected(value));
         this._emitChangeEvent();
     }
     /**
@@ -180,7 +180,7 @@ class SelectionModel {
      */
     _unmarkAll() {
         if (!this.isEmpty()) {
-            this._selection.forEach(value => this._unmarkSelected(value));
+            this._selection.forEach((value) => this._unmarkSelected(value));
         }
     }
     /**

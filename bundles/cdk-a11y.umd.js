@@ -57,7 +57,6 @@ ListKeyManager = /** @class */ (function () {
         this.change = new rxjs.Subject();
         this._activeItemIndex = -1;
         this._wrap = false;
-        this._scrollSize = 0;
         this._letterKeyStream = new rxjs.Subject();
         this._typeaheadSubscription = rxjs.Subscription.EMPTY;
         this._vertical = true;
@@ -87,10 +86,6 @@ ListKeyManager = /** @class */ (function () {
          */
     function () {
         this._wrap = true;
-        return this;
-    };
-    ListKeyManager.prototype.setScrollSize = function (size) {
-        this._scrollSize = size;
         return this;
     };
     /**
@@ -309,22 +304,22 @@ ListKeyManager = /** @class */ (function () {
         this._activeItemIndex < 0 && this._wrap ? this.setLastItemActive()
             : this._setActiveItemByDelta(-1);
     };
-    ListKeyManager.prototype.setNextPageItemActive = function () {
-        var nextItemIndex = this._activeItemIndex + this._scrollSize;
+    ListKeyManager.prototype.setNextPageItemActive = function (delta) {
+        var nextItemIndex = this._activeItemIndex + delta;
         if (nextItemIndex >= this._items.length) {
             this.setLastItemActive();
         }
         else {
-            this._setActiveItemByDelta(this._scrollSize);
+            this._setActiveItemByDelta(delta);
         }
     };
-    ListKeyManager.prototype.setPreviousPageItemActive = function () {
-        var nextItemIndex = this._activeItemIndex - this._scrollSize;
+    ListKeyManager.prototype.setPreviousPageItemActive = function (delta) {
+        var nextItemIndex = this._activeItemIndex - delta;
         if (nextItemIndex <= 0) {
             this.setFirstItemActive();
         }
         else {
-            this._setActiveItemByDelta(-this._scrollSize);
+            this._setActiveItemByDelta(-delta);
         }
     };
     /**
@@ -379,8 +374,7 @@ ListKeyManager = /** @class */ (function () {
          */
     function (delta, items) {
         // when active item would leave menu, wrap to beginning or end
-        this._activeItemIndex =
-            (this._activeItemIndex + delta + items.length) % items.length;
+        this._activeItemIndex = (this._activeItemIndex + delta + items.length) % items.length;
         // skip all disabled menu items recursively until an enabled one is reached
         if (items[this._activeItemIndex].disabled) {
             this._setActiveInWrapMode(delta, items);
@@ -552,8 +546,7 @@ var FocusMonitor = /** @class */ (function () {
         }
         // Create monitored element info.
         var info = {
-            unlisten: function () {
-            },
+            unlisten: function () { },
             checkChildren: checkChildren,
             subject: new rxjs.Subject()
         };

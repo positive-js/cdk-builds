@@ -27,7 +27,6 @@ class ListKeyManager {
         this.change = new Subject();
         this._activeItemIndex = -1;
         this._wrap = false;
-        this._scrollSize = 0;
         this._letterKeyStream = new Subject();
         this._typeaheadSubscription = Subscription.EMPTY;
         this._vertical = true;
@@ -49,10 +48,6 @@ class ListKeyManager {
          */
     withWrap() {
         this._wrap = true;
-        return this;
-    }
-    setScrollSize(size) {
-        this._scrollSize = size;
         return this;
     }
     /**
@@ -202,22 +197,22 @@ class ListKeyManager {
         this._activeItemIndex < 0 && this._wrap ? this.setLastItemActive()
             : this._setActiveItemByDelta(-1);
     }
-    setNextPageItemActive() {
-        const nextItemIndex = this._activeItemIndex + this._scrollSize;
+    setNextPageItemActive(delta) {
+        const nextItemIndex = this._activeItemIndex + delta;
         if (nextItemIndex >= this._items.length) {
             this.setLastItemActive();
         }
         else {
-            this._setActiveItemByDelta(this._scrollSize);
+            this._setActiveItemByDelta(delta);
         }
     }
-    setPreviousPageItemActive() {
-        const nextItemIndex = this._activeItemIndex - this._scrollSize;
+    setPreviousPageItemActive(delta) {
+        const nextItemIndex = this._activeItemIndex - delta;
         if (nextItemIndex <= 0) {
             this.setFirstItemActive();
         }
         else {
-            this._setActiveItemByDelta(-this._scrollSize);
+            this._setActiveItemByDelta(-delta);
         }
     }
     /**
@@ -243,8 +238,7 @@ class ListKeyManager {
          */
     _setActiveInWrapMode(delta, items) {
         // when active item would leave menu, wrap to beginning or end
-        this._activeItemIndex =
-            (this._activeItemIndex + delta + items.length) % items.length;
+        this._activeItemIndex = (this._activeItemIndex + delta + items.length) % items.length;
         // skip all disabled menu items recursively until an enabled one is reached
         if (items[this._activeItemIndex].disabled) {
             this._setActiveInWrapMode(delta, items);
@@ -359,8 +353,7 @@ class FocusMonitor {
         }
         // Create monitored element info.
         let info = {
-            unlisten: () => {
-            },
+            unlisten: () => { },
             checkChildren: checkChildren,
             subject: new Subject()
         };
@@ -413,13 +406,13 @@ class FocusMonitor {
             return;
         }
         // On keydown record the origin and clear any touch event that may be in progress.
-        let documentKeydownListener = () => {
+        const documentKeydownListener = () => {
             this._lastTouchTarget = null;
             this._setOriginForCurrentEventQueue('keyboard');
         };
         // On mousedown record the origin only if there is not touch target, since a mousedown can
         // happen as a result of a touch event.
-        let documentMousedownListener = () => {
+        const documentMousedownListener = () => {
             if (!this._lastTouchTarget) {
                 this._setOriginForCurrentEventQueue('mouse');
             }
@@ -427,7 +420,7 @@ class FocusMonitor {
         // When the touchstart event fires the focus event is not yet in the event queue. This means
         // we can't rely on the trick used above (setting timeout of 0ms). Instead we wait 650ms to
         // see if a focus happens.
-        let documentTouchstartListener = (event) => {
+        const documentTouchstartListener = (event) => {
             if (this._touchTimeoutId != null) {
                 clearTimeout(this._touchTimeoutId);
             }
@@ -436,7 +429,7 @@ class FocusMonitor {
         };
         // Make a note of when the window regains focus, so we can restore the origin info for the
         // focused element.
-        let windowFocusListener = () => {
+        const windowFocusListener = () => {
             this._windowFocused = true;
             this._windowFocusTimeoutId = setTimeout(() => this._windowFocused = false, 0);
         };
@@ -513,7 +506,7 @@ class FocusMonitor {
         // for the first focus event after the touchstart, and then the first blur event after that
         // focus event. When that blur event fires we know that whatever follows is not a result of the
         // touchstart.
-        let focusTarget = event.target;
+        const focusTarget = event.target;
         return this._lastTouchTarget instanceof Node && focusTarget instanceof Node &&
             (focusTarget === this._lastTouchTarget || focusTarget.contains(this._lastTouchTarget));
     }

@@ -5,6 +5,8 @@ import { Subject } from 'rxjs';
 export declare class SelectionModel<T> {
     private _multiple;
     private _emitChanges;
+    /** Event emitted when the value has changed. */
+    onChange: Subject<SelectionChange<T>> | null;
     /** Currently-selected values. */
     private _selection;
     /** Keeps track of the deselected options that haven't been emitted by the change event. */
@@ -13,11 +15,9 @@ export declare class SelectionModel<T> {
     private _selectedToEmit;
     /** Cache for the array value of the selected items. */
     private _selected;
+    constructor(_multiple?: boolean, initiallySelectedValues?: T[], _emitChanges?: boolean);
     /** Selected values. */
     readonly selected: T[];
-    /** Event emitted when the value has changed. */
-    onChange: Subject<SelectionChange<T>> | null;
-    constructor(_multiple?: boolean, initiallySelectedValues?: T[], _emitChanges?: boolean);
     /**
      * Selects a value or an array of values.
      */

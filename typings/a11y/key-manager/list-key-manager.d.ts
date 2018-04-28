@@ -20,7 +20,6 @@ export declare class ListKeyManager<T extends IListKeyManagerOption> {
     private _activeItemIndex;
     private _activeItem;
     private _wrap;
-    private _scrollSize;
     private _letterKeyStream;
     private _typeaheadSubscription;
     private _vertical;
@@ -32,7 +31,6 @@ export declare class ListKeyManager<T extends IListKeyManagerOption> {
      * the other end of list when there are no more items in the given direction.
      */
     withWrap(): this;
-    setScrollSize(size: number): this;
     /**
      * Configures whether the key manager should be able to move the selection vertically.
      * @param enabled Whether vertical selection should be enabled.
@@ -65,8 +63,8 @@ export declare class ListKeyManager<T extends IListKeyManagerOption> {
     setLastItemActive(): void;
     setNextItemActive(): void;
     setPreviousItemActive(): void;
-    setNextPageItemActive(): void;
-    setPreviousPageItemActive(): void;
+    setNextPageItemActive(delta: number): void;
+    setPreviousPageItemActive(delta: number): void;
     /**
      * Allows setting of the activeItemIndex without any other effects.
      * @param index The new activeItemIndex.
