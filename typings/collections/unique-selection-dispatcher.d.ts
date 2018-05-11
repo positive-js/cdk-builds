@@ -1,4 +1,4 @@
-import { Optional, OnDestroy } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 export declare type UniqueSelectionDispatcherListener = (id: string, name: string) => void;
 /**
  * Class to coordinate unique selection based on name.
@@ -24,11 +24,3 @@ export declare class UniqueSelectionDispatcher implements OnDestroy {
     listen(listener: UniqueSelectionDispatcherListener): () => void;
     ngOnDestroy(): void;
 }
-/** @docs-private */
-export declare function UNIQUE_SELECTION_DISPATCHER_PROVIDER_FACTORY(parentDispatcher: UniqueSelectionDispatcher): UniqueSelectionDispatcher;
-/** @docs-private */
-export declare const UNIQUE_SELECTION_DISPATCHER_PROVIDER: {
-    provide: typeof UniqueSelectionDispatcher;
-    deps: Optional[][];
-    useFactory: typeof UNIQUE_SELECTION_DISPATCHER_PROVIDER_FACTORY;
-};
