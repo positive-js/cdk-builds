@@ -402,8 +402,9 @@ var UniqueSelectionDispatcher = /** @class */ (function () {
         this._listeners = [];
     };
     UniqueSelectionDispatcher.decorators = [
-        { type: core.Injectable },
+        { type: core.Injectable, args: [{ providedIn: 'root' },] },
     ];
+    /** @nocollapse */ UniqueSelectionDispatcher.ngInjectableDef = core.defineInjectable({ factory: function UniqueSelectionDispatcher_Factory() { return new UniqueSelectionDispatcher(); }, token: UniqueSelectionDispatcher, providedIn: "root" });
     return UniqueSelectionDispatcher;
 }());
 /**

@@ -4,7 +4,8 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
-import { Injectable, NgModule } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, Optional, PLATFORM_ID, NgModule, defineInjectable, inject } from '@angular/core';
 
 /**
  * @fileoverview added by tsickle
@@ -12,17 +13,22 @@ import { Injectable, NgModule } from '@angular/core';
  */
 // Whether the current platform supports the V8 Break Iterator. The V8 check
 // is necessary to detect all Blink based browsers.
-var /** @type {?} */ hasV8BreakIterator = (typeof (Intl) !== 'undefined' && (/** @type {?} */ (Intl)).v8BreakIterator);
+var /** @type {?} */ hasV8BreakIterator = (typeof Intl !== 'undefined' && (/** @type {?} */ (Intl)).v8BreakIterator);
 /**
  * Service to detect the current platform by comparing the userAgent strings and
  * checking browser-specific global properties.
  */
 var Platform = /** @class */ (function () {
-    function Platform() {
+    function Platform(_platformId) {
+        this._platformId = _platformId;
         /**
          * Whether the Angular application is being rendered in the browser.
+         * We want to use the Angular platform check because if the Document is shimmed
+         * without the navigator, the following checks will fail. This is preferred because
+         * sometimes the Document may be shimmed without the user's knowledge or intention
          */
-        this.isBrowser = typeof document === 'object' && !!document;
+        this.isBrowser = this._platformId ?
+            isPlatformBrowser(this._platformId) : typeof document === 'object' && !!document;
         /**
          * Whether the current browser is Microsoft Edge.
          */
@@ -34,8 +40,8 @@ var Platform = /** @class */ (function () {
         /**
          * Whether the current rendering engine is Blink.
          */
-        this.BLINK = this.isBrowser &&
-            (!!((/** @type {?} */ (window)).chrome || hasV8BreakIterator) && !!CSS && !this.EDGE && !this.TRIDENT);
+        this.BLINK = this.isBrowser && (!!((/** @type {?} */ (window)).chrome || hasV8BreakIterator) &&
+            typeof CSS !== 'undefined' && !this.EDGE && !this.TRIDENT);
         /**
          * Whether the current rendering engine is WebKit.
          */
@@ -60,8 +66,13 @@ var Platform = /** @class */ (function () {
         this.SAFARI = this.isBrowser && /safari/i.test(navigator.userAgent) && this.WEBKIT;
     }
     Platform.decorators = [
-        { type: Injectable },
+        { type: Injectable, args: [{ providedIn: 'root' },] },
     ];
+    /** @nocollapse */
+    Platform.ctorParameters = function () { return [
+        { type: Object, decorators: [{ type: Optional }, { type: Inject, args: [PLATFORM_ID,] },] },
+    ]; };
+    /** @nocollapse */ Platform.ngInjectableDef = defineInjectable({ factory: function Platform_Factory() { return new Platform(inject(PLATFORM_ID, 8)); }, token: Platform, providedIn: "root" });
     return Platform;
 }());
 
@@ -153,9 +164,7 @@ var PlatformModule = /** @class */ (function () {
     function PlatformModule() {
     }
     PlatformModule.decorators = [
-        { type: NgModule, args: [{
-                    providers: [Platform]
-                },] },
+        { type: NgModule },
     ];
     return PlatformModule;
 }());

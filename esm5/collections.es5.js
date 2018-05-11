@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license.
  */
 import { Subject } from 'rxjs';
-import { Injectable, Optional, SkipSelf } from '@angular/core';
+import { Injectable, Optional, SkipSelf, defineInjectable } from '@angular/core';
 
 /**
  * @fileoverview added by tsickle
@@ -399,8 +399,9 @@ var UniqueSelectionDispatcher = /** @class */ (function () {
         this._listeners = [];
     };
     UniqueSelectionDispatcher.decorators = [
-        { type: Injectable },
+        { type: Injectable, args: [{ providedIn: 'root' },] },
     ];
+    /** @nocollapse */ UniqueSelectionDispatcher.ngInjectableDef = defineInjectable({ factory: function UniqueSelectionDispatcher_Factory() { return new UniqueSelectionDispatcher(); }, token: UniqueSelectionDispatcher, providedIn: "root" });
     return UniqueSelectionDispatcher;
 }());
 /**
