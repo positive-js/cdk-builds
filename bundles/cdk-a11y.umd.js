@@ -5,10 +5,10 @@
  * Use of this source code is governed by an MIT-style license.
  */
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs'), require('rxjs/operators'), require('@ptsecurity/cdk/keycodes'), require('@angular/core'), require('@ptsecurity/cdk/platform'), require('@angular/common')) :
-	typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/a11y', ['exports', 'rxjs', 'rxjs/operators', '@ptsecurity/cdk/keycodes', '@angular/core', '@ptsecurity/cdk/platform', '@angular/common'], factory) :
-	(factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.a11y = {}),global.Rx,global.Rx.operators,global.ng.cdk.keycodes,global.ng.core,global.ng.cdk.platform,global.ng.common));
-}(this, (function (exports,rxjs,operators,keycodes,core,platform,common) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs'), require('rxjs/operators'), require('@ptsecurity/cdk/keycodes'), require('@ptsecurity/cdk/platform'), require('@angular/common')) :
+	typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/a11y', ['exports', '@angular/core', 'rxjs', 'rxjs/operators', '@ptsecurity/cdk/keycodes', '@ptsecurity/cdk/platform', '@angular/common'], factory) :
+	(factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.a11y = {}),global.ng.core,global.Rx,global.Rx.operators,global.ng.cdk.keycodes,global.ng.cdk.platform,global.ng.common));
+}(this, (function (exports,core,rxjs,operators,keycodes,platform,common) { 'use strict';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -36,11 +36,13 @@ function __extends(d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 
+/* tslint:disable:member-ordering */
 /**
  * This class manages keyboard events for selectable lists. If you pass it a query list
  * of items, it will set the active item correctly when arrow events occur.
  */
-var   /**
+var   /* tslint:disable:member-ordering */
+/**
  * This class manages keyboard events for selectable lists. If you pass it a query list
  * of items, it will set the active item correctly when arrow events occur.
  */
@@ -60,17 +62,24 @@ ListKeyManager = /** @class */ (function () {
         this._letterKeyStream = new rxjs.Subject();
         this._typeaheadSubscription = rxjs.Subscription.EMPTY;
         this._vertical = true;
+        /**
+             * Predicate function that can be used to check whether an item should be skipped
+             * by the key manager. By default, disabled items are skipped.
+             */
+        this._skipPredicateFn = function (item) { return item.disabled; };
         // Buffer for the letters that the user has pressed when the typeahead option is turned on.
         this._pressedLetters = [];
-        _items.changes.subscribe(function (newItems) {
-            if (_this._activeItem) {
-                var itemArray = newItems.toArray();
-                var newIndex = itemArray.indexOf(_this._activeItem);
-                if (newIndex > -1 && newIndex !== _this._activeItemIndex) {
-                    _this._activeItemIndex = newIndex;
+        if (_items instanceof core.QueryList) {
+            _items.changes.subscribe(function (newItems) {
+                if (_this._activeItem) {
+                    var itemArray = newItems.toArray();
+                    var newIndex = itemArray.indexOf(_this._activeItem);
+                    if (newIndex > -1 && newIndex !== _this._activeItemIndex) {
+                        _this._activeItemIndex = newIndex;
+                    }
                 }
-            }
-        });
+            });
+        }
     }
     /**
      * Turns on wrapping mode, which ensures that the active item will wrap to
@@ -310,7 +319,7 @@ ListKeyManager = /** @class */ (function () {
             this.setLastItemActive();
         }
         else {
-            this._setActiveItemByDelta(delta);
+            this._setActiveItemByDelta(1);
         }
     };
     ListKeyManager.prototype.setPreviousPageItemActive = function (delta) {
@@ -319,8 +328,14 @@ ListKeyManager = /** @class */ (function () {
             this.setFirstItemActive();
         }
         else {
-            this._setActiveItemByDelta(-delta);
+            this._setActiveItemByDelta(-1);
         }
+    };
+    ListKeyManager.prototype.updateActiveItem = function (item) {
+        var itemArray = this._getItemsArray();
+        var index = typeof item === 'number' ? item : itemArray.indexOf(item);
+        this._activeItemIndex = index;
+        this._activeItem = itemArray[index];
     };
     /**
      * Allows setting of the activeItemIndex without any other effects.
@@ -335,7 +350,7 @@ ListKeyManager = /** @class */ (function () {
          * @param index The new activeItemIndex.
          */
     function (index) {
-        this._activeItemIndex = index;
+        this.updateActiveItem(index);
     };
     /**
      * This method sets the active item, given a list of items and the delta between the
@@ -352,10 +367,8 @@ ListKeyManager = /** @class */ (function () {
          * currently active item and the new active item. It will calculate differently
          * depending on whether wrap mode is turned on.
          */
-    function (delta, items) {
-        if (items === void 0) { items = this._items.toArray(); }
-        this._wrap ? this._setActiveInWrapMode(delta, items)
-            : this._setActiveInDefaultMode(delta, items);
+    function (delta) {
+        this._wrap ? this._setActiveInWrapMode(delta) : this._setActiveInDefaultMode(delta);
     };
     /**
      * Sets the active item properly given "wrap" mode. In other words, it will continue to move
@@ -372,15 +385,15 @@ ListKeyManager = /** @class */ (function () {
          * down the list until it finds an item that is not disabled, and it will wrap if it
          * encounters either end of the list.
          */
-    function (delta, items) {
-        // when active item would leave menu, wrap to beginning or end
-        this._activeItemIndex = (this._activeItemIndex + delta + items.length) % items.length;
-        // skip all disabled menu items recursively until an enabled one is reached
-        if (items[this._activeItemIndex].disabled) {
-            this._setActiveInWrapMode(delta, items);
-        }
-        else {
-            this.setActiveItem(this._activeItemIndex);
+    function (delta) {
+        var items = this._getItemsArray();
+        for (var i = 1; i <= items.length; i++) {
+            var index = (this._activeItemIndex + (delta * i) + items.length) % items.length;
+            var item = items[index];
+            if (!this._skipPredicateFn(item)) {
+                this.setActiveItem(index);
+                return;
+            }
         }
     };
     /**
@@ -398,8 +411,8 @@ ListKeyManager = /** @class */ (function () {
          * continue to move down the list until it finds an item that is not disabled. If
          * it encounters either end of the list, it will stop and not wrap.
          */
-    function (delta, items) {
-        this._setActiveItemByIndex(this._activeItemIndex + delta, delta, items);
+    function (delta) {
+        this._setActiveItemByIndex(this._activeItemIndex + delta, delta);
     };
     /**
      * Sets the active item to the first enabled item starting at the index specified. If the
@@ -416,13 +429,12 @@ ListKeyManager = /** @class */ (function () {
          * item is disabled, it will move in the fallbackDelta direction until it either
          * finds an enabled item or encounters the end of the list.
          */
-    function (_index, fallbackDelta, items) {
-        if (items === void 0) { items = this._items.toArray(); }
-        var index = _index;
+    function (index, fallbackDelta) {
+        var items = this._getItemsArray();
         if (!items[index]) {
             return;
         }
-        while (items[index].disabled) {
+        while (this._skipPredicateFn(items[index])) {
             index += fallbackDelta;
             if (!items[index]) {
                 return;
@@ -430,8 +442,15 @@ ListKeyManager = /** @class */ (function () {
         }
         this.setActiveItem(index);
     };
+    /** Returns the items as an array. */
+    /** Returns the items as an array. */
+    ListKeyManager.prototype._getItemsArray = /** Returns the items as an array. */
+    function () {
+        return this._items instanceof core.QueryList ? this._items.toArray() : this._items;
+    };
     return ListKeyManager;
 }());
+/* tslint:enable:member-ordering */
 
 var ActiveDescendantKeyManager = /** @class */ (function (_super) {
     __extends(ActiveDescendantKeyManager, _super);
@@ -488,20 +507,8 @@ var FocusKeyManager = /** @class */ (function (_super) {
         this._origin = origin;
         return this;
     };
-    /**
-     * This method sets the active item to the item at the specified index.
-     * It also adds focuses the newly active item.
-     */
-    /**
-         * This method sets the active item to the item at the specified index.
-         * It also adds focuses the newly active item.
-         */
-    FocusKeyManager.prototype.setActiveItem = /**
-         * This method sets the active item to the item at the specified index.
-         * It also adds focuses the newly active item.
-         */
-    function (index) {
-        _super.prototype.setActiveItem.call(this, index);
+    FocusKeyManager.prototype.setActiveItem = function (item) {
+        _super.prototype.setActiveItem.call(this, item);
         if (this.activeItem) {
             this.activeItem.focus(this._origin);
         }
@@ -528,13 +535,30 @@ var FocusMonitor = /** @class */ (function () {
         /** The number of elements currently being monitored. */
         this._monitoredElementCount = 0;
     }
-    FocusMonitor.prototype.monitor = function (element, renderer, checkChildren) {
+    /**
+     * Monitors focus on an element and applies appropriate CSS classes.
+     * @param element The element to monitor
+     * @param checkChildren Whether to count the element as focused when its children are focused.
+     * @returns An observable that emits when the focus state of the element changes.
+     *     When the element is blurred, null will be emitted.
+     */
+    /**
+         * Monitors focus on an element and applies appropriate CSS classes.
+         * @param element The element to monitor
+         * @param checkChildren Whether to count the element as focused when its children are focused.
+         * @returns An observable that emits when the focus state of the element changes.
+         *     When the element is blurred, null will be emitted.
+         */
+    FocusMonitor.prototype.monitor = /**
+         * Monitors focus on an element and applies appropriate CSS classes.
+         * @param element The element to monitor
+         * @param checkChildren Whether to count the element as focused when its children are focused.
+         * @returns An observable that emits when the focus state of the element changes.
+         *     When the element is blurred, null will be emitted.
+         */
+    function (element, checkChildren) {
         var _this = this;
-        // TODO(mmalerba): clean up after deprecated signature is removed.
-        if (!(renderer instanceof core.Renderer2)) {
-            checkChildren = renderer;
-        }
-        checkChildren = !!checkChildren;
+        if (checkChildren === void 0) { checkChildren = false; }
         if (!this._platform.isBrowser) {
             return rxjs.of(null);
         }
@@ -605,7 +629,10 @@ var FocusMonitor = /** @class */ (function () {
          */
     function (element, origin) {
         this._setOriginForCurrentEventQueue(origin);
-        element.focus();
+        // `focus` isn't available on the server
+        if (typeof element.focus === 'function') {
+            element.focus();
+        }
     };
     FocusMonitor.prototype.ngOnDestroy = function () {
         var _this = this;
@@ -714,8 +741,10 @@ var FocusMonitor = /** @class */ (function () {
          */
     function (origin) {
         var _this = this;
-        this._origin = origin;
-        this._originTimeoutId = setTimeout(function () { return _this._origin = null; }, 0);
+        this._ngZone.runOutsideAngular(function () {
+            _this._origin = origin;
+            _this._originTimeoutId = setTimeout(function () { return _this._origin = null; });
+        });
     };
     /**
      * Checks whether the given focus event was caused by a touchstart event.
@@ -786,21 +815,21 @@ var FocusMonitor = /** @class */ (function () {
         // 2) It was caused by a touch event, in which case we mark the origin as 'touch'.
         // 3) The element was programmatically focused, in which case we should mark the origin as
         //    'program'.
-        if (!this._origin) {
+        var origin = this._origin;
+        if (!origin) {
             if (this._windowFocused && this._lastFocusOrigin) {
-                this._origin = this._lastFocusOrigin;
+                origin = this._lastFocusOrigin;
             }
             else if (this._wasCausedByTouch(event)) {
-                this._origin = 'touch';
+                origin = 'touch';
             }
             else {
-                this._origin = 'program';
+                origin = 'program';
             }
         }
-        this._setClasses(element, this._origin);
-        elementInfo.subject.next(this._origin);
-        this._lastFocusOrigin = this._origin;
-        this._origin = null;
+        this._setClasses(element, origin);
+        this._emitOrigin(elementInfo.subject, origin);
+        this._lastFocusOrigin = origin;
     };
     /**
      * Handles blur events on a registered element.
@@ -828,6 +857,9 @@ var FocusMonitor = /** @class */ (function () {
         this._setClasses(element);
         elementInfo.subject.next(null);
     };
+    FocusMonitor.prototype._emitOrigin = function (subject, origin) {
+        this._ngZone.run(function () { return subject.next(origin); });
+    };
     FocusMonitor.prototype._incrementMonitoredElementCount = function () {
         // Register global listeners when first element is monitored.
         if (++this._monitoredElementCount === 1) {
@@ -842,13 +874,14 @@ var FocusMonitor = /** @class */ (function () {
         }
     };
     FocusMonitor.decorators = [
-        { type: core.Injectable },
+        { type: core.Injectable, args: [{ providedIn: 'root' },] },
     ];
     /** @nocollapse */
     FocusMonitor.ctorParameters = function () { return [
         { type: core.NgZone, },
         { type: platform.Platform, },
     ]; };
+    FocusMonitor.ngInjectableDef = core.defineInjectable({ factory: function FocusMonitor_Factory() { return new FocusMonitor(core.inject(core.NgZone), core.inject(platform.Platform)); }, token: FocusMonitor, providedIn: "root" });
     return FocusMonitor;
 }());
 /**
@@ -875,7 +908,7 @@ var CdkMonitorFocus = /** @class */ (function () {
     };
     CdkMonitorFocus.decorators = [
         { type: core.Directive, args: [{
-                    selector: '[cdkMonitorElementFocus], [cdkMonitorSubtreeFocus]',
+                    selector: '[cdkMonitorElementFocus], [cdkMonitorSubtreeFocus]'
                 },] },
     ];
     /** @nocollapse */
@@ -888,7 +921,7 @@ var CdkMonitorFocus = /** @class */ (function () {
     };
     return CdkMonitorFocus;
 }());
-/** @docs-private */
+/** @docs-private @deprecated*/
 function FOCUS_MONITOR_PROVIDER_FACTORY(parentDispatcher, ngZone, platform$$1) {
     return parentDispatcher || new FocusMonitor(ngZone, platform$$1);
 }

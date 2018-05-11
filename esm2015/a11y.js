@@ -4,13 +4,14 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
+import { QueryList, Directive, ElementRef, EventEmitter, Injectable, NgZone, Optional, Output, SkipSelf, NgModule, defineInjectable, inject } from '@angular/core';
 import { Subject, Subscription, of } from 'rxjs';
 import { debounceTime, filter, map, tap } from 'rxjs/operators';
 import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, TAB, A, Z, ZERO, NINE } from '@ptsecurity/cdk/keycodes';
-import { Directive, ElementRef, EventEmitter, Injectable, NgZone, Optional, Output, Renderer2, SkipSelf, NgModule } from '@angular/core';
 import { Platform, supportsPassiveEventListeners, PlatformModule } from '@ptsecurity/cdk/platform';
 import { CommonModule } from '@angular/common';
 
+/* tslint:disable:member-ordering */
 /**
  * This class manages keyboard events for selectable lists. If you pass it a query list
  * of items, it will set the active item correctly when arrow events occur.
@@ -30,17 +31,24 @@ class ListKeyManager {
         this._letterKeyStream = new Subject();
         this._typeaheadSubscription = Subscription.EMPTY;
         this._vertical = true;
+        /**
+             * Predicate function that can be used to check whether an item should be skipped
+             * by the key manager. By default, disabled items are skipped.
+             */
+        this._skipPredicateFn = (item) => item.disabled;
         // Buffer for the letters that the user has pressed when the typeahead option is turned on.
         this._pressedLetters = [];
-        _items.changes.subscribe((newItems) => {
-            if (this._activeItem) {
-                const itemArray = newItems.toArray();
-                const newIndex = itemArray.indexOf(this._activeItem);
-                if (newIndex > -1 && newIndex !== this._activeItemIndex) {
-                    this._activeItemIndex = newIndex;
+        if (_items instanceof QueryList) {
+            _items.changes.subscribe((newItems) => {
+                if (this._activeItem) {
+                    const itemArray = newItems.toArray();
+                    const newIndex = itemArray.indexOf(this._activeItem);
+                    if (newIndex > -1 && newIndex !== this._activeItemIndex) {
+                        this._activeItemIndex = newIndex;
+                    }
                 }
-            }
-        });
+            });
+        }
     }
     /**
          * Turns on wrapping mode, which ensures that the active item will wrap to
@@ -72,7 +80,7 @@ class ListKeyManager {
          * @param debounceInterval Time to wait after the last keystroke before setting the active item.
          */
     withTypeAhead(debounceInterval = 200) {
-        if (this._items.length && this._items.some(item => typeof item.getLabel !== 'function')) {
+        if (this._items.length && this._items.some((item) => typeof item.getLabel !== 'function')) {
             throw Error('ListKeyManager items in typeahead mode must implement the `getLabel` method.');
         }
         this._typeaheadSubscription.unsubscribe();
@@ -203,7 +211,7 @@ class ListKeyManager {
             this.setLastItemActive();
         }
         else {
-            this._setActiveItemByDelta(delta);
+            this._setActiveItemByDelta(1);
         }
     }
     setPreviousPageItemActive(delta) {
@@ -212,39 +220,44 @@ class ListKeyManager {
             this.setFirstItemActive();
         }
         else {
-            this._setActiveItemByDelta(-delta);
+            this._setActiveItemByDelta(-1);
         }
+    }
+    updateActiveItem(item) {
+        const itemArray = this._getItemsArray();
+        const index = typeof item === 'number' ? item : itemArray.indexOf(item);
+        this._activeItemIndex = index;
+        this._activeItem = itemArray[index];
     }
     /**
          * Allows setting of the activeItemIndex without any other effects.
          * @param index The new activeItemIndex.
          */
     updateActiveItemIndex(index) {
-        this._activeItemIndex = index;
+        this.updateActiveItem(index);
     }
     /**
          * This method sets the active item, given a list of items and the delta between the
          * currently active item and the new active item. It will calculate differently
          * depending on whether wrap mode is turned on.
          */
-    _setActiveItemByDelta(delta, items = this._items.toArray()) {
-        this._wrap ? this._setActiveInWrapMode(delta, items)
-            : this._setActiveInDefaultMode(delta, items);
+    _setActiveItemByDelta(delta) {
+        this._wrap ? this._setActiveInWrapMode(delta) : this._setActiveInDefaultMode(delta);
     }
     /**
          * Sets the active item properly given "wrap" mode. In other words, it will continue to move
          * down the list until it finds an item that is not disabled, and it will wrap if it
          * encounters either end of the list.
          */
-    _setActiveInWrapMode(delta, items) {
-        // when active item would leave menu, wrap to beginning or end
-        this._activeItemIndex = (this._activeItemIndex + delta + items.length) % items.length;
-        // skip all disabled menu items recursively until an enabled one is reached
-        if (items[this._activeItemIndex].disabled) {
-            this._setActiveInWrapMode(delta, items);
-        }
-        else {
-            this.setActiveItem(this._activeItemIndex);
+    _setActiveInWrapMode(delta) {
+        const items = this._getItemsArray();
+        for (let i = 1; i <= items.length; i++) {
+            const index = (this._activeItemIndex + (delta * i) + items.length) % items.length;
+            const item = items[index];
+            if (!this._skipPredicateFn(item)) {
+                this.setActiveItem(index);
+                return;
+            }
         }
     }
     /**
@@ -252,20 +265,20 @@ class ListKeyManager {
          * continue to move down the list until it finds an item that is not disabled. If
          * it encounters either end of the list, it will stop and not wrap.
          */
-    _setActiveInDefaultMode(delta, items) {
-        this._setActiveItemByIndex(this._activeItemIndex + delta, delta, items);
+    _setActiveInDefaultMode(delta) {
+        this._setActiveItemByIndex(this._activeItemIndex + delta, delta);
     }
     /**
          * Sets the active item to the first enabled item starting at the index specified. If the
          * item is disabled, it will move in the fallbackDelta direction until it either
          * finds an enabled item or encounters the end of the list.
          */
-    _setActiveItemByIndex(_index, fallbackDelta, items = this._items.toArray()) {
-        let index = _index;
+    _setActiveItemByIndex(index, fallbackDelta) {
+        const items = this._getItemsArray();
         if (!items[index]) {
             return;
         }
-        while (items[index].disabled) {
+        while (this._skipPredicateFn(items[index])) {
             index += fallbackDelta;
             if (!items[index]) {
                 return;
@@ -273,7 +286,12 @@ class ListKeyManager {
         }
         this.setActiveItem(index);
     }
+    /** Returns the items as an array. */
+    _getItemsArray() {
+        return this._items instanceof QueryList ? this._items.toArray() : this._items;
+    }
 }
+/* tslint:enable:member-ordering */
 
 class ActiveDescendantKeyManager extends ListKeyManager {
     /**
@@ -305,12 +323,8 @@ class FocusKeyManager extends ListKeyManager {
         this._origin = origin;
         return this;
     }
-    /**
-         * This method sets the active item to the item at the specified index.
-         * It also adds focuses the newly active item.
-         */
-    setActiveItem(index) {
-        super.setActiveItem(index);
+    setActiveItem(item) {
+        super.setActiveItem(item);
         if (this.activeItem) {
             this.activeItem.focus(this._origin);
         }
@@ -336,23 +350,25 @@ class FocusMonitor {
         /** The number of elements currently being monitored. */
         this._monitoredElementCount = 0;
     }
-    monitor(element, renderer, checkChildren) {
-        // TODO(mmalerba): clean up after deprecated signature is removed.
-        if (!(renderer instanceof Renderer2)) {
-            checkChildren = renderer;
-        }
-        checkChildren = !!checkChildren;
+    /**
+         * Monitors focus on an element and applies appropriate CSS classes.
+         * @param element The element to monitor
+         * @param checkChildren Whether to count the element as focused when its children are focused.
+         * @returns An observable that emits when the focus state of the element changes.
+         *     When the element is blurred, null will be emitted.
+         */
+    monitor(element, checkChildren = false) {
         if (!this._platform.isBrowser) {
             return of(null);
         }
         // Check if we're already monitoring this element.
         if (this._elementInfo.has(element)) {
-            let cachedInfo = this._elementInfo.get(element);
+            const cachedInfo = this._elementInfo.get(element);
             cachedInfo.checkChildren = checkChildren;
             return cachedInfo.subject.asObservable();
         }
         // Create monitored element info.
-        let info = {
+        const info = {
             unlisten: () => { },
             checkChildren: checkChildren,
             subject: new Subject()
@@ -360,8 +376,8 @@ class FocusMonitor {
         this._elementInfo.set(element, info);
         this._incrementMonitoredElementCount();
         // Start listening. We need to listen in capture phase since focus events don't bubble.
-        let focusListener = (event) => this._onFocus(event, element);
-        let blurListener = (event) => this._onBlur(event, element);
+        const focusListener = (event) => this._onFocus(event, element);
+        const blurListener = (event) => this._onBlur(event, element);
         this._ngZone.runOutsideAngular(() => {
             element.addEventListener('focus', focusListener, true);
             element.addEventListener('blur', blurListener, true);
@@ -394,7 +410,10 @@ class FocusMonitor {
          */
     focusVia(element, origin) {
         this._setOriginForCurrentEventQueue(origin);
-        element.focus();
+        // `focus` isn't available on the server
+        if (typeof element.focus === 'function') {
+            element.focus();
+        }
     }
     ngOnDestroy() {
         this._elementInfo.forEach((_info, element) => this.stopMonitoring(element));
@@ -480,8 +499,10 @@ class FocusMonitor {
          * @param origin The origin to set.
          */
     _setOriginForCurrentEventQueue(origin) {
-        this._origin = origin;
-        this._originTimeoutId = setTimeout(() => this._origin = null, 0);
+        this._ngZone.runOutsideAngular(() => {
+            this._origin = origin;
+            this._originTimeoutId = setTimeout(() => this._origin = null);
+        });
     }
     /**
          * Checks whether the given focus event was caused by a touchstart event.
@@ -532,21 +553,21 @@ class FocusMonitor {
         // 2) It was caused by a touch event, in which case we mark the origin as 'touch'.
         // 3) The element was programmatically focused, in which case we should mark the origin as
         //    'program'.
-        if (!this._origin) {
+        let origin = this._origin;
+        if (!origin) {
             if (this._windowFocused && this._lastFocusOrigin) {
-                this._origin = this._lastFocusOrigin;
+                origin = this._lastFocusOrigin;
             }
             else if (this._wasCausedByTouch(event)) {
-                this._origin = 'touch';
+                origin = 'touch';
             }
             else {
-                this._origin = 'program';
+                origin = 'program';
             }
         }
-        this._setClasses(element, this._origin);
-        elementInfo.subject.next(this._origin);
-        this._lastFocusOrigin = this._origin;
-        this._origin = null;
+        this._setClasses(element, origin);
+        this._emitOrigin(elementInfo.subject, origin);
+        this._lastFocusOrigin = origin;
     }
     /**
          * Handles blur events on a registered element.
@@ -564,6 +585,9 @@ class FocusMonitor {
         this._setClasses(element);
         elementInfo.subject.next(null);
     }
+    _emitOrigin(subject, origin) {
+        this._ngZone.run(() => subject.next(origin));
+    }
     _incrementMonitoredElementCount() {
         // Register global listeners when first element is monitored.
         if (++this._monitoredElementCount === 1) {
@@ -579,13 +603,14 @@ class FocusMonitor {
     }
 }
 FocusMonitor.decorators = [
-    { type: Injectable },
+    { type: Injectable, args: [{ providedIn: 'root' },] },
 ];
 /** @nocollapse */
 FocusMonitor.ctorParameters = () => [
     { type: NgZone, },
     { type: Platform, },
 ];
+FocusMonitor.ngInjectableDef = defineInjectable({ factory: function FocusMonitor_Factory() { return new FocusMonitor(inject(NgZone), inject(Platform)); }, token: FocusMonitor, providedIn: "root" });
 /**
  * Directive that determines how a particular element was focused (via keyboard, mouse, touch, or
  * programmatically) and adds corresponding classes to the element.
@@ -601,7 +626,7 @@ class CdkMonitorFocus {
         this._focusMonitor = _focusMonitor;
         this.cdkFocusChange = new EventEmitter();
         this._monitorSubscription = this._focusMonitor.monitor(this._elementRef.nativeElement, this._elementRef.nativeElement.hasAttribute('cdkMonitorSubtreeFocus'))
-            .subscribe(origin => this.cdkFocusChange.emit(origin));
+            .subscribe((origin) => this.cdkFocusChange.emit(origin));
     }
     ngOnDestroy() {
         this._focusMonitor.stopMonitoring(this._elementRef.nativeElement);
@@ -610,7 +635,7 @@ class CdkMonitorFocus {
 }
 CdkMonitorFocus.decorators = [
     { type: Directive, args: [{
-                selector: '[cdkMonitorElementFocus], [cdkMonitorSubtreeFocus]',
+                selector: '[cdkMonitorElementFocus], [cdkMonitorSubtreeFocus]'
             },] },
 ];
 /** @nocollapse */
@@ -621,7 +646,7 @@ CdkMonitorFocus.ctorParameters = () => [
 CdkMonitorFocus.propDecorators = {
     "cdkFocusChange": [{ type: Output },],
 };
-/** @docs-private */
+/** @docs-private @deprecated*/
 function FOCUS_MONITOR_PROVIDER_FACTORY(parentDispatcher, ngZone, platform) {
     return parentDispatcher || new FocusMonitor(ngZone, platform);
 }

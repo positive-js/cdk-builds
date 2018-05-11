@@ -24,6 +24,11 @@ export declare class ListKeyManager<T extends IListKeyManagerOption> {
     private _typeaheadSubscription;
     private _vertical;
     private _horizontal;
+    /**
+     * Predicate function that can be used to check whether an item should be skipped
+     * by the key manager. By default, disabled items are skipped.
+     */
+    private _skipPredicateFn;
     private _pressedLetters;
     constructor(_items: QueryList<T>);
     /**
@@ -53,6 +58,11 @@ export declare class ListKeyManager<T extends IListKeyManagerOption> {
      */
     setActiveItem(index: number): void;
     /**
+     * Sets the active item to the specified item.
+     * @param item The item to be set as active.
+     */
+    setActiveItem(item: T): void;
+    /**
      * Sets the active item depending on the key event passed in.
      * @param event Keyboard event to be used for determining which element should be active.
      */
@@ -66,6 +76,16 @@ export declare class ListKeyManager<T extends IListKeyManagerOption> {
     setNextPageItemActive(delta: number): void;
     setPreviousPageItemActive(delta: number): void;
     /**
+     * Allows setting the active without any other effects.
+     * @param index Index of the item to be set as active.
+     */
+    updateActiveItem(index: number): void;
+    /**
+     * Allows setting the active item without any other effects.
+     * @param item Item to be set as active.
+     */
+    updateActiveItem(item: T): void;
+    /**
      * Allows setting of the activeItemIndex without any other effects.
      * @param index The new activeItemIndex.
      */
@@ -75,23 +95,25 @@ export declare class ListKeyManager<T extends IListKeyManagerOption> {
      * currently active item and the new active item. It will calculate differently
      * depending on whether wrap mode is turned on.
      */
-    private _setActiveItemByDelta(delta, items?);
+    private _setActiveItemByDelta(delta);
     /**
      * Sets the active item properly given "wrap" mode. In other words, it will continue to move
      * down the list until it finds an item that is not disabled, and it will wrap if it
      * encounters either end of the list.
      */
-    private _setActiveInWrapMode(delta, items);
+    private _setActiveInWrapMode(delta);
     /**
      * Sets the active item properly given the default mode. In other words, it will
      * continue to move down the list until it finds an item that is not disabled. If
      * it encounters either end of the list, it will stop and not wrap.
      */
-    private _setActiveInDefaultMode(delta, items);
+    private _setActiveInDefaultMode(delta);
     /**
      * Sets the active item to the first enabled item starting at the index specified. If the
      * item is disabled, it will move in the fallbackDelta direction until it either
      * finds an enabled item or encounters the end of the list.
      */
-    private _setActiveItemByIndex(_index, fallbackDelta, items?);
+    private _setActiveItemByIndex(index, fallbackDelta);
+    /** Returns the items as an array. */
+    private _getItemsArray();
 }

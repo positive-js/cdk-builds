@@ -1,4 +1,4 @@
-import { ElementRef, EventEmitter, NgZone, OnDestroy, Optional, Renderer2 } from '@angular/core';
+import { ElementRef, EventEmitter, NgZone, OnDestroy, Optional } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Platform } from '@ptsecurity/cdk/platform';
 export declare const TOUCH_BUFFER_MS = 650;
@@ -28,12 +28,6 @@ export declare class FocusMonitor implements OnDestroy {
     /** The number of elements currently being monitored. */
     private _monitoredElementCount;
     constructor(_ngZone: NgZone, _platform: Platform);
-    /**
-     * @docs-private
-     * @deprecated renderer param no longer needed.
-     * @deletion-target 6.0.0
-     */
-    monitor(element: HTMLElement, renderer: Renderer2, checkChildren: boolean): Observable<FocusOrigin>;
     /**
      * Monitors focus on an element and applies appropriate CSS classes.
      * @param element The element to monitor
@@ -86,6 +80,7 @@ export declare class FocusMonitor implements OnDestroy {
      * @param element The monitored element.
      */
     _onBlur(event: FocusEvent, element: HTMLElement): void;
+    private _emitOrigin(subject, origin);
     private _incrementMonitoredElementCount();
     private _decrementMonitoredElementCount();
 }
@@ -101,12 +96,12 @@ export declare class FocusMonitor implements OnDestroy {
 export declare class CdkMonitorFocus implements OnDestroy {
     private _elementRef;
     private _focusMonitor;
-    private _monitorSubscription;
     cdkFocusChange: EventEmitter<FocusOrigin>;
+    private _monitorSubscription;
     constructor(_elementRef: ElementRef, _focusMonitor: FocusMonitor);
     ngOnDestroy(): void;
 }
-/** @docs-private */
+/** @docs-private @deprecated*/
 export declare function FOCUS_MONITOR_PROVIDER_FACTORY(parentDispatcher: FocusMonitor, ngZone: NgZone, platform: Platform): FocusMonitor;
 /** @docs-private */
 export declare const FOCUS_MONITOR_PROVIDER: {
