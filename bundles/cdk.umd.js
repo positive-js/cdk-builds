@@ -17,7 +17,7 @@
 /**
  * Current version of the Component Development Kit.
  */
-var /** @type {?} */ VERSION = new core.Version('0.0.1-697aa5a');
+var /** @type {?} */ VERSION = new core.Version('0.0.1-1f68b3b');
 
 exports.VERSION = VERSION;
 
