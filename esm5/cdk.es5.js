@@ -13,7 +13,7 @@ import { Version } from '@angular/core';
 /**
  * Current version of the Component Development Kit.
  */
-var /** @type {?} */ VERSION = new Version('0.0.1-1f68b3b');
+var /** @type {?} */ VERSION = new Version('0.0.1-293766c');
 
 /**
  * @fileoverview added by tsickle
