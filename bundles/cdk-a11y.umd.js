@@ -667,13 +667,13 @@ var FocusMonitor = /** @class */ (function () {
                 clearTimeout(_this._touchTimeoutId);
             }
             _this._lastTouchTarget = event.target;
-            _this._touchTimeoutId = setTimeout(function () { return _this._lastTouchTarget = null; }, TOUCH_BUFFER_MS);
+            _this._touchTimeoutId = window.setTimeout(function () { return _this._lastTouchTarget = null; }, TOUCH_BUFFER_MS);
         };
         // Make a note of when the window regains focus, so we can restore the origin info for the
         // focused element.
         var windowFocusListener = function () {
             _this._windowFocused = true;
-            _this._windowFocusTimeoutId = setTimeout(function () { return _this._windowFocused = false; }, 0);
+            _this._windowFocusTimeoutId = window.setTimeout(function () { return _this._windowFocused = false; }, 0);
         };
         // Note: we listen to events in the capture phase so we can detect them even if the user stops
         // propagation.
@@ -743,7 +743,7 @@ var FocusMonitor = /** @class */ (function () {
         var _this = this;
         this._ngZone.runOutsideAngular(function () {
             _this._origin = origin;
-            _this._originTimeoutId = setTimeout(function () { return _this._origin = null; });
+            _this._originTimeoutId = window.setTimeout(function () { return _this._origin = null; });
         });
     };
     /**
