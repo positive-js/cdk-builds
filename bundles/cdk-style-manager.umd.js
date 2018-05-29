@@ -59,8 +59,9 @@ var StyleManager = /** @class */ (function () {
         }
     };
     StyleManager.decorators = [
-        { type: core.Injectable },
+        { type: core.Injectable, args: [{ providedIn: 'root' },] },
     ];
+    /** @nocollapse */ StyleManager.ngInjectableDef = core.defineInjectable({ factory: function StyleManager_Factory() { return new StyleManager(); }, token: StyleManager, providedIn: "root" });
     return StyleManager;
 }());
 /**

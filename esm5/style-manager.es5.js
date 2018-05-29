@@ -4,7 +4,7 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
-import { Injectable } from '@angular/core';
+import { Injectable, defineInjectable } from '@angular/core';
 
 /**
  * @fileoverview added by tsickle
@@ -55,8 +55,9 @@ var StyleManager = /** @class */ (function () {
         }
     };
     StyleManager.decorators = [
-        { type: Injectable },
+        { type: Injectable, args: [{ providedIn: 'root' },] },
     ];
+    /** @nocollapse */ StyleManager.ngInjectableDef = defineInjectable({ factory: function StyleManager_Factory() { return new StyleManager(); }, token: StyleManager, providedIn: "root" });
     return StyleManager;
 }());
 /**
