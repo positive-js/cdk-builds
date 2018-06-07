@@ -43,10 +43,6 @@ export declare class SelectionModel<T> {
      */
     isEmpty(): boolean;
     /**
-     * Determines whether the model has a value.
-     */
-    hasValue(): boolean;
-    /**
      * Sorts the selected values based on a predicate function.
      */
     sort(predicate?: (a: T, b: T) => number): void;

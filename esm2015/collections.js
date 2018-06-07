@@ -113,13 +113,6 @@ class SelectionModel {
         return this._selection.size === 0;
     }
     /**
-     * Determines whether the model has a value.
-     * @return {?}
-     */
-    hasValue() {
-        return !this.isEmpty();
-    }
-    /**
      * Sorts the selected values based on a predicate function.
      * @param {?=} predicate
      * @return {?}

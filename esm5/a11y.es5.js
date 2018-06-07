@@ -33,11 +33,13 @@ ListKeyManager = /** @class */ (function () {
         this.tabOut = new Subject();
         /** Stream that emits whenever the active item of the list manager changes. */
         this.change = new Subject();
+        this.previousActiveItemIndex = -1;
         this._activeItemIndex = -1;
         this._wrap = false;
         this._letterKeyStream = new Subject();
         this._typeaheadSubscription = Subscription.EMPTY;
         this._vertical = true;
+        this._scrollSize = 0;
         /**
              * Predicate function that can be used to check whether an item should be skipped
              * by the key manager. By default, disabled items are skipped.
@@ -57,6 +59,10 @@ ListKeyManager = /** @class */ (function () {
             });
         }
     }
+    ListKeyManager.prototype.withScrollSize = function (scrollSize) {
+        this._scrollSize = scrollSize;
+        return this;
+    };
     /**
      * Turns on wrapping mode, which ensures that the active item will wrap to
      * the other end of list when there are no more items in the given direction.
@@ -159,10 +165,10 @@ ListKeyManager = /** @class */ (function () {
          * @param index The index of the item to be set as active.
          */
     function (index) {
-        var previousIndex = this._activeItemIndex;
+        this.previousActiveItemIndex = this._activeItemIndex;
         this._activeItemIndex = index;
         this._activeItem = this._items.toArray()[index];
-        if (this._activeItemIndex !== previousIndex) {
+        if (this._activeItemIndex !== this.previousActiveItemIndex) {
             this.change.next(index);
         }
     };
@@ -290,6 +296,7 @@ ListKeyManager = /** @class */ (function () {
             : this._setActiveItemByDelta(-1);
     };
     ListKeyManager.prototype.setNextPageItemActive = function (delta) {
+        if (delta === void 0) { delta = this._scrollSize; }
         var nextItemIndex = this._activeItemIndex + delta;
         if (nextItemIndex >= this._items.length) {
             this.setLastItemActive();
@@ -299,6 +306,7 @@ ListKeyManager = /** @class */ (function () {
         }
     };
     ListKeyManager.prototype.setPreviousPageItemActive = function (delta) {
+        if (delta === void 0) { delta = this._scrollSize; }
         var nextItemIndex = this._activeItemIndex - delta;
         if (nextItemIndex <= 0) {
             this.setFirstItemActive();
@@ -310,23 +318,9 @@ ListKeyManager = /** @class */ (function () {
     ListKeyManager.prototype.updateActiveItem = function (item) {
         var itemArray = this._getItemsArray();
         var index = typeof item === 'number' ? item : itemArray.indexOf(item);
+        this.previousActiveItemIndex = this._activeItemIndex;
         this._activeItemIndex = index;
         this._activeItem = itemArray[index];
-    };
-    /**
-     * Allows setting of the activeItemIndex without any other effects.
-     * @param index The new activeItemIndex.
-     */
-    /**
-         * Allows setting of the activeItemIndex without any other effects.
-         * @param index The new activeItemIndex.
-         */
-    ListKeyManager.prototype.updateActiveItemIndex = /**
-         * Allows setting of the activeItemIndex without any other effects.
-         * @param index The new activeItemIndex.
-         */
-    function (index) {
-        this.updateActiveItem(index);
     };
     /**
      * This method sets the active item, given a list of items and the delta between the

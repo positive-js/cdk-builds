@@ -179,20 +179,6 @@ SelectionModel = /** @class */ (function () {
         return this._selection.size === 0;
     };
     /**
-     * Determines whether the model has a value.
-     */
-    /**
-     * Determines whether the model has a value.
-     * @return {?}
-     */
-    SelectionModel.prototype.hasValue = /**
-     * Determines whether the model has a value.
-     * @return {?}
-     */
-    function () {
-        return !this.isEmpty();
-    };
-    /**
      * Sorts the selected values based on a predicate function.
      */
     /**

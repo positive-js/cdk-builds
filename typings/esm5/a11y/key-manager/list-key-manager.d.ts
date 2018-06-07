@@ -17,6 +17,7 @@ export declare class ListKeyManager<T extends IListKeyManagerOption> {
     tabOut: Subject<void>;
     /** Stream that emits whenever the active item of the list manager changes. */
     change: Subject<number>;
+    previousActiveItemIndex: number;
     private _activeItemIndex;
     private _activeItem;
     private _wrap;
@@ -24,6 +25,7 @@ export declare class ListKeyManager<T extends IListKeyManagerOption> {
     private _typeaheadSubscription;
     private _vertical;
     private _horizontal;
+    private _scrollSize;
     /**
      * Predicate function that can be used to check whether an item should be skipped
      * by the key manager. By default, disabled items are skipped.
@@ -31,6 +33,7 @@ export declare class ListKeyManager<T extends IListKeyManagerOption> {
     private _skipPredicateFn;
     private _pressedLetters;
     constructor(_items: QueryList<T>);
+    withScrollSize(scrollSize: number): this;
     /**
      * Turns on wrapping mode, which ensures that the active item will wrap to
      * the other end of list when there are no more items in the given direction.
@@ -54,42 +57,27 @@ export declare class ListKeyManager<T extends IListKeyManagerOption> {
     withTypeAhead(debounceInterval?: number): this;
     /**
      * Sets the active item to the item at the index specified.
-     * @param index The index of the item to be set as active.
+     * @param index The index of the item to be set as active or item The item to be set as active.
      */
-    setActiveItem(index: number): void;
-    /**
-     * Sets the active item to the specified item.
-     * @param item The item to be set as active.
-     */
-    setActiveItem(item: T): void;
+    setActiveItem(index: number | T): void;
     /**
      * Sets the active item depending on the key event passed in.
      * @param event Keyboard event to be used for determining which element should be active.
      */
     onKeydown(event: KeyboardEvent): void;
-    readonly activeItemIndex: number | null;
+    readonly activeItemIndex: number;
     readonly activeItem: T | null;
     setFirstItemActive(): void;
     setLastItemActive(): void;
     setNextItemActive(): void;
     setPreviousItemActive(): void;
-    setNextPageItemActive(delta: number): void;
-    setPreviousPageItemActive(delta: number): void;
-    /**
-     * Allows setting the active without any other effects.
-     * @param index Index of the item to be set as active.
-     */
-    updateActiveItem(index: number): void;
+    setNextPageItemActive(delta?: number): void;
+    setPreviousPageItemActive(delta?: number): void;
     /**
      * Allows setting the active item without any other effects.
-     * @param item Item to be set as active.
+     * @param item Item to be set as active or index Index of the item to be set as active..
      */
-    updateActiveItem(item: T): void;
-    /**
-     * Allows setting of the activeItemIndex without any other effects.
-     * @param index The new activeItemIndex.
-     */
-    updateActiveItemIndex(index: number): void;
+    updateActiveItem(item: number | T): void;
     /**
      * This method sets the active item, given a list of items and the delta between the
      * currently active item and the new active item. It will calculate differently
