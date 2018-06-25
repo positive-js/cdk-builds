@@ -4,12 +4,12 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
-import { QueryList, Directive, ElementRef, EventEmitter, Injectable, NgZone, Optional, Output, SkipSelf, NgModule, defineInjectable, inject } from '@angular/core';
+import { QueryList, Directive, ElementRef, EventEmitter, Injectable, NgZone, Optional, Output, SkipSelf, Inject, NgModule, defineInjectable, inject } from '@angular/core';
 import { Subject, Subscription, of } from 'rxjs';
 import { debounceTime, filter, map, tap } from 'rxjs/operators';
 import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, TAB, A, Z, ZERO, NINE } from '@ptsecurity/cdk/keycodes';
 import { Platform, supportsPassiveEventListeners, PlatformModule } from '@ptsecurity/cdk/platform';
-import { CommonModule } from '@angular/common';
+import { DOCUMENT, CommonModule } from '@angular/common';
 
 /* tslint:disable:member-ordering */
 /**
@@ -658,6 +658,207 @@ const FOCUS_MONITOR_PROVIDER = {
     useFactory: FOCUS_MONITOR_PROVIDER_FACTORY
 };
 
+const ID_DELIMINATOR = ' ';
+/**
+ * Adds the given ID to the specified ARIA attribute on an element.
+ * Used for attributes such as aria-labelledby, aria-owns, etc.
+ */
+function addAriaReferencedId(el, attr, id) {
+    const ids = getAriaReferenceIds(el, attr);
+    if (ids.some((existingId) => existingId.trim() === id.trim())) {
+        return;
+    }
+    ids.push(id.trim());
+    el.setAttribute(attr, ids.join(ID_DELIMINATOR));
+}
+/**
+ * Removes the given ID from the specified ARIA attribute on an element.
+ * Used for attributes such as aria-labelledby, aria-owns, etc.
+ */
+function removeAriaReferencedId(el, attr, id) {
+    const ids = getAriaReferenceIds(el, attr);
+    const filteredIds = ids.filter((val) => val !== id.trim());
+    el.setAttribute(attr, filteredIds.join(ID_DELIMINATOR));
+}
+/**
+ * Gets the list of IDs referenced by the given ARIA attribute on an element.
+ * Used for attributes such as aria-labelledby, aria-owns, etc.
+ */
+function getAriaReferenceIds(el, attr) {
+    // Get string array of all individual ids (whitespace deliminated) in the attribute value
+    return (el.getAttribute(attr) || '').match(/\S+/g) || [];
+}
+
+/** ID used for the body container where all messages are appended. */
+const MESSAGES_CONTAINER_ID = 'cdk-describedby-message-container';
+/** ID prefix used for each created message element. */
+const CDK_DESCRIBEDBY_ID_PREFIX = 'cdk-describedby-message';
+/** Attribute given to each host element that is described by a message element. */
+const CDK_DESCRIBEDBY_HOST_ATTRIBUTE = 'cdk-describedby-host';
+/** Global incremental identifier for each registered message element. */
+let nextId = 0;
+/** Global map of all registered message elements that have been placed into the document. */
+const messageRegistry = new Map();
+/** Container for all registered messages. */
+let messagesContainer = null;
+/**
+ * Utility that creates visually hidden elements with a message content. Useful for elements that
+ * want to use aria-describedby to further describe themselves without adding additional visual
+ * content.
+ * @docs-private
+ */
+class AriaDescriber {
+    constructor(_document) {
+        this._document = _document;
+    }
+    /**
+       * Adds to the host element an aria-describedby reference to a hidden element that contains
+       * the message. If the same message has already been registered, then it will reuse the created
+       * message element.
+       */
+    describe(hostElement, message) {
+        if (!this._canBeDescribed(hostElement, message)) {
+            return;
+        }
+        if (!messageRegistry.has(message)) {
+            this._createMessageElement(message);
+        }
+        if (!this._isElementDescribedByMessage(hostElement, message)) {
+            this._addMessageReference(hostElement, message);
+        }
+    }
+    /** Removes the host element's aria-describedby reference to the message element. */
+    removeDescription(hostElement, message) {
+        if (!this._canBeDescribed(hostElement, message)) {
+            return;
+        }
+        if (this._isElementDescribedByMessage(hostElement, message)) {
+            this._removeMessageReference(hostElement, message);
+        }
+        const registeredMessage = messageRegistry.get(message);
+        if (registeredMessage && registeredMessage.referenceCount === 0) {
+            this._deleteMessageElement(message);
+        }
+        if (messagesContainer && messagesContainer.childNodes.length === 0) {
+            this._deleteMessagesContainer();
+        }
+    }
+    /** Unregisters all created message elements and removes the message container. */
+    ngOnDestroy() {
+        const describedElements = this._document.querySelectorAll(`[${CDK_DESCRIBEDBY_HOST_ATTRIBUTE}]`);
+        for (let i = 0; i < describedElements.length; i++) {
+            //tslint:disable-line
+            this._removeCdkDescribedByReferenceIds(describedElements[i]);
+            describedElements[i].removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
+        }
+        if (messagesContainer) {
+            this._deleteMessagesContainer();
+        }
+        messageRegistry.clear();
+    }
+    /**
+       * Creates a new element in the visually hidden message container element with the message
+       * as its content and adds it to the message registry.
+       */
+    _createMessageElement(message) {
+        const messageElement = this._document.createElement('div');
+        messageElement.setAttribute('id', `${CDK_DESCRIBEDBY_ID_PREFIX}-${nextId++}`);
+        messageElement.appendChild((this._document.createTextNode(message))); //tslint:disable-line
+        if (!messagesContainer) {
+            this._createMessagesContainer();
+        }
+        messagesContainer.appendChild(messageElement); //tslint:disable-line
+        messageRegistry.set(message, { messageElement, referenceCount: 0 });
+    }
+    /** Deletes the message element from the global messages container. */
+    _deleteMessageElement(message) {
+        const registeredMessage = messageRegistry.get(message);
+        const messageElement = registeredMessage && registeredMessage.messageElement;
+        if (messagesContainer && messageElement) {
+            messagesContainer.removeChild(messageElement);
+        }
+        messageRegistry.delete(message);
+    }
+    /** Creates the global container for all aria-describedby messages. */
+    _createMessagesContainer() {
+        messagesContainer = this._document.createElement('div');
+        messagesContainer.setAttribute('id', MESSAGES_CONTAINER_ID);
+        messagesContainer.setAttribute('aria-hidden', 'true');
+        messagesContainer.style.display = 'none';
+        this._document.body.appendChild(messagesContainer);
+    }
+    /** Deletes the global messages container. */
+    _deleteMessagesContainer() {
+        if (messagesContainer && messagesContainer.parentNode) {
+            messagesContainer.parentNode.removeChild(messagesContainer);
+            messagesContainer = null;
+        }
+    }
+    /** Removes all cdk-describedby messages that are hosted through the element. */
+    _removeCdkDescribedByReferenceIds(element) {
+        // Remove all aria-describedby reference IDs that are prefixed by CDK_DESCRIBEDBY_ID_PREFIX
+        const originalReferenceIds = getAriaReferenceIds(element, 'aria-describedby')
+            .filter((id) => id.indexOf(CDK_DESCRIBEDBY_ID_PREFIX) !== 0);
+        element.setAttribute('aria-describedby', originalReferenceIds.join(' '));
+    }
+    /**
+       * Adds a message reference to the element using aria-describedby and increments the registered
+       * message's reference count.
+       */
+    _addMessageReference(element, message) {
+        const registeredMessage = (messageRegistry.get(message)); //tslint:disable-line
+        // Add the aria-describedby reference and set the
+        // describedby_host attribute to mark the element.
+        addAriaReferencedId(element, 'aria-describedby', registeredMessage.messageElement.id);
+        element.setAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE, '');
+        registeredMessage.referenceCount++;
+    }
+    /**
+       * Removes a message reference from the element using aria-describedby
+       * and decrements the registered message's reference count.
+       */
+    _removeMessageReference(element, message) {
+        const registeredMessage = (messageRegistry.get(message)); //tslint:disable-line
+        registeredMessage.referenceCount--;
+        removeAriaReferencedId(element, 'aria-describedby', registeredMessage.messageElement.id);
+        element.removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
+    }
+    /** Returns true if the element has been described by the provided message ID. */
+    _isElementDescribedByMessage(element, message) {
+        const referenceIds = getAriaReferenceIds(element, 'aria-describedby');
+        const registeredMessage = messageRegistry.get(message);
+        const messageId = registeredMessage && registeredMessage.messageElement.id;
+        return !!messageId && referenceIds.indexOf(messageId) !== -1;
+    }
+    /** Determines whether a message can be described on a particular element. */
+    _canBeDescribed(element, message) {
+        return element.nodeType === this._document.ELEMENT_NODE && message != null &&
+            !!`${message}`.trim();
+    }
+}
+AriaDescriber.decorators = [
+    { type: Injectable, args: [{ providedIn: 'root' },] },
+];
+/** @nocollapse */
+AriaDescriber.ctorParameters = () => [
+    { type: undefined, decorators: [{ type: Inject, args: [DOCUMENT,] },] },
+];
+AriaDescriber.ngInjectableDef = defineInjectable({ factory: function AriaDescriber_Factory() { return new AriaDescriber(inject(DOCUMENT)); }, token: AriaDescriber, providedIn: "root" });
+/** @docs-private @deprecated @deletion-target 7.0.0 */
+function ARIA_DESCRIBER_PROVIDER_FACTORY(parentDispatcher, _document) {
+    return parentDispatcher || new AriaDescriber(_document);
+}
+/** @docs-private @deprecated @deletion-target 7.0.0 */
+const ARIA_DESCRIBER_PROVIDER = {
+    // If there is already an AriaDescriber available, use that. Otherwise, provide a new one.
+    provide: AriaDescriber,
+    deps: [
+        [new Optional(), new SkipSelf(), AriaDescriber],
+        DOCUMENT
+    ],
+    useFactory: ARIA_DESCRIBER_PROVIDER_FACTORY
+};
+
 class A11yModule {
 }
 A11yModule.decorators = [
@@ -675,5 +876,5 @@ A11yModule.decorators = [
  * Generated bundle index. Do not edit.
  */
 
-export { ActiveDescendantKeyManager, FocusKeyManager, ListKeyManager, TOUCH_BUFFER_MS, FocusMonitor, CdkMonitorFocus, FOCUS_MONITOR_PROVIDER_FACTORY, FOCUS_MONITOR_PROVIDER, A11yModule };
+export { ActiveDescendantKeyManager, FocusKeyManager, ListKeyManager, TOUCH_BUFFER_MS, FocusMonitor, CdkMonitorFocus, FOCUS_MONITOR_PROVIDER_FACTORY, FOCUS_MONITOR_PROVIDER, MESSAGES_CONTAINER_ID, CDK_DESCRIBEDBY_ID_PREFIX, CDK_DESCRIBEDBY_HOST_ATTRIBUTE, AriaDescriber, ARIA_DESCRIBER_PROVIDER_FACTORY, ARIA_DESCRIBER_PROVIDER, addAriaReferencedId, removeAriaReferencedId, getAriaReferenceIds, A11yModule };
 //# sourceMappingURL=a11y.js.map
