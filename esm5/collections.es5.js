@@ -4,8 +4,65 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
-import { Subject } from 'rxjs';
+import { __extends } from 'tslib';
+import { Observable, of, Subject } from 'rxjs';
 import { Injectable, defineInjectable } from '@angular/core';
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * @abstract
+ * @template T
+ */
+var  /**
+ * @abstract
+ * @template T
+ */
+DataSource = /** @class */ (function () {
+    function DataSource() {
+    }
+    return DataSource;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * DataSource wrapper for a native array.
+ * @template T
+ */
+var  /**
+ * DataSource wrapper for a native array.
+ * @template T
+ */
+ArrayDataSource = /** @class */ (function (_super) {
+    __extends(ArrayDataSource, _super);
+    function ArrayDataSource(_data) {
+        var _this = _super.call(this) || this;
+        _this._data = _data;
+        return _this;
+    }
+    /**
+     * @return {?}
+     */
+    ArrayDataSource.prototype.connect = /**
+     * @return {?}
+     */
+    function () {
+        return this._data instanceof Observable ? this._data : of(this._data);
+    };
+    /**
+     * @return {?}
+     */
+    ArrayDataSource.prototype.disconnect = /**
+     * @return {?}
+     */
+    function () { };
+    return ArrayDataSource;
+}(DataSource));
 
 /**
  * @fileoverview added by tsickle
@@ -401,5 +458,5 @@ var UniqueSelectionDispatcher = /** @class */ (function () {
  * @suppress {checkTypes} checked by tsc
  */
 
-export { UniqueSelectionDispatcher, SelectionModel, SelectionChange, getMultipleValuesInSingleSelectionError };
+export { UniqueSelectionDispatcher, ArrayDataSource, DataSource, SelectionModel, SelectionChange, getMultipleValuesInSingleSelectionError };
 //# sourceMappingURL=collections.es5.js.map

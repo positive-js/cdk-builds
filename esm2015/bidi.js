@@ -8,6 +8,10 @@ import { DOCUMENT } from '@angular/common';
 import { inject, InjectionToken, EventEmitter, Inject, Injectable, Optional, Directive, Output, Input, NgModule, defineInjectable } from '@angular/core';
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * Injection token used to inject the document into Directionality.
  * This is used so that the value can be faked in tests.
  *
@@ -20,37 +24,54 @@ import { inject, InjectionToken, EventEmitter, Inject, Injectable, Optional, Dir
  * This token is defined in a separate file from Directionality as a workaround for
  * https://github.com/angular/angular/issues/22559
  *
- * @docs-private
+ * \@docs-private
  */
-const DIR_DOCUMENT = new InjectionToken('cdk-dir-doc', {
+const /** @type {?} */ DIR_DOCUMENT = new InjectionToken('cdk-dir-doc', {
     providedIn: 'root',
     factory: DIR_DOCUMENT_FACTORY
 });
-/** @docs-private */
+/**
+ * \@docs-private
+ * @return {?}
+ */
 function DIR_DOCUMENT_FACTORY() {
     return inject(DOCUMENT);
 }
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
  * The directionality (LTR / RTL) context for the application (or a subtree of it).
  * Exposes the current direction and a stream of direction changes.
  */
 class Directionality {
+    /**
+     * @param {?=} _document
+     */
     constructor(_document) {
-        /** The current 'ltr' or 'rtl' value. */
+        /**
+         * The current 'ltr' or 'rtl' value.
+         */
         this.value = 'ltr';
-        /** Stream that emits whenever the 'ltr' / 'rtl' state changes. */
+        /**
+         * Stream that emits whenever the 'ltr' / 'rtl' state changes.
+         */
         this.change = new EventEmitter();
         if (_document) {
             // TODO: handle 'auto' value -
             // We still need to account for dir="auto".
             // It looks like HTMLElemenet.dir is also "auto" when that's set to the attribute,
             // but getComputedStyle return either "ltr" or "rtl". avoiding getComputedStyle for now
-            const bodyDir = _document.body ? _document.body.dir : null;
-            const htmlDir = _document.documentElement ? _document.documentElement.dir : null;
-            this.value = (bodyDir || htmlDir || 'ltr');
+            const /** @type {?} */ bodyDir = _document.body ? _document.body.dir : null;
+            const /** @type {?} */ htmlDir = _document.documentElement ? _document.documentElement.dir : null;
+            this.value = /** @type {?} */ ((bodyDir || htmlDir || 'ltr'));
         }
     }
+    /**
+     * @return {?}
+     */
     ngOnDestroy() {
         this.change.complete();
     }
@@ -62,8 +83,12 @@ Directionality.decorators = [
 Directionality.ctorParameters = () => [
     { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DIR_DOCUMENT,] },] },
 ];
-Directionality.ngInjectableDef = defineInjectable({ factory: function Directionality_Factory() { return new Directionality(inject(DIR_DOCUMENT, 8)); }, token: Directionality, providedIn: "root" });
+/** @nocollapse */ Directionality.ngInjectableDef = defineInjectable({ factory: function Directionality_Factory() { return new Directionality(inject(DIR_DOCUMENT, 8)); }, token: Directionality, providedIn: "root" });
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 /**
  * Directive to listen for changes of direction of part of the DOM.
  *
@@ -73,30 +98,50 @@ Directionality.ngInjectableDef = defineInjectable({ factory: function Directiona
 class Dir {
     constructor() {
         this._dir = 'ltr';
-        /** Event emitted when the direction changes. */
+        /**
+         * Event emitted when the direction changes.
+         */
         this.change = new EventEmitter();
-        /** Whether the `value` has been set to its initial value. */
+        /**
+         * Whether the `value` has been set to its initial value.
+         */
         this._isInitialized = false;
     }
-    /** @docs-private */
+    /**
+     * \@docs-private
+     * @return {?}
+     */
     get dir() {
         return this._dir;
     }
+    /**
+     * @param {?} v
+     * @return {?}
+     */
     set dir(v) {
-        const old = this._dir;
+        const /** @type {?} */ old = this._dir;
         this._dir = v;
         if (old !== this._dir && this._isInitialized) {
             this.change.emit(this._dir);
         }
     }
-    /** Current layout direction of the element. */
+    /**
+     * Current layout direction of the element.
+     * @return {?}
+     */
     get value() {
         return this.dir;
     }
-    /** Initialize once default value has been set. */
+    /**
+     * Initialize once default value has been set.
+     * @return {?}
+     */
     ngAfterContentInit() {
         this._isInitialized = true;
     }
+    /**
+     * @return {?}
+     */
     ngOnDestroy() {
         this.change.complete();
     }
@@ -115,6 +160,10 @@ Dir.propDecorators = {
     "dir": [{ type: Input },],
 };
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 class BidiModule {
 }
 BidiModule.decorators = [
@@ -125,8 +174,14 @@ BidiModule.decorators = [
 ];
 
 /**
- * Generated bundle index. Do not edit.
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
  */
 
-export { DIR_DOCUMENT_FACTORY as ɵa, Directionality, DIR_DOCUMENT, Dir, BidiModule };
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+
+export { Directionality, DIR_DOCUMENT, Dir, BidiModule, DIR_DOCUMENT_FACTORY as ɵa };
 //# sourceMappingURL=bidi.js.map
