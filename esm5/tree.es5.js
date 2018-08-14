@@ -1019,7 +1019,6 @@ var CdkTreeNodePadding = /** @class */ (function () {
         this._renderer = _renderer;
         this._element = _element;
         this._dir = _dir;
-        this._indent = 19;
         this._destroyed = new Subject();
         this._setPadding();
         if (this._dir) {
