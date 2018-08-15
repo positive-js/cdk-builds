@@ -12,12 +12,12 @@
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
-/**
+/** *
  * Current version of the Component Development Kit.
- */
-var /** @type {?} */ VERSION = new core.Version('0.0.1');
+  @type {?} */
+var VERSION = new core.Version('0.0.1');
 
 exports.VERSION = VERSION;
 

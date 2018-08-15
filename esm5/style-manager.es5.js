@@ -8,7 +8,7 @@ import { Injectable, defineInjectable } from '@angular/core';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * Class for managing stylesheets. Stylesheets are loaded into named slots so that they can be
@@ -49,7 +49,8 @@ var StyleManager = /** @class */ (function () {
      * @return {?}
      */
     function (key) {
-        var /** @type {?} */ existingLinkElement = getExistingLinkElementByKey(key);
+        /** @type {?} */
+        var existingLinkElement = getExistingLinkElementByKey(key);
         if (existingLinkElement) {
             document.head.removeChild(existingLinkElement);
         }
@@ -79,7 +80,8 @@ function getExistingLinkElementByKey(key) {
  * @return {?}
  */
 function createLinkElementWithKey(key) {
-    var /** @type {?} */ linkEl = document.createElement('link');
+    /** @type {?} */
+    var linkEl = document.createElement('link');
     linkEl.setAttribute('rel', 'stylesheet');
     linkEl.classList.add(getClassNameForKey(key));
     document.head.appendChild(linkEl);
@@ -95,12 +97,12 @@ function getClassNameForKey(key) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 
 export { StyleManager };

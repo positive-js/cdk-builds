@@ -11,12 +11,12 @@ import { auditTime, filter } from 'rxjs/operators';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
-/**
+/** *
  * Time in ms to throttle the scrolling events by default.
- */
-const /** @type {?} */ DEFAULT_SCROLL_TIME = 20;
+  @type {?} */
+const DEFAULT_SCROLL_TIME = 20;
 /**
  * Service contained all registered Scrollable references and emits an event when any one of the
  * Scrollable references emit a scrolled event.
@@ -54,7 +54,8 @@ class ScrollDispatcher {
      * @return {?}
      */
     register(scrollable) {
-        const /** @type {?} */ scrollSubscription = scrollable.elementScrolled()
+        /** @type {?} */
+        const scrollSubscription = scrollable.elementScrolled()
             .subscribe(() => this._scrolled.next(scrollable));
         this.scrollContainers.set(scrollable, scrollSubscription);
     }
@@ -64,7 +65,8 @@ class ScrollDispatcher {
      * @return {?}
      */
     deregister(scrollable) {
-        const /** @type {?} */ scrollableReference = this.scrollContainers.get(scrollable);
+        /** @type {?} */
+        const scrollableReference = this.scrollContainers.get(scrollable);
         if (scrollableReference) {
             scrollableReference.unsubscribe();
             this.scrollContainers.delete(scrollable);
@@ -87,9 +89,8 @@ class ScrollDispatcher {
             if (!this._globalSubscription) {
                 this._addGlobalListener();
             }
-            // In the case of a 0ms delay, use an observable without auditTime
-            // since it does add a perceptible delay in processing overhead.
-            const /** @type {?} */ subscription = auditTimeInMs > 0 ?
+            /** @type {?} */
+            const subscription = auditTimeInMs > 0 ?
                 this._scrolled.pipe(auditTime(auditTimeInMs)).subscribe(observer) :
                 this._scrolled.subscribe(observer);
             this._scrolledCount++;
@@ -118,7 +119,8 @@ class ScrollDispatcher {
      * @return {?}
      */
     ancestorScrolled(elementRef, auditTimeInMs) {
-        const /** @type {?} */ ancestors = this.getAncestorScrollContainers(elementRef);
+        /** @type {?} */
+        const ancestors = this.getAncestorScrollContainers(elementRef);
         return this.scrolled(auditTimeInMs).pipe(filter((target) => {
             return !target || ancestors.indexOf(target) > -1;
         }));
@@ -129,7 +131,8 @@ class ScrollDispatcher {
      * @return {?}
      */
     getAncestorScrollContainers(elementRef) {
-        const /** @type {?} */ scrollingContainers = [];
+        /** @type {?} */
+        const scrollingContainers = [];
         this.scrollContainers.forEach((_subscription, scrollable) => {
             if (this._scrollableContainsElement(scrollable, elementRef)) {
                 scrollingContainers.push(scrollable);
@@ -144,8 +147,10 @@ class ScrollDispatcher {
      * @return {?}
      */
     _scrollableContainsElement(scrollable, elementRef) {
-        let /** @type {?} */ element = elementRef.nativeElement;
-        let /** @type {?} */ scrollableElement = scrollable.getElementRef().nativeElement; //tslint:disable-line
+        /** @type {?} */
+        let element = elementRef.nativeElement;
+        /** @type {?} */
+        let scrollableElement = scrollable.getElementRef().nativeElement; //tslint:disable-line
         // Traverse through the element parents until we reach null, checking if any of the elements
         // are the scrollable's element.
         do {
@@ -180,14 +185,14 @@ ScrollDispatcher.decorators = [
 ];
 /** @nocollapse */
 ScrollDispatcher.ctorParameters = () => [
-    { type: NgZone, },
-    { type: Platform, },
+    { type: NgZone },
+    { type: Platform }
 ];
 /** @nocollapse */ ScrollDispatcher.ngInjectableDef = defineInjectable({ factory: function ScrollDispatcher_Factory() { return new ScrollDispatcher(inject(NgZone), inject(Platform)); }, token: ScrollDispatcher, providedIn: "root" });
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * Sends an event when the directive's element is scrolled. Registers itself with the
@@ -247,19 +252,19 @@ CdkScrollable.decorators = [
 ];
 /** @nocollapse */
 CdkScrollable.ctorParameters = () => [
-    { type: ElementRef, },
-    { type: ScrollDispatcher, },
-    { type: NgZone, },
+    { type: ElementRef },
+    { type: ScrollDispatcher },
+    { type: NgZone }
 ];
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
-/**
+/** *
  * Time in ms to throttle the resize events by default.
- */
-const /** @type {?} */ DEFAULT_RESIZE_TIME = 20;
+  @type {?} */
+const DEFAULT_RESIZE_TIME = 20;
 /**
  * Simple utility for getting the bounds of the browser viewport.
  * \@docs-private
@@ -290,7 +295,8 @@ class ViewportRuler {
         if (!this._viewportSize) {
             this._updateViewportSize();
         }
-        const /** @type {?} */ output = { width: this._viewportSize.width, height: this._viewportSize.height };
+        /** @type {?} */
+        const output = { width: this._viewportSize.width, height: this._viewportSize.height };
         // If we're not on a browser, don't cache the size since it'll be mocked out anyway.
         if (!this._platform.isBrowser) {
             this._viewportSize = /** @type {?} */ ((null)); //tslint:disable-line
@@ -302,16 +308,8 @@ class ViewportRuler {
      * @return {?}
      */
     getViewportRect() {
-        // Use the document element's bounding rect rather than the window scroll properties
-        // (e.g. pageYOffset, scrollY) due to in issue in Chrome and IE where window scroll
-        // properties and client coordinates (boundingClientRect, clientX/Y, etc.) are in different
-        // conceptual viewports. Under most circumstances these viewports are equivalent, but they
-        // can disagree when the page is pinch-zoomed (on devices that support touch).
-        // See https://bugs.chromium.org/p/chromium/issues/detail?id=489206#c4
-        // We use the documentElement instead of the body because, by default (without a css reset)
-        // browsers typically give the document body an 8px margin, which is not included in
-        // getBoundingClientRect().
-        const /** @type {?} */ scrollPosition = this.getViewportScrollPosition();
+        /** @type {?} */
+        const scrollPosition = this.getViewportScrollPosition();
         const { width, height } = this.getViewportSize();
         return {
             top: scrollPosition.top,
@@ -332,16 +330,13 @@ class ViewportRuler {
         if (!this._platform.isBrowser) {
             return { top: 0, left: 0 };
         }
-        // The top-left-corner of the viewport is determined by the scroll position of the document
-        // body, normally just (scrollLeft, scrollTop). However, Chrome and Firefox disagree about
-        // whether `document.body` or `document.documentElement` is the scrolled element, so reading
-        // `scrollTop` and `scrollLeft` is inconsistent. However, using the bounding rect of
-        // `document.documentElement` works consistently, where the `top` and `left` values will
-        // equal negative the scroll position.
-        const /** @type {?} */ documentRect = document.documentElement.getBoundingClientRect();
-        const /** @type {?} */ top = -documentRect.top || document.body.scrollTop || window.scrollY ||
+        /** @type {?} */
+        const documentRect = document.documentElement.getBoundingClientRect();
+        /** @type {?} */
+        const top = -documentRect.top || document.body.scrollTop || window.scrollY ||
             document.documentElement.scrollTop || 0;
-        const /** @type {?} */ left = -documentRect.left || document.body.scrollLeft || window.scrollX ||
+        /** @type {?} */
+        const left = -documentRect.left || document.body.scrollLeft || window.scrollX ||
             document.documentElement.scrollLeft || 0;
         return { top, left };
     }
@@ -368,8 +363,8 @@ ViewportRuler.decorators = [
 ];
 /** @nocollapse */
 ViewportRuler.ctorParameters = () => [
-    { type: Platform, },
-    { type: NgZone, },
+    { type: Platform },
+    { type: NgZone }
 ];
 /** @nocollapse */ ViewportRuler.ngInjectableDef = defineInjectable({ factory: function ViewportRuler_Factory() { return new ViewportRuler(inject(Platform), inject(NgZone)); }, token: ViewportRuler, providedIn: "root" });
 /**
@@ -382,10 +377,10 @@ ViewportRuler.ctorParameters = () => [
 function VIEWPORT_RULER_PROVIDER_FACTORY(parentRuler, platform, ngZone) {
     return parentRuler || new ViewportRuler(platform, ngZone);
 }
-/**
+/** *
  * \@docs-private \@deprecated \@deletion-target 7.0.0
- */
-const /** @type {?} */ VIEWPORT_RULER_PROVIDER = {
+  @type {?} */
+const VIEWPORT_RULER_PROVIDER = {
     // If there is already a ViewportRuler available, use that. Otherwise, provide a new one.
     provide: ViewportRuler,
     deps: [[new Optional(), new SkipSelf(), ViewportRuler], Platform, NgZone],
@@ -394,7 +389,7 @@ const /** @type {?} */ VIEWPORT_RULER_PROVIDER = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class ScrollDispatchModule {
 }
@@ -408,12 +403,12 @@ ScrollDispatchModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 
 export { DEFAULT_SCROLL_TIME, ScrollDispatcher, CdkScrollable, DEFAULT_RESIZE_TIME, ViewportRuler, VIEWPORT_RULER_PROVIDER_FACTORY, VIEWPORT_RULER_PROVIDER, ScrollDispatchModule };

@@ -12,9 +12,9 @@
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
-/**
+/** *
  * Injection token used to inject the document into Directionality.
  * This is used so that the value can be faked in tests.
  *
@@ -28,8 +28,8 @@
  * https://github.com/angular/angular/issues/22559
  *
  * \@docs-private
- */
-var /** @type {?} */ DIR_DOCUMENT = new core.InjectionToken('cdk-dir-doc', {
+  @type {?} */
+var DIR_DOCUMENT = new core.InjectionToken('cdk-dir-doc', {
     providedIn: 'root',
     factory: DIR_DOCUMENT_FACTORY
 });
@@ -43,7 +43,7 @@ function DIR_DOCUMENT_FACTORY() {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * The directionality (LTR / RTL) context for the application (or a subtree of it).
@@ -60,12 +60,10 @@ var Directionality = /** @class */ (function () {
          */
         this.change = new core.EventEmitter();
         if (_document) {
-            // TODO: handle 'auto' value -
-            // We still need to account for dir="auto".
-            // It looks like HTMLElemenet.dir is also "auto" when that's set to the attribute,
-            // but getComputedStyle return either "ltr" or "rtl". avoiding getComputedStyle for now
-            var /** @type {?} */ bodyDir = _document.body ? _document.body.dir : null;
-            var /** @type {?} */ htmlDir = _document.documentElement ? _document.documentElement.dir : null;
+            /** @type {?} */
+            var bodyDir = _document.body ? _document.body.dir : null;
+            /** @type {?} */
+            var htmlDir = _document.documentElement ? _document.documentElement.dir : null;
             this.value = /** @type {?} */ ((bodyDir || htmlDir || 'ltr'));
         }
     }
@@ -83,7 +81,7 @@ var Directionality = /** @class */ (function () {
     ];
     /** @nocollapse */
     Directionality.ctorParameters = function () { return [
-        { type: undefined, decorators: [{ type: core.Optional }, { type: core.Inject, args: [DIR_DOCUMENT,] },] },
+        { type: undefined, decorators: [{ type: core.Optional }, { type: core.Inject, args: [DIR_DOCUMENT,] }] }
     ]; };
     /** @nocollapse */ Directionality.ngInjectableDef = core.defineInjectable({ factory: function Directionality_Factory() { return new Directionality(core.inject(DIR_DOCUMENT, 8)); }, token: Directionality, providedIn: "root" });
     return Directionality;
@@ -91,7 +89,7 @@ var Directionality = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * Directive to listen for changes of direction of part of the DOM.
@@ -112,6 +110,7 @@ var Dir = /** @class */ (function () {
         this._isInitialized = false;
     }
     Object.defineProperty(Dir.prototype, "dir", {
+        /** @docs-private */
         get: /**
          * \@docs-private
          * @return {?}
@@ -124,7 +123,8 @@ var Dir = /** @class */ (function () {
          * @return {?}
          */
         function (v) {
-            var /** @type {?} */ old = this._dir;
+            /** @type {?} */
+            var old = this._dir;
             this._dir = v;
             if (old !== this._dir && this._isInitialized) {
                 this.change.emit(this._dir);
@@ -174,17 +174,16 @@ var Dir = /** @class */ (function () {
                     exportAs: 'dir'
                 },] },
     ];
-    /** @nocollapse */
     Dir.propDecorators = {
-        "change": [{ type: core.Output, args: ['dirChange',] },],
-        "dir": [{ type: core.Input },],
+        change: [{ type: core.Output, args: ['dirChange',] }],
+        dir: [{ type: core.Input }]
     };
     return Dir;
 }());
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 var BidiModule = /** @class */ (function () {
     function BidiModule() {

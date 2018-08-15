@@ -20,9 +20,9 @@ class ListKeyManager {
     constructor(_items) {
         this._items = _items;
         /**
-             * Stream that emits any time the TAB key is pressed, so components can react
-             * when focus is shifted off of the list.
-             */
+         * Stream that emits any time the TAB key is pressed, so components can react
+         * when focus is shifted off of the list.
+         */
         this.tabOut = new Subject();
         /** Stream that emits whenever the active item of the list manager changes. */
         this.change = new Subject();
@@ -34,9 +34,9 @@ class ListKeyManager {
         this._vertical = true;
         this._scrollSize = 0;
         /**
-             * Predicate function that can be used to check whether an item should be skipped
-             * by the key manager. By default, disabled items are skipped.
-             */
+         * Predicate function that can be used to check whether an item should be skipped
+         * by the key manager. By default, disabled items are skipped.
+         */
         this._skipPredicateFn = (item) => item.disabled;
         // Buffer for the letters that the user has pressed when the typeahead option is turned on.
         this._pressedLetters = [];
@@ -57,34 +57,34 @@ class ListKeyManager {
         return this;
     }
     /**
-         * Turns on wrapping mode, which ensures that the active item will wrap to
-         * the other end of list when there are no more items in the given direction.
-         */
+     * Turns on wrapping mode, which ensures that the active item will wrap to
+     * the other end of list when there are no more items in the given direction.
+     */
     withWrap() {
         this._wrap = true;
         return this;
     }
     /**
-         * Configures whether the key manager should be able to move the selection vertically.
-         * @param enabled Whether vertical selection should be enabled.
-         */
+     * Configures whether the key manager should be able to move the selection vertically.
+     * @param enabled Whether vertical selection should be enabled.
+     */
     withVerticalOrientation(enabled = true) {
         this._vertical = enabled;
         return this;
     }
     /**
-         * Configures the key manager to move the selection horizontally.
-         * Passing in `null` will disable horizontal movement.
-         * @param direction Direction in which the selection can be moved.
-         */
+     * Configures the key manager to move the selection horizontally.
+     * Passing in `null` will disable horizontal movement.
+     * @param direction Direction in which the selection can be moved.
+     */
     withHorizontalOrientation(direction) {
         this._horizontal = direction;
         return this;
     }
     /**
-         * Turns on typeahead mode which allows users to set the active item by typing.
-         * @param debounceInterval Time to wait after the last keystroke before setting the active item.
-         */
+     * Turns on typeahead mode which allows users to set the active item by typing.
+     * @param debounceInterval Time to wait after the last keystroke before setting the active item.
+     */
     withTypeAhead(debounceInterval = 200) {
         if (this._items.length && this._items.some((item) => typeof item.getLabel !== 'function')) {
             throw Error('ListKeyManager items in typeahead mode must implement the `getLabel` method.');
@@ -109,9 +109,9 @@ class ListKeyManager {
         return this;
     }
     /**
-         * Sets the active item to the item at the index specified.
-         * @param index The index of the item to be set as active.
-         */
+     * Sets the active item to the item at the index specified.
+     * @param index The index of the item to be set as active.
+     */
     setActiveItem(index) {
         this.previousActiveItemIndex = this._activeItemIndex;
         this._activeItemIndex = index;
@@ -121,9 +121,9 @@ class ListKeyManager {
         }
     }
     /**
-         * Sets the active item depending on the key event passed in.
-         * @param event Keyboard event to be used for determining which element should be active.
-         */
+     * Sets the active item depending on the key event passed in.
+     * @param event Keyboard event to be used for determining which element should be active.
+     */
     onKeydown(event) {
         const keyCode = event.keyCode;
         switch (keyCode) {
@@ -237,18 +237,18 @@ class ListKeyManager {
         this._activeItem = itemArray[index];
     }
     /**
-         * This method sets the active item, given a list of items and the delta between the
-         * currently active item and the new active item. It will calculate differently
-         * depending on whether wrap mode is turned on.
-         */
+     * This method sets the active item, given a list of items and the delta between the
+     * currently active item and the new active item. It will calculate differently
+     * depending on whether wrap mode is turned on.
+     */
     _setActiveItemByDelta(delta) {
         this._wrap ? this._setActiveInWrapMode(delta) : this._setActiveInDefaultMode(delta);
     }
     /**
-         * Sets the active item properly given "wrap" mode. In other words, it will continue to move
-         * down the list until it finds an item that is not disabled, and it will wrap if it
-         * encounters either end of the list.
-         */
+     * Sets the active item properly given "wrap" mode. In other words, it will continue to move
+     * down the list until it finds an item that is not disabled, and it will wrap if it
+     * encounters either end of the list.
+     */
     _setActiveInWrapMode(delta) {
         const items = this._getItemsArray();
         for (let i = 1; i <= items.length; i++) {
@@ -261,18 +261,18 @@ class ListKeyManager {
         }
     }
     /**
-         * Sets the active item properly given the default mode. In other words, it will
-         * continue to move down the list until it finds an item that is not disabled. If
-         * it encounters either end of the list, it will stop and not wrap.
-         */
+     * Sets the active item properly given the default mode. In other words, it will
+     * continue to move down the list until it finds an item that is not disabled. If
+     * it encounters either end of the list, it will stop and not wrap.
+     */
     _setActiveInDefaultMode(delta) {
         this._setActiveItemByIndex(this._activeItemIndex + delta, delta);
     }
     /**
-         * Sets the active item to the first enabled item starting at the index specified. If the
-         * item is disabled, it will move in the fallbackDelta direction until it either
-         * finds an enabled item or encounters the end of the list.
-         */
+     * Sets the active item to the first enabled item starting at the index specified. If the
+     * item is disabled, it will move in the fallbackDelta direction until it either
+     * finds an enabled item or encounters the end of the list.
+     */
     _setActiveItemByIndex(index, fallbackDelta) {
         const items = this._getItemsArray();
         if (!items[index]) {
@@ -295,10 +295,10 @@ class ListKeyManager {
 
 class ActiveDescendantKeyManager extends ListKeyManager {
     /**
-         * This method sets the active item to the item at the specified index.
-         * It also adds active styles to the newly active item and removes active
-         * styles from the previously active item.
-         */
+     * This method sets the active item to the item at the specified index.
+     * It also adds active styles to the newly active item and removes active
+     * styles from the previously active item.
+     */
     setActiveItem(index) {
         if (this.activeItem) {
             this.activeItem.setInactiveStyles();
@@ -316,9 +316,9 @@ class FocusKeyManager extends ListKeyManager {
         this._origin = 'program';
     }
     /**
-         * Sets the focus origin that will be passed in to the items for any subsequent `focus` calls.
-         * @param origin Focus origin to be used when focusing items.
-         */
+     * Sets the focus origin that will be passed in to the items for any subsequent `focus` calls.
+     * @param origin Focus origin to be used when focusing items.
+     */
     setFocusOrigin(origin) {
         this._origin = origin;
         return this;
@@ -351,12 +351,12 @@ class FocusMonitor {
         this._monitoredElementCount = 0;
     }
     /**
-         * Monitors focus on an element and applies appropriate CSS classes.
-         * @param element The element to monitor
-         * @param checkChildren Whether to count the element as focused when its children are focused.
-         * @returns An observable that emits when the focus state of the element changes.
-         *     When the element is blurred, null will be emitted.
-         */
+     * Monitors focus on an element and applies appropriate CSS classes.
+     * @param element The element to monitor
+     * @param checkChildren Whether to count the element as focused when its children are focused.
+     * @returns An observable that emits when the focus state of the element changes.
+     *     When the element is blurred, null will be emitted.
+     */
     monitor(element, checkChildren = false) {
         if (!this._platform.isBrowser) {
             return of(null);
@@ -390,9 +390,9 @@ class FocusMonitor {
         return info.subject.asObservable();
     }
     /**
-         * Stops monitoring an element and removes all focus classes.
-         * @param element The element to stop monitoring.
-         */
+     * Stops monitoring an element and removes all focus classes.
+     * @param element The element to stop monitoring.
+     */
     stopMonitoring(element) {
         const elementInfo = this._elementInfo.get(element);
         if (elementInfo) {
@@ -404,10 +404,10 @@ class FocusMonitor {
         }
     }
     /**
-         * Focuses the element via the specified focus origin.
-         * @param element The element to focus.
-         * @param origin The focus origin.
-         */
+     * Focuses the element via the specified focus origin.
+     * @param element The element to focus.
+     * @param origin The focus origin.
+     */
     focusVia(element, origin) {
         this._setOriginForCurrentEventQueue(origin);
         // `focus` isn't available on the server
@@ -480,10 +480,10 @@ class FocusMonitor {
         }
     }
     /**
-         * Sets the focus classes on the element based on the given focus origin.
-         * @param element The element to update the classes on.
-         * @param origin The focus origin.
-         */
+     * Sets the focus classes on the element based on the given focus origin.
+     * @param element The element to update the classes on.
+     * @param origin The focus origin.
+     */
     _setClasses(element, origin) {
         const elementInfo = this._elementInfo.get(element);
         if (elementInfo) {
@@ -495,9 +495,9 @@ class FocusMonitor {
         }
     }
     /**
-         * Sets the origin and schedules an async function to clear it at the end of the event queue.
-         * @param origin The origin to set.
-         */
+     * Sets the origin and schedules an async function to clear it at the end of the event queue.
+     * @param origin The origin to set.
+     */
     _setOriginForCurrentEventQueue(origin) {
         this._ngZone.runOutsideAngular(() => {
             this._origin = origin;
@@ -505,10 +505,10 @@ class FocusMonitor {
         });
     }
     /**
-         * Checks whether the given focus event was caused by a touchstart event.
-         * @param event The focus event to check.
-         * @returns Whether the event was caused by a touch.
-         */
+     * Checks whether the given focus event was caused by a touchstart event.
+     * @param event The focus event to check.
+     * @returns Whether the event was caused by a touch.
+     */
     _wasCausedByTouch(event) {
         // Note(mmalerba): This implementation is not quite perfect, there is a small edge case.
         // Consider the following dom structure:
@@ -532,10 +532,10 @@ class FocusMonitor {
             (focusTarget === this._lastTouchTarget || focusTarget.contains(this._lastTouchTarget));
     }
     /**
-         * Handles focus events on a registered element.
-         * @param event The focus event.
-         * @param element The monitored element.
-         */
+     * Handles focus events on a registered element.
+     * @param event The focus event.
+     * @param element The monitored element.
+     */
     _onFocus(event, element) {
         // NOTE(mmalerba): We currently set the classes based on the focus origin of the most recent
         // focus event affecting the monitored element. If we want to use the origin of the first event
@@ -570,10 +570,10 @@ class FocusMonitor {
         this._lastFocusOrigin = origin;
     }
     /**
-         * Handles blur events on a registered element.
-         * @param event The blur event.
-         * @param element The monitored element.
-         */
+     * Handles blur events on a registered element.
+     * @param event The blur event.
+     * @param element The monitored element.
+     */
     _onBlur(event, element) {
         // If we are counting child-element-focus as focused, make sure that we aren't just blurring in
         // order to focus another child of the monitored element.
@@ -607,8 +607,8 @@ FocusMonitor.decorators = [
 ];
 /** @nocollapse */
 FocusMonitor.ctorParameters = () => [
-    { type: NgZone, },
-    { type: Platform, },
+    { type: NgZone },
+    { type: Platform }
 ];
 FocusMonitor.ngInjectableDef = defineInjectable({ factory: function FocusMonitor_Factory() { return new FocusMonitor(inject(NgZone), inject(Platform)); }, token: FocusMonitor, providedIn: "root" });
 /**
@@ -640,11 +640,11 @@ CdkMonitorFocus.decorators = [
 ];
 /** @nocollapse */
 CdkMonitorFocus.ctorParameters = () => [
-    { type: ElementRef, },
-    { type: FocusMonitor, },
+    { type: ElementRef },
+    { type: FocusMonitor }
 ];
 CdkMonitorFocus.propDecorators = {
-    "cdkFocusChange": [{ type: Output },],
+    cdkFocusChange: [{ type: Output }]
 };
 /** @docs-private @deprecated*/
 function FOCUS_MONITOR_PROVIDER_FACTORY(parentDispatcher, ngZone, platform) {
@@ -712,10 +712,10 @@ class AriaDescriber {
         this._document = _document;
     }
     /**
-       * Adds to the host element an aria-describedby reference to a hidden element that contains
-       * the message. If the same message has already been registered, then it will reuse the created
-       * message element.
-       */
+     * Adds to the host element an aria-describedby reference to a hidden element that contains
+     * the message. If the same message has already been registered, then it will reuse the created
+     * message element.
+     */
     describe(hostElement, message) {
         if (!this._canBeDescribed(hostElement, message)) {
             return;
@@ -747,7 +747,6 @@ class AriaDescriber {
     ngOnDestroy() {
         const describedElements = this._document.querySelectorAll(`[${CDK_DESCRIBEDBY_HOST_ATTRIBUTE}]`);
         for (let i = 0; i < describedElements.length; i++) {
-            //tslint:disable-line
             this._removeCdkDescribedByReferenceIds(describedElements[i]);
             describedElements[i].removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
         }
@@ -757,13 +756,13 @@ class AriaDescriber {
         messageRegistry.clear();
     }
     /**
-       * Creates a new element in the visually hidden message container element with the message
-       * as its content and adds it to the message registry.
-       */
+     * Creates a new element in the visually hidden message container element with the message
+     * as its content and adds it to the message registry.
+     */
     _createMessageElement(message) {
         const messageElement = this._document.createElement('div');
         messageElement.setAttribute('id', `${CDK_DESCRIBEDBY_ID_PREFIX}-${nextId++}`);
-        messageElement.appendChild((this._document.createTextNode(message))); //tslint:disable-line
+        messageElement.appendChild(this._document.createTextNode(message)); //tslint:disable-line
         if (!messagesContainer) {
             this._createMessagesContainer();
         }
@@ -802,11 +801,11 @@ class AriaDescriber {
         element.setAttribute('aria-describedby', originalReferenceIds.join(' '));
     }
     /**
-       * Adds a message reference to the element using aria-describedby and increments the registered
-       * message's reference count.
-       */
+     * Adds a message reference to the element using aria-describedby and increments the registered
+     * message's reference count.
+     */
     _addMessageReference(element, message) {
-        const registeredMessage = (messageRegistry.get(message)); //tslint:disable-line
+        const registeredMessage = messageRegistry.get(message); //tslint:disable-line
         // Add the aria-describedby reference and set the
         // describedby_host attribute to mark the element.
         addAriaReferencedId(element, 'aria-describedby', registeredMessage.messageElement.id);
@@ -814,11 +813,11 @@ class AriaDescriber {
         registeredMessage.referenceCount++;
     }
     /**
-       * Removes a message reference from the element using aria-describedby
-       * and decrements the registered message's reference count.
-       */
+     * Removes a message reference from the element using aria-describedby
+     * and decrements the registered message's reference count.
+     */
     _removeMessageReference(element, message) {
-        const registeredMessage = (messageRegistry.get(message)); //tslint:disable-line
+        const registeredMessage = messageRegistry.get(message); //tslint:disable-line
         registeredMessage.referenceCount--;
         removeAriaReferencedId(element, 'aria-describedby', registeredMessage.messageElement.id);
         element.removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
@@ -841,7 +840,7 @@ AriaDescriber.decorators = [
 ];
 /** @nocollapse */
 AriaDescriber.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: Inject, args: [DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: Inject, args: [DOCUMENT,] }] }
 ];
 AriaDescriber.ngInjectableDef = defineInjectable({ factory: function AriaDescriber_Factory() { return new AriaDescriber(inject(DOCUMENT)); }, token: AriaDescriber, providedIn: "root" });
 /** @docs-private @deprecated @deletion-target 7.0.0 */

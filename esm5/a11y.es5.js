@@ -17,19 +17,14 @@ import { DOCUMENT, CommonModule } from '@angular/common';
  * This class manages keyboard events for selectable lists. If you pass it a query list
  * of items, it will set the active item correctly when arrow events occur.
  */
-var  /* tslint:disable:member-ordering */
-/**
- * This class manages keyboard events for selectable lists. If you pass it a query list
- * of items, it will set the active item correctly when arrow events occur.
- */
-ListKeyManager = /** @class */ (function () {
+var ListKeyManager = /** @class */ (function () {
     function ListKeyManager(_items) {
         var _this = this;
         this._items = _items;
         /**
-             * Stream that emits any time the TAB key is pressed, so components can react
-             * when focus is shifted off of the list.
-             */
+         * Stream that emits any time the TAB key is pressed, so components can react
+         * when focus is shifted off of the list.
+         */
         this.tabOut = new Subject();
         /** Stream that emits whenever the active item of the list manager changes. */
         this.change = new Subject();
@@ -41,9 +36,9 @@ ListKeyManager = /** @class */ (function () {
         this._vertical = true;
         this._scrollSize = 0;
         /**
-             * Predicate function that can be used to check whether an item should be skipped
-             * by the key manager. By default, disabled items are skipped.
-             */
+         * Predicate function that can be used to check whether an item should be skipped
+         * by the key manager. By default, disabled items are skipped.
+         */
         this._skipPredicateFn = function (item) { return item.disabled; };
         // Buffer for the letters that the user has pressed when the typeahead option is turned on.
         this._pressedLetters = [];
@@ -67,15 +62,7 @@ ListKeyManager = /** @class */ (function () {
      * Turns on wrapping mode, which ensures that the active item will wrap to
      * the other end of list when there are no more items in the given direction.
      */
-    /**
-         * Turns on wrapping mode, which ensures that the active item will wrap to
-         * the other end of list when there are no more items in the given direction.
-         */
-    ListKeyManager.prototype.withWrap = /**
-         * Turns on wrapping mode, which ensures that the active item will wrap to
-         * the other end of list when there are no more items in the given direction.
-         */
-    function () {
+    ListKeyManager.prototype.withWrap = function () {
         this._wrap = true;
         return this;
     };
@@ -83,15 +70,7 @@ ListKeyManager = /** @class */ (function () {
      * Configures whether the key manager should be able to move the selection vertically.
      * @param enabled Whether vertical selection should be enabled.
      */
-    /**
-         * Configures whether the key manager should be able to move the selection vertically.
-         * @param enabled Whether vertical selection should be enabled.
-         */
-    ListKeyManager.prototype.withVerticalOrientation = /**
-         * Configures whether the key manager should be able to move the selection vertically.
-         * @param enabled Whether vertical selection should be enabled.
-         */
-    function (enabled) {
+    ListKeyManager.prototype.withVerticalOrientation = function (enabled) {
         if (enabled === void 0) { enabled = true; }
         this._vertical = enabled;
         return this;
@@ -101,17 +80,7 @@ ListKeyManager = /** @class */ (function () {
      * Passing in `null` will disable horizontal movement.
      * @param direction Direction in which the selection can be moved.
      */
-    /**
-         * Configures the key manager to move the selection horizontally.
-         * Passing in `null` will disable horizontal movement.
-         * @param direction Direction in which the selection can be moved.
-         */
-    ListKeyManager.prototype.withHorizontalOrientation = /**
-         * Configures the key manager to move the selection horizontally.
-         * Passing in `null` will disable horizontal movement.
-         * @param direction Direction in which the selection can be moved.
-         */
-    function (direction) {
+    ListKeyManager.prototype.withHorizontalOrientation = function (direction) {
         this._horizontal = direction;
         return this;
     };
@@ -119,15 +88,7 @@ ListKeyManager = /** @class */ (function () {
      * Turns on typeahead mode which allows users to set the active item by typing.
      * @param debounceInterval Time to wait after the last keystroke before setting the active item.
      */
-    /**
-         * Turns on typeahead mode which allows users to set the active item by typing.
-         * @param debounceInterval Time to wait after the last keystroke before setting the active item.
-         */
-    ListKeyManager.prototype.withTypeAhead = /**
-         * Turns on typeahead mode which allows users to set the active item by typing.
-         * @param debounceInterval Time to wait after the last keystroke before setting the active item.
-         */
-    function (debounceInterval) {
+    ListKeyManager.prototype.withTypeAhead = function (debounceInterval) {
         var _this = this;
         if (debounceInterval === void 0) { debounceInterval = 200; }
         if (this._items.length && this._items.some(function (item) { return typeof item.getLabel !== 'function'; })) {
@@ -156,15 +117,7 @@ ListKeyManager = /** @class */ (function () {
      * Sets the active item to the item at the index specified.
      * @param index The index of the item to be set as active.
      */
-    /**
-         * Sets the active item to the item at the index specified.
-         * @param index The index of the item to be set as active.
-         */
-    ListKeyManager.prototype.setActiveItem = /**
-         * Sets the active item to the item at the index specified.
-         * @param index The index of the item to be set as active.
-         */
-    function (index) {
+    ListKeyManager.prototype.setActiveItem = function (index) {
         this.previousActiveItemIndex = this._activeItemIndex;
         this._activeItemIndex = index;
         this._activeItem = this._items.toArray()[index];
@@ -176,15 +129,7 @@ ListKeyManager = /** @class */ (function () {
      * Sets the active item depending on the key event passed in.
      * @param event Keyboard event to be used for determining which element should be active.
      */
-    /**
-         * Sets the active item depending on the key event passed in.
-         * @param event Keyboard event to be used for determining which element should be active.
-         */
-    ListKeyManager.prototype.onKeydown = /**
-         * Sets the active item depending on the key event passed in.
-         * @param event Keyboard event to be used for determining which element should be active.
-         */
-    function (event) {
+    ListKeyManager.prototype.onKeydown = function (event) {
         var keyCode = event.keyCode;
         switch (keyCode) {
             case TAB:
@@ -248,9 +193,7 @@ ListKeyManager = /** @class */ (function () {
     };
     Object.defineProperty(ListKeyManager.prototype, "activeItemIndex", {
         // Index of the currently active item.
-        get: 
-        // Index of the currently active item.
-        function () {
+        get: function () {
             return this._activeItemIndex;
         },
         enumerable: true,
@@ -258,40 +201,26 @@ ListKeyManager = /** @class */ (function () {
     });
     Object.defineProperty(ListKeyManager.prototype, "activeItem", {
         // The active item.
-        get: 
-        // The active item.
-        function () {
+        get: function () {
             return this._activeItem;
         },
         enumerable: true,
         configurable: true
     });
     // Sets the active item to the first enabled item in the list.
-    // Sets the active item to the first enabled item in the list.
-    ListKeyManager.prototype.setFirstItemActive = 
-    // Sets the active item to the first enabled item in the list.
-    function () {
+    ListKeyManager.prototype.setFirstItemActive = function () {
         this._setActiveItemByIndex(0, 1);
     };
     // Sets the active item to the last enabled item in the list.
-    // Sets the active item to the last enabled item in the list.
-    ListKeyManager.prototype.setLastItemActive = 
-    // Sets the active item to the last enabled item in the list.
-    function () {
+    ListKeyManager.prototype.setLastItemActive = function () {
         this._setActiveItemByIndex(this._items.length - 1, -1);
     };
     // Sets the active item to the next enabled item in the list.
-    // Sets the active item to the next enabled item in the list.
-    ListKeyManager.prototype.setNextItemActive = 
-    // Sets the active item to the next enabled item in the list.
-    function () {
+    ListKeyManager.prototype.setNextItemActive = function () {
         this._activeItemIndex < 0 ? this.setFirstItemActive() : this._setActiveItemByDelta(1);
     };
     // Sets the active item to a previous enabled item in the list.
-    // Sets the active item to a previous enabled item in the list.
-    ListKeyManager.prototype.setPreviousItemActive = 
-    // Sets the active item to a previous enabled item in the list.
-    function () {
+    ListKeyManager.prototype.setPreviousItemActive = function () {
         this._activeItemIndex < 0 && this._wrap ? this.setLastItemActive()
             : this._setActiveItemByDelta(-1);
     };
@@ -327,17 +256,7 @@ ListKeyManager = /** @class */ (function () {
      * currently active item and the new active item. It will calculate differently
      * depending on whether wrap mode is turned on.
      */
-    /**
-         * This method sets the active item, given a list of items and the delta between the
-         * currently active item and the new active item. It will calculate differently
-         * depending on whether wrap mode is turned on.
-         */
-    ListKeyManager.prototype._setActiveItemByDelta = /**
-         * This method sets the active item, given a list of items and the delta between the
-         * currently active item and the new active item. It will calculate differently
-         * depending on whether wrap mode is turned on.
-         */
-    function (delta) {
+    ListKeyManager.prototype._setActiveItemByDelta = function (delta) {
         this._wrap ? this._setActiveInWrapMode(delta) : this._setActiveInDefaultMode(delta);
     };
     /**
@@ -345,17 +264,7 @@ ListKeyManager = /** @class */ (function () {
      * down the list until it finds an item that is not disabled, and it will wrap if it
      * encounters either end of the list.
      */
-    /**
-         * Sets the active item properly given "wrap" mode. In other words, it will continue to move
-         * down the list until it finds an item that is not disabled, and it will wrap if it
-         * encounters either end of the list.
-         */
-    ListKeyManager.prototype._setActiveInWrapMode = /**
-         * Sets the active item properly given "wrap" mode. In other words, it will continue to move
-         * down the list until it finds an item that is not disabled, and it will wrap if it
-         * encounters either end of the list.
-         */
-    function (delta) {
+    ListKeyManager.prototype._setActiveInWrapMode = function (delta) {
         var items = this._getItemsArray();
         for (var i = 1; i <= items.length; i++) {
             var index = (this._activeItemIndex + (delta * i) + items.length) % items.length;
@@ -371,17 +280,7 @@ ListKeyManager = /** @class */ (function () {
      * continue to move down the list until it finds an item that is not disabled. If
      * it encounters either end of the list, it will stop and not wrap.
      */
-    /**
-         * Sets the active item properly given the default mode. In other words, it will
-         * continue to move down the list until it finds an item that is not disabled. If
-         * it encounters either end of the list, it will stop and not wrap.
-         */
-    ListKeyManager.prototype._setActiveInDefaultMode = /**
-         * Sets the active item properly given the default mode. In other words, it will
-         * continue to move down the list until it finds an item that is not disabled. If
-         * it encounters either end of the list, it will stop and not wrap.
-         */
-    function (delta) {
+    ListKeyManager.prototype._setActiveInDefaultMode = function (delta) {
         this._setActiveItemByIndex(this._activeItemIndex + delta, delta);
     };
     /**
@@ -389,17 +288,7 @@ ListKeyManager = /** @class */ (function () {
      * item is disabled, it will move in the fallbackDelta direction until it either
      * finds an enabled item or encounters the end of the list.
      */
-    /**
-         * Sets the active item to the first enabled item starting at the index specified. If the
-         * item is disabled, it will move in the fallbackDelta direction until it either
-         * finds an enabled item or encounters the end of the list.
-         */
-    ListKeyManager.prototype._setActiveItemByIndex = /**
-         * Sets the active item to the first enabled item starting at the index specified. If the
-         * item is disabled, it will move in the fallbackDelta direction until it either
-         * finds an enabled item or encounters the end of the list.
-         */
-    function (index, fallbackDelta) {
+    ListKeyManager.prototype._setActiveItemByIndex = function (index, fallbackDelta) {
         var items = this._getItemsArray();
         if (!items[index]) {
             return;
@@ -413,9 +302,7 @@ ListKeyManager = /** @class */ (function () {
         this.setActiveItem(index);
     };
     /** Returns the items as an array. */
-    /** Returns the items as an array. */
-    ListKeyManager.prototype._getItemsArray = /** Returns the items as an array. */
-    function () {
+    ListKeyManager.prototype._getItemsArray = function () {
         return this._items instanceof QueryList ? this._items.toArray() : this._items;
     };
     return ListKeyManager;
@@ -432,17 +319,7 @@ var ActiveDescendantKeyManager = /** @class */ (function (_super) {
      * It also adds active styles to the newly active item and removes active
      * styles from the previously active item.
      */
-    /**
-         * This method sets the active item to the item at the specified index.
-         * It also adds active styles to the newly active item and removes active
-         * styles from the previously active item.
-         */
-    ActiveDescendantKeyManager.prototype.setActiveItem = /**
-         * This method sets the active item to the item at the specified index.
-         * It also adds active styles to the newly active item and removes active
-         * styles from the previously active item.
-         */
-    function (index) {
+    ActiveDescendantKeyManager.prototype.setActiveItem = function (index) {
         if (this.activeItem) {
             this.activeItem.setInactiveStyles();
         }
@@ -465,15 +342,7 @@ var FocusKeyManager = /** @class */ (function (_super) {
      * Sets the focus origin that will be passed in to the items for any subsequent `focus` calls.
      * @param origin Focus origin to be used when focusing items.
      */
-    /**
-         * Sets the focus origin that will be passed in to the items for any subsequent `focus` calls.
-         * @param origin Focus origin to be used when focusing items.
-         */
-    FocusKeyManager.prototype.setFocusOrigin = /**
-         * Sets the focus origin that will be passed in to the items for any subsequent `focus` calls.
-         * @param origin Focus origin to be used when focusing items.
-         */
-    function (origin) {
+    FocusKeyManager.prototype.setFocusOrigin = function (origin) {
         this._origin = origin;
         return this;
     };
@@ -512,21 +381,7 @@ var FocusMonitor = /** @class */ (function () {
      * @returns An observable that emits when the focus state of the element changes.
      *     When the element is blurred, null will be emitted.
      */
-    /**
-         * Monitors focus on an element and applies appropriate CSS classes.
-         * @param element The element to monitor
-         * @param checkChildren Whether to count the element as focused when its children are focused.
-         * @returns An observable that emits when the focus state of the element changes.
-         *     When the element is blurred, null will be emitted.
-         */
-    FocusMonitor.prototype.monitor = /**
-         * Monitors focus on an element and applies appropriate CSS classes.
-         * @param element The element to monitor
-         * @param checkChildren Whether to count the element as focused when its children are focused.
-         * @returns An observable that emits when the focus state of the element changes.
-         *     When the element is blurred, null will be emitted.
-         */
-    function (element, checkChildren) {
+    FocusMonitor.prototype.monitor = function (element, checkChildren) {
         var _this = this;
         if (checkChildren === void 0) { checkChildren = false; }
         if (!this._platform.isBrowser) {
@@ -564,15 +419,7 @@ var FocusMonitor = /** @class */ (function () {
      * Stops monitoring an element and removes all focus classes.
      * @param element The element to stop monitoring.
      */
-    /**
-         * Stops monitoring an element and removes all focus classes.
-         * @param element The element to stop monitoring.
-         */
-    FocusMonitor.prototype.stopMonitoring = /**
-         * Stops monitoring an element and removes all focus classes.
-         * @param element The element to stop monitoring.
-         */
-    function (element) {
+    FocusMonitor.prototype.stopMonitoring = function (element) {
         var elementInfo = this._elementInfo.get(element);
         if (elementInfo) {
             elementInfo.unlisten();
@@ -587,17 +434,7 @@ var FocusMonitor = /** @class */ (function () {
      * @param element The element to focus.
      * @param origin The focus origin.
      */
-    /**
-         * Focuses the element via the specified focus origin.
-         * @param element The element to focus.
-         * @param origin The focus origin.
-         */
-    FocusMonitor.prototype.focusVia = /**
-         * Focuses the element via the specified focus origin.
-         * @param element The element to focus.
-         * @param origin The focus origin.
-         */
-    function (element, origin) {
+    FocusMonitor.prototype.focusVia = function (element, origin) {
         this._setOriginForCurrentEventQueue(origin);
         // `focus` isn't available on the server
         if (typeof element.focus === 'function') {
@@ -609,9 +446,7 @@ var FocusMonitor = /** @class */ (function () {
         this._elementInfo.forEach(function (_info, element) { return _this.stopMonitoring(element); });
     };
     /** Register necessary event listeners on the document and window. */
-    /** Register necessary event listeners on the document and window. */
-    FocusMonitor.prototype._registerGlobalListeners = /** Register necessary event listeners on the document and window. */
-    function () {
+    FocusMonitor.prototype._registerGlobalListeners = function () {
         var _this = this;
         // Do nothing if we're not on the browser platform.
         if (!this._platform.isBrowser) {
@@ -677,17 +512,7 @@ var FocusMonitor = /** @class */ (function () {
      * @param element The element to update the classes on.
      * @param origin The focus origin.
      */
-    /**
-         * Sets the focus classes on the element based on the given focus origin.
-         * @param element The element to update the classes on.
-         * @param origin The focus origin.
-         */
-    FocusMonitor.prototype._setClasses = /**
-         * Sets the focus classes on the element based on the given focus origin.
-         * @param element The element to update the classes on.
-         * @param origin The focus origin.
-         */
-    function (element, origin) {
+    FocusMonitor.prototype._setClasses = function (element, origin) {
         var elementInfo = this._elementInfo.get(element);
         if (elementInfo) {
             this._toggleClass(element, 'cdk-focused', !!origin);
@@ -701,15 +526,7 @@ var FocusMonitor = /** @class */ (function () {
      * Sets the origin and schedules an async function to clear it at the end of the event queue.
      * @param origin The origin to set.
      */
-    /**
-         * Sets the origin and schedules an async function to clear it at the end of the event queue.
-         * @param origin The origin to set.
-         */
-    FocusMonitor.prototype._setOriginForCurrentEventQueue = /**
-         * Sets the origin and schedules an async function to clear it at the end of the event queue.
-         * @param origin The origin to set.
-         */
-    function (origin) {
+    FocusMonitor.prototype._setOriginForCurrentEventQueue = function (origin) {
         var _this = this;
         this._ngZone.runOutsideAngular(function () {
             _this._origin = origin;
@@ -721,17 +538,7 @@ var FocusMonitor = /** @class */ (function () {
      * @param event The focus event to check.
      * @returns Whether the event was caused by a touch.
      */
-    /**
-         * Checks whether the given focus event was caused by a touchstart event.
-         * @param event The focus event to check.
-         * @returns Whether the event was caused by a touch.
-         */
-    FocusMonitor.prototype._wasCausedByTouch = /**
-         * Checks whether the given focus event was caused by a touchstart event.
-         * @param event The focus event to check.
-         * @returns Whether the event was caused by a touch.
-         */
-    function (event) {
+    FocusMonitor.prototype._wasCausedByTouch = function (event) {
         // Note(mmalerba): This implementation is not quite perfect, there is a small edge case.
         // Consider the following dom structure:
         //
@@ -758,17 +565,7 @@ var FocusMonitor = /** @class */ (function () {
      * @param event The focus event.
      * @param element The monitored element.
      */
-    /**
-         * Handles focus events on a registered element.
-         * @param event The focus event.
-         * @param element The monitored element.
-         */
-    FocusMonitor.prototype._onFocus = /**
-         * Handles focus events on a registered element.
-         * @param event The focus event.
-         * @param element The monitored element.
-         */
-    function (event, element) {
+    FocusMonitor.prototype._onFocus = function (event, element) {
         // NOTE(mmalerba): We currently set the classes based on the focus origin of the most recent
         // focus event affecting the monitored element. If we want to use the origin of the first event
         // instead we should check for the cdk-focused class here and return if the element already has
@@ -806,17 +603,7 @@ var FocusMonitor = /** @class */ (function () {
      * @param event The blur event.
      * @param element The monitored element.
      */
-    /**
-         * Handles blur events on a registered element.
-         * @param event The blur event.
-         * @param element The monitored element.
-         */
-    FocusMonitor.prototype._onBlur = /**
-         * Handles blur events on a registered element.
-         * @param event The blur event.
-         * @param element The monitored element.
-         */
-    function (event, element) {
+    FocusMonitor.prototype._onBlur = function (event, element) {
         // If we are counting child-element-focus as focused, make sure that we aren't just blurring in
         // order to focus another child of the monitored element.
         var elementInfo = this._elementInfo.get(element);
@@ -848,8 +635,8 @@ var FocusMonitor = /** @class */ (function () {
     ];
     /** @nocollapse */
     FocusMonitor.ctorParameters = function () { return [
-        { type: NgZone, },
-        { type: Platform, },
+        { type: NgZone },
+        { type: Platform }
     ]; };
     FocusMonitor.ngInjectableDef = defineInjectable({ factory: function FocusMonitor_Factory() { return new FocusMonitor(inject(NgZone), inject(Platform)); }, token: FocusMonitor, providedIn: "root" });
     return FocusMonitor;
@@ -883,11 +670,11 @@ var CdkMonitorFocus = /** @class */ (function () {
     ];
     /** @nocollapse */
     CdkMonitorFocus.ctorParameters = function () { return [
-        { type: ElementRef, },
-        { type: FocusMonitor, },
+        { type: ElementRef },
+        { type: FocusMonitor }
     ]; };
     CdkMonitorFocus.propDecorators = {
-        "cdkFocusChange": [{ type: Output },],
+        cdkFocusChange: [{ type: Output }]
     };
     return CdkMonitorFocus;
 }());
@@ -961,17 +748,7 @@ var AriaDescriber = /** @class */ (function () {
      * the message. If the same message has already been registered, then it will reuse the created
      * message element.
      */
-    /**
-       * Adds to the host element an aria-describedby reference to a hidden element that contains
-       * the message. If the same message has already been registered, then it will reuse the created
-       * message element.
-       */
-    AriaDescriber.prototype.describe = /**
-       * Adds to the host element an aria-describedby reference to a hidden element that contains
-       * the message. If the same message has already been registered, then it will reuse the created
-       * message element.
-       */
-    function (hostElement, message) {
+    AriaDescriber.prototype.describe = function (hostElement, message) {
         if (!this._canBeDescribed(hostElement, message)) {
             return;
         }
@@ -983,9 +760,7 @@ var AriaDescriber = /** @class */ (function () {
         }
     };
     /** Removes the host element's aria-describedby reference to the message element. */
-    /** Removes the host element's aria-describedby reference to the message element. */
-    AriaDescriber.prototype.removeDescription = /** Removes the host element's aria-describedby reference to the message element. */
-    function (hostElement, message) {
+    AriaDescriber.prototype.removeDescription = function (hostElement, message) {
         if (!this._canBeDescribed(hostElement, message)) {
             return;
         }
@@ -1001,12 +776,9 @@ var AriaDescriber = /** @class */ (function () {
         }
     };
     /** Unregisters all created message elements and removes the message container. */
-    /** Unregisters all created message elements and removes the message container. */
-    AriaDescriber.prototype.ngOnDestroy = /** Unregisters all created message elements and removes the message container. */
-    function () {
+    AriaDescriber.prototype.ngOnDestroy = function () {
         var describedElements = this._document.querySelectorAll("[" + CDK_DESCRIBEDBY_HOST_ATTRIBUTE + "]");
         for (var i = 0; i < describedElements.length; i++) {
-            //tslint:disable-line
             this._removeCdkDescribedByReferenceIds(describedElements[i]);
             describedElements[i].removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
         }
@@ -1019,18 +791,10 @@ var AriaDescriber = /** @class */ (function () {
      * Creates a new element in the visually hidden message container element with the message
      * as its content and adds it to the message registry.
      */
-    /**
-       * Creates a new element in the visually hidden message container element with the message
-       * as its content and adds it to the message registry.
-       */
-    AriaDescriber.prototype._createMessageElement = /**
-       * Creates a new element in the visually hidden message container element with the message
-       * as its content and adds it to the message registry.
-       */
-    function (message) {
+    AriaDescriber.prototype._createMessageElement = function (message) {
         var messageElement = this._document.createElement('div');
         messageElement.setAttribute('id', CDK_DESCRIBEDBY_ID_PREFIX + "-" + nextId++);
-        messageElement.appendChild((this._document.createTextNode(message))); //tslint:disable-line
+        messageElement.appendChild(this._document.createTextNode(message)); //tslint:disable-line
         if (!messagesContainer) {
             this._createMessagesContainer();
         }
@@ -1038,9 +802,7 @@ var AriaDescriber = /** @class */ (function () {
         messageRegistry.set(message, { messageElement: messageElement, referenceCount: 0 });
     };
     /** Deletes the message element from the global messages container. */
-    /** Deletes the message element from the global messages container. */
-    AriaDescriber.prototype._deleteMessageElement = /** Deletes the message element from the global messages container. */
-    function (message) {
+    AriaDescriber.prototype._deleteMessageElement = function (message) {
         var registeredMessage = messageRegistry.get(message);
         var messageElement = registeredMessage && registeredMessage.messageElement;
         if (messagesContainer && messageElement) {
@@ -1049,9 +811,7 @@ var AriaDescriber = /** @class */ (function () {
         messageRegistry.delete(message);
     };
     /** Creates the global container for all aria-describedby messages. */
-    /** Creates the global container for all aria-describedby messages. */
-    AriaDescriber.prototype._createMessagesContainer = /** Creates the global container for all aria-describedby messages. */
-    function () {
+    AriaDescriber.prototype._createMessagesContainer = function () {
         messagesContainer = this._document.createElement('div');
         messagesContainer.setAttribute('id', MESSAGES_CONTAINER_ID);
         messagesContainer.setAttribute('aria-hidden', 'true');
@@ -1059,18 +819,14 @@ var AriaDescriber = /** @class */ (function () {
         this._document.body.appendChild(messagesContainer);
     };
     /** Deletes the global messages container. */
-    /** Deletes the global messages container. */
-    AriaDescriber.prototype._deleteMessagesContainer = /** Deletes the global messages container. */
-    function () {
+    AriaDescriber.prototype._deleteMessagesContainer = function () {
         if (messagesContainer && messagesContainer.parentNode) {
             messagesContainer.parentNode.removeChild(messagesContainer);
             messagesContainer = null;
         }
     };
     /** Removes all cdk-describedby messages that are hosted through the element. */
-    /** Removes all cdk-describedby messages that are hosted through the element. */
-    AriaDescriber.prototype._removeCdkDescribedByReferenceIds = /** Removes all cdk-describedby messages that are hosted through the element. */
-    function (element) {
+    AriaDescriber.prototype._removeCdkDescribedByReferenceIds = function (element) {
         // Remove all aria-describedby reference IDs that are prefixed by CDK_DESCRIBEDBY_ID_PREFIX
         var originalReferenceIds = getAriaReferenceIds(element, 'aria-describedby')
             .filter(function (id) { return id.indexOf(CDK_DESCRIBEDBY_ID_PREFIX) !== 0; });
@@ -1080,16 +836,8 @@ var AriaDescriber = /** @class */ (function () {
      * Adds a message reference to the element using aria-describedby and increments the registered
      * message's reference count.
      */
-    /**
-       * Adds a message reference to the element using aria-describedby and increments the registered
-       * message's reference count.
-       */
-    AriaDescriber.prototype._addMessageReference = /**
-       * Adds a message reference to the element using aria-describedby and increments the registered
-       * message's reference count.
-       */
-    function (element, message) {
-        var registeredMessage = (messageRegistry.get(message)); //tslint:disable-line
+    AriaDescriber.prototype._addMessageReference = function (element, message) {
+        var registeredMessage = messageRegistry.get(message); //tslint:disable-line
         // Add the aria-describedby reference and set the
         // describedby_host attribute to mark the element.
         addAriaReferencedId(element, 'aria-describedby', registeredMessage.messageElement.id);
@@ -1100,33 +848,21 @@ var AriaDescriber = /** @class */ (function () {
      * Removes a message reference from the element using aria-describedby
      * and decrements the registered message's reference count.
      */
-    /**
-       * Removes a message reference from the element using aria-describedby
-       * and decrements the registered message's reference count.
-       */
-    AriaDescriber.prototype._removeMessageReference = /**
-       * Removes a message reference from the element using aria-describedby
-       * and decrements the registered message's reference count.
-       */
-    function (element, message) {
-        var registeredMessage = (messageRegistry.get(message)); //tslint:disable-line
+    AriaDescriber.prototype._removeMessageReference = function (element, message) {
+        var registeredMessage = messageRegistry.get(message); //tslint:disable-line
         registeredMessage.referenceCount--;
         removeAriaReferencedId(element, 'aria-describedby', registeredMessage.messageElement.id);
         element.removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
     };
     /** Returns true if the element has been described by the provided message ID. */
-    /** Returns true if the element has been described by the provided message ID. */
-    AriaDescriber.prototype._isElementDescribedByMessage = /** Returns true if the element has been described by the provided message ID. */
-    function (element, message) {
+    AriaDescriber.prototype._isElementDescribedByMessage = function (element, message) {
         var referenceIds = getAriaReferenceIds(element, 'aria-describedby');
         var registeredMessage = messageRegistry.get(message);
         var messageId = registeredMessage && registeredMessage.messageElement.id;
         return !!messageId && referenceIds.indexOf(messageId) !== -1;
     };
     /** Determines whether a message can be described on a particular element. */
-    /** Determines whether a message can be described on a particular element. */
-    AriaDescriber.prototype._canBeDescribed = /** Determines whether a message can be described on a particular element. */
-    function (element, message) {
+    AriaDescriber.prototype._canBeDescribed = function (element, message) {
         return element.nodeType === this._document.ELEMENT_NODE && message != null &&
             !!("" + message).trim();
     };
@@ -1135,7 +871,7 @@ var AriaDescriber = /** @class */ (function () {
     ];
     /** @nocollapse */
     AriaDescriber.ctorParameters = function () { return [
-        { type: undefined, decorators: [{ type: Inject, args: [DOCUMENT,] },] },
+        { type: undefined, decorators: [{ type: Inject, args: [DOCUMENT,] }] }
     ]; };
     AriaDescriber.ngInjectableDef = defineInjectable({ factory: function AriaDescriber_Factory() { return new AriaDescriber(inject(DOCUMENT)); }, token: AriaDescriber, providedIn: "root" });
     return AriaDescriber;

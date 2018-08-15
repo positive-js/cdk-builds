@@ -12,11 +12,10 @@
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
-// Whether the current platform supports the V8 Break Iterator. The V8 check
-// is necessary to detect all Blink based browsers.
-var /** @type {?} */ hasV8BreakIterator = (typeof Intl !== 'undefined' && (/** @type {?} */ (Intl)).v8BreakIterator);
+/** @type {?} */
+var hasV8BreakIterator = (typeof Intl !== 'undefined' && (/** @type {?} */ (Intl)).v8BreakIterator);
 /**
  * Service to detect the current platform by comparing the userAgent strings and
  * checking browser-specific global properties.
@@ -73,7 +72,7 @@ var Platform = /** @class */ (function () {
     ];
     /** @nocollapse */
     Platform.ctorParameters = function () { return [
-        { type: Object, decorators: [{ type: core.Optional }, { type: core.Inject, args: [core.PLATFORM_ID,] },] },
+        { type: Object, decorators: [{ type: core.Optional }, { type: core.Inject, args: [core.PLATFORM_ID,] }] }
     ]; };
     /** @nocollapse */ Platform.ngInjectableDef = core.defineInjectable({ factory: function Platform_Factory() { return new Platform(core.inject(core.PLATFORM_ID, 8)); }, token: Platform, providedIn: "root" });
     return Platform;
@@ -81,12 +80,12 @@ var Platform = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
-/**
+/** *
  * Cached result of whether the user's browser supports passive event listeners.
- */
-var /** @type {?} */ supportsPassiveEvents;
+  @type {?} */
+var supportsPassiveEvents;
 /**
  * Checks whether the user's browser supports passive event listeners.
  * See: https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
@@ -105,14 +104,14 @@ function supportsPassiveEventListeners() {
     }
     return supportsPassiveEvents;
 }
-/**
+/** *
  * Cached result Set of input types support by the current browser.
- */
-var /** @type {?} */ supportedInputTypes;
-/**
+  @type {?} */
+var supportedInputTypes;
+/** *
  * Types of `<input>` that *might* be supported.
- */
-var /** @type {?} */ candidateInputTypes = [
+  @type {?} */
+var candidateInputTypes = [
     'color',
     'button',
     'checkbox',
@@ -151,7 +150,8 @@ function getSupportedInputTypes() {
         supportedInputTypes = new Set(candidateInputTypes);
         return supportedInputTypes;
     }
-    var /** @type {?} */ featureTestInput = document.createElement('input');
+    /** @type {?} */
+    var featureTestInput = document.createElement('input');
     supportedInputTypes = new Set(candidateInputTypes.filter(function (value) {
         featureTestInput.setAttribute('type', value);
         return featureTestInput.type === value;
@@ -161,7 +161,7 @@ function getSupportedInputTypes() {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 var PlatformModule = /** @class */ (function () {
     function PlatformModule() {

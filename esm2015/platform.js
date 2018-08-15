@@ -9,11 +9,10 @@ import { Inject, Injectable, Optional, PLATFORM_ID, NgModule, defineInjectable, 
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
-// Whether the current platform supports the V8 Break Iterator. The V8 check
-// is necessary to detect all Blink based browsers.
-const /** @type {?} */ hasV8BreakIterator = (typeof Intl !== 'undefined' && (/** @type {?} */ (Intl)).v8BreakIterator);
+/** @type {?} */
+const hasV8BreakIterator = (typeof Intl !== 'undefined' && (/** @type {?} */ (Intl)).v8BreakIterator);
 /**
  * Service to detect the current platform by comparing the userAgent strings and
  * checking browser-specific global properties.
@@ -74,18 +73,18 @@ Platform.decorators = [
 ];
 /** @nocollapse */
 Platform.ctorParameters = () => [
-    { type: Object, decorators: [{ type: Optional }, { type: Inject, args: [PLATFORM_ID,] },] },
+    { type: Object, decorators: [{ type: Optional }, { type: Inject, args: [PLATFORM_ID,] }] }
 ];
 /** @nocollapse */ Platform.ngInjectableDef = defineInjectable({ factory: function Platform_Factory() { return new Platform(inject(PLATFORM_ID, 8)); }, token: Platform, providedIn: "root" });
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
-/**
+/** *
  * Cached result of whether the user's browser supports passive event listeners.
- */
-let /** @type {?} */ supportsPassiveEvents;
+  @type {?} */
+let supportsPassiveEvents;
 /**
  * Checks whether the user's browser supports passive event listeners.
  * See: https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
@@ -104,14 +103,14 @@ function supportsPassiveEventListeners() {
     }
     return supportsPassiveEvents;
 }
-/**
+/** *
  * Cached result Set of input types support by the current browser.
- */
-let /** @type {?} */ supportedInputTypes;
-/**
+  @type {?} */
+let supportedInputTypes;
+/** *
  * Types of `<input>` that *might* be supported.
- */
-const /** @type {?} */ candidateInputTypes = [
+  @type {?} */
+const candidateInputTypes = [
     'color',
     'button',
     'checkbox',
@@ -150,7 +149,8 @@ function getSupportedInputTypes() {
         supportedInputTypes = new Set(candidateInputTypes);
         return supportedInputTypes;
     }
-    let /** @type {?} */ featureTestInput = document.createElement('input');
+    /** @type {?} */
+    let featureTestInput = document.createElement('input');
     supportedInputTypes = new Set(candidateInputTypes.filter(value => {
         featureTestInput.setAttribute('type', value);
         return featureTestInput.type === value;
@@ -160,7 +160,7 @@ function getSupportedInputTypes() {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class PlatformModule {
 }
@@ -170,12 +170,12 @@ PlatformModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 
 export { Platform, supportsPassiveEventListeners, getSupportedInputTypes, PlatformModule };

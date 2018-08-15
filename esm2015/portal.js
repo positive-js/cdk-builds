@@ -8,7 +8,7 @@ import { ComponentFactoryResolver, Directive, EventEmitter, NgModule, Output, Te
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * Throws an exception when attempting to attach a null portal to a host.
@@ -62,7 +62,7 @@ function throwNoPortalAttachedError() {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * A `Portal` is something that you want to render somewhere else.
@@ -91,7 +91,8 @@ class Portal {
      * @return {?}
      */
     detach() {
-        let /** @type {?} */ host = this._attachedHost; //tslint:disable-line
+        /** @type {?} */
+        let host = this._attachedHost; //tslint:disable-line
         if (host == null) {
             throwNoPortalAttachedError();
         }
@@ -263,7 +264,7 @@ class BasePortalOutlet {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * A PortalOutlet for attaching portals to an arbitrary DOM element outside of the Angular
@@ -290,8 +291,10 @@ class DomPortalOutlet extends BasePortalOutlet {
      * @return {?} Reference to the created component.
      */
     attachComponentPortal(portal) {
-        let /** @type {?} */ componentFactory = this._componentFactoryResolver.resolveComponentFactory(portal.component); //tslint:disable-line
-        let /** @type {?} */ componentRef;
+        /** @type {?} */
+        let componentFactory = this._componentFactoryResolver.resolveComponentFactory(portal.component);
+        /** @type {?} */
+        let componentRef;
         // If the portal specifies a ViewContainerRef, we will use that as the attachment point
         // for the component (in terms of Angular's component tree, not rendering).
         // When the ViewContainerRef is missing, we use the factory to create the component directly
@@ -320,8 +323,10 @@ class DomPortalOutlet extends BasePortalOutlet {
      * @return {?} Reference to the created embedded view.
      */
     attachTemplatePortal(portal) {
-        let /** @type {?} */ viewContainer = portal.viewContainerRef; //tslint:disable-line
-        let /** @type {?} */ viewRef = viewContainer.createEmbeddedView(portal.templateRef, portal.context); //tslint:disable-line
+        /** @type {?} */
+        let viewContainer = portal.viewContainerRef;
+        /** @type {?} */
+        let viewRef = viewContainer.createEmbeddedView(portal.templateRef, portal.context); //tslint:disable-line
         viewRef.detectChanges();
         // The method `createEmbeddedView` will add the view as a child of the viewContainer.
         // But for the DomPortalOutlet the view can be added everywhere in the DOM
@@ -329,7 +334,8 @@ class DomPortalOutlet extends BasePortalOutlet {
         // re-append the existing root nodes.
         viewRef.rootNodes.forEach((rootNode) => this.outletElement.appendChild(rootNode));
         this.setDisposeFn((() => {
-            let /** @type {?} */ index = viewContainer.indexOf(viewRef);
+            /** @type {?} */
+            let index = viewContainer.indexOf(viewRef);
             if (index !== -1) {
                 viewContainer.remove(index);
             }
@@ -359,7 +365,7 @@ class DomPortalOutlet extends BasePortalOutlet {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * Directive version of a `TemplatePortal`. Because the directive *is* a TemplatePortal,
@@ -382,8 +388,8 @@ CdkPortal.decorators = [
 ];
 /** @nocollapse */
 CdkPortal.ctorParameters = () => [
-    { type: TemplateRef, },
-    { type: ViewContainerRef, },
+    { type: TemplateRef },
+    { type: ViewContainerRef }
 ];
 /**
  * Directive version of a PortalOutlet. Because the directive *is* a PortalOutlet, portals can be
@@ -464,13 +470,14 @@ class CdkPortalOutlet extends BasePortalOutlet {
      */
     attachComponentPortal(portal) {
         portal.setAttachedHost(this);
-        // If the portal specifies an origin, use that as the logical location of the component
-        // in the application tree. Otherwise use the location of this PortalOutlet.
-        const /** @type {?} */ viewContainerRef = portal.viewContainerRef != null ?
+        /** @type {?} */
+        const viewContainerRef = portal.viewContainerRef != null ?
             portal.viewContainerRef :
             this._viewContainerRef;
-        const /** @type {?} */ componentFactory = this._componentFactoryResolver.resolveComponentFactory(portal.component);
-        const /** @type {?} */ ref = viewContainerRef.createComponent(componentFactory, viewContainerRef.length, portal.injector || viewContainerRef.parentInjector);
+        /** @type {?} */
+        const componentFactory = this._componentFactoryResolver.resolveComponentFactory(portal.component);
+        /** @type {?} */
+        const ref = viewContainerRef.createComponent(componentFactory, viewContainerRef.length, portal.injector || viewContainerRef.parentInjector);
         super.setDisposeFn(() => ref.destroy());
         this._attachedPortal = portal;
         this._attachedRef = ref;
@@ -485,7 +492,8 @@ class CdkPortalOutlet extends BasePortalOutlet {
      */
     attachTemplatePortal(portal) {
         portal.setAttachedHost(this);
-        const /** @type {?} */ viewRef = this._viewContainerRef.createEmbeddedView(portal.templateRef, portal.context);
+        /** @type {?} */
+        const viewRef = this._viewContainerRef.createEmbeddedView(portal.templateRef, portal.context);
         super.setDisposeFn(() => this._viewContainerRef.clear());
         this._attachedPortal = portal;
         this._attachedRef = viewRef;
@@ -502,11 +510,11 @@ CdkPortalOutlet.decorators = [
 ];
 /** @nocollapse */
 CdkPortalOutlet.ctorParameters = () => [
-    { type: ComponentFactoryResolver, },
-    { type: ViewContainerRef, },
+    { type: ComponentFactoryResolver },
+    { type: ViewContainerRef }
 ];
 CdkPortalOutlet.propDecorators = {
-    "attached": [{ type: Output },],
+    attached: [{ type: Output }]
 };
 class PortalModule {
 }
@@ -519,7 +527,7 @@ PortalModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * Custom injector to be used when providing custom
@@ -541,8 +549,8 @@ class PortalInjector {
      * @return {?}
      */
     get(token, notFoundValue) {
-        // tslint:disable-line
-        const /** @type {?} */ value = this._customTokens.get(token);
+        /** @type {?} */
+        const value = this._customTokens.get(token);
         if (value !== 'undefined') {
             return value;
         }
@@ -552,12 +560,12 @@ class PortalInjector {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 
 export { DomPortalOutlet as DomPortalHost, CdkPortalOutlet as PortalHostDirective, CdkPortal as TemplatePortalDirective, BasePortalOutlet as BasePortalHost, Portal, ComponentPortal, TemplatePortal, BasePortalOutlet, DomPortalOutlet, CdkPortal, CdkPortalOutlet, PortalModule, PortalInjector };

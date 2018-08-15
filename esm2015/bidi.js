@@ -9,9 +9,9 @@ import { inject, InjectionToken, EventEmitter, Inject, Injectable, Optional, Dir
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
-/**
+/** *
  * Injection token used to inject the document into Directionality.
  * This is used so that the value can be faked in tests.
  *
@@ -25,8 +25,8 @@ import { inject, InjectionToken, EventEmitter, Inject, Injectable, Optional, Dir
  * https://github.com/angular/angular/issues/22559
  *
  * \@docs-private
- */
-const /** @type {?} */ DIR_DOCUMENT = new InjectionToken('cdk-dir-doc', {
+  @type {?} */
+const DIR_DOCUMENT = new InjectionToken('cdk-dir-doc', {
     providedIn: 'root',
     factory: DIR_DOCUMENT_FACTORY
 });
@@ -40,7 +40,7 @@ function DIR_DOCUMENT_FACTORY() {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * The directionality (LTR / RTL) context for the application (or a subtree of it).
@@ -60,12 +60,10 @@ class Directionality {
          */
         this.change = new EventEmitter();
         if (_document) {
-            // TODO: handle 'auto' value -
-            // We still need to account for dir="auto".
-            // It looks like HTMLElemenet.dir is also "auto" when that's set to the attribute,
-            // but getComputedStyle return either "ltr" or "rtl". avoiding getComputedStyle for now
-            const /** @type {?} */ bodyDir = _document.body ? _document.body.dir : null;
-            const /** @type {?} */ htmlDir = _document.documentElement ? _document.documentElement.dir : null;
+            /** @type {?} */
+            const bodyDir = _document.body ? _document.body.dir : null;
+            /** @type {?} */
+            const htmlDir = _document.documentElement ? _document.documentElement.dir : null;
             this.value = /** @type {?} */ ((bodyDir || htmlDir || 'ltr'));
         }
     }
@@ -81,13 +79,13 @@ Directionality.decorators = [
 ];
 /** @nocollapse */
 Directionality.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DIR_DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DIR_DOCUMENT,] }] }
 ];
 /** @nocollapse */ Directionality.ngInjectableDef = defineInjectable({ factory: function Directionality_Factory() { return new Directionality(inject(DIR_DOCUMENT, 8)); }, token: Directionality, providedIn: "root" });
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 /**
  * Directive to listen for changes of direction of part of the DOM.
@@ -119,7 +117,8 @@ class Dir {
      * @return {?}
      */
     set dir(v) {
-        const /** @type {?} */ old = this._dir;
+        /** @type {?} */
+        const old = this._dir;
         this._dir = v;
         if (old !== this._dir && this._isInitialized) {
             this.change.emit(this._dir);
@@ -154,15 +153,14 @@ Dir.decorators = [
                 exportAs: 'dir'
             },] },
 ];
-/** @nocollapse */
 Dir.propDecorators = {
-    "change": [{ type: Output, args: ['dirChange',] },],
-    "dir": [{ type: Input },],
+    change: [{ type: Output, args: ['dirChange',] }],
+    dir: [{ type: Input }]
 };
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 class BidiModule {
 }
@@ -175,12 +173,12 @@ BidiModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
+ * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
  */
 
 export { Directionality, DIR_DOCUMENT, Dir, BidiModule, DIR_DOCUMENT_FACTORY as ɵa };
