@@ -258,7 +258,7 @@ var ListKeyManager = /** @class */ (function () {
             this.setLastItemActive();
         }
         else {
-            this._setActiveItemByDelta(1);
+            this._setActiveItemByDelta(delta);
         }
     };
     ListKeyManager.prototype.setPreviousPageItemActive = function (delta) {
@@ -268,7 +268,7 @@ var ListKeyManager = /** @class */ (function () {
             this.setFirstItemActive();
         }
         else {
-            this._setActiveItemByDelta(-1);
+            this._setActiveItemByDelta(-delta);
         }
     };
     ListKeyManager.prototype.updateActiveItem = function (item) {

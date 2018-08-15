@@ -217,7 +217,7 @@ class ListKeyManager {
             this.setLastItemActive();
         }
         else {
-            this._setActiveItemByDelta(1);
+            this._setActiveItemByDelta(delta);
         }
     }
     setPreviousPageItemActive(delta = this._scrollSize) {
@@ -226,7 +226,7 @@ class ListKeyManager {
             this.setFirstItemActive();
         }
         else {
-            this._setActiveItemByDelta(-1);
+            this._setActiveItemByDelta(-delta);
         }
     }
     updateActiveItem(item) {
