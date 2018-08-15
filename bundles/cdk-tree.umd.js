@@ -1046,7 +1046,6 @@ var CdkTreeNodePadding = /** @class */ (function () {
         this._element = _element;
         this._dir = _dir;
         this._destroyed = new rxjs.Subject();
-        this._setPadding();
         if (this._dir) {
             this._dir.change
                 .pipe(operators.takeUntil(this._destroyed))

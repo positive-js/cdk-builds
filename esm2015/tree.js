@@ -805,7 +805,6 @@ class CdkTreeNodePadding {
         this._element = _element;
         this._dir = _dir;
         this._destroyed = new Subject();
-        this._setPadding();
         if (this._dir) {
             this._dir.change
                 .pipe(takeUntil(this._destroyed))
