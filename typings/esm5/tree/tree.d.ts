@@ -15,7 +15,7 @@ export declare class CdkTreeNode<T> implements IFocusableOption, OnDestroy {
      * The most recently created `CdkTreeNode`. We save it in static variable so we can retrieve it
      * in `CdkTree` and set the data to it.
      */
-    static mostRecentTreeNode: CdkTreeNode<{}> | null;
+    static mostRecentTreeNode: CdkTreeNode<any> | null;
     /**
      * The role of the node should be 'group' if it's an internal node,
      * and 'treeitem' if it's a leaf node.
@@ -32,7 +32,7 @@ export declare class CdkTreeNode<T> implements IFocusableOption, OnDestroy {
     ngOnDestroy(): void;
     /** Focuses the menu item. Implements for IFocusableOption. */
     focus(): void;
-    private _setRoleFromData();
+    private _setRoleFromData;
 }
 /**
  * CDK tree component that connects with a data source to retrieve data of type `T` and renders
@@ -97,11 +97,11 @@ export declare class CdkTree<T> implements AfterContentChecked, ICollectionViewe
      */
     insertNode(nodeData: T, index: number, viewContainer?: ViewContainerRef, parentData?: T): void;
     /** Set up a subscription for the data provided by the data source. */
-    private _observeRenderChanges();
+    private _observeRenderChanges;
     /**
      * Switch to the provided data source by resetting the data and unsubscribing from the current
      * render change subscription if one exists. If the data source is null, interpret this by
      * clearing the node outlet. Otherwise start listening for new data.
      */
-    private _switchDataSource(dataSource);
+    private _switchDataSource;
 }

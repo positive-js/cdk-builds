@@ -10,13 +10,7 @@
 	(factory((global.ng = global.ng || {}, global.ng.cdk = {}),global.ng.core));
 }(this, (function (exports,core) { 'use strict';
 
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
- */
-/** *
- * Current version of the Component Development Kit.
-  @type {?} */
+/** Current version of the Component Development Kit. */
 var VERSION = new core.Version('0.0.1');
 
 exports.VERSION = VERSION;

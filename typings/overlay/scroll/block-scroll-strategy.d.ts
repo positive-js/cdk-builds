@@ -16,5 +16,5 @@ export declare class BlockScrollStrategy implements IScrollStrategy {
     enable(): void;
     /** Unblocks page-level scroll while the attached overlay is open. */
     disable(): void;
-    private _canBeEnabled();
+    private _canBeEnabled;
 }

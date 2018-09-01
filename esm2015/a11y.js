@@ -8,6 +8,7 @@ import { QueryList, Directive, ElementRef, EventEmitter, Injectable, NgZone, Opt
 import { Subject, Subscription, of } from 'rxjs';
 import { debounceTime, filter, map, tap } from 'rxjs/operators';
 import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, TAB, A, Z, ZERO, NINE } from '@ptsecurity/cdk/keycodes';
+import { __decorate, __metadata, __param } from 'tslib';
 import { Platform, supportsPassiveEventListeners, PlatformModule } from '@ptsecurity/cdk/platform';
 import { DOCUMENT, CommonModule } from '@angular/common';
 
@@ -335,7 +336,7 @@ class FocusKeyManager extends ListKeyManager {
 // that a value of around 650ms seems appropriate.
 const TOUCH_BUFFER_MS = 650;
 /** Monitors mouse and keyboard events to determine the cause of focus events. */
-class FocusMonitor {
+let FocusMonitor = class FocusMonitor {
     constructor(_ngZone, _platform) {
         this._ngZone = _ngZone;
         this._platform = _platform;
@@ -601,16 +602,12 @@ class FocusMonitor {
             this._unregisterGlobalListeners = () => { };
         }
     }
-}
-FocusMonitor.decorators = [
-    { type: Injectable, args: [{ providedIn: 'root' },] },
-];
-/** @nocollapse */
-FocusMonitor.ctorParameters = () => [
-    { type: NgZone },
-    { type: Platform }
-];
+};
 FocusMonitor.ngInjectableDef = defineInjectable({ factory: function FocusMonitor_Factory() { return new FocusMonitor(inject(NgZone), inject(Platform)); }, token: FocusMonitor, providedIn: "root" });
+FocusMonitor = __decorate([
+    Injectable({ providedIn: 'root' }),
+    __metadata("design:paramtypes", [NgZone, Platform])
+], FocusMonitor);
 /**
  * Directive that determines how a particular element was focused (via keyboard, mouse, touch, or
  * programmatically) and adds corresponding classes to the element.
@@ -620,7 +617,7 @@ FocusMonitor.ngInjectableDef = defineInjectable({ factory: function FocusMonitor
  *    focused.
  * 2) cdkMonitorSubtreeFocus: considers an element focused if it or any of its children are focused.
  */
-class CdkMonitorFocus {
+let CdkMonitorFocus = class CdkMonitorFocus {
     constructor(_elementRef, _focusMonitor) {
         this._elementRef = _elementRef;
         this._focusMonitor = _focusMonitor;
@@ -632,20 +629,17 @@ class CdkMonitorFocus {
         this._focusMonitor.stopMonitoring(this._elementRef.nativeElement);
         this._monitorSubscription.unsubscribe();
     }
-}
-CdkMonitorFocus.decorators = [
-    { type: Directive, args: [{
-                selector: '[cdkMonitorElementFocus], [cdkMonitorSubtreeFocus]'
-            },] },
-];
-/** @nocollapse */
-CdkMonitorFocus.ctorParameters = () => [
-    { type: ElementRef },
-    { type: FocusMonitor }
-];
-CdkMonitorFocus.propDecorators = {
-    cdkFocusChange: [{ type: Output }]
 };
+__decorate([
+    Output(),
+    __metadata("design:type", Object)
+], CdkMonitorFocus.prototype, "cdkFocusChange", void 0);
+CdkMonitorFocus = __decorate([
+    Directive({
+        selector: '[cdkMonitorElementFocus], [cdkMonitorSubtreeFocus]'
+    }),
+    __metadata("design:paramtypes", [ElementRef, FocusMonitor])
+], CdkMonitorFocus);
 /** @docs-private @deprecated*/
 function FOCUS_MONITOR_PROVIDER_FACTORY(parentDispatcher, ngZone, platform) {
     return parentDispatcher || new FocusMonitor(ngZone, platform);
@@ -707,7 +701,7 @@ let messagesContainer = null;
  * content.
  * @docs-private
  */
-class AriaDescriber {
+let AriaDescriber = class AriaDescriber {
     constructor(_document) {
         this._document = _document;
     }
@@ -746,7 +740,7 @@ class AriaDescriber {
     /** Unregisters all created message elements and removes the message container. */
     ngOnDestroy() {
         const describedElements = this._document.querySelectorAll(`[${CDK_DESCRIBEDBY_HOST_ATTRIBUTE}]`);
-        for (let i = 0; i < describedElements.length; i++) {
+        for (let i = 0; i < describedElements.length; i++) { //tslint:disable-line
             this._removeCdkDescribedByReferenceIds(describedElements[i]);
             describedElements[i].removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
         }
@@ -834,15 +828,13 @@ class AriaDescriber {
         return element.nodeType === this._document.ELEMENT_NODE && message != null &&
             !!`${message}`.trim();
     }
-}
-AriaDescriber.decorators = [
-    { type: Injectable, args: [{ providedIn: 'root' },] },
-];
-/** @nocollapse */
-AriaDescriber.ctorParameters = () => [
-    { type: undefined, decorators: [{ type: Inject, args: [DOCUMENT,] }] }
-];
+};
 AriaDescriber.ngInjectableDef = defineInjectable({ factory: function AriaDescriber_Factory() { return new AriaDescriber(inject(DOCUMENT)); }, token: AriaDescriber, providedIn: "root" });
+AriaDescriber = __decorate([
+    Injectable({ providedIn: 'root' }),
+    __param(0, Inject(DOCUMENT)),
+    __metadata("design:paramtypes", [Object])
+], AriaDescriber);
 /** @docs-private @deprecated @deletion-target 7.0.0 */
 function ARIA_DESCRIBER_PROVIDER_FACTORY(parentDispatcher, _document) {
     return parentDispatcher || new AriaDescriber(_document);
@@ -858,18 +850,18 @@ const ARIA_DESCRIBER_PROVIDER = {
     useFactory: ARIA_DESCRIBER_PROVIDER_FACTORY
 };
 
-class A11yModule {
-}
-A11yModule.decorators = [
-    { type: NgModule, args: [{
-                imports: [CommonModule, PlatformModule],
-                declarations: [CdkMonitorFocus],
-                exports: [CdkMonitorFocus],
-                providers: [
-                    FOCUS_MONITOR_PROVIDER,
-                ]
-            },] },
-];
+let A11yModule = class A11yModule {
+};
+A11yModule = __decorate([
+    NgModule({
+        imports: [CommonModule, PlatformModule],
+        declarations: [CdkMonitorFocus],
+        exports: [CdkMonitorFocus],
+        providers: [
+            FOCUS_MONITOR_PROVIDER,
+        ]
+    })
+], A11yModule);
 
 /**
  * Generated bundle index. Do not edit.

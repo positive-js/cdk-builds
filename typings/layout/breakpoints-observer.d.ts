@@ -31,5 +31,5 @@ export declare class BreakpointObserver implements OnDestroy {
      */
     observe(value: string | string[]): Observable<IBreakpointState>;
     /** Registers a specific query to be listened for. */
-    private _registerQuery(query);
+    private _registerQuery;
 }

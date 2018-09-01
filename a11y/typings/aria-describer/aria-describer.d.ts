@@ -38,29 +38,29 @@ export declare class AriaDescriber implements OnDestroy {
      * Creates a new element in the visually hidden message container element with the message
      * as its content and adds it to the message registry.
      */
-    private _createMessageElement(message);
+    private _createMessageElement;
     /** Deletes the message element from the global messages container. */
-    private _deleteMessageElement(message);
+    private _deleteMessageElement;
     /** Creates the global container for all aria-describedby messages. */
-    private _createMessagesContainer();
+    private _createMessagesContainer;
     /** Deletes the global messages container. */
-    private _deleteMessagesContainer();
+    private _deleteMessagesContainer;
     /** Removes all cdk-describedby messages that are hosted through the element. */
-    private _removeCdkDescribedByReferenceIds(element);
+    private _removeCdkDescribedByReferenceIds;
     /**
      * Adds a message reference to the element using aria-describedby and increments the registered
      * message's reference count.
      */
-    private _addMessageReference(element, message);
+    private _addMessageReference;
     /**
      * Removes a message reference from the element using aria-describedby
      * and decrements the registered message's reference count.
      */
-    private _removeMessageReference(element, message);
+    private _removeMessageReference;
     /** Returns true if the element has been described by the provided message ID. */
-    private _isElementDescribedByMessage(element, message);
+    private _isElementDescribedByMessage;
     /** Determines whether a message can be described on a particular element. */
-    private _canBeDescribed(element, message);
+    private _canBeDescribed;
 }
 /** @docs-private @deprecated @deletion-target 7.0.0 */
 export declare function ARIA_DESCRIBER_PROVIDER_FACTORY(parentDispatcher: AriaDescriber, _document: any): AriaDescriber;

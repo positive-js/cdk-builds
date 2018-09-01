@@ -10,67 +10,31 @@
 	(factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.coercion = {})));
 }(this, (function (exports) { 'use strict';
 
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
- */
-/**
- * Coerces a data-bound value (typically a string) to a boolean.
- * @param {?} value
- * @return {?}
- */
+/** Coerces a data-bound value (typically a string) to a boolean. */
 function coerceBooleanProperty(value) {
     return value != null && "" + value !== 'false';
 }
 
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
- */
-/**
- * @param {?} value
- * @param {?=} fallbackValue
- * @return {?}
- */
 function coerceNumberProperty(value, fallbackValue) {
     if (fallbackValue === void 0) { fallbackValue = 0; }
     return _isNumberValue(value) ? Number(value) : fallbackValue;
 }
 /**
  * Whether the provided value is considered a number.
- * \@docs-private
- * @param {?} value
- * @return {?}
+ * @docs-private
  */
 function _isNumberValue(value) {
     // parseFloat(value) handles most of the cases we're interested in (it treats null, empty string,
     // and other non-number values as NaN, where Number just uses 0) but it considers the string
     // '123hello' to be a valid number. Therefore we also check if Number(value) is NaN.
-    return !isNaN(parseFloat(/** @type {?} */ (value))) && !isNaN(Number(value));
+    return !isNaN(parseFloat(value)) && !isNaN(Number(value));
 }
 
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
- */
-/**
- * Wraps the provided value in an array, unless the provided value is an array.
- * @template T
- * @param {?} value
- * @return {?}
- */
+/** Wraps the provided value in an array, unless the provided value is an array. */
 function coerceArray(value) {
     return Array.isArray(value) ? value : [value];
 }
 
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
- */
-/**
- * @param {?} value
- * @return {?}
- */
 function coerceCssPixelValue(value) {
     if (value == null) {
         return '';

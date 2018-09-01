@@ -56,9 +56,9 @@ export declare class ScrollDispatcher implements OnDestroy {
     /** Returns all registered Scrollables that contain the provided element. */
     getAncestorScrollContainers(elementRef: ElementRef): CdkScrollable[];
     /** Returns true if the element is contained within the provided Scrollable. */
-    private _scrollableContainsElement(scrollable, elementRef);
+    private _scrollableContainsElement;
     /** Sets up the global scroll listeners. */
-    private _addGlobalListener();
+    private _addGlobalListener;
     /** Cleans up the global scroll listener. */
-    private _removeGlobalListener();
+    private _removeGlobalListener;
 }

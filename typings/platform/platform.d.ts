@@ -3,7 +3,7 @@
  * checking browser-specific global properties.
  */
 export declare class Platform {
-    private _platformId;
+    private _platformId?;
     /**
      * Whether the Angular application is being rendered in the browser.
      * We want to use the Angular platform check because if the Document is shimmed

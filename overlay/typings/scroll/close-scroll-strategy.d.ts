@@ -16,7 +16,7 @@ export declare class CloseScrollStrategy implements IScrollStrategy {
     private _scrollDispatcher;
     private _ngZone;
     private _viewportRuler;
-    private _config;
+    private _config?;
     private _scrollSubscription;
     private _overlayRef;
     private _initialScrollPosition;

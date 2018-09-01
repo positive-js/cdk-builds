@@ -6,23 +6,11 @@
  */
 import { Version } from '@angular/core';
 
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
- */
-/** *
- * Current version of the Component Development Kit.
-  @type {?} */
+/** Current version of the Component Development Kit. */
 const VERSION = new Version('0.0.1');
 
 /**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * Generated bundle index. Do not edit.
  */
 
 export { VERSION };

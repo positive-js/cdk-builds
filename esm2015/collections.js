@@ -5,79 +5,38 @@
  * Use of this source code is governed by an MIT-style license.
  */
 import { Observable, of, Subject } from 'rxjs';
+import { __decorate } from 'tslib';
 import { Injectable, defineInjectable } from '@angular/core';
 
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
- */
-/**
- * @abstract
- * @template T
- */
 class DataSource {
 }
 
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
- */
-/**
- * DataSource wrapper for a native array.
- * @template T
- */
+/** DataSource wrapper for a native array. */
 class ArrayDataSource extends DataSource {
-    /**
-     * @param {?} _data
-     */
     constructor(_data) {
         super();
         this._data = _data;
     }
-    /**
-     * @return {?}
-     */
     connect() {
         return this._data instanceof Observable ? this._data : of(this._data);
     }
-    /**
-     * @return {?}
-     */
     disconnect() { }
 }
 
 /**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
- */
-/**
  * Class to be used to power selecting one or more options from a list.
- * @template T
  */
 class SelectionModel {
-    /**
-     * @param {?=} _multiple
-     * @param {?=} initiallySelectedValues
-     * @param {?=} _emitChanges
-     */
     constructor(_multiple = false, initiallySelectedValues, _emitChanges = true) {
         this._multiple = _multiple;
         this._emitChanges = _emitChanges;
-        /**
-         * Event emitted when the value has changed.
-         */
+        /** Event emitted when the value has changed. */
         this.onChange = this._emitChanges ? new Subject() : null;
-        /**
-         * Currently-selected values.
-         */
+        /** Currently-selected values. */
         this._selection = new Set();
-        /**
-         * Keeps track of the deselected options that haven't been emitted by the change event.
-         */
+        /** Keeps track of the deselected options that haven't been emitted by the change event. */
         this._deselectedToEmit = [];
-        /**
-         * Keeps track of the selected options that haven't been emitted by the change event.
-         */
+        /** Keeps track of the selected options that haven't been emitted by the change event. */
         this._selectedToEmit = [];
         if (initiallySelectedValues && initiallySelectedValues.length) {
             if (_multiple) {
@@ -90,10 +49,7 @@ class SelectionModel {
             this._selectedToEmit.length = 0;
         }
     }
-    /**
-     * Selected values.
-     * @return {?}
-     */
+    /** Selected values. */
     get selected() {
         if (!this._selected) {
             this._selected = Array.from(this._selection.values());
@@ -102,8 +58,6 @@ class SelectionModel {
     }
     /**
      * Selects a value or an array of values.
-     * @param {...?} values
-     * @return {?}
      */
     select(...values) {
         this._verifyValueAssignment(values);
@@ -112,8 +66,6 @@ class SelectionModel {
     }
     /**
      * Deselects a value or an array of values.
-     * @param {...?} values
-     * @return {?}
      */
     deselect(...values) {
         this._verifyValueAssignment(values);
@@ -122,15 +74,12 @@ class SelectionModel {
     }
     /**
      * Toggles a value between selected and deselected.
-     * @param {?} value
-     * @return {?}
      */
     toggle(value) {
         this.isSelected(value) ? this.deselect(value) : this.select(value);
     }
     /**
      * Clears all of the selected values.
-     * @return {?}
      */
     clear() {
         this._unmarkAll();
@@ -138,38 +87,29 @@ class SelectionModel {
     }
     /**
      * Determines whether a value is selected.
-     * @param {?} value
-     * @return {?}
      */
     isSelected(value) {
         return this._selection.has(value);
     }
     /**
      * Determines whether the model does not have a value.
-     * @return {?}
      */
     isEmpty() {
         return this._selection.size === 0;
     }
     /**
      * Sorts the selected values based on a predicate function.
-     * @param {?=} predicate
-     * @return {?}
      */
     sort(predicate) {
         if (this._multiple && this._selected) {
             this._selected.sort(predicate);
         }
     }
-    /**
-     * Emits a change event and clears the records of selected and deselected values.
-     * @return {?}
-     */
+    /** Emits a change event and clears the records of selected and deselected values. */
     _emitChangeEvent() {
         // Clear the selected values so they can be re-cached.
         this._selected = null;
         if (this._selectedToEmit.length || this._deselectedToEmit.length) {
-            /** @type {?} */
             const eventData = new SelectionChange(this, this._selectedToEmit, this._deselectedToEmit);
             if (this.onChange) {
                 this.onChange.next(eventData);
@@ -178,11 +118,7 @@ class SelectionModel {
             this._selectedToEmit = [];
         }
     }
-    /**
-     * Selects a value.
-     * @param {?} value
-     * @return {?}
-     */
+    /** Selects a value. */
     _markSelected(value) {
         if (!this.isSelected(value)) {
             if (!this._multiple) {
@@ -194,11 +130,7 @@ class SelectionModel {
             }
         }
     }
-    /**
-     * Deselects a value.
-     * @param {?} value
-     * @return {?}
-     */
+    /** Deselects a value. */
     _unmarkSelected(value) {
         if (this.isSelected(value)) {
             this._selection.delete(value);
@@ -207,10 +139,7 @@ class SelectionModel {
             }
         }
     }
-    /**
-     * Clears out the selected values.
-     * @return {?}
-     */
+    /** Clears out the selected values. */
     _unmarkAll() {
         if (!this.isEmpty()) {
             this._selection.forEach((value) => this._unmarkSelected(value));
@@ -219,8 +148,6 @@ class SelectionModel {
     /**
      * Verifies the value assignment and throws an error if the specified value array is
      * including multiple values while the selection model is not supporting multiple values.
-     * @param {?} values
-     * @return {?}
      */
     _verifyValueAssignment(values) {
         if (values.length > 1 && !this._multiple) {
@@ -230,16 +157,16 @@ class SelectionModel {
 }
 /**
  * Event emitted when the value of a MatSelectionModel has changed.
- * \@docs-private
- * @template T
+ * @docs-private
  */
 class SelectionChange {
-    /**
-     * @param {?} source
-     * @param {?} added
-     * @param {?} removed
-     */
-    constructor(source, added, removed) {
+    constructor(
+    /** Model that dispatched the event. */
+    source, 
+    /** Options that were added to the model. */
+    added, 
+    /** Options that were removed from the model. */
+    removed) {
         this.source = source;
         this.added = added;
         this.removed = removed;
@@ -248,16 +175,11 @@ class SelectionChange {
 /**
  * Returns an error that reports that multiple values are passed into a selection model
  * with a single value.
- * @return {?}
  */
 function getMultipleValuesInSingleSelectionError() {
     return Error('Cannot pass multiple values into SelectionModel with single-value mode.');
 }
 
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
- */
 /**
  * Class to coordinate unique selection based on name.
  * Intended to be consumed as an Angular service.
@@ -267,15 +189,23 @@ function getMultipleValuesInSingleSelectionError() {
  * This service does not *store* any IDs and names because they may change at any time, so it is
  * less error-prone if they are simply passed through when the events occur.
  */
-class UniqueSelectionDispatcher {
+let UniqueSelectionDispatcher = class UniqueSelectionDispatcher {
+    /**
+     * Class to coordinate unique selection based on name.
+     * Intended to be consumed as an Angular service.
+     * This service is needed because native radio change events are only fired on the item currently
+     * being selected, and we still need to uncheck the previous selection.
+     *
+     * This service does not *store* any IDs and names because they may change at any time, so it is
+     * less error-prone if they are simply passed through when the events occur.
+     */
     constructor() {
         this._listeners = [];
     }
     /**
      * Notify other items that selection for the given name has been set.
-     * @param {?} id ID of the item.
-     * @param {?} name Name of the item.
-     * @return {?}
+     * @param id ID of the item.
+     * @param name Name of the item.
      */
     notify(id, name) {
         for (const listener of this._listeners) {
@@ -284,8 +214,7 @@ class UniqueSelectionDispatcher {
     }
     /**
      * Listen for future changes to item selection.
-     * @param {?} listener
-     * @return {?} Function used to deregister listener
+     * @return Function used to deregister listener
      */
     listen(listener) {
         this._listeners.push(listener);
@@ -295,26 +224,17 @@ class UniqueSelectionDispatcher {
             });
         };
     }
-    /**
-     * @return {?}
-     */
     ngOnDestroy() {
         this._listeners = [];
     }
-}
-UniqueSelectionDispatcher.decorators = [
-    { type: Injectable, args: [{ providedIn: 'root' },] },
-];
-/** @nocollapse */ UniqueSelectionDispatcher.ngInjectableDef = defineInjectable({ factory: function UniqueSelectionDispatcher_Factory() { return new UniqueSelectionDispatcher(); }, token: UniqueSelectionDispatcher, providedIn: "root" });
+};
+UniqueSelectionDispatcher.ngInjectableDef = defineInjectable({ factory: function UniqueSelectionDispatcher_Factory() { return new UniqueSelectionDispatcher(); }, token: UniqueSelectionDispatcher, providedIn: "root" });
+UniqueSelectionDispatcher = __decorate([
+    Injectable({ providedIn: 'root' })
+], UniqueSelectionDispatcher);
 
 /**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,uselessCode} checked by tsc
+ * Generated bundle index. Do not edit.
  */
 
 export { UniqueSelectionDispatcher, ArrayDataSource, DataSource, SelectionModel, SelectionChange, getMultipleValuesInSingleSelectionError };

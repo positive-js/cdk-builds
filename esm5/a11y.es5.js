@@ -8,7 +8,7 @@ import { QueryList, Directive, ElementRef, EventEmitter, Injectable, NgZone, Opt
 import { Subject, Subscription, of } from 'rxjs';
 import { debounceTime, filter, map, tap } from 'rxjs/operators';
 import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, TAB, A, Z, ZERO, NINE } from '@ptsecurity/cdk/keycodes';
-import { __extends } from 'tslib';
+import { __extends, __decorate, __metadata, __param } from 'tslib';
 import { Platform, supportsPassiveEventListeners, PlatformModule } from '@ptsecurity/cdk/platform';
 import { DOCUMENT, CommonModule } from '@angular/common';
 
@@ -630,15 +630,11 @@ var FocusMonitor = /** @class */ (function () {
             this._unregisterGlobalListeners = function () { };
         }
     };
-    FocusMonitor.decorators = [
-        { type: Injectable, args: [{ providedIn: 'root' },] },
-    ];
-    /** @nocollapse */
-    FocusMonitor.ctorParameters = function () { return [
-        { type: NgZone },
-        { type: Platform }
-    ]; };
     FocusMonitor.ngInjectableDef = defineInjectable({ factory: function FocusMonitor_Factory() { return new FocusMonitor(inject(NgZone), inject(Platform)); }, token: FocusMonitor, providedIn: "root" });
+    FocusMonitor = __decorate([
+        Injectable({ providedIn: 'root' }),
+        __metadata("design:paramtypes", [NgZone, Platform])
+    ], FocusMonitor);
     return FocusMonitor;
 }());
 /**
@@ -663,19 +659,16 @@ var CdkMonitorFocus = /** @class */ (function () {
         this._focusMonitor.stopMonitoring(this._elementRef.nativeElement);
         this._monitorSubscription.unsubscribe();
     };
-    CdkMonitorFocus.decorators = [
-        { type: Directive, args: [{
-                    selector: '[cdkMonitorElementFocus], [cdkMonitorSubtreeFocus]'
-                },] },
-    ];
-    /** @nocollapse */
-    CdkMonitorFocus.ctorParameters = function () { return [
-        { type: ElementRef },
-        { type: FocusMonitor }
-    ]; };
-    CdkMonitorFocus.propDecorators = {
-        cdkFocusChange: [{ type: Output }]
-    };
+    __decorate([
+        Output(),
+        __metadata("design:type", Object)
+    ], CdkMonitorFocus.prototype, "cdkFocusChange", void 0);
+    CdkMonitorFocus = __decorate([
+        Directive({
+            selector: '[cdkMonitorElementFocus], [cdkMonitorSubtreeFocus]'
+        }),
+        __metadata("design:paramtypes", [ElementRef, FocusMonitor])
+    ], CdkMonitorFocus);
     return CdkMonitorFocus;
 }());
 /** @docs-private @deprecated*/
@@ -778,7 +771,7 @@ var AriaDescriber = /** @class */ (function () {
     /** Unregisters all created message elements and removes the message container. */
     AriaDescriber.prototype.ngOnDestroy = function () {
         var describedElements = this._document.querySelectorAll("[" + CDK_DESCRIBEDBY_HOST_ATTRIBUTE + "]");
-        for (var i = 0; i < describedElements.length; i++) {
+        for (var i = 0; i < describedElements.length; i++) { //tslint:disable-line
             this._removeCdkDescribedByReferenceIds(describedElements[i]);
             describedElements[i].removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
         }
@@ -866,14 +859,12 @@ var AriaDescriber = /** @class */ (function () {
         return element.nodeType === this._document.ELEMENT_NODE && message != null &&
             !!("" + message).trim();
     };
-    AriaDescriber.decorators = [
-        { type: Injectable, args: [{ providedIn: 'root' },] },
-    ];
-    /** @nocollapse */
-    AriaDescriber.ctorParameters = function () { return [
-        { type: undefined, decorators: [{ type: Inject, args: [DOCUMENT,] }] }
-    ]; };
     AriaDescriber.ngInjectableDef = defineInjectable({ factory: function AriaDescriber_Factory() { return new AriaDescriber(inject(DOCUMENT)); }, token: AriaDescriber, providedIn: "root" });
+    AriaDescriber = __decorate([
+        Injectable({ providedIn: 'root' }),
+        __param(0, Inject(DOCUMENT)),
+        __metadata("design:paramtypes", [Object])
+    ], AriaDescriber);
     return AriaDescriber;
 }());
 /** @docs-private @deprecated @deletion-target 7.0.0 */
@@ -894,16 +885,16 @@ var ARIA_DESCRIBER_PROVIDER = {
 var A11yModule = /** @class */ (function () {
     function A11yModule() {
     }
-    A11yModule.decorators = [
-        { type: NgModule, args: [{
-                    imports: [CommonModule, PlatformModule],
-                    declarations: [CdkMonitorFocus],
-                    exports: [CdkMonitorFocus],
-                    providers: [
-                        FOCUS_MONITOR_PROVIDER,
-                    ]
-                },] },
-    ];
+    A11yModule = __decorate([
+        NgModule({
+            imports: [CommonModule, PlatformModule],
+            declarations: [CdkMonitorFocus],
+            exports: [CdkMonitorFocus],
+            providers: [
+                FOCUS_MONITOR_PROVIDER,
+            ]
+        })
+    ], A11yModule);
     return A11yModule;
 }());
 

@@ -18,7 +18,7 @@ export declare class RepositionScrollStrategy implements IScrollStrategy {
     private _scrollDispatcher;
     private _viewportRuler;
     private _ngZone;
-    private _config;
+    private _config?;
     private _scrollSubscription;
     private _overlayRef;
     constructor(_scrollDispatcher: ScrollDispatcher, _viewportRuler: ViewportRuler, _ngZone: NgZone, _config?: IRepositionScrollStrategyConfig | undefined);

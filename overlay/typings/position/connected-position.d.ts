@@ -13,8 +13,8 @@ export interface IOverlayConnectionPosition {
 }
 /** The points of the origin element and the overlay element to connect. */
 export declare class ConnectionPositionPair {
-    offsetX: number | undefined;
-    offsetY: number | undefined;
+    offsetX?: number | undefined;
+    offsetY?: number | undefined;
     /** X-axis attachment point for connected overlay origin. Can be 'start', 'end', or 'center'. */
     originX: HorizontalConnectionPos;
     /** Y-axis attachment point for connected overlay origin. Can be 'top', 'bottom', or 'center'. */
@@ -63,10 +63,10 @@ export declare class ConnectedOverlayPositionChange {
     /** @docs-private */
     scrollableViewProperties: ScrollingVisibility;
     constructor(
-        /** The position used as a result of this change. */
-        connectionPair: ConnectionPositionPair, 
-        /** @docs-private */
-        scrollableViewProperties: ScrollingVisibility);
+    /** The position used as a result of this change. */
+    connectionPair: ConnectionPositionPair, 
+    /** @docs-private */
+    scrollableViewProperties: ScrollingVisibility);
 }
 /**
  * Validates whether a vertical position property matches the expected values.

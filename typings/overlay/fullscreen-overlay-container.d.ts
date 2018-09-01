@@ -18,7 +18,7 @@ export declare class FullscreenOverlayContainer extends OverlayContainer impleme
      */
     getFullscreenElement(): Element;
     protected _createContainer(): void;
-    private _adjustParentForFullscreenChange();
-    private _addFullscreenChangeListener(fn);
-    private _getEventName();
+    private _adjustParentForFullscreenChange;
+    private _addFullscreenChangeListener;
+    private _getEventName;
 }
