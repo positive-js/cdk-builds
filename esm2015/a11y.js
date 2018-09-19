@@ -111,14 +111,13 @@ class ListKeyManager {
     }
     /**
      * Sets the active item to the item at the index specified.
-     * @param index The index of the item to be set as active.
+     * @param item The index of the item to be set as active.
      */
-    setActiveItem(index) {
+    setActiveItem(item) {
         this.previousActiveItemIndex = this._activeItemIndex;
-        this._activeItemIndex = index;
-        this._activeItem = this._items.toArray()[index];
+        this.updateActiveItem(item);
         if (this._activeItemIndex !== this.previousActiveItemIndex) {
-            this.change.next(index);
+            this.change.next(this._activeItemIndex);
         }
     }
     /**
@@ -231,9 +230,8 @@ class ListKeyManager {
         }
     }
     updateActiveItem(item) {
-        const itemArray = this._getItemsArray();
+        const itemArray = this._items.toArray();
         const index = typeof item === 'number' ? item : itemArray.indexOf(item);
-        this.previousActiveItemIndex = this._activeItemIndex;
         this._activeItemIndex = index;
         this._activeItem = itemArray[index];
     }

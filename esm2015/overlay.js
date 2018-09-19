@@ -20,11 +20,14 @@ import { ESCAPE } from '@ptsecurity/cdk/keycodes';
 /** Scroll strategy that doesn't do anything. */
 class NoopScrollStrategy {
     /** Does nothing, as this scroll strategy is a no-op. */
-    enable() { } // tslint:disable-line
+    enable() {
+    } // tslint:disable-line
     /** Does nothing, as this scroll strategy is a no-op. */
-    disable() { } // tslint:disable-line
+    disable() {
+    } // tslint:disable-line
     /** Does nothing, as this scroll strategy is a no-op. */
-    attach() { } // tslint:disable-line
+    attach() {
+    } // tslint:disable-line
 }
 
 /** Initial configuration used when creating an overlay. */
@@ -136,7 +139,8 @@ class BlockScrollStrategy {
         this._document = document;
     }
     /** Attaches this scroll strategy to an overlay. */
-    attach() { } // tslint:disable-line
+    attach() {
+    } // tslint:disable-line
     /** Blocks page-level scroll while the attached overlay is open. */
     enable() {
         if (this._canBeEnabled()) {
@@ -1886,7 +1890,8 @@ class GlobalPositionStrategy {
      * Noop implemented as a part of the IPositionStrategy interface.
      * @docs-private
      */
-    dispose() { } //tslint:disable-line
+    dispose() {
+    } //tslint:disable-line
 }
 
 /** Builder for overlay position strategy. */
@@ -2104,7 +2109,9 @@ let CdkConnectedOverlay = class CdkConnectedOverlay {
         this._templatePortal = new TemplatePortal(templateRef, viewContainerRef);
     }
     /** The offset in pixels for the overlay connection point on the x-axis */
-    get offsetX() { return this._offsetX; }
+    get offsetX() {
+        return this._offsetX;
+    }
     set offsetX(offsetX) {
         this._offsetX = offsetX;
         if (this._position) {
@@ -2112,7 +2119,9 @@ let CdkConnectedOverlay = class CdkConnectedOverlay {
         }
     }
     /** The offset in pixels for the overlay connection point on the y-axis */
-    get offsetY() { return this._offsetY; }
+    get offsetY() {
+        return this._offsetY;
+    }
     set offsetY(offsetY) {
         this._offsetY = offsetY;
         if (this._position) {
@@ -2120,20 +2129,40 @@ let CdkConnectedOverlay = class CdkConnectedOverlay {
         }
     }
     /** Whether or not the overlay should attach a backdrop. */
-    get hasBackdrop() { return this._hasBackdrop; }
-    set hasBackdrop(value) { this._hasBackdrop = coerceBooleanProperty(value); }
+    get hasBackdrop() {
+        return this._hasBackdrop;
+    }
+    set hasBackdrop(value) {
+        this._hasBackdrop = coerceBooleanProperty(value);
+    }
     /** Whether or not the overlay should be locked when scrolling. */
-    get lockPosition() { return this._lockPosition; }
-    set lockPosition(value) { this._lockPosition = coerceBooleanProperty(value); }
+    get lockPosition() {
+        return this._lockPosition;
+    }
+    set lockPosition(value) {
+        this._lockPosition = coerceBooleanProperty(value);
+    }
     /** Whether the overlay's width and height can be constrained to fit within the viewport. */
-    get flexibleDiemsions() { return this._flexibleDimensions; }
-    set flexibleDiemsions(value) { this._flexibleDimensions = coerceBooleanProperty(value); }
+    get flexibleDiemsions() {
+        return this._flexibleDimensions;
+    }
+    set flexibleDiemsions(value) {
+        this._flexibleDimensions = coerceBooleanProperty(value);
+    }
     /** Whether the overlay can grow after the initial open when flexible positioning is turned on. */
-    get growAfterOpen() { return this._growAfterOpen; }
-    set growAfterOpen(value) { this._growAfterOpen = coerceBooleanProperty(value); }
+    get growAfterOpen() {
+        return this._growAfterOpen;
+    }
+    set growAfterOpen(value) {
+        this._growAfterOpen = coerceBooleanProperty(value);
+    }
     /** Whether the overlay can be pushed on-screen if none of the provided positions fit. */
-    get push() { return this._push; }
-    set push(value) { this._push = coerceBooleanProperty(value); }
+    get push() {
+        return this._push;
+    }
+    set push(value) {
+        this._push = coerceBooleanProperty(value);
+    }
     /** The associated overlay reference. */
     get overlayRef() {
         return this._overlayRef;

@@ -22,11 +22,14 @@ var NoopScrollStrategy = /** @class */ (function () {
     function NoopScrollStrategy() {
     }
     /** Does nothing, as this scroll strategy is a no-op. */
-    NoopScrollStrategy.prototype.enable = function () { }; // tslint:disable-line
+    NoopScrollStrategy.prototype.enable = function () {
+    }; // tslint:disable-line
     /** Does nothing, as this scroll strategy is a no-op. */
-    NoopScrollStrategy.prototype.disable = function () { }; // tslint:disable-line
+    NoopScrollStrategy.prototype.disable = function () {
+    }; // tslint:disable-line
     /** Does nothing, as this scroll strategy is a no-op. */
-    NoopScrollStrategy.prototype.attach = function () { }; // tslint:disable-line
+    NoopScrollStrategy.prototype.attach = function () {
+    }; // tslint:disable-line
     return NoopScrollStrategy;
 }());
 
@@ -146,7 +149,8 @@ var BlockScrollStrategy = /** @class */ (function () {
         this._document = document;
     }
     /** Attaches this scroll strategy to an overlay. */
-    BlockScrollStrategy.prototype.attach = function () { }; // tslint:disable-line
+    BlockScrollStrategy.prototype.attach = function () {
+    }; // tslint:disable-line
     /** Blocks page-level scroll while the attached overlay is open. */
     BlockScrollStrategy.prototype.enable = function () {
         if (this._canBeEnabled()) {
@@ -1961,7 +1965,8 @@ var GlobalPositionStrategy = /** @class */ (function () {
      * Noop implemented as a part of the IPositionStrategy interface.
      * @docs-private
      */
-    GlobalPositionStrategy.prototype.dispose = function () { }; //tslint:disable-line
+    GlobalPositionStrategy.prototype.dispose = function () {
+    }; //tslint:disable-line
     return GlobalPositionStrategy;
 }());
 
@@ -2184,7 +2189,9 @@ var CdkConnectedOverlay = /** @class */ (function () {
     }
     Object.defineProperty(CdkConnectedOverlay.prototype, "offsetX", {
         /** The offset in pixels for the overlay connection point on the x-axis */
-        get: function () { return this._offsetX; },
+        get: function () {
+            return this._offsetX;
+        },
         set: function (offsetX) {
             this._offsetX = offsetX;
             if (this._position) {
@@ -2196,7 +2203,9 @@ var CdkConnectedOverlay = /** @class */ (function () {
     });
     Object.defineProperty(CdkConnectedOverlay.prototype, "offsetY", {
         /** The offset in pixels for the overlay connection point on the y-axis */
-        get: function () { return this._offsetY; },
+        get: function () {
+            return this._offsetY;
+        },
         set: function (offsetY) {
             this._offsetY = offsetY;
             if (this._position) {
@@ -2208,36 +2217,56 @@ var CdkConnectedOverlay = /** @class */ (function () {
     });
     Object.defineProperty(CdkConnectedOverlay.prototype, "hasBackdrop", {
         /** Whether or not the overlay should attach a backdrop. */
-        get: function () { return this._hasBackdrop; },
-        set: function (value) { this._hasBackdrop = coerceBooleanProperty(value); },
+        get: function () {
+            return this._hasBackdrop;
+        },
+        set: function (value) {
+            this._hasBackdrop = coerceBooleanProperty(value);
+        },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CdkConnectedOverlay.prototype, "lockPosition", {
         /** Whether or not the overlay should be locked when scrolling. */
-        get: function () { return this._lockPosition; },
-        set: function (value) { this._lockPosition = coerceBooleanProperty(value); },
+        get: function () {
+            return this._lockPosition;
+        },
+        set: function (value) {
+            this._lockPosition = coerceBooleanProperty(value);
+        },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CdkConnectedOverlay.prototype, "flexibleDiemsions", {
         /** Whether the overlay's width and height can be constrained to fit within the viewport. */
-        get: function () { return this._flexibleDimensions; },
-        set: function (value) { this._flexibleDimensions = coerceBooleanProperty(value); },
+        get: function () {
+            return this._flexibleDimensions;
+        },
+        set: function (value) {
+            this._flexibleDimensions = coerceBooleanProperty(value);
+        },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CdkConnectedOverlay.prototype, "growAfterOpen", {
         /** Whether the overlay can grow after the initial open when flexible positioning is turned on. */
-        get: function () { return this._growAfterOpen; },
-        set: function (value) { this._growAfterOpen = coerceBooleanProperty(value); },
+        get: function () {
+            return this._growAfterOpen;
+        },
+        set: function (value) {
+            this._growAfterOpen = coerceBooleanProperty(value);
+        },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CdkConnectedOverlay.prototype, "push", {
         /** Whether the overlay can be pushed on-screen if none of the provided positions fit. */
-        get: function () { return this._push; },
-        set: function (value) { this._push = coerceBooleanProperty(value); },
+        get: function () {
+            return this._push;
+        },
+        set: function (value) {
+            this._push = coerceBooleanProperty(value);
+        },
         enumerable: true,
         configurable: true
     });

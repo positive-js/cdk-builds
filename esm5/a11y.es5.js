@@ -115,14 +115,13 @@ var ListKeyManager = /** @class */ (function () {
     };
     /**
      * Sets the active item to the item at the index specified.
-     * @param index The index of the item to be set as active.
+     * @param item The index of the item to be set as active.
      */
-    ListKeyManager.prototype.setActiveItem = function (index) {
+    ListKeyManager.prototype.setActiveItem = function (item) {
         this.previousActiveItemIndex = this._activeItemIndex;
-        this._activeItemIndex = index;
-        this._activeItem = this._items.toArray()[index];
+        this.updateActiveItem(item);
         if (this._activeItemIndex !== this.previousActiveItemIndex) {
-            this.change.next(index);
+            this.change.next(this._activeItemIndex);
         }
     };
     /**
@@ -245,9 +244,8 @@ var ListKeyManager = /** @class */ (function () {
         }
     };
     ListKeyManager.prototype.updateActiveItem = function (item) {
-        var itemArray = this._getItemsArray();
+        var itemArray = this._items.toArray();
         var index = typeof item === 'number' ? item : itemArray.indexOf(item);
-        this.previousActiveItemIndex = this._activeItemIndex;
         this._activeItemIndex = index;
         this._activeItem = itemArray[index];
     };

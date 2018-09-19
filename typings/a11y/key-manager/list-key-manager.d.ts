@@ -74,6 +74,11 @@ export declare class ListKeyManager<T extends IListKeyManagerOption> {
     setNextPageItemActive(delta?: number): void;
     setPreviousPageItemActive(delta?: number): void;
     /**
+     * Allows setting the active without any other effects.
+     * @param index Index of the item to be set as active.
+     */
+    updateActiveItem(index: number): void;
+    /**
      * Allows setting the active item without any other effects.
      * @param item Item to be set as active or index Index of the item to be set as active..
      */
