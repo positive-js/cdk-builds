@@ -17,16 +17,16 @@ export declare class OverlayPositionBuilder {
     global(): GlobalPositionStrategy;
     /**
      * Creates a relative position strategy.
-     * @param elementRef
-     * @param originPos
-     * @param overlayPos
+     * @param elementRef //tslint:disable-line
+     * @param originPos //tslint:disable-line
+     * @param overlayPos //tslint:disable-line
      * @deprecated Use `flexibleConnectedTo` instead.
      * @deletion-target 7.0.0
      */
     connectedTo(elementRef: ElementRef, originPos: IOriginConnectionPosition, overlayPos: IOverlayConnectionPosition): ConnectedPositionStrategy;
     /**
      * Creates a flexible position strategy.
-     * @param elementRef
+     * @param elementRef //tslint:disable-line
      */
     flexibleConnectedTo(elementRef: ElementRef | HTMLElement): FlexibleConnectedPositionStrategy;
 }

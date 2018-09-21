@@ -185,7 +185,7 @@ var TemplatePortal = /** @class */ (function (_super) {
     };
     TemplatePortal.prototype.detach = function () {
         this.context = undefined;
-        return _super.prototype.detach.call(this);
+        return _super.prototype.detach.call(this); //tslint:disable-line
     };
     return TemplatePortal;
 }(Portal));
@@ -282,7 +282,7 @@ var DomPortalOutlet = /** @class */ (function (_super) {
         // When the ViewContainerRef is missing, we use the factory to create the component directly
         // and then manually attach the view to the application.
         if (portal.viewContainerRef) {
-            componentRef = portal.viewContainerRef.createComponent(componentFactory, portal.viewContainerRef.length, portal.injector || portal.viewContainerRef.parentInjector);
+            componentRef = portal.viewContainerRef.createComponent(componentFactory, portal.viewContainerRef.length, portal.injector || portal.viewContainerRef.parentInjector); //tslint:disable-line
             this.setDisposeFn(function () { return componentRef.destroy(); });
         }
         else {
@@ -314,12 +314,11 @@ var DomPortalOutlet = /** @class */ (function (_super) {
         // re-append the existing root nodes.
         viewRef.rootNodes.forEach(function (rootNode) { return _this.outletElement.appendChild(rootNode); });
         this.setDisposeFn((function () {
-            var index = viewContainer.indexOf(viewRef);
+            var index = viewContainer.indexOf(viewRef); //tslint:disable-line
             if (index !== -1) {
                 viewContainer.remove(index);
             }
         }));
-        // TODO(jelbourn): Return locals from view.
         return viewRef;
     };
     /**

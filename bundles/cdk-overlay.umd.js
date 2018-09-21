@@ -863,7 +863,7 @@ var OverlayRef = /** @class */ (function () {
         var classList = element.classList;
         coercion.coerceArray(cssClasses).forEach(function (cssClass) {
             // We can't do a spread here, because IE doesn't support setting multiple classes.
-            isAdd ? classList.add(cssClass) : classList.remove(cssClass);
+            isAdd ? classList.add(cssClass) : classList.remove(cssClass); // tslint:disable-line
         });
     };
     return OverlayRef;
@@ -2035,18 +2035,19 @@ var OverlayPositionBuilder = /** @class */ (function () {
     };
     /**
      * Creates a relative position strategy.
-     * @param elementRef
-     * @param originPos
-     * @param overlayPos
+     * @param elementRef //tslint:disable-line
+     * @param originPos //tslint:disable-line
+     * @param overlayPos //tslint:disable-line
      * @deprecated Use `flexibleConnectedTo` instead.
      * @deletion-target 7.0.0
      */
     OverlayPositionBuilder.prototype.connectedTo = function (elementRef, originPos, overlayPos) {
-        return new ConnectedPositionStrategy(originPos, overlayPos, elementRef, this._viewportRuler, this._document);
+        return new ConnectedPositionStrategy(originPos, overlayPos, elementRef, this._viewportRuler, //tslint:disable-line
+        this._document);
     };
     /**
      * Creates a flexible position strategy.
-     * @param elementRef
+     * @param elementRef //tslint:disable-line
      */
     OverlayPositionBuilder.prototype.flexibleConnectedTo = function (elementRef) {
         return new FlexibleConnectedPositionStrategy(elementRef, this._viewportRuler, this._document, this._platform);
@@ -2353,7 +2354,7 @@ var CdkConnectedOverlay = /** @class */ (function () {
             }
         }
         if (changes['open']) { //tslint:disable-line
-            this.open ? this._attachOverlay() : this._detachOverlay();
+            this.open ? this._attachOverlay() : this._detachOverlay(); //tslint:disable-line
         }
     };
     /** Creates an overlay */
@@ -2425,7 +2426,7 @@ var CdkConnectedOverlay = /** @class */ (function () {
         if (!this._overlayRef) {
             this._createOverlay();
             this._overlayRef.keydownEvents().subscribe(function (event) {
-                if (event.keyCode === keycodes.ESCAPE) {
+                if (event.keyCode === keycodes.ESCAPE) { //tslint:disable-line
                     _this._detachOverlay();
                 }
             });

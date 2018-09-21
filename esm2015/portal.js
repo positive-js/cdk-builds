@@ -125,7 +125,7 @@ class TemplatePortal extends Portal {
     }
     detach() {
         this.context = undefined;
-        return super.detach();
+        return super.detach(); //tslint:disable-line
     }
 }
 /**
@@ -217,7 +217,7 @@ class DomPortalOutlet extends BasePortalOutlet {
         // When the ViewContainerRef is missing, we use the factory to create the component directly
         // and then manually attach the view to the application.
         if (portal.viewContainerRef) {
-            componentRef = portal.viewContainerRef.createComponent(componentFactory, portal.viewContainerRef.length, portal.injector || portal.viewContainerRef.parentInjector);
+            componentRef = portal.viewContainerRef.createComponent(componentFactory, portal.viewContainerRef.length, portal.injector || portal.viewContainerRef.parentInjector); //tslint:disable-line
             this.setDisposeFn(() => componentRef.destroy());
         }
         else {
@@ -248,12 +248,11 @@ class DomPortalOutlet extends BasePortalOutlet {
         // re-append the existing root nodes.
         viewRef.rootNodes.forEach((rootNode) => this.outletElement.appendChild(rootNode));
         this.setDisposeFn((() => {
-            let index = viewContainer.indexOf(viewRef);
+            let index = viewContainer.indexOf(viewRef); //tslint:disable-line
             if (index !== -1) {
                 viewContainer.remove(index);
             }
         }));
-        // TODO(jelbourn): Return locals from view.
         return viewRef;
     }
     /**
