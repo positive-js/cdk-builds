@@ -147,10 +147,16 @@ var BreakpointObserver = /** @class */ (function () {
         var _this = this;
         var queries = splitQueries(coercion.coerceArray(value));
         var observables = queries.map(function (query) { return _this._registerQuery(query).observable; });
-        return rxjs.combineLatest(observables).pipe(operators.map(function (breakpointStates) {
-            return {
-                matches: breakpointStates.some(function (state) { return state && state.matches; })
+        return rxjs.combineLatest(observables).pipe(operators.debounceTime(0, rxjs.asapScheduler), operators.map(function (breakpointStates) {
+            var response = {
+                matches: false,
+                breakpoints: {},
             };
+            breakpointStates.forEach(function (state) {
+                response.matches = response.matches || state.matches;
+                response.breakpoints[state.query] = state.matches;
+            });
+            return response;
         }));
     };
     /** Registers a specific query to be listened for. */
@@ -161,6 +167,7 @@ var BreakpointObserver = /** @class */ (function () {
             return this._queries.get(query); //tslint:disable-line
         }
         var mql = this.mediaMatcher.matchMedia(query);
+        var queryListener;
         // Create callback for match changes and add it is as a listener.
         var queryObservable = rxjs.fromEventPattern(
         // Listener callback methods are wrapped to be placed back in ngZone. Callbacks must be placed
@@ -169,10 +176,9 @@ var BreakpointObserver = /** @class */ (function () {
         // have MediaQueryList inherit from EventTarget, which causes inconsistencies in how Zone.js
         // patches it.
         function (listener) {
-            mql.addListener(function (e) { return _this.zone.run(function () { return listener(e); }); });
-        }, function (listener) {
-            mql.removeListener(function (e) { return _this.zone.run(function () { return listener(e); }); });
-        })
+            queryListener = function (e) { return _this.zone.run(function () { return listener(e); }); };
+            mql.addListener(queryListener);
+        }, function () { return mql.removeListener(queryListener); })
             .pipe(operators.takeUntil(this._destroySubject), operators.startWith(mql), operators.map(function (nextMql) { return ({ query: query, matches: nextMql.matches }); }));
         // Add the MediaQueryList to the set of queries.
         var output = { observable: queryObservable, mql: mql }; //tslint:disable-line

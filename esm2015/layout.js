@@ -8,8 +8,8 @@ import { __decorate, __metadata } from 'tslib';
 import { NgModule, Injectable, NgZone, defineInjectable, inject } from '@angular/core';
 import { Platform } from '@ptsecurity/cdk/platform';
 import { coerceArray } from '@ptsecurity/cdk/coercion';
-import { combineLatest, fromEventPattern, Subject } from 'rxjs';
-import { map, startWith, takeUntil } from 'rxjs/operators';
+import { asapScheduler, combineLatest, fromEventPattern, Subject } from 'rxjs';
+import { debounceTime, map, startWith, takeUntil } from 'rxjs/operators';
 
 let LayoutModule = class LayoutModule {
 };
@@ -116,10 +116,16 @@ let BreakpointObserver = class BreakpointObserver {
     observe(value) {
         const queries = splitQueries(coerceArray(value));
         const observables = queries.map((query) => this._registerQuery(query).observable);
-        return combineLatest(observables).pipe(map((breakpointStates) => {
-            return {
-                matches: breakpointStates.some((state) => state && state.matches)
+        return combineLatest(observables).pipe(debounceTime(0, asapScheduler), map((breakpointStates) => {
+            const response = {
+                matches: false,
+                breakpoints: {},
             };
+            breakpointStates.forEach((state) => {
+                response.matches = response.matches || state.matches;
+                response.breakpoints[state.query] = state.matches;
+            });
+            return response;
         }));
     }
     /** Registers a specific query to be listened for. */
@@ -129,6 +135,7 @@ let BreakpointObserver = class BreakpointObserver {
             return this._queries.get(query); //tslint:disable-line
         }
         const mql = this.mediaMatcher.matchMedia(query);
+        let queryListener;
         // Create callback for match changes and add it is as a listener.
         const queryObservable = fromEventPattern(
         // Listener callback methods are wrapped to be placed back in ngZone. Callbacks must be placed
@@ -137,10 +144,9 @@ let BreakpointObserver = class BreakpointObserver {
         // have MediaQueryList inherit from EventTarget, which causes inconsistencies in how Zone.js
         // patches it.
         (listener) => {
-            mql.addListener((e) => this.zone.run(() => listener(e)));
-        }, (listener) => {
-            mql.removeListener((e) => this.zone.run(() => listener(e)));
-        })
+            queryListener = (e) => this.zone.run(() => listener(e));
+            mql.addListener(queryListener);
+        }, () => mql.removeListener(queryListener))
             .pipe(takeUntil(this._destroySubject), startWith(mql), map((nextMql) => ({ query, matches: nextMql.matches })));
         // Add the MediaQueryList to the set of queries.
         const output = { observable: queryObservable, mql: mql }; //tslint:disable-line
