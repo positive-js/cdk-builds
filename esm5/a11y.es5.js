@@ -889,7 +889,7 @@ var A11yModule = /** @class */ (function () {
             declarations: [CdkMonitorFocus],
             exports: [CdkMonitorFocus],
             providers: [
-                FOCUS_MONITOR_PROVIDER,
+                FOCUS_MONITOR_PROVIDER
             ]
         })
     ], A11yModule);

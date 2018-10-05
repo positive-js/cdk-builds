@@ -150,7 +150,7 @@ var BreakpointObserver = /** @class */ (function () {
         return rxjs.combineLatest(observables).pipe(operators.debounceTime(0, rxjs.asapScheduler), operators.map(function (breakpointStates) {
             var response = {
                 matches: false,
-                breakpoints: {},
+                breakpoints: {}
             };
             breakpointStates.forEach(function (state) {
                 response.matches = response.matches || state.matches;

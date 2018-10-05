@@ -63,6 +63,7 @@ var ArrayDataSource = /** @class */ (function (_super) {
     ArrayDataSource.prototype.connect = function () {
         return this._data instanceof rxjs.Observable ? this._data : rxjs.of(this._data);
     };
+    // tslint:disable-next-line
     ArrayDataSource.prototype.disconnect = function () { };
     return ArrayDataSource;
 }(DataSource));

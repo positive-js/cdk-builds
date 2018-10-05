@@ -125,7 +125,7 @@ var BreakpointObserver = /** @class */ (function () {
         return combineLatest(observables).pipe(debounceTime(0, asapScheduler), map(function (breakpointStates) {
             var response = {
                 matches: false,
-                breakpoints: {},
+                breakpoints: {}
             };
             breakpointStates.forEach(function (state) {
                 response.matches = response.matches || state.matches;

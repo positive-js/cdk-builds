@@ -119,7 +119,7 @@ let BreakpointObserver = class BreakpointObserver {
         return combineLatest(observables).pipe(debounceTime(0, asapScheduler), map((breakpointStates) => {
             const response = {
                 matches: false,
-                breakpoints: {},
+                breakpoints: {}
             };
             breakpointStates.forEach((state) => {
                 response.matches = response.matches || state.matches;

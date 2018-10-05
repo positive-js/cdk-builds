@@ -25,6 +25,7 @@ var ArrayDataSource = /** @class */ (function (_super) {
     ArrayDataSource.prototype.connect = function () {
         return this._data instanceof Observable ? this._data : of(this._data);
     };
+    // tslint:disable-next-line
     ArrayDataSource.prototype.disconnect = function () { };
     return ArrayDataSource;
 }(DataSource));

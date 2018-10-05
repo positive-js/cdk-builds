@@ -20,6 +20,7 @@ class ArrayDataSource extends DataSource {
     connect() {
         return this._data instanceof Observable ? this._data : of(this._data);
     }
+    // tslint:disable-next-line
     disconnect() { }
 }
 
