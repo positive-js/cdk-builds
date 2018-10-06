@@ -1,6 +1,6 @@
 {
     "name": "@ptsecurity/cdk",
-    "version": "0.0.1-6bb0a40",
+    "version": "0.0.1-3bca363",
     "description": "Mosaic Component Development Kit",
     "main": "./bundles/cdk.umd.js",
     "module": "./esm5/cdk.es5.js",
@@ -27,6 +27,10 @@
     },
     "dependencies": {
         "tslib": "^1.7.1"
+    },
+    "schematics": "./schematics/collection.json",
+    "ng-update": {
+        "migrations": "./schematics/migration.json"
     },
     "sideEffects": false
 }
