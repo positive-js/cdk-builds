@@ -5,8 +5,16 @@ import { Subject } from 'rxjs';
 export declare class SelectionModel<T> {
     private _multiple;
     private _emitChanges;
+    /** Selected values. */
+    readonly selected: T[];
     /** Event emitted when the value has changed. */
-    onChange: Subject<SelectionChange<T>> | null;
+    changed: Subject<SelectionChange<T>>;
+    /**
+     * Event emitted when the value has changed.
+     * @deprecated Use `changed` instead.
+     * @breaking-change 8.0.0 To be changed to `changed`
+     */
+    onChange: Subject<SelectionChange<T>>;
     /** Currently-selected values. */
     private _selection;
     /** Keeps track of the deselected options that haven't been emitted by the change event. */
@@ -16,8 +24,6 @@ export declare class SelectionModel<T> {
     /** Cache for the array value of the selected items. */
     private _selected;
     constructor(_multiple?: boolean, initiallySelectedValues?: T[], _emitChanges?: boolean);
-    /** Selected values. */
-    readonly selected: T[];
     /**
      * Selects a value or an array of values.
      */
@@ -43,9 +49,17 @@ export declare class SelectionModel<T> {
      */
     isEmpty(): boolean;
     /**
+     * Determines whether the model has a value.
+     */
+    hasValue(): boolean;
+    /**
      * Sorts the selected values based on a predicate function.
      */
     sort(predicate?: (a: T, b: T) => number): void;
+    /**
+     * Gets whether multiple values can be selected.
+     */
+    isMultipleSelection(): boolean;
     /** Emits a change event and clears the records of selected and deselected values. */
     private _emitChangeEvent;
     /** Selects a value. */
@@ -64,23 +78,17 @@ export declare class SelectionModel<T> {
  * Event emitted when the value of a MatSelectionModel has changed.
  * @docs-private
  */
-export declare class SelectionChange<T> {
+export interface SelectionChange<T> {
     /** Model that dispatched the event. */
     source: SelectionModel<T>;
     /** Options that were added to the model. */
     added: T[];
     /** Options that were removed from the model. */
     removed: T[];
-    constructor(
-    /** Model that dispatched the event. */
-    source: SelectionModel<T>, 
-    /** Options that were added to the model. */
-    added: T[], 
-    /** Options that were removed from the model. */
-    removed: T[]);
 }
 /**
  * Returns an error that reports that multiple values are passed into a selection model
  * with a single value.
+ * @docs-private
  */
 export declare function getMultipleValuesInSingleSelectionError(): Error;

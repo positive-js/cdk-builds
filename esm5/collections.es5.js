@@ -41,7 +41,13 @@ var SelectionModel = /** @class */ (function () {
         this._multiple = _multiple;
         this._emitChanges = _emitChanges;
         /** Event emitted when the value has changed. */
-        this.onChange = this._emitChanges ? new Subject() : null;
+        this.changed = new Subject();
+        /**
+         * Event emitted when the value has changed.
+         * @deprecated Use `changed` instead.
+         * @breaking-change 8.0.0 To be changed to `changed`
+         */
+        this.onChange = this.changed;
         /** Currently-selected values. */
         this._selection = new Set();
         /** Keeps track of the deselected options that haven't been emitted by the change event. */
@@ -122,22 +128,35 @@ var SelectionModel = /** @class */ (function () {
         return this._selection.size === 0;
     };
     /**
+     * Determines whether the model has a value.
+     */
+    SelectionModel.prototype.hasValue = function () {
+        return !this.isEmpty();
+    };
+    /**
      * Sorts the selected values based on a predicate function.
      */
     SelectionModel.prototype.sort = function (predicate) {
-        if (this._multiple && this._selected) {
+        if (this._multiple && this.selected) {
             this._selected.sort(predicate);
         }
+    };
+    /**
+     * Gets whether multiple values can be selected.
+     */
+    SelectionModel.prototype.isMultipleSelection = function () {
+        return this._multiple;
     };
     /** Emits a change event and clears the records of selected and deselected values. */
     SelectionModel.prototype._emitChangeEvent = function () {
         // Clear the selected values so they can be re-cached.
         this._selected = null;
         if (this._selectedToEmit.length || this._deselectedToEmit.length) {
-            var eventData = new SelectionChange(this, this._selectedToEmit, this._deselectedToEmit);
-            if (this.onChange) {
-                this.onChange.next(eventData);
-            }
+            this.changed.next({
+                source: this,
+                added: this._selectedToEmit,
+                removed: this._deselectedToEmit
+            });
             this._deselectedToEmit = [];
             this._selectedToEmit = [];
         }
@@ -182,26 +201,9 @@ var SelectionModel = /** @class */ (function () {
     return SelectionModel;
 }());
 /**
- * Event emitted when the value of a MatSelectionModel has changed.
- * @docs-private
- */
-var SelectionChange = /** @class */ (function () {
-    function SelectionChange(
-    /** Model that dispatched the event. */
-    source, 
-    /** Options that were added to the model. */
-    added, 
-    /** Options that were removed from the model. */
-    removed) {
-        this.source = source;
-        this.added = added;
-        this.removed = removed;
-    }
-    return SelectionChange;
-}());
-/**
  * Returns an error that reports that multiple values are passed into a selection model
  * with a single value.
+ * @docs-private
  */
 function getMultipleValuesInSingleSelectionError() {
     return Error('Cannot pass multiple values into SelectionModel with single-value mode.');
@@ -258,5 +260,5 @@ var UniqueSelectionDispatcher = /** @class */ (function () {
  * Generated bundle index. Do not edit.
  */
 
-export { UniqueSelectionDispatcher, ArrayDataSource, DataSource, SelectionModel, SelectionChange, getMultipleValuesInSingleSelectionError };
+export { UniqueSelectionDispatcher, ArrayDataSource, DataSource, SelectionModel, getMultipleValuesInSingleSelectionError };
 //# sourceMappingURL=collections.es5.js.map
