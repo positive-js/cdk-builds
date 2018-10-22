@@ -4,11 +4,12 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
-import { __decorate, __metadata } from 'tslib';
-import { Injectable, NgZone, Directive, ElementRef, Optional, SkipSelf, NgModule, defineInjectable, inject } from '@angular/core';
-import { Platform, PlatformModule } from '@ptsecurity/cdk/platform';
+import { __decorate, __metadata, __param } from 'tslib';
+import { Injectable, NgZone, Directive, ElementRef, Optional, NgModule, SkipSelf, defineInjectable, inject } from '@angular/core';
+import { Platform, getRtlScrollAxisType, RtlScrollAxisType, supportsScrollBehavior, PlatformModule } from '@ptsecurity/cdk/platform';
 import { fromEvent, of, Subject, Observable, merge } from 'rxjs';
-import { auditTime, filter } from 'rxjs/operators';
+import { auditTime, filter, takeUntil } from 'rxjs/operators';
+import { Directionality, BidiModule } from '@ptsecurity/cdk/bidi';
 
 /** Time in ms to throttle the scrolling events by default. */
 const DEFAULT_SCROLL_TIME = 20;
@@ -17,9 +18,9 @@ const DEFAULT_SCROLL_TIME = 20;
  * Scrollable references emit a scrolled event.
  */
 let ScrollDispatcher = class ScrollDispatcher {
-    constructor(_ngZone, _platform) {
-        this._ngZone = _ngZone;
-        this._platform = _platform;
+    constructor(ngZone, platform) {
+        this.ngZone = ngZone;
+        this.platform = platform;
         /**
          * Map of all the scrollable references that are registered with the service and their
          * scroll event subscriptions.
@@ -30,7 +31,7 @@ let ScrollDispatcher = class ScrollDispatcher {
         /** Subject for notifying that a registered scrollable reference element has been scrolled. */
         this._scrolled = new Subject();
         /** Keeps track of the amount of subscriptions to `scrolled`. Used for cleaning up afterwards. */
-        this._scrolledCount = 0;
+        this.scrolledCount = 0;
     }
     /**
      * Registers a scrollable instance with the service and listens for its scrolled events. When the
@@ -64,27 +65,30 @@ let ScrollDispatcher = class ScrollDispatcher {
      * to run the callback using `NgZone.run`.
      */
     scrolled(auditTimeInMs = DEFAULT_SCROLL_TIME) {
-        return this._platform.isBrowser ? Observable.create((observer) => {
+        if (!this.platform.isBrowser) {
+            return of();
+        }
+        return Observable.create((observer) => {
             if (!this._globalSubscription) {
-                this._addGlobalListener();
+                this.addGlobalListener();
             }
             // In the case of a 0ms delay, use an observable without auditTime
             // since it does add a perceptible delay in processing overhead.
             const subscription = auditTimeInMs > 0 ?
                 this._scrolled.pipe(auditTime(auditTimeInMs)).subscribe(observer) :
                 this._scrolled.subscribe(observer);
-            this._scrolledCount++;
+            this.scrolledCount++;
             return () => {
                 subscription.unsubscribe();
-                this._scrolledCount--;
-                if (!this._scrolledCount) {
-                    this._removeGlobalListener();
+                this.scrolledCount--;
+                if (!this.scrolledCount) {
+                    this.removeGlobalListener();
                 }
             };
-        }) : of();
+        });
     }
     ngOnDestroy() {
-        this._removeGlobalListener();
+        this.removeGlobalListener();
         this.scrollContainers.forEach((_, container) => this.deregister(container));
         this._scrolled.complete();
     }
@@ -104,14 +108,14 @@ let ScrollDispatcher = class ScrollDispatcher {
     getAncestorScrollContainers(elementRef) {
         const scrollingContainers = [];
         this.scrollContainers.forEach((_subscription, scrollable) => {
-            if (this._scrollableContainsElement(scrollable, elementRef)) {
+            if (this.scrollableContainsElement(scrollable, elementRef)) {
                 scrollingContainers.push(scrollable);
             }
         });
         return scrollingContainers;
     }
     /** Returns true if the element is contained within the provided Scrollable. */
-    _scrollableContainsElement(scrollable, elementRef) {
+    scrollableContainsElement(scrollable, elementRef) {
         let element = elementRef.nativeElement;
         let scrollableElement = scrollable.getElementRef().nativeElement; //tslint:disable-line
         // Traverse through the element parents until we reach null, checking if any of the elements
@@ -124,13 +128,13 @@ let ScrollDispatcher = class ScrollDispatcher {
         return false;
     }
     /** Sets up the global scroll listeners. */
-    _addGlobalListener() {
-        this._globalSubscription = this._ngZone.runOutsideAngular(() => {
+    addGlobalListener() {
+        this._globalSubscription = this.ngZone.runOutsideAngular(() => {
             return fromEvent(window.document, 'scroll').subscribe(() => this._scrolled.next());
         });
     }
     /** Cleans up the global scroll listener. */
-    _removeGlobalListener() {
+    removeGlobalListener() {
         if (this._globalSubscription) {
             this._globalSubscription.unsubscribe();
             this._globalSubscription = null;
@@ -149,44 +153,178 @@ ScrollDispatcher = __decorate([
  * can be listened to through the service.
  */
 let CdkScrollable = class CdkScrollable {
-    constructor(_elementRef, _scroll, _ngZone) {
-        this._elementRef = _elementRef;
-        this._scroll = _scroll;
-        this._ngZone = _ngZone;
-        this._elementScrolled = new Subject();
-        this._scrollListener = (event) => this._elementScrolled.next(event);
+    constructor(elementRef, scrollDispatcher, ngZone, dir) {
+        this.elementRef = elementRef;
+        this.scrollDispatcher = scrollDispatcher;
+        this.ngZone = ngZone;
+        this.dir = dir;
+        this.destroyed = new Subject();
+        this._elementScrolled = Observable.create((observer) => this.ngZone.runOutsideAngular(() => fromEvent(this.elementRef.nativeElement, 'scroll').pipe(takeUntil(this.destroyed))
+            .subscribe(observer)));
     }
     ngOnInit() {
-        this._ngZone.runOutsideAngular(() => {
-            this.getElementRef().nativeElement.addEventListener('scroll', this._scrollListener);
-        });
-        this._scroll.register(this);
+        this.scrollDispatcher.register(this);
     }
     ngOnDestroy() {
-        this._scroll.deregister(this);
-        if (this._scrollListener) {
-            this.getElementRef().nativeElement.removeEventListener('scroll', this._scrollListener);
-        }
-        this._elementScrolled.complete();
+        this.scrollDispatcher.deregister(this);
+        this.destroyed.next();
+        this.destroyed.complete();
+    }
+    /** Returns observable that emits when a scroll event is fired on the host element. */
+    elementScrolled() {
+        return this._elementScrolled;
+    }
+    /** Gets the ElementRef for the viewport. */
+    getElementRef() {
+        return this.elementRef;
     }
     /**
-     * Returns observable that emits when a scroll event is fired on the host element.
+     * Scrolls to the specified offsets. This is a normalized version of the browser's native scrollTo
+     * method, since browsers are not consistent about what scrollLeft means in RTL. For this method
+     * left and right always refer to the left and right side of the scrolling container irrespective
+     * of the layout direction. start and end refer to left and right in an LTR context and vice-versa
+     * in an RTL context.
+     * @param options specified the offsets to scroll to.
      */
-    elementScrolled() {
-        return this._elementScrolled.asObservable();
+    scrollTo(options) {
+        const el = this.elementRef.nativeElement;
+        const isRtl = this.dir && this.dir.value == 'rtl';
+        // Rewrite start & end offsets as right or left offsets.
+        options.left = options.left == null ? (isRtl ? options.end : options.start) : options.left;
+        options.right = options.right == null ? (isRtl ? options.start : options.end) : options.right;
+        // Rewrite the bottom offset as a top offset.
+        if (options.bottom != null) {
+            options.top = el.scrollHeight - el.clientHeight - options.bottom;
+        }
+        // Rewrite the right offset as a left offset.
+        if (isRtl && getRtlScrollAxisType() != RtlScrollAxisType.NORMAL) {
+            if (options.left != null) {
+                options.right = el.scrollWidth - el.clientWidth - options.left;
+            }
+            if (getRtlScrollAxisType() == RtlScrollAxisType.INVERTED) {
+                options.left = options.right;
+            }
+            else if (getRtlScrollAxisType() == RtlScrollAxisType.NEGATED) {
+                options.left = options.right ? -options.right : options.right;
+            }
+        }
+        else {
+            if (options.right != null) {
+                options.left = el.scrollWidth - el.clientWidth - options.right;
+            }
+        }
+        this.applyScrollToOptions(options);
     }
-    getElementRef() {
-        return this._elementRef;
+    /**
+     * Measures the scroll offset relative to the specified edge of the viewport. This method can be
+     * used instead of directly checking scrollLeft or scrollTop, since browsers are not consistent
+     * about what scrollLeft means in RTL. The values returned by this method are normalized such that
+     * left and right always refer to the left and right side of the scrolling container irrespective
+     * of the layout direction. start and end refer to left and right in an LTR context and vice-versa
+     * in an RTL context.
+     * @param from The edge to measure from.
+     */
+    measureScrollOffset(from) {
+        const LEFT = 'left';
+        const RIGHT = 'right';
+        const el = this.elementRef.nativeElement;
+        if (from == 'top') {
+            return el.scrollTop;
+        }
+        if (from == 'bottom') {
+            return el.scrollHeight - el.clientHeight - el.scrollTop;
+        }
+        // Rewrite start & end as left or right offsets.
+        const isRtl = this.dir && this.dir.value == 'rtl';
+        if (from == 'start') {
+            from = isRtl ? RIGHT : LEFT;
+        }
+        else if (from == 'end') {
+            from = isRtl ? LEFT : RIGHT;
+        }
+        if (isRtl && getRtlScrollAxisType() == RtlScrollAxisType.INVERTED) {
+            // For INVERTED, scrollLeft is (scrollWidth - clientWidth) when scrolled all the way left and
+            // 0 when scrolled all the way right.
+            if (from == LEFT) {
+                return el.scrollWidth - el.clientWidth - el.scrollLeft;
+            }
+            else {
+                return el.scrollLeft;
+            }
+        }
+        else if (isRtl && getRtlScrollAxisType() == RtlScrollAxisType.NEGATED) {
+            // For NEGATED, scrollLeft is -(scrollWidth - clientWidth) when scrolled all the way left and
+            // 0 when scrolled all the way right.
+            if (from == LEFT) {
+                return el.scrollLeft + el.scrollWidth - el.clientWidth;
+            }
+            else {
+                return -el.scrollLeft;
+            }
+        }
+        else {
+            // For NORMAL, as well as non-RTL contexts, scrollLeft is 0 when scrolled all the way left and
+            // (scrollWidth - clientWidth) when scrolled all the way right.
+            if (from == LEFT) {
+                return el.scrollLeft;
+            }
+            else {
+                return el.scrollWidth - el.clientWidth - el.scrollLeft;
+            }
+        }
+    }
+    applyScrollToOptions(options) {
+        const el = this.elementRef.nativeElement;
+        if (supportsScrollBehavior()) {
+            el.scrollTo(options);
+        }
+        else {
+            if (options.top != null) {
+                el.scrollTop = options.top;
+            }
+            if (options.left != null) {
+                el.scrollLeft = options.left;
+            }
+        }
     }
 };
 CdkScrollable = __decorate([
     Directive({
         selector: '[cdk-scrollable], [cdkScrollable]'
     }),
+    __param(3, Optional()),
     __metadata("design:paramtypes", [ElementRef,
         ScrollDispatcher,
-        NgZone])
+        NgZone,
+        Directionality])
 ], CdkScrollable);
+
+let ScrollingModule = class ScrollingModule {
+};
+ScrollingModule = __decorate([
+    NgModule({
+        imports: [BidiModule, PlatformModule],
+        exports: [
+            BidiModule,
+            CdkScrollable
+        ],
+        declarations: [
+            CdkScrollable
+        ]
+    })
+], ScrollingModule);
+/**
+ * @deprecated
+ * @breaking-change
+ */
+let ScrollDispatchModule = class ScrollDispatchModule {
+};
+ScrollDispatchModule = __decorate([
+    NgModule({
+        imports: [ScrollingModule],
+        exports: [ScrollingModule]
+    })
+], ScrollDispatchModule);
 
 /** Time in ms to throttle the resize events by default. */
 const DEFAULT_RESIZE_TIME = 20;
@@ -197,10 +335,14 @@ const DEFAULT_RESIZE_TIME = 20;
 let ViewportRuler = class ViewportRuler {
     constructor(_platform, ngZone) {
         this._platform = _platform;
-        this._change = _platform.isBrowser ? ngZone.runOutsideAngular(() => {
-            return merge(fromEvent(window, 'resize'), fromEvent(window, 'orientationchange'));
-        }) : of();
-        this._invalidateCache = this.change().subscribe(() => this._updateViewportSize());
+        ngZone.runOutsideAngular(() => {
+            this._change = _platform.isBrowser ?
+                merge(fromEvent(window, 'resize'), fromEvent(window, 'orientationchange')) :
+                of();
+            // Note that we need to do the subscription inside `runOutsideAngular`
+            // since subscribing is what causes the event listener to be added.
+            this._invalidateCache = this.change().subscribe(() => this._updateViewportSize());
+        });
     }
     ngOnDestroy() {
         this._invalidateCache.unsubscribe();
@@ -252,7 +394,8 @@ let ViewportRuler = class ViewportRuler {
         // `scrollTop` and `scrollLeft` is inconsistent. However, using the bounding rect of
         // `document.documentElement` works consistently, where the `top` and `left` values will
         // equal negative the scroll position.
-        const documentRect = document.documentElement.getBoundingClientRect();
+        const documentElement = document.documentElement;
+        const documentRect = documentElement.getBoundingClientRect();
         const top = -documentRect.top || document.body.scrollTop || window.scrollY ||
             document.documentElement.scrollTop || 0;
         const left = -documentRect.left || document.body.scrollLeft || window.scrollX ||
@@ -278,7 +421,9 @@ ViewportRuler = __decorate([
     Injectable({ providedIn: 'root' }),
     __metadata("design:paramtypes", [Platform, NgZone])
 ], ViewportRuler);
-/** @docs-private @deprecated @deletion-target 7.0.0 */
+/** @docs-private
+ * @deprecated
+ */
 function VIEWPORT_RULER_PROVIDER_FACTORY(parentRuler, platform, ngZone) {
     return parentRuler || new ViewportRuler(platform, ngZone);
 }
@@ -290,19 +435,9 @@ const VIEWPORT_RULER_PROVIDER = {
     useFactory: VIEWPORT_RULER_PROVIDER_FACTORY
 };
 
-let ScrollDispatchModule = class ScrollDispatchModule {
-};
-ScrollDispatchModule = __decorate([
-    NgModule({
-        imports: [PlatformModule],
-        exports: [CdkScrollable],
-        declarations: [CdkScrollable]
-    })
-], ScrollDispatchModule);
-
 /**
  * Generated bundle index. Do not edit.
  */
 
-export { DEFAULT_SCROLL_TIME, ScrollDispatcher, CdkScrollable, DEFAULT_RESIZE_TIME, ViewportRuler, VIEWPORT_RULER_PROVIDER_FACTORY, VIEWPORT_RULER_PROVIDER, ScrollDispatchModule };
+export { DEFAULT_SCROLL_TIME, ScrollDispatcher, CdkScrollable, ScrollingModule, ScrollDispatchModule, DEFAULT_RESIZE_TIME, ViewportRuler, VIEWPORT_RULER_PROVIDER_FACTORY, VIEWPORT_RULER_PROVIDER };
 //# sourceMappingURL=scrolling.js.map

@@ -9,8 +9,8 @@ export declare const DEFAULT_SCROLL_TIME = 20;
  * Scrollable references emit a scrolled event.
  */
 export declare class ScrollDispatcher implements OnDestroy {
-    private _ngZone;
-    private _platform;
+    private ngZone;
+    private platform;
     /**
      * Map of all the scrollable references that are registered with the service and their
      * scroll event subscriptions.
@@ -21,8 +21,8 @@ export declare class ScrollDispatcher implements OnDestroy {
     /** Subject for notifying that a registered scrollable reference element has been scrolled. */
     private _scrolled;
     /** Keeps track of the amount of subscriptions to `scrolled`. Used for cleaning up afterwards. */
-    private _scrolledCount;
-    constructor(_ngZone: NgZone, _platform: Platform);
+    private scrolledCount;
+    constructor(ngZone: NgZone, platform: Platform);
     /**
      * Registers a scrollable instance with the service and listens for its scrolled events. When the
      * scrollable is scrolled, the service emits the event to its scrolled observable.
@@ -56,9 +56,9 @@ export declare class ScrollDispatcher implements OnDestroy {
     /** Returns all registered Scrollables that contain the provided element. */
     getAncestorScrollContainers(elementRef: ElementRef): CdkScrollable[];
     /** Returns true if the element is contained within the provided Scrollable. */
-    private _scrollableContainsElement;
+    private scrollableContainsElement;
     /** Sets up the global scroll listeners. */
-    private _addGlobalListener;
+    private addGlobalListener;
     /** Cleans up the global scroll listener. */
-    private _removeGlobalListener;
+    private removeGlobalListener;
 }
