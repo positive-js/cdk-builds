@@ -75,13 +75,10 @@ var Directionality = /** @class */ (function () {
         /** Stream that emits whenever the 'ltr' / 'rtl' state changes. */
         this.change = new core.EventEmitter();
         if (_document) {
-            // TODO: handle 'auto' value -
-            // We still need to account for dir="auto".
-            // It looks like HTMLElemenet.dir is also "auto" when that's set to the attribute,
-            // but getComputedStyle return either "ltr" or "rtl". avoiding getComputedStyle for now
             var bodyDir = _document.body ? _document.body.dir : null;
             var htmlDir = _document.documentElement ? _document.documentElement.dir : null;
-            this.value = (bodyDir || htmlDir || 'ltr');
+            var value = bodyDir || htmlDir;
+            this.value = (value === 'ltr' || value === 'rtl') ? value : 'ltr';
         }
     }
     Directionality.prototype.ngOnDestroy = function () {
@@ -105,10 +102,10 @@ var Directionality = /** @class */ (function () {
 var Dir = /** @class */ (function () {
     function Dir() {
         this._dir = 'ltr';
-        /** Event emitted when the direction changes. */
-        this.change = new core.EventEmitter();
         /** Whether the `value` has been set to its initial value. */
         this._isInitialized = false;
+        /** Event emitted when the direction changes. */
+        this.change = new core.EventEmitter();
     }
     Dir_1 = Dir;
     Object.defineProperty(Dir.prototype, "dir", {
@@ -116,9 +113,9 @@ var Dir = /** @class */ (function () {
         get: function () {
             return this._dir;
         },
-        set: function (v) {
+        set: function (value) {
             var old = this._dir;
-            this._dir = v;
+            this._dir = (value === 'ltr' || value === 'rtl') ? value : 'ltr';
             if (old !== this._dir && this._isInitialized) {
                 this.change.emit(this._dir);
             }
@@ -128,9 +125,7 @@ var Dir = /** @class */ (function () {
     });
     Object.defineProperty(Dir.prototype, "value", {
         /** Current layout direction of the element. */
-        get: function () {
-            return this.dir;
-        },
+        get: function () { return this.dir; },
         enumerable: true,
         configurable: true
     });

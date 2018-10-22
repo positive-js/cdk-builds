@@ -43,13 +43,10 @@ let Directionality = class Directionality {
         /** Stream that emits whenever the 'ltr' / 'rtl' state changes. */
         this.change = new EventEmitter();
         if (_document) {
-            // TODO: handle 'auto' value -
-            // We still need to account for dir="auto".
-            // It looks like HTMLElemenet.dir is also "auto" when that's set to the attribute,
-            // but getComputedStyle return either "ltr" or "rtl". avoiding getComputedStyle for now
             const bodyDir = _document.body ? _document.body.dir : null;
             const htmlDir = _document.documentElement ? _document.documentElement.dir : null;
-            this.value = (bodyDir || htmlDir || 'ltr');
+            const value = bodyDir || htmlDir;
+            this.value = (value === 'ltr' || value === 'rtl') ? value : 'ltr';
         }
     }
     ngOnDestroy() {
@@ -79,26 +76,24 @@ let Dir = Dir_1 = class Dir {
      */
     constructor() {
         this._dir = 'ltr';
-        /** Event emitted when the direction changes. */
-        this.change = new EventEmitter();
         /** Whether the `value` has been set to its initial value. */
         this._isInitialized = false;
+        /** Event emitted when the direction changes. */
+        this.change = new EventEmitter();
     }
     /** @docs-private */
     get dir() {
         return this._dir;
     }
-    set dir(v) {
+    set dir(value) {
         const old = this._dir;
-        this._dir = v;
+        this._dir = (value === 'ltr' || value === 'rtl') ? value : 'ltr';
         if (old !== this._dir && this._isInitialized) {
             this.change.emit(this._dir);
         }
     }
     /** Current layout direction of the element. */
-    get value() {
-        return this.dir;
-    }
+    get value() { return this.dir; }
     /** Initialize once default value has been set. */
     ngAfterContentInit() {
         this._isInitialized = true;

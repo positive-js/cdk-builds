@@ -8,14 +8,14 @@ import { Direction, Directionality } from './directionality';
  */
 export declare class Dir implements Directionality, AfterContentInit, OnDestroy {
     _dir: Direction;
+    /** Whether the `value` has been set to its initial value. */
+    private _isInitialized;
     /** Event emitted when the direction changes. */
     change: EventEmitter<Direction>;
     /** @docs-private */
     dir: Direction;
     /** Current layout direction of the element. */
     readonly value: Direction;
-    /** Whether the `value` has been set to its initial value. */
-    private _isInitialized;
     /** Initialize once default value has been set. */
     ngAfterContentInit(): void;
     ngOnDestroy(): void;

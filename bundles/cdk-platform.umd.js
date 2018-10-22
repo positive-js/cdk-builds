@@ -98,25 +98,15 @@ var Platform = /** @class */ (function () {
     return Platform;
 }());
 
-/** Cached result of whether the user's browser supports passive event listeners. */
-var supportsPassiveEvents;
-/**
- * Checks whether the user's browser supports passive event listeners.
- * See: https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
- */
-function supportsPassiveEventListeners() {
-    if (supportsPassiveEvents == null && typeof window !== 'undefined') {
-        try {
-            window.addEventListener('test', null, Object.defineProperty({}, 'passive', {
-                get: function () { return supportsPassiveEvents = true; }
-            }));
-        }
-        finally {
-            supportsPassiveEvents = supportsPassiveEvents || false;
-        }
+var PlatformModule = /** @class */ (function () {
+    function PlatformModule() {
     }
-    return supportsPassiveEvents;
-}
+    PlatformModule = __decorate([
+        core.NgModule()
+    ], PlatformModule);
+    return PlatformModule;
+}());
+
 /** Cached result Set of input types support by the current browser. */
 var supportedInputTypes;
 /** Types of `<input>` that *might* be supported. */
@@ -146,7 +136,7 @@ var candidateInputTypes = [
     'text',
     'time',
     'url',
-    'week',
+    'week'
 ];
 /** @returns The input types supported by this browser. */
 function getSupportedInputTypes() {
@@ -169,19 +159,111 @@ function getSupportedInputTypes() {
     return supportedInputTypes;
 }
 
-var PlatformModule = /** @class */ (function () {
-    function PlatformModule() {
+/** Cached result of whether the user's browser supports passive event listeners. */
+var supportsPassiveEvents;
+/**
+ * Checks whether the user's browser supports passive event listeners.
+ * See: https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+ */
+function supportsPassiveEventListeners() {
+    if (supportsPassiveEvents == null && typeof window !== 'undefined') {
+        try {
+            window.addEventListener('test', null, Object.defineProperty({}, 'passive', {
+                get: function () { return supportsPassiveEvents = true; }
+            }));
+        }
+        finally {
+            supportsPassiveEvents = supportsPassiveEvents || false;
+        }
     }
-    PlatformModule = __decorate([
-        core.NgModule()
-    ], PlatformModule);
-    return PlatformModule;
-}());
+    return supportsPassiveEvents;
+}
+/**
+ * Normalizes an `AddEventListener` object to something that can be passed
+ * to `addEventListener` on any browser, no matter whether it supports the
+ * `options` parameter.
+ * @param options Object to be normalized.
+ */
+function normalizePassiveListenerOptions(options) {
+    return supportsPassiveEventListeners() ? options : !!options.capture;
+}
+
+/** The possible ways the browser may handle the horizontal scroll axis in RTL languages. */
+
+(function (RtlScrollAxisType) {
+    /**
+     * scrollLeft is 0 when scrolled all the way left and (scrollWidth - clientWidth) when scrolled
+     * all the way right.
+     */
+    RtlScrollAxisType[RtlScrollAxisType["NORMAL"] = 0] = "NORMAL";
+    /**
+     * scrollLeft is -(scrollWidth - clientWidth) when scrolled all the way left and 0 when scrolled
+     * all the way right.
+     */
+    RtlScrollAxisType[RtlScrollAxisType["NEGATED"] = 1] = "NEGATED";
+    /**
+     * scrollLeft is (scrollWidth - clientWidth) when scrolled all the way left and 0 when scrolled
+     * all the way right.
+     */
+    RtlScrollAxisType[RtlScrollAxisType["INVERTED"] = 2] = "INVERTED";
+})(exports.RtlScrollAxisType || (exports.RtlScrollAxisType = {}));
+/** Cached result of the way the browser handles the horizontal scroll axis in RTL mode. */
+var rtlScrollAxisType;
+/** Check whether the browser supports scroll behaviors. */
+function supportsScrollBehavior() {
+    return !!(typeof document == 'object' && 'scrollBehavior' in document.documentElement.style);
+}
+/**
+ * Checks the type of RTL scroll axis used by this browser. As of time of writing, Chrome is NORMAL,
+ * Firefox & Safari are NEGATED, and IE & Edge are INVERTED.
+ */
+function getRtlScrollAxisType() {
+    // We can't check unless we're on the browser. Just assume 'normal' if we're not.
+    if (typeof document !== 'object' || !document) {
+        return exports.RtlScrollAxisType.NORMAL;
+    }
+    if (!rtlScrollAxisType) {
+        // Create a 1px wide scrolling container and a 2px wide content element.
+        var scrollContainer = document.createElement('div');
+        var containerStyle = scrollContainer.style;
+        scrollContainer.dir = 'rtl';
+        containerStyle.height = '1px';
+        containerStyle.width = '1px';
+        containerStyle.overflow = 'auto';
+        containerStyle.visibility = 'hidden';
+        containerStyle.pointerEvents = 'none';
+        containerStyle.position = 'absolute';
+        var content = document.createElement('div');
+        var contentStyle = content.style;
+        contentStyle.width = '2px';
+        contentStyle.height = '1px';
+        scrollContainer.appendChild(content);
+        document.body.appendChild(scrollContainer);
+        rtlScrollAxisType = exports.RtlScrollAxisType.NORMAL;
+        // The viewport starts scrolled all the way to the right in RTL mode. If we are in a NORMAL
+        // browser this would mean that the scrollLeft should be 1. If it's zero instead we know we're
+        // dealing with one of the other two types of browsers.
+        if (scrollContainer.scrollLeft === 0) {
+            // In a NEGATED browser the scrollLeft is always somewhere in [-maxScrollAmount, 0]. For an
+            // INVERTED browser it is always somewhere in [0, maxScrollAmount]. We can determine which by
+            // setting to the scrollLeft to 1. This is past the max for a NEGATED browser, so it will
+            // return 0 when we read it again.
+            scrollContainer.scrollLeft = 1;
+            rtlScrollAxisType =
+                scrollContainer.scrollLeft === 0 ? exports.RtlScrollAxisType.NEGATED : exports.RtlScrollAxisType.INVERTED;
+        }
+        scrollContainer.parentNode.removeChild(scrollContainer);
+    }
+    return rtlScrollAxisType;
+}
 
 exports.Platform = Platform;
-exports.supportsPassiveEventListeners = supportsPassiveEventListeners;
-exports.getSupportedInputTypes = getSupportedInputTypes;
 exports.PlatformModule = PlatformModule;
+exports.getSupportedInputTypes = getSupportedInputTypes;
+exports.supportsPassiveEventListeners = supportsPassiveEventListeners;
+exports.normalizePassiveListenerOptions = normalizePassiveListenerOptions;
+exports.supportsScrollBehavior = supportsScrollBehavior;
+exports.getRtlScrollAxisType = getRtlScrollAxisType;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
