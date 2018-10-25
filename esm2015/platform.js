@@ -68,7 +68,7 @@ Platform = __decorate([
 let PlatformModule = class PlatformModule {
 };
 PlatformModule = __decorate([
-    NgModule()
+    NgModule({})
 ], PlatformModule);
 
 /** Cached result Set of input types support by the current browser. */

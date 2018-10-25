@@ -102,7 +102,7 @@ var PlatformModule = /** @class */ (function () {
     function PlatformModule() {
     }
     PlatformModule = __decorate([
-        core.NgModule()
+        core.NgModule({})
     ], PlatformModule);
     return PlatformModule;
 }());
