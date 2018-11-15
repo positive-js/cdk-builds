@@ -316,7 +316,7 @@ var CdkTreeNode = /** @class */ (function () {
         this._destroyed.next();
         this._destroyed.complete();
     };
-    /** Focuses the menu item. Implements for IFocusableOption. */
+    /** Focuses the dropdown item. Implements for IFocusableOption. */
     CdkTreeNode.prototype.focus = function () {
         this._elementRef.nativeElement.focus();
     };

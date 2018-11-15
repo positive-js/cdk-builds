@@ -245,7 +245,7 @@ let CdkTreeNode = CdkTreeNode_1 = class CdkTreeNode {
         this._destroyed.next();
         this._destroyed.complete();
     }
-    /** Focuses the menu item. Implements for IFocusableOption. */
+    /** Focuses the dropdown item. Implements for IFocusableOption. */
     focus() {
         this._elementRef.nativeElement.focus();
     }

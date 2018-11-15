@@ -30,7 +30,7 @@ export declare class CdkTreeNode<T> implements IFocusableOption, OnDestroy {
     readonly level: number;
     constructor(_elementRef: ElementRef, _tree: CdkTree<T>);
     ngOnDestroy(): void;
-    /** Focuses the menu item. Implements for IFocusableOption. */
+    /** Focuses the dropdown item. Implements for IFocusableOption. */
     focus(): void;
     private _setRoleFromData;
 }
