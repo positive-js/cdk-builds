@@ -19,7 +19,7 @@ function addPackageToPackageJson(host, pkg, version) {
             json.dependencies[pkg] = version;
             json.dependencies = sortObjectByKeys(json.dependencies);
         }
-        host.overwrite('package.json', JSON.stringify(json, null, 2));
+        host.overwrite('package.json', JSON.stringify(json, null, 4));
     }
     return host;
 }

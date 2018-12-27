@@ -1,8 +1,8 @@
 {
-  "name": "@ptsecurity/cdk/tree",
-  "typings": "../tree.d.ts",
-  "main": "../bundles/cdk-tree.umd.js",
-  "module": "../esm5/tree.es5.js",
-  "es2015": "../esm2015/tree.js",
-  "sideEffects": false
+    "name": "@ptsecurity/cdk/tree",
+    "typings": "../tree.d.ts",
+    "main": "../bundles/cdk-tree.umd.js",
+    "module": "../esm5/tree.es5.js",
+    "es2015": "../esm2015/tree.js",
+    "sideEffects": false
 }
