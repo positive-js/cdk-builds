@@ -93,7 +93,7 @@ function buildSelector(options, projectPrefix) {
  * include the additional files.
  */
 function indentTextContent(text, numSpaces) {
-    // In the Material project there should be only LF line-endings, but the schematic files
+    // In the project there should be only LF line-endings, but the schematic files
     // are not being linted and therefore there can be also CRLF or just CR line-endings.
     return text.replace(/(\r\n|\r|\n)/g, `$1${' '.repeat(numSpaces)}`);
 }
