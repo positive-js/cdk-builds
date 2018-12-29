@@ -5,7 +5,7 @@ const package_config_1 = require("./package-config");
 exports.cdkVersion = loadPackageVersionGracefully('@ptsecurity/cdk');
 /**
  * Schematic factory entry-point for the `ng-add` schematic. The ng-add schematic will be
- * automatically executed if developers run `ng add @angular/cdk`.
+ * automatically executed if developers run `ng add @ptsecurity/cdk`.
  */
 function default_1() {
     return (host) => {
