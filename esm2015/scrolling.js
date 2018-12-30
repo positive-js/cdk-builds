@@ -4,14 +4,204 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
+import { InjectionToken, Directive, forwardRef, Input, Injectable, NgZone, ElementRef, Optional, NgModule, IterableDiffers, SkipSelf, TemplateRef, ViewContainerRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Output, ViewChild, ViewEncapsulation, defineInjectable, inject } from '@angular/core';
 import { __decorate, __metadata, __param } from 'tslib';
-import { Injectable, NgZone, Directive, ElementRef, Optional, NgModule, forwardRef, Input, InjectionToken, IterableDiffers, SkipSelf, TemplateRef, ViewContainerRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Output, ViewChild, ViewEncapsulation, defineInjectable, inject } from '@angular/core';
-import { Platform, getRtlScrollAxisType, RtlScrollAxisType, supportsScrollBehavior, PlatformModule } from '@ptsecurity/cdk/platform';
-import { fromEvent, of, Subject, Observable, animationFrameScheduler, merge } from 'rxjs';
-import { auditTime, filter, takeUntil, distinctUntilChanged, startWith, pairwise, shareReplay, switchMap } from 'rxjs/operators';
-import { Directionality, BidiModule } from '@ptsecurity/cdk/bidi';
 import { coerceNumberProperty } from '@ptsecurity/cdk/coercion';
+import { Subject, fromEvent, of, Observable, animationFrameScheduler, merge } from 'rxjs';
+import { distinctUntilChanged, auditTime, filter, takeUntil, startWith, pairwise, shareReplay, switchMap } from 'rxjs/operators';
+import { Platform, getRtlScrollAxisType, RtlScrollAxisType, supportsScrollBehavior, PlatformModule } from '@ptsecurity/cdk/platform';
+import { Directionality, BidiModule } from '@ptsecurity/cdk/bidi';
 import { ArrayDataSource, DataSource } from '@ptsecurity/cdk/collections';
+
+/** The injection token used to specify the virtual scrolling strategy. */
+const VIRTUAL_SCROLL_STRATEGY = new InjectionToken('VIRTUAL_SCROLL_STRATEGY');
+
+var CdkFixedSizeVirtualScroll_1;
+/** Virtual scrolling strategy for lists with items of known fixed size. */
+class FixedSizeVirtualScrollStrategy {
+    /**
+     * @param itemSize The size of the items in the virtually scrolling list.
+     * @param minBufferPx The minimum amount of buffer (in pixels) before needing to render more
+     * @param maxBufferPx The amount of buffer (in pixels) to render when rendering more.
+     */
+    constructor(itemSize, minBufferPx, maxBufferPx) {
+        this._scrolledIndexChange = new Subject();
+        /** @docs-private Implemented as part of VirtualScrollStrategy. */
+        this.scrolledIndexChange = this._scrolledIndexChange.pipe(distinctUntilChanged());
+        /** The attached viewport. */
+        this._viewport = null;
+        this._itemSize = itemSize;
+        this._minBufferPx = minBufferPx;
+        this._maxBufferPx = maxBufferPx;
+    }
+    /**
+     * Attaches this scroll strategy to a viewport.
+     * @param viewport The viewport to attach this strategy to.
+     */
+    attach(viewport) {
+        this._viewport = viewport;
+        this._updateTotalContentSize();
+        this._updateRenderedRange();
+    }
+    /** Detaches this scroll strategy from the currently attached viewport. */
+    detach() {
+        this._scrolledIndexChange.complete();
+        this._viewport = null;
+    }
+    /**
+     * Update the item size and buffer size.
+     * @param itemSize The size of the items in the virtually scrolling list.
+     * @param minBufferPx The minimum amount of buffer (in pixels) before needing to render more
+     * @param maxBufferPx The amount of buffer (in pixels) to render when rendering more.
+     */
+    updateItemAndBufferSize(itemSize, minBufferPx, maxBufferPx) {
+        if (maxBufferPx < minBufferPx) {
+            throw Error('CDK virtual scroll: maxBufferPx must be greater than or equal to minBufferPx');
+        }
+        this._itemSize = itemSize;
+        this._minBufferPx = minBufferPx;
+        this._maxBufferPx = maxBufferPx;
+        this._updateTotalContentSize();
+        this._updateRenderedRange();
+    }
+    /** @docs-private Implemented as part of VirtualScrollStrategy. */
+    onContentScrolled() {
+        this._updateRenderedRange();
+    }
+    /** @docs-private Implemented as part of VirtualScrollStrategy. */
+    onDataLengthChanged() {
+        this._updateTotalContentSize();
+        this._updateRenderedRange();
+    }
+    /** @docs-private Implemented as part of VirtualScrollStrategy. */
+    onContentRendered() {
+    }
+    /** @docs-private Implemented as part of VirtualScrollStrategy. */
+    onRenderedOffsetChanged() {
+    }
+    /**
+     * Scroll to the offset for the given index.
+     * @param index The index of the element to scroll to.
+     * @param behavior The ScrollBehavior to use when scrolling.
+     */
+    scrollToIndex(index, behavior) {
+        if (this._viewport) {
+            this._viewport.scrollToOffset(index * this._itemSize, behavior);
+        }
+    }
+    /** Update the viewport's total content size. */
+    _updateTotalContentSize() {
+        if (!this._viewport) {
+            return;
+        }
+        this._viewport.setTotalContentSize(this._viewport.getDataLength() * this._itemSize);
+    }
+    /** Update the viewport's rendered range. */
+    _updateRenderedRange() {
+        if (!this._viewport) {
+            return;
+        }
+        const scrollOffset = this._viewport.measureScrollOffset();
+        const firstVisibleIndex = scrollOffset / this._itemSize;
+        const renderedRange = this._viewport.getRenderedRange();
+        const newRange = { start: renderedRange.start, end: renderedRange.end };
+        const viewportSize = this._viewport.getViewportSize();
+        const dataLength = this._viewport.getDataLength();
+        const startBuffer = scrollOffset - newRange.start * this._itemSize;
+        if (startBuffer < this._minBufferPx && newRange.start != 0) {
+            const expandStart = Math.ceil((this._maxBufferPx - startBuffer) / this._itemSize);
+            newRange.start = Math.max(0, newRange.start - expandStart);
+            newRange.end = Math.min(dataLength, Math.ceil(firstVisibleIndex + (viewportSize + this._minBufferPx) / this._itemSize));
+        }
+        else {
+            const endBuffer = newRange.end * this._itemSize - (scrollOffset + viewportSize);
+            if (endBuffer < this._minBufferPx && newRange.end != dataLength) {
+                const expandEnd = Math.ceil((this._maxBufferPx - endBuffer) / this._itemSize);
+                if (expandEnd > 0) {
+                    newRange.end = Math.min(dataLength, newRange.end + expandEnd);
+                    newRange.start = Math.max(0, Math.floor(firstVisibleIndex - this._minBufferPx / this._itemSize));
+                }
+            }
+        }
+        this._viewport.setRenderedRange(newRange);
+        this._viewport.setRenderedContentOffset(this._itemSize * newRange.start);
+        this._scrolledIndexChange.next(Math.floor(firstVisibleIndex));
+    }
+}
+/**
+ * Provider factory for `FixedSizeVirtualScrollStrategy` that simply extracts the already created
+ * `FixedSizeVirtualScrollStrategy` from the given directive.
+ * @param fixedSizeDir The instance of `CdkFixedSizeVirtualScroll` to extract the
+ *     `FixedSizeVirtualScrollStrategy` from.
+ */
+function _fixedSizeVirtualScrollStrategyFactory(fixedSizeDir) {
+    return fixedSizeDir._scrollStrategy;
+}
+/** A virtual scroll strategy that supports fixed-size items. */
+let CdkFixedSizeVirtualScroll = CdkFixedSizeVirtualScroll_1 = class CdkFixedSizeVirtualScroll {
+    /** A virtual scroll strategy that supports fixed-size items. */
+    constructor() {
+        this._itemSize = 20;
+        this._minBufferPx = 100;
+        this._maxBufferPx = 200;
+        /** The scroll strategy used by this directive. */
+        this._scrollStrategy = new FixedSizeVirtualScrollStrategy(this.itemSize, this.minBufferPx, this.maxBufferPx);
+    }
+    /** The size of the items in the list (in pixels). */
+    get itemSize() {
+        return this._itemSize;
+    }
+    set itemSize(value) {
+        this._itemSize = coerceNumberProperty(value);
+    }
+    /**
+     * The minimum amount of buffer rendered beyond the viewport (in pixels).
+     * If the amount of buffer dips below this number, more items will be rendered. Defaults to 100px.
+     */
+    get minBufferPx() {
+        return this._minBufferPx;
+    }
+    set minBufferPx(value) {
+        this._minBufferPx = coerceNumberProperty(value);
+    }
+    /**
+     * The number of pixels worth of buffer to render for when rendering new items. Defaults to 200px.
+     */
+    get maxBufferPx() {
+        return this._maxBufferPx;
+    }
+    set maxBufferPx(value) {
+        this._maxBufferPx = coerceNumberProperty(value);
+    }
+    ngOnChanges() {
+        this._scrollStrategy.updateItemAndBufferSize(this.itemSize, this.minBufferPx, this.maxBufferPx);
+    }
+};
+__decorate([
+    Input(),
+    __metadata("design:type", Number),
+    __metadata("design:paramtypes", [Number])
+], CdkFixedSizeVirtualScroll.prototype, "itemSize", null);
+__decorate([
+    Input(),
+    __metadata("design:type", Number),
+    __metadata("design:paramtypes", [Number])
+], CdkFixedSizeVirtualScroll.prototype, "minBufferPx", null);
+__decorate([
+    Input(),
+    __metadata("design:type", Number),
+    __metadata("design:paramtypes", [Number])
+], CdkFixedSizeVirtualScroll.prototype, "maxBufferPx", null);
+CdkFixedSizeVirtualScroll = CdkFixedSizeVirtualScroll_1 = __decorate([
+    Directive({
+        selector: 'cdk-virtual-scroll-viewport[itemSize]',
+        providers: [{
+                provide: VIRTUAL_SCROLL_STRATEGY,
+                useFactory: _fixedSizeVirtualScrollStrategyFactory,
+                deps: [forwardRef(() => CdkFixedSizeVirtualScroll_1)]
+            }]
+    })
+], CdkFixedSizeVirtualScroll);
 
 /** Time in ms to throttle the scrolling events by default. */
 const DEFAULT_SCROLL_TIME = 20;
@@ -301,196 +491,6 @@ CdkScrollable = __decorate([
         NgZone,
         Directionality])
 ], CdkScrollable);
-
-/** The injection token used to specify the virtual scrolling strategy. */
-const VIRTUAL_SCROLL_STRATEGY = new InjectionToken('VIRTUAL_SCROLL_STRATEGY');
-
-var CdkFixedSizeVirtualScroll_1;
-/** Virtual scrolling strategy for lists with items of known fixed size. */
-class FixedSizeVirtualScrollStrategy {
-    /**
-     * @param itemSize The size of the items in the virtually scrolling list.
-     * @param minBufferPx The minimum amount of buffer (in pixels) before needing to render more
-     * @param maxBufferPx The amount of buffer (in pixels) to render when rendering more.
-     */
-    constructor(itemSize, minBufferPx, maxBufferPx) {
-        this._scrolledIndexChange = new Subject();
-        /** @docs-private Implemented as part of VirtualScrollStrategy. */
-        this.scrolledIndexChange = this._scrolledIndexChange.pipe(distinctUntilChanged());
-        /** The attached viewport. */
-        this._viewport = null;
-        this._itemSize = itemSize;
-        this._minBufferPx = minBufferPx;
-        this._maxBufferPx = maxBufferPx;
-    }
-    /**
-     * Attaches this scroll strategy to a viewport.
-     * @param viewport The viewport to attach this strategy to.
-     */
-    attach(viewport) {
-        this._viewport = viewport;
-        this._updateTotalContentSize();
-        this._updateRenderedRange();
-    }
-    /** Detaches this scroll strategy from the currently attached viewport. */
-    detach() {
-        this._scrolledIndexChange.complete();
-        this._viewport = null;
-    }
-    /**
-     * Update the item size and buffer size.
-     * @param itemSize The size of the items in the virtually scrolling list.
-     * @param minBufferPx The minimum amount of buffer (in pixels) before needing to render more
-     * @param maxBufferPx The amount of buffer (in pixels) to render when rendering more.
-     */
-    updateItemAndBufferSize(itemSize, minBufferPx, maxBufferPx) {
-        if (maxBufferPx < minBufferPx) {
-            throw Error('CDK virtual scroll: maxBufferPx must be greater than or equal to minBufferPx');
-        }
-        this._itemSize = itemSize;
-        this._minBufferPx = minBufferPx;
-        this._maxBufferPx = maxBufferPx;
-        this._updateTotalContentSize();
-        this._updateRenderedRange();
-    }
-    /** @docs-private Implemented as part of VirtualScrollStrategy. */
-    onContentScrolled() {
-        this._updateRenderedRange();
-    }
-    /** @docs-private Implemented as part of VirtualScrollStrategy. */
-    onDataLengthChanged() {
-        this._updateTotalContentSize();
-        this._updateRenderedRange();
-    }
-    /** @docs-private Implemented as part of VirtualScrollStrategy. */
-    onContentRendered() {
-    }
-    /** @docs-private Implemented as part of VirtualScrollStrategy. */
-    onRenderedOffsetChanged() {
-    }
-    /**
-     * Scroll to the offset for the given index.
-     * @param index The index of the element to scroll to.
-     * @param behavior The ScrollBehavior to use when scrolling.
-     */
-    scrollToIndex(index, behavior) {
-        if (this._viewport) {
-            this._viewport.scrollToOffset(index * this._itemSize, behavior);
-        }
-    }
-    /** Update the viewport's total content size. */
-    _updateTotalContentSize() {
-        if (!this._viewport) {
-            return;
-        }
-        this._viewport.setTotalContentSize(this._viewport.getDataLength() * this._itemSize);
-    }
-    /** Update the viewport's rendered range. */
-    _updateRenderedRange() {
-        if (!this._viewport) {
-            return;
-        }
-        const scrollOffset = this._viewport.measureScrollOffset();
-        const firstVisibleIndex = scrollOffset / this._itemSize;
-        const renderedRange = this._viewport.getRenderedRange();
-        const newRange = { start: renderedRange.start, end: renderedRange.end };
-        const viewportSize = this._viewport.getViewportSize();
-        const dataLength = this._viewport.getDataLength();
-        const startBuffer = scrollOffset - newRange.start * this._itemSize;
-        if (startBuffer < this._minBufferPx && newRange.start != 0) {
-            const expandStart = Math.ceil((this._maxBufferPx - startBuffer) / this._itemSize);
-            newRange.start = Math.max(0, newRange.start - expandStart);
-            newRange.end = Math.min(dataLength, Math.ceil(firstVisibleIndex + (viewportSize + this._minBufferPx) / this._itemSize));
-        }
-        else {
-            const endBuffer = newRange.end * this._itemSize - (scrollOffset + viewportSize);
-            if (endBuffer < this._minBufferPx && newRange.end != dataLength) {
-                const expandEnd = Math.ceil((this._maxBufferPx - endBuffer) / this._itemSize);
-                if (expandEnd > 0) {
-                    newRange.end = Math.min(dataLength, newRange.end + expandEnd);
-                    newRange.start = Math.max(0, Math.floor(firstVisibleIndex - this._minBufferPx / this._itemSize));
-                }
-            }
-        }
-        this._viewport.setRenderedRange(newRange);
-        this._viewport.setRenderedContentOffset(this._itemSize * newRange.start);
-        this._scrolledIndexChange.next(Math.floor(firstVisibleIndex));
-    }
-}
-/**
- * Provider factory for `FixedSizeVirtualScrollStrategy` that simply extracts the already created
- * `FixedSizeVirtualScrollStrategy` from the given directive.
- * @param fixedSizeDir The instance of `CdkFixedSizeVirtualScroll` to extract the
- *     `FixedSizeVirtualScrollStrategy` from.
- */
-function _fixedSizeVirtualScrollStrategyFactory(fixedSizeDir) {
-    return fixedSizeDir._scrollStrategy;
-}
-/** A virtual scroll strategy that supports fixed-size items. */
-let CdkFixedSizeVirtualScroll = CdkFixedSizeVirtualScroll_1 = class CdkFixedSizeVirtualScroll {
-    /** A virtual scroll strategy that supports fixed-size items. */
-    constructor() {
-        this._itemSize = 20;
-        this._minBufferPx = 100;
-        this._maxBufferPx = 200;
-        /** The scroll strategy used by this directive. */
-        this._scrollStrategy = new FixedSizeVirtualScrollStrategy(this.itemSize, this.minBufferPx, this.maxBufferPx);
-    }
-    /** The size of the items in the list (in pixels). */
-    get itemSize() {
-        return this._itemSize;
-    }
-    set itemSize(value) {
-        this._itemSize = coerceNumberProperty(value);
-    }
-    /**
-     * The minimum amount of buffer rendered beyond the viewport (in pixels).
-     * If the amount of buffer dips below this number, more items will be rendered. Defaults to 100px.
-     */
-    get minBufferPx() {
-        return this._minBufferPx;
-    }
-    set minBufferPx(value) {
-        this._minBufferPx = coerceNumberProperty(value);
-    }
-    /**
-     * The number of pixels worth of buffer to render for when rendering new items. Defaults to 200px.
-     */
-    get maxBufferPx() {
-        return this._maxBufferPx;
-    }
-    set maxBufferPx(value) {
-        this._maxBufferPx = coerceNumberProperty(value);
-    }
-    ngOnChanges() {
-        this._scrollStrategy.updateItemAndBufferSize(this.itemSize, this.minBufferPx, this.maxBufferPx);
-    }
-};
-__decorate([
-    Input(),
-    __metadata("design:type", Number),
-    __metadata("design:paramtypes", [Number])
-], CdkFixedSizeVirtualScroll.prototype, "itemSize", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Number),
-    __metadata("design:paramtypes", [Number])
-], CdkFixedSizeVirtualScroll.prototype, "minBufferPx", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Number),
-    __metadata("design:paramtypes", [Number])
-], CdkFixedSizeVirtualScroll.prototype, "maxBufferPx", null);
-CdkFixedSizeVirtualScroll = CdkFixedSizeVirtualScroll_1 = __decorate([
-    Directive({
-        selector: 'cdk-virtual-scroll-viewport[itemSize]',
-        providers: [{
-                provide: VIRTUAL_SCROLL_STRATEGY,
-                useFactory: _fixedSizeVirtualScrollStrategyFactory,
-                deps: [forwardRef(() => CdkFixedSizeVirtualScroll_1)]
-            }]
-    })
-], CdkFixedSizeVirtualScroll);
 
 var CdkVirtualScrollViewport_1;
 /** Checks if the given ranges are equal. */
@@ -1244,5 +1244,5 @@ const VIEWPORT_RULER_PROVIDER = {
  * Generated bundle index. Do not edit.
  */
 
-export { CdkFixedSizeVirtualScroll as ɵb, _fixedSizeVirtualScrollStrategyFactory as ɵa, DEFAULT_SCROLL_TIME, ScrollDispatcher, CdkScrollable, ScrollingModule, ScrollDispatchModule, DEFAULT_RESIZE_TIME, ViewportRuler, VIEWPORT_RULER_PROVIDER_FACTORY, VIEWPORT_RULER_PROVIDER, CdkVirtualForOf, VIRTUAL_SCROLL_STRATEGY, CdkVirtualScrollViewport };
+export { FixedSizeVirtualScrollStrategy, _fixedSizeVirtualScrollStrategyFactory, CdkFixedSizeVirtualScroll, DEFAULT_SCROLL_TIME, ScrollDispatcher, CdkScrollable, ScrollingModule, ScrollDispatchModule, DEFAULT_RESIZE_TIME, ViewportRuler, VIEWPORT_RULER_PROVIDER_FACTORY, VIEWPORT_RULER_PROVIDER, CdkVirtualForOf, VIRTUAL_SCROLL_STRATEGY, CdkVirtualScrollViewport };
 //# sourceMappingURL=scrolling.js.map
