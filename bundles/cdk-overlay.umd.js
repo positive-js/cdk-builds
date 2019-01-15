@@ -887,7 +887,7 @@ var FlexibleConnectedPositionStrategy = /** @class */ (function () {
         /** Ordered list of preferred positions, from most to least desirable. */
         this._preferredPositions = [];
         /** Observable sequence of position changes. */
-        this.positionChanges = rxjs.Observable.create(function (observer) {
+        this.positionChanges = new rxjs.Observable(function (observer) {
             var subscription = _this._positionChanges.subscribe(observer);
             _this._positionChangeSubscriptions++;
             return function () {

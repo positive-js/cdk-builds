@@ -839,7 +839,7 @@ var FlexibleConnectedPositionStrategy = /** @class */ (function () {
         /** Ordered list of preferred positions, from most to least desirable. */
         this._preferredPositions = [];
         /** Observable sequence of position changes. */
-        this.positionChanges = Observable.create(function (observer) {
+        this.positionChanges = new Observable(function (observer) {
             var subscription = _this._positionChanges.subscribe(observer);
             _this._positionChangeSubscriptions++;
             return function () {

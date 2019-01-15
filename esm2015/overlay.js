@@ -801,7 +801,7 @@ class FlexibleConnectedPositionStrategy {
         /** Ordered list of preferred positions, from most to least desirable. */
         this._preferredPositions = [];
         /** Observable sequence of position changes. */
-        this.positionChanges = Observable.create((observer) => {
+        this.positionChanges = new Observable((observer) => {
             const subscription = this._positionChanges.subscribe(observer);
             this._positionChangeSubscriptions++;
             return () => {

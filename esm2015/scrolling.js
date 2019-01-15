@@ -261,7 +261,7 @@ let ScrollDispatcher = class ScrollDispatcher {
         if (!this.platform.isBrowser) {
             return of();
         }
-        return Observable.create((observer) => {
+        return new Observable((observer) => {
             if (!this._globalSubscription) {
                 this.addGlobalListener();
             }
@@ -352,7 +352,7 @@ let CdkScrollable = class CdkScrollable {
         this.ngZone = ngZone;
         this.dir = dir;
         this.destroyed = new Subject();
-        this._elementScrolled = Observable.create((observer) => this.ngZone.runOutsideAngular(() => fromEvent(this.elementRef.nativeElement, 'scroll').pipe(takeUntil(this.destroyed))
+        this._elementScrolled = new Observable((observer) => this.ngZone.runOutsideAngular(() => fromEvent(this.elementRef.nativeElement, 'scroll').pipe(takeUntil(this.destroyed))
             .subscribe(observer)));
     }
     ngOnInit() {
@@ -511,7 +511,7 @@ let CdkVirtualScrollViewport = CdkVirtualScrollViewport_1 = class CdkVirtualScro
         // depending on how the strategy calculates the scrolled index, it may come at a cost to
         // performance.
         /** Emits when the index of the first element visible in the viewport changes. */
-        this.scrolledIndexChange = Observable.create((observer) => this._scrollStrategy.scrolledIndexChange.subscribe((index) => Promise.resolve().then(() => this.ngZone.run(() => observer.next(index)))));
+        this.scrolledIndexChange = new Observable((observer) => this._scrollStrategy.scrolledIndexChange.subscribe((index) => Promise.resolve().then(() => this.ngZone.run(() => observer.next(index)))));
         /** Emits when the viewport is detached from a CdkVirtualForOf. */
         this._detachedSubject = new Subject();
         /** Emits when the rendered range changes. */
