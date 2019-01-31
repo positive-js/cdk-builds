@@ -11,7 +11,7 @@ import { Subject, fromEvent, of, Observable, animationFrameScheduler, merge } fr
 import { distinctUntilChanged, auditTime, filter, takeUntil, startWith, pairwise, shareReplay, switchMap } from 'rxjs/operators';
 import { Platform, getRtlScrollAxisType, RtlScrollAxisType, supportsScrollBehavior, PlatformModule } from '@ptsecurity/cdk/platform';
 import { Directionality, BidiModule } from '@ptsecurity/cdk/bidi';
-import { ArrayDataSource, DataSource } from '@ptsecurity/cdk/collections';
+import { ArrayDataSource, isDataSource } from '@ptsecurity/cdk/collections';
 
 /** The injection token used to specify the virtual scrolling strategy. */
 const VIRTUAL_SCROLL_STRATEGY = new InjectionToken('VIRTUAL_SCROLL_STRATEGY');
@@ -889,7 +889,7 @@ let CdkVirtualForOf = class CdkVirtualForOf {
     }
     set cdkVirtualForOf(value) {
         this._cdkVirtualForOf = value;
-        const ds = value instanceof DataSource ? value :
+        const ds = isDataSource(value) ? value :
             // Slice the value if its an NgIterable to ensure we're working with an array.
             new ArrayDataSource(value instanceof Observable ? value : Array.prototype.slice.call(value || []));
         this._dataSourceChanges.next(ds);

@@ -19,3 +19,5 @@ export declare abstract class DataSource<T> {
      */
     abstract disconnect(collectionViewer: ICollectionViewer): void;
 }
+/** Checks whether an object is a data source. */
+export declare function isDataSource(value: any): value is DataSource<any>;
