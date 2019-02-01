@@ -1,0 +1,8 @@
+{
+    "name": "@ptsecurity/cdk/datetime",
+    "typings": "../datetime.d.ts",
+    "main": "../bundles/cdk-datetime.umd.js",
+    "module": "../esm5/datetime.es5.js",
+    "es2015": "../esm2015/datetime.js",
+    "sideEffects": false
+}
