@@ -30,5 +30,5 @@ export declare class DomPortalOutlet extends BasePortalOutlet {
      */
     dispose(): void;
     /** Gets the root HTMLElement for an instantiated component. */
-    private _getComponentRootNode;
+    private getComponentRootNode;
 }

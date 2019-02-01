@@ -94,11 +94,12 @@ class Portal {
  * A `ComponentPortal` is a portal that instantiates some Component upon attachment.
  */
 class ComponentPortal extends Portal {
-    constructor(component, viewContainerRef, injector) {
+    constructor(component, viewContainerRef, injector, componentFactoryResolver) {
         super();
         this.component = component;
         this.viewContainerRef = viewContainerRef;
         this.injector = injector;
+        this.componentFactoryResolver = componentFactoryResolver;
     }
 }
 /**
@@ -210,14 +211,15 @@ class DomPortalOutlet extends BasePortalOutlet {
      * @returns Reference to the created component.
      */
     attachComponentPortal(portal) {
-        let componentFactory = this._componentFactoryResolver.resolveComponentFactory(portal.component); //tslint:disable-line
+        const resolver = portal.componentFactoryResolver || this._componentFactoryResolver;
+        const componentFactory = resolver.resolveComponentFactory(portal.component);
         let componentRef;
         // If the portal specifies a ViewContainerRef, we will use that as the attachment point
         // for the component (in terms of Angular's component tree, not rendering).
         // When the ViewContainerRef is missing, we use the factory to create the component directly
         // and then manually attach the view to the application.
         if (portal.viewContainerRef) {
-            componentRef = portal.viewContainerRef.createComponent(componentFactory, portal.viewContainerRef.length, portal.injector || portal.viewContainerRef.parentInjector); //tslint:disable-line
+            componentRef = portal.viewContainerRef.createComponent(componentFactory, portal.viewContainerRef.length, portal.injector || portal.viewContainerRef.injector);
             this.setDisposeFn(() => componentRef.destroy());
         }
         else {
@@ -230,7 +232,7 @@ class DomPortalOutlet extends BasePortalOutlet {
         }
         // At this point the component has been instantiated, so we move it to the location in the DOM
         // where we want it to be rendered.
-        this.outletElement.appendChild(this._getComponentRootNode(componentRef));
+        this.outletElement.appendChild(this.getComponentRootNode(componentRef));
         return componentRef;
     }
     /**
@@ -265,7 +267,7 @@ class DomPortalOutlet extends BasePortalOutlet {
         }
     }
     /** Gets the root HTMLElement for an instantiated component. */
-    _getComponentRootNode(componentRef) {
+    getComponentRootNode(componentRef) {
         return componentRef.hostView.rootNodes[0];
     }
 }
@@ -347,8 +349,9 @@ let CdkPortalOutlet = class CdkPortalOutlet extends BasePortalOutlet {
         const viewContainerRef = portal.viewContainerRef != null ?
             portal.viewContainerRef :
             this._viewContainerRef;
-        const componentFactory = this._componentFactoryResolver.resolveComponentFactory(portal.component);
-        const ref = viewContainerRef.createComponent(componentFactory, viewContainerRef.length, portal.injector || viewContainerRef.parentInjector);
+        const resolver = portal.componentFactoryResolver || this._componentFactoryResolver;
+        const componentFactory = resolver.resolveComponentFactory(portal.component);
+        const ref = viewContainerRef.createComponent(componentFactory, viewContainerRef.length, portal.injector || viewContainerRef.injector);
         super.setDisposeFn(() => ref.destroy());
         this._attachedPortal = portal;
         this._attachedRef = ref;
@@ -404,7 +407,7 @@ class PortalInjector {
     }
     get(token, notFoundValue) {
         const value = this._customTokens.get(token);
-        if (value !== 'undefined') {
+        if (value !== undefined) {
             return value;
         }
         return this._parentInjector.get(token, notFoundValue);
