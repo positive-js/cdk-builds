@@ -11,7 +11,7 @@
 }(this, (function (exports,core) { 'use strict';
 
 /** Current version of the Component Development Kit. */
-var VERSION = new core.Version('1.0.0-beta.2');
+var VERSION = new core.Version('1.0.0-beta.3');
 
 exports.VERSION = VERSION;
 
