@@ -15,5 +15,5 @@ export declare class NestedTreeControl<T> extends BaseTreeControl<T> {
     /** Gets a list of descendant dataNodes of a subtree rooted at given data node recursively. */
     getDescendants(dataNode: T): T[];
     /** A helper function to get descendants recursively. */
-    protected _getDescendants(descendants: T[], dataNode: T): void;
+    private _getDescendants;
 }

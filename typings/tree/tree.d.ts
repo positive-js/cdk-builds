@@ -6,41 +6,12 @@ import { ITreeControl } from './control/tree-control';
 import { CdkTreeNodeDef } from './node';
 import { CdkTreeNodeOutlet } from './outlet';
 /**
- * Tree node for CdkTree. It contains the data in the tree node.
- */
-export declare class CdkTreeNode<T> implements IFocusableOption, OnDestroy {
-    protected _elementRef: ElementRef;
-    protected _tree: CdkTree<T>;
-    /**
-     * The most recently created `CdkTreeNode`. We save it in static variable so we can retrieve it
-     * in `CdkTree` and set the data to it.
-     */
-    static mostRecentTreeNode: CdkTreeNode<any> | null;
-    /**
-     * The role of the node should be 'group' if it's an internal node,
-     * and 'treeitem' if it's a leaf node.
-     */
-    role: 'treeitem' | 'group';
-    /** Subject that emits when the component has been destroyed. */
-    protected _destroyed: Subject<void>;
-    protected _data: T;
-    /** The tree node's data. */
-    data: T;
-    readonly isExpanded: boolean;
-    readonly level: number;
-    constructor(_elementRef: ElementRef, _tree: CdkTree<T>);
-    ngOnDestroy(): void;
-    /** Focuses the dropdown item. Implements for IFocusableOption. */
-    focus(): void;
-    private _setRoleFromData;
-}
-/**
  * CDK tree component that connects with a data source to retrieve data of type `T` and renders
  * dataNodes with hierarchy. Updates the dataNodes when new data is provided by the data source.
  */
 export declare class CdkTree<T> implements AfterContentChecked, ICollectionViewer, OnDestroy, OnInit {
-    private _differs;
-    private _changeDetectorRef;
+    protected differs: IterableDiffers;
+    protected changeDetectorRef: ChangeDetectorRef;
     /** The tree controller */
     treeControl: ITreeControl<T>;
     /**
@@ -50,9 +21,9 @@ export declare class CdkTree<T> implements AfterContentChecked, ICollectionViewe
      * Accepts a function that takes two parameters, `index` and `item`.
      */
     trackBy: TrackByFunction<T>;
-    _nodeOutlet: CdkTreeNodeOutlet;
+    nodeOutlet: CdkTreeNodeOutlet;
     /** The tree node template for the tree */
-    _nodeDefs: QueryList<CdkTreeNodeDef<T>>;
+    nodeDefs: QueryList<CdkTreeNodeDef<T>>;
     /**
      * Stream containing the latest information on what rows are being displayed on screen.
      * Can be used by the data source to as a heuristic of what data should be provided.
@@ -62,15 +33,15 @@ export declare class CdkTree<T> implements AfterContentChecked, ICollectionViewe
         end: number;
     }>;
     /** Differ used to find the changes in the data provided by the data source. */
-    protected _dataDiffer: IterableDiffer<T>;
+    protected dataDiffer: IterableDiffer<T>;
     /** Subject that emits when the component has been destroyed. */
-    private _onDestroy;
+    private onDestroy;
     /** Stores the node definition that does not have a when predicate. */
-    private _defaultNodeDef;
+    private defaultNodeDef;
     /** Data subscription */
-    private _dataSubscription;
+    private dataSubscription;
     /** Level of nodes */
-    private _levels;
+    private levels;
     /**
      * Provides a stream containing the latest data array to render. Influenced by the tree's
      * stream of view window (what dataNodes are currently on screen).
@@ -78,7 +49,7 @@ export declare class CdkTree<T> implements AfterContentChecked, ICollectionViewe
      */
     dataSource: DataSource<T> | Observable<T[]> | T[];
     private _dataSource;
-    constructor(_differs: IterableDiffers, _changeDetectorRef: ChangeDetectorRef);
+    constructor(differs: IterableDiffers, changeDetectorRef: ChangeDetectorRef);
     ngOnInit(): void;
     ngOnDestroy(): void;
     ngAfterContentChecked(): void;
@@ -90,18 +61,40 @@ export declare class CdkTree<T> implements AfterContentChecked, ICollectionViewe
      * predicate that returns true with the data. If none return true, return the default node
      * definition.
      */
-    _getNodeDef(data: T, i: number): CdkTreeNodeDef<T>;
+    getNodeDef(data: T, i: number): CdkTreeNodeDef<T>;
     /**
      * Create the embedded view for the data node template and place it in the correct index location
      * within the data node view container.
      */
     insertNode(nodeData: T, index: number, viewContainer?: ViewContainerRef, parentData?: T): void;
     /** Set up a subscription for the data provided by the data source. */
-    private _observeRenderChanges;
+    private observeRenderChanges;
     /**
      * Switch to the provided data source by resetting the data and unsubscribing from the current
      * render change subscription if one exists. If the data source is null, interpret this by
      * clearing the node outlet. Otherwise start listening for new data.
      */
-    private _switchDataSource;
+    private switchDataSource;
+}
+/**
+ * Tree node for CdkTree. It contains the data in the tree node.
+ */
+export declare class CdkTreeNode<T> implements IFocusableOption, OnDestroy {
+    protected elementRef: ElementRef;
+    protected tree: CdkTree<T>;
+    /**
+     * The most recently created `CdkTreeNode`. We save it in static variable so we can retrieve it
+     * in `CdkTree` and set the data to it.
+     */
+    static mostRecentTreeNode: CdkTreeNode<any> | null;
+    role: 'treeitem' | 'group';
+    protected destroyed: Subject<void>;
+    data: T;
+    private _data;
+    readonly isExpanded: boolean;
+    readonly level: number;
+    constructor(elementRef: ElementRef, tree: CdkTree<T>);
+    ngOnDestroy(): void;
+    focus(): void;
+    private setRoleFromData;
 }

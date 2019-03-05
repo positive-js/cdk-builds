@@ -6,21 +6,20 @@ import { CdkTree, CdkTreeNode } from './tree';
  * This directive will add left-padding to the node to show hierarchy.
  */
 export declare class CdkTreeNodePadding<T> implements OnDestroy {
-    protected _treeNode: CdkTreeNode<T>;
-    protected _tree: CdkTree<T>;
-    private _renderer;
-    private _element;
-    private _dir;
-    /** Subject that emits when the component has been destroyed. */
-    _level: number;
-    _indent: number;
-    private _destroyed;
+    protected treeNode: CdkTreeNode<T>;
+    protected tree: CdkTree<T>;
+    private renderer;
+    private element;
+    private dir;
     /** The level of depth of the tree node. The padding will be `level * indent` pixels. */
     level: number;
+    protected _level: number;
     indent: number;
-    constructor(_treeNode: CdkTreeNode<T>, _tree: CdkTree<T>, _renderer: Renderer2, _element: ElementRef<HTMLElement>, _dir: Directionality);
+    protected _indent: number;
+    private destroyed;
+    constructor(treeNode: CdkTreeNode<T>, tree: CdkTree<T>, renderer: Renderer2, element: ElementRef<HTMLElement>, dir: Directionality);
     ngOnDestroy(): void;
     /** The padding indent value for the tree node. Returns a string with px numbers if not null. */
-    _paddingIndent(): string | null;
-    _setPadding(): void;
+    protected paddingIndent(): string | null;
+    protected setPadding(): void;
 }

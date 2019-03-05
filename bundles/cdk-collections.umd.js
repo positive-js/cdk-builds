@@ -94,27 +94,26 @@ var SelectionModel = /** @class */ (function () {
          */
         this.onChange = this.changed;
         /** Currently-selected values. */
-        this._selection = new Set();
+        this.selection = new Set();
         /** Keeps track of the deselected options that haven't been emitted by the change event. */
-        this._deselectedToEmit = [];
+        this.deselectedToEmit = [];
         /** Keeps track of the selected options that haven't been emitted by the change event. */
-        this._selectedToEmit = [];
+        this.selectedToEmit = [];
         if (initiallySelectedValues && initiallySelectedValues.length) {
             if (_multiple) {
-                initiallySelectedValues.forEach(function (value) { return _this._markSelected(value); });
+                initiallySelectedValues.forEach(function (value) { return _this.markSelected(value); });
             }
             else {
-                this._markSelected(initiallySelectedValues[0]);
+                this.markSelected(initiallySelectedValues[0]);
             }
             // Clear the array in order to avoid firing the change event for preselected values.
-            this._selectedToEmit.length = 0;
+            this.selectedToEmit.length = 0;
         }
     }
     Object.defineProperty(SelectionModel.prototype, "selected", {
-        /** Selected values. */
         get: function () {
             if (!this._selected) {
-                this._selected = Array.from(this._selection.values());
+                this._selected = Array.from(this.selection.values());
             }
             return this._selected;
         },
@@ -130,9 +129,9 @@ var SelectionModel = /** @class */ (function () {
         for (var _i = 0; _i < arguments.length; _i++) {
             values[_i] = arguments[_i];
         }
-        this._verifyValueAssignment(values);
-        values.forEach(function (value) { return _this._markSelected(value); });
-        this._emitChangeEvent();
+        this.verifyValueAssignment(values);
+        values.forEach(function (value) { return _this.markSelected(value); });
+        this.emitChangeEvent();
     };
     /**
      * Deselects a value or an array of values.
@@ -143,34 +142,39 @@ var SelectionModel = /** @class */ (function () {
         for (var _i = 0; _i < arguments.length; _i++) {
             values[_i] = arguments[_i];
         }
-        this._verifyValueAssignment(values);
-        values.forEach(function (value) { return _this._unmarkSelected(value); });
-        this._emitChangeEvent();
+        this.verifyValueAssignment(values);
+        values.forEach(function (value) { return _this.unmarkSelected(value); });
+        this.emitChangeEvent();
     };
     /**
      * Toggles a value between selected and deselected.
      */
     SelectionModel.prototype.toggle = function (value) {
-        this.isSelected(value) ? this.deselect(value) : this.select(value);
+        if (this.isSelected(value)) {
+            this.deselect(value);
+        }
+        else {
+            this.select(value);
+        }
     };
     /**
      * Clears all of the selected values.
      */
     SelectionModel.prototype.clear = function () {
-        this._unmarkAll();
-        this._emitChangeEvent();
+        this.unmarkAll();
+        this.emitChangeEvent();
     };
     /**
      * Determines whether a value is selected.
      */
     SelectionModel.prototype.isSelected = function (value) {
-        return this._selection.has(value);
+        return this.selection.has(value);
     };
     /**
      * Determines whether the model does not have a value.
      */
     SelectionModel.prototype.isEmpty = function () {
-        return this._selection.size === 0;
+        return this.selection.size === 0;
     };
     /**
      * Determines whether the model has a value.
@@ -193,52 +197,52 @@ var SelectionModel = /** @class */ (function () {
         return this._multiple;
     };
     /** Emits a change event and clears the records of selected and deselected values. */
-    SelectionModel.prototype._emitChangeEvent = function () {
+    SelectionModel.prototype.emitChangeEvent = function () {
         // Clear the selected values so they can be re-cached.
         this._selected = null;
-        if (this._selectedToEmit.length || this._deselectedToEmit.length) {
+        if (this.selectedToEmit.length || this.deselectedToEmit.length) {
             this.changed.next({
                 source: this,
-                added: this._selectedToEmit,
-                removed: this._deselectedToEmit
+                added: this.selectedToEmit,
+                removed: this.deselectedToEmit
             });
-            this._deselectedToEmit = [];
-            this._selectedToEmit = [];
+            this.deselectedToEmit = [];
+            this.selectedToEmit = [];
         }
     };
     /** Selects a value. */
-    SelectionModel.prototype._markSelected = function (value) {
+    SelectionModel.prototype.markSelected = function (value) {
         if (!this.isSelected(value)) {
             if (!this._multiple) {
-                this._unmarkAll();
+                this.unmarkAll();
             }
-            this._selection.add(value);
+            this.selection.add(value);
             if (this._emitChanges) {
-                this._selectedToEmit.push(value);
+                this.selectedToEmit.push(value);
             }
         }
     };
     /** Deselects a value. */
-    SelectionModel.prototype._unmarkSelected = function (value) {
+    SelectionModel.prototype.unmarkSelected = function (value) {
         if (this.isSelected(value)) {
-            this._selection.delete(value);
+            this.selection.delete(value);
             if (this._emitChanges) {
-                this._deselectedToEmit.push(value);
+                this.deselectedToEmit.push(value);
             }
         }
     };
     /** Clears out the selected values. */
-    SelectionModel.prototype._unmarkAll = function () {
+    SelectionModel.prototype.unmarkAll = function () {
         var _this = this;
         if (!this.isEmpty()) {
-            this._selection.forEach(function (value) { return _this._unmarkSelected(value); });
+            this.selection.forEach(function (value) { return _this.unmarkSelected(value); });
         }
     };
     /**
      * Verifies the value assignment and throws an error if the specified value array is
      * including multiple values while the selection model is not supporting multiple values.
      */
-    SelectionModel.prototype._verifyValueAssignment = function (values) {
+    SelectionModel.prototype.verifyValueAssignment = function (values) {
         if (values.length > 1 && !this._multiple) {
             throw getMultipleValuesInSingleSelectionError();
         }

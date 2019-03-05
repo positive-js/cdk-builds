@@ -1,14 +1,14 @@
-import { ListKeyManager, IListKeyManagerOption } from './list-key-manager';
+import { ListKeyManager, ListKeyManagerOption } from './list-key-manager';
 /**
  * This is the interface for highlightable items (used by the ActiveDescendantKeyManager).
  * Each item must know how to style itself as active or inactive and whether or not it is
  * currently disabled.
  */
-export interface IHighlightable extends IListKeyManagerOption {
+export interface Highlightable extends ListKeyManagerOption {
     setActiveStyles(): void;
     setInactiveStyles(): void;
 }
-export declare class ActiveDescendantKeyManager<T> extends ListKeyManager<IHighlightable & T> {
+export declare class ActiveDescendantKeyManager<T> extends ListKeyManager<Highlightable & T> {
     /**
      * Sets the active item to the item at the specified index and adds the
      * active styles to the newly active item. Also removes active styles

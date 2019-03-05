@@ -1,6 +1,6 @@
 import { QueryList } from '@angular/core';
 import { Subject } from 'rxjs';
-export interface IListKeyManagerOption {
+export interface ListKeyManagerOption {
     disabled?: boolean;
     getLabel?(): string;
 }
@@ -8,7 +8,7 @@ export interface IListKeyManagerOption {
  * This class manages keyboard events for selectable lists. If you pass it a query list
  * of items, it will set the active item correctly when arrow events occur.
  */
-export declare class ListKeyManager<T extends IListKeyManagerOption> {
+export declare class ListKeyManager<T extends ListKeyManagerOption> {
     private _items;
     /**
      * Stream that emits any time the TAB key is pressed, so components can react

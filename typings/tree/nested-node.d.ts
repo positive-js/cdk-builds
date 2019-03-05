@@ -23,20 +23,20 @@ import { CdkTree, CdkTreeNode } from './tree';
  *   ```
  */
 export declare class CdkNestedTreeNode<T> extends CdkTreeNode<T> implements AfterContentInit, OnDestroy {
-    protected _elementRef: ElementRef;
-    protected _tree: CdkTree<T>;
-    protected _differs: IterableDiffers;
+    protected elementRef: ElementRef;
+    protected tree: CdkTree<T>;
+    protected differs: IterableDiffers;
     /** The children node placeholder. */
     nodeOutlet: QueryList<CdkTreeNodeOutlet>;
     /** The children data dataNodes of current node. They will be placed in `CdkTreeNodeOutlet`. */
-    protected _children: T[];
+    protected children: T[];
     /** Differ used to find the changes in the data provided by the data source. */
-    private _dataDiffer;
-    constructor(_elementRef: ElementRef, _tree: CdkTree<T>, _differs: IterableDiffers);
+    private dataDiffer;
+    constructor(elementRef: ElementRef, tree: CdkTree<T>, differs: IterableDiffers);
     ngAfterContentInit(): void;
     ngOnDestroy(): void;
     /** Add children dataNodes to the NodeOutlet */
     protected updateChildrenNodes(): void;
     /** Clear the children dataNodes. */
-    protected _clear(): void;
+    protected clear(): void;
 }

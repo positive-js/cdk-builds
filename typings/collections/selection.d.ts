@@ -5,8 +5,6 @@ import { Subject } from 'rxjs';
 export declare class SelectionModel<T> {
     private _multiple;
     private _emitChanges;
-    /** Selected values. */
-    readonly selected: T[];
     /** Event emitted when the value has changed. */
     changed: Subject<SelectionChange<T>>;
     /**
@@ -16,12 +14,12 @@ export declare class SelectionModel<T> {
      */
     onChange: Subject<SelectionChange<T>>;
     /** Currently-selected values. */
-    private _selection;
+    selection: Set<T>;
     /** Keeps track of the deselected options that haven't been emitted by the change event. */
-    private _deselectedToEmit;
+    private deselectedToEmit;
     /** Keeps track of the selected options that haven't been emitted by the change event. */
-    private _selectedToEmit;
-    /** Cache for the array value of the selected items. */
+    private selectedToEmit;
+    readonly selected: T[];
     private _selected;
     constructor(_multiple?: boolean, initiallySelectedValues?: T[], _emitChanges?: boolean);
     /**
@@ -61,18 +59,18 @@ export declare class SelectionModel<T> {
      */
     isMultipleSelection(): boolean;
     /** Emits a change event and clears the records of selected and deselected values. */
-    private _emitChangeEvent;
+    private emitChangeEvent;
     /** Selects a value. */
-    private _markSelected;
+    private markSelected;
     /** Deselects a value. */
-    private _unmarkSelected;
+    private unmarkSelected;
     /** Clears out the selected values. */
-    private _unmarkAll;
+    private unmarkAll;
     /**
      * Verifies the value assignment and throws an error if the specified value array is
      * including multiple values while the selection model is not supporting multiple values.
      */
-    private _verifyValueAssignment;
+    private verifyValueAssignment;
 }
 /**
  * Event emitted when the value of a MatSelectionModel has changed.
