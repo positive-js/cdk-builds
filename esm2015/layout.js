@@ -4,25 +4,43 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
-import { __decorate, __metadata } from 'tslib';
 import { NgModule, Injectable, NgZone, defineInjectable, inject } from '@angular/core';
 import { Platform } from '@ptsecurity/cdk/platform';
 import { coerceArray } from '@ptsecurity/cdk/coercion';
 import { asapScheduler, combineLatest, fromEventPattern, Subject } from 'rxjs';
 import { debounceTime, map, startWith, takeUntil } from 'rxjs/operators';
 
-let LayoutModule = class LayoutModule {
-};
-LayoutModule = __decorate([
-    NgModule()
-], LayoutModule);
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class LayoutModule {
+}
+LayoutModule.decorators = [
+    { type: NgModule },
+];
 
-/** Global registry for all dynamically-created, injected media queries. */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Global registry for all dynamically-created, injected media queries.
+ * @type {?}
+ */
 const mediaQueriesForWebkitCompatibility = new Set();
-/** Style tag that holds all of the dynamically-created media queries. */
+/**
+ * Style tag that holds all of the dynamically-created media queries.
+ * @type {?}
+ */
 let mediaQueryStyleNode;
-/** A utility for calling matchMedia queries. */
-let MediaMatcher = class MediaMatcher {
+/**
+ * A utility for calling matchMedia queries.
+ */
+class MediaMatcher {
+    /**
+     * @param {?} platform
+     */
     constructor(platform) {
         this.platform = platform;
         this._matchMedia = this.platform.isBrowser && window.matchMedia ?
@@ -36,6 +54,8 @@ let MediaMatcher = class MediaMatcher {
      * can be retrieved.
      * Confirms the layout engine will trigger for the selector query provided and returns the
      * MediaQueryList for the query provided.
+     * @param {?} query
+     * @return {?}
      */
     matchMedia(query) {
         if (this.platform.WEBKIT) {
@@ -43,15 +63,20 @@ let MediaMatcher = class MediaMatcher {
         }
         return this._matchMedia(query);
     }
-};
-MediaMatcher.ngInjectableDef = defineInjectable({ factory: function MediaMatcher_Factory() { return new MediaMatcher(inject(Platform)); }, token: MediaMatcher, providedIn: "root" });
-MediaMatcher = __decorate([
-    Injectable({ providedIn: 'root' }),
-    __metadata("design:paramtypes", [Platform])
-], MediaMatcher);
+}
+MediaMatcher.decorators = [
+    { type: Injectable, args: [{ providedIn: 'root' },] },
+];
+/** @nocollapse */
+MediaMatcher.ctorParameters = () => [
+    { type: Platform }
+];
+/** @nocollapse */ MediaMatcher.ngInjectableDef = defineInjectable({ factory: function MediaMatcher_Factory() { return new MediaMatcher(inject(Platform)); }, token: MediaMatcher, providedIn: "root" });
 /**
  * For Webkit engines that only trigger the MediaQueryListListener when
  * there is at least one CSS selector for the respective media query.
+ * @param {?} query
+ * @return {?}
  */
 function createEmptyStyleRule(query) {
     if (mediaQueriesForWebkitCompatibility.has(query)) {
@@ -61,10 +86,10 @@ function createEmptyStyleRule(query) {
         if (!mediaQueryStyleNode) {
             mediaQueryStyleNode = document.createElement('style');
             mediaQueryStyleNode.setAttribute('type', 'text/css');
-            document.head.appendChild(mediaQueryStyleNode);
+            (/** @type {?} */ (document.head)).appendChild(mediaQueryStyleNode);
         }
         if (mediaQueryStyleNode.sheet) {
-            mediaQueryStyleNode.sheet
+            ((/** @type {?} */ (mediaQueryStyleNode.sheet)))
                 .insertRule(`@media ${query} {.fx-query-test{ }}`, 0);
             mediaQueriesForWebkitCompatibility.add(query);
         }
@@ -73,50 +98,76 @@ function createEmptyStyleRule(query) {
         console.error(e); //tslint:disable-line
     }
 }
-/** No-op matchMedia replacement for non-browser platforms. */
+/**
+ * No-op matchMedia replacement for non-browser platforms.
+ * @param {?} query
+ * @return {?}
+ */
 function noopMatchMedia(query) {
-    return {
+    return (/** @type {?} */ ({
         matches: query === 'all' || query === '',
         media: query,
         addListener: () => { },
+        //tslint:disable-line
         removeListener: () => { } //tslint:disable-line
-    };
+    }));
 }
 
-/** Utility for checking the matching state of @media queries. */
-let BreakpointObserver = class BreakpointObserver {
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Utility for checking the matching state of \@media queries.
+ */
+class BreakpointObserver {
+    /**
+     * @param {?} mediaMatcher
+     * @param {?} zone
+     */
     constructor(mediaMatcher, zone) {
         this.mediaMatcher = mediaMatcher;
         this.zone = zone;
-        /**  A map of all media queries currently being listened for. */
+        /**
+         * A map of all media queries currently being listened for.
+         */
         this._queries = new Map();
-        /** A subject for all other observables to takeUntil based on. */
+        /**
+         * A subject for all other observables to takeUntil based on.
+         */
         this._destroySubject = new Subject();
     }
-    /** Completes the active subject, signalling to all other observables to complete. */
+    /**
+     * Completes the active subject, signalling to all other observables to complete.
+     * @return {?}
+     */
     ngOnDestroy() {
         this._destroySubject.next();
         this._destroySubject.complete();
     }
     /**
      * Whether one or more media queries match the current viewport size.
-     * @param value One or more media queries to check.
-     * @returns Whether any of the media queries match.
+     * @param {?} value One or more media queries to check.
+     * @return {?} Whether any of the media queries match.
      */
     isMatched(value) {
+        /** @type {?} */
         const queries = splitQueries(coerceArray(value));
         return queries.some((mediaQuery) => this._registerQuery(mediaQuery).mql.matches);
     }
     /**
      * Gets an observable of results for the given queries that will emit new results for any changes
      * in matching of the given queries.
-     * @param value One or more media queries to check.
-     * @returns A stream of matches for the given queries.
+     * @param {?} value One or more media queries to check.
+     * @return {?} A stream of matches for the given queries.
      */
     observe(value) {
+        /** @type {?} */
         const queries = splitQueries(coerceArray(value));
+        /** @type {?} */
         const observables = queries.map((query) => this._registerQuery(query).observable);
         return combineLatest(observables).pipe(debounceTime(0, asapScheduler), map((breakpointStates) => {
+            /** @type {?} */
             const response = {
                 matches: false,
                 breakpoints: {}
@@ -128,15 +179,23 @@ let BreakpointObserver = class BreakpointObserver {
             return response;
         }));
     }
-    /** Registers a specific query to be listened for. */
+    /**
+     * Registers a specific query to be listened for.
+     * @private
+     * @param {?} query
+     * @return {?}
+     */
     _registerQuery(query) {
         // Only set up a new MediaQueryList if it is not already being listened for.
         if (this._queries.has(query)) {
-            return this._queries.get(query); //tslint:disable-line
+            return (/** @type {?} */ (this._queries.get(query))); //tslint:disable-line
         }
+        /** @type {?} */
         const mql = this.mediaMatcher.matchMedia(query);
+        /** @type {?} */
         let queryListener;
         // Create callback for match changes and add it is as a listener.
+        /** @type {?} */
         const queryObservable = fromEventPattern(
         // Listener callback methods are wrapped to be placed back in ngZone. Callbacks must be placed
         // back into the zone because matchMedia is only included in Zone.js by loading the
@@ -149,19 +208,26 @@ let BreakpointObserver = class BreakpointObserver {
         }, () => mql.removeListener(queryListener))
             .pipe(takeUntil(this._destroySubject), startWith(mql), map((nextMql) => ({ query, matches: nextMql.matches })));
         // Add the MediaQueryList to the set of queries.
-        const output = { observable: queryObservable, mql: mql }; //tslint:disable-line
+        /** @type {?} */
+        const output = { observable: queryObservable, mql: mql };
         this._queries.set(query, output);
         return output;
     }
-};
-BreakpointObserver.ngInjectableDef = defineInjectable({ factory: function BreakpointObserver_Factory() { return new BreakpointObserver(inject(MediaMatcher), inject(NgZone)); }, token: BreakpointObserver, providedIn: "root" });
-BreakpointObserver = __decorate([
-    Injectable({ providedIn: 'root' }),
-    __metadata("design:paramtypes", [MediaMatcher, NgZone])
-], BreakpointObserver);
+}
+BreakpointObserver.decorators = [
+    { type: Injectable, args: [{ providedIn: 'root' },] },
+];
+/** @nocollapse */
+BreakpointObserver.ctorParameters = () => [
+    { type: MediaMatcher },
+    { type: NgZone }
+];
+/** @nocollapse */ BreakpointObserver.ngInjectableDef = defineInjectable({ factory: function BreakpointObserver_Factory() { return new BreakpointObserver(inject(MediaMatcher), inject(NgZone)); }, token: BreakpointObserver, providedIn: "root" });
 /**
  * Split each query string into separate query strings if two queries are provided as comma
  * separated.
+ * @param {?} queries
+ * @return {?}
  */
 function splitQueries(queries) {
     return queries.map((query) => query.split(','))
@@ -169,8 +235,13 @@ function splitQueries(queries) {
         .map((query) => query.trim());
 }
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 // PascalCase is being used as Breakpoints is used like an enum.
 // tslint:disable-next-line:variable-name
+/** @type {?} */
 const Breakpoints = {
     XSmall: '(max-width: 599px)',
     Small: '(min-width: 600px) and (max-width: 959px)',
@@ -192,7 +263,13 @@ const Breakpoints = {
 };
 
 /**
- * Generated bundle index. Do not edit.
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 export { LayoutModule, BreakpointObserver, Breakpoints, MediaMatcher };

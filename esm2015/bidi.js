@@ -6,8 +6,11 @@
  */
 import { DOCUMENT } from '@angular/common';
 import { inject, InjectionToken, EventEmitter, Inject, Injectable, Optional, Directive, Output, Input, NgModule, defineInjectable } from '@angular/core';
-import { __decorate, __param, __metadata } from 'tslib';
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 /**
  * Injection token used to inject the document into Directionality.
  * This is used so that the value can be faked in tests.
@@ -21,117 +24,163 @@ import { __decorate, __param, __metadata } from 'tslib';
  * This token is defined in a separate file from Directionality as a workaround for
  * https://github.com/angular/angular/issues/22559
  *
- * @docs-private
+ * \@docs-private
+ * @type {?}
  */
 const DIR_DOCUMENT = new InjectionToken('cdk-dir-doc', {
     providedIn: 'root',
     factory: DIR_DOCUMENT_FACTORY
 });
-/** @docs-private */
+/**
+ * \@docs-private
+ * @return {?}
+ */
 function DIR_DOCUMENT_FACTORY() {
     return inject(DOCUMENT);
 }
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
  * The directionality (LTR / RTL) context for the application (or a subtree of it).
  * Exposes the current direction and a stream of direction changes.
  */
-let Directionality = class Directionality {
+class Directionality {
+    /**
+     * @param {?=} _document
+     */
     constructor(_document) {
-        /** The current 'ltr' or 'rtl' value. */
+        /**
+         * The current 'ltr' or 'rtl' value.
+         */
         this.value = 'ltr';
-        /** Stream that emits whenever the 'ltr' / 'rtl' state changes. */
+        /**
+         * Stream that emits whenever the 'ltr' / 'rtl' state changes.
+         */
         this.change = new EventEmitter();
         if (_document) {
+            /** @type {?} */
             const bodyDir = _document.body ? _document.body.dir : null;
+            /** @type {?} */
             const htmlDir = _document.documentElement ? _document.documentElement.dir : null;
+            /** @type {?} */
             const value = bodyDir || htmlDir;
             this.value = (value === 'ltr' || value === 'rtl') ? value : 'ltr';
         }
     }
+    /**
+     * @return {?}
+     */
     ngOnDestroy() {
         this.change.complete();
     }
-};
-Directionality.ngInjectableDef = defineInjectable({ factory: function Directionality_Factory() { return new Directionality(inject(DIR_DOCUMENT, 8)); }, token: Directionality, providedIn: "root" });
-Directionality = __decorate([
-    Injectable({ providedIn: 'root' }),
-    __param(0, Optional()), __param(0, Inject(DIR_DOCUMENT)),
-    __metadata("design:paramtypes", [Object])
-], Directionality);
+}
+Directionality.decorators = [
+    { type: Injectable, args: [{ providedIn: 'root' },] },
+];
+/** @nocollapse */
+Directionality.ctorParameters = () => [
+    { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [DIR_DOCUMENT,] }] }
+];
+/** @nocollapse */ Directionality.ngInjectableDef = defineInjectable({ factory: function Directionality_Factory() { return new Directionality(inject(DIR_DOCUMENT, 8)); }, token: Directionality, providedIn: "root" });
 
-var Dir_1;
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 /**
  * Directive to listen for changes of direction of part of the DOM.
  *
  * Provides itself as Directionality such that descendant directives only need to ever inject
  * Directionality to get the closest direction.
  */
-let Dir = Dir_1 = class Dir {
-    /**
-     * Directive to listen for changes of direction of part of the DOM.
-     *
-     * Provides itself as Directionality such that descendant directives only need to ever inject
-     * Directionality to get the closest direction.
-     */
+class Dir {
     constructor() {
         this._dir = 'ltr';
-        /** Whether the `value` has been set to its initial value. */
+        /**
+         * Whether the `value` has been set to its initial value.
+         */
         this._isInitialized = false;
-        /** Event emitted when the direction changes. */
+        /**
+         * Event emitted when the direction changes.
+         */
         this.change = new EventEmitter();
     }
-    /** @docs-private */
+    /**
+     * \@docs-private
+     * @return {?}
+     */
     get dir() {
         return this._dir;
     }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
     set dir(value) {
+        /** @type {?} */
         const old = this._dir;
         this._dir = (value === 'ltr' || value === 'rtl') ? value : 'ltr';
         if (old !== this._dir && this._isInitialized) {
             this.change.emit(this._dir);
         }
     }
-    /** Current layout direction of the element. */
+    /**
+     * Current layout direction of the element.
+     * @return {?}
+     */
     get value() { return this.dir; }
-    /** Initialize once default value has been set. */
+    /**
+     * Initialize once default value has been set.
+     * @return {?}
+     */
     ngAfterContentInit() {
         this._isInitialized = true;
     }
+    /**
+     * @return {?}
+     */
     ngOnDestroy() {
         this.change.complete();
     }
+}
+Dir.decorators = [
+    { type: Directive, args: [{
+                selector: '[dir]',
+                providers: [{ provide: Directionality, useExisting: Dir }],
+                host: { '[dir]': 'dir' },
+                exportAs: 'dir'
+            },] },
+];
+Dir.propDecorators = {
+    change: [{ type: Output, args: ['dirChange',] }],
+    dir: [{ type: Input }]
 };
-__decorate([
-    Output('dirChange'),
-    __metadata("design:type", Object)
-], Dir.prototype, "change", void 0);
-__decorate([
-    Input(),
-    __metadata("design:type", String),
-    __metadata("design:paramtypes", [String])
-], Dir.prototype, "dir", null);
-Dir = Dir_1 = __decorate([
-    Directive({
-        selector: '[dir]',
-        providers: [{ provide: Directionality, useExisting: Dir_1 }],
-        host: { '[dir]': 'dir' },
-        exportAs: 'dir'
-    })
-], Dir);
-
-let BidiModule = class BidiModule {
-};
-BidiModule = __decorate([
-    NgModule({
-        exports: [Dir],
-        declarations: [Dir]
-    })
-], BidiModule);
 
 /**
- * Generated bundle index. Do not edit.
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class BidiModule {
+}
+BidiModule.decorators = [
+    { type: NgModule, args: [{
+                exports: [Dir],
+                declarations: [Dir]
+            },] },
+];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { DIR_DOCUMENT_FACTORY as ɵa, Directionality, DIR_DOCUMENT, Dir, BidiModule };
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+export { Directionality, DIR_DOCUMENT, Dir, BidiModule, DIR_DOCUMENT_FACTORY as ɵa };
 //# sourceMappingURL=bidi.js.map

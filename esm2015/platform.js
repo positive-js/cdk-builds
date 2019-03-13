@@ -4,18 +4,25 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
-import { __decorate, __param, __metadata } from 'tslib';
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, Optional, PLATFORM_ID, NgModule, defineInjectable, inject } from '@angular/core';
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 // Whether the current platform supports the V8 Break Iterator. The V8 check
 // is necessary to detect all Blink based browsers.
-const hasV8BreakIterator = (typeof Intl !== 'undefined' && Intl.v8BreakIterator);
+/** @type {?} */
+const hasV8BreakIterator = (typeof Intl !== 'undefined' && ((/** @type {?} */ (Intl))).v8BreakIterator);
 /**
  * Service to detect the current platform by comparing the userAgent strings and
  * checking browser-specific global properties.
  */
-let Platform = class Platform {
+class Platform {
+    /**
+     * @param {?=} _platformId
+     */
     constructor(_platformId) {
         this._platformId = _platformId;
         /**
@@ -26,54 +33,86 @@ let Platform = class Platform {
          */
         this.isBrowser = this._platformId ?
             isPlatformBrowser(this._platformId) : typeof document === 'object' && !!document;
-        /** Whether the current browser is Microsoft Edge. */
+        /**
+         * Whether the current browser is Microsoft Edge.
+         */
         this.EDGE = this.isBrowser && /(edge)/i.test(navigator.userAgent);
-        /** Whether the current rendering engine is Microsoft Trident. */
+        /**
+         * Whether the current rendering engine is Microsoft Trident.
+         */
         this.TRIDENT = this.isBrowser && /(msie|trident)/i.test(navigator.userAgent);
-        /** Whether the current rendering engine is Blink. */
+        /**
+         * Whether the current rendering engine is Blink.
+         */
         // EdgeHTML and Trident mock Blink specific things and need to be excluded from this check.
-        this.BLINK = this.isBrowser && (!!(window.chrome || hasV8BreakIterator) &&
+        this.BLINK = this.isBrowser && (!!(((/** @type {?} */ (window))).chrome || hasV8BreakIterator) &&
             typeof CSS !== 'undefined' && !this.EDGE && !this.TRIDENT);
-        /** Whether the current rendering engine is WebKit. */
+        /**
+         * Whether the current rendering engine is WebKit.
+         */
         // Webkit is part of the userAgent in EdgeHTML, Blink and Trident. Therefore we need to
         // ensure that Webkit runs standalone and is not used as another engine's base.
         this.WEBKIT = this.isBrowser &&
             /AppleWebKit/i.test(navigator.userAgent) && !this.BLINK && !this.EDGE && !this.TRIDENT;
-        /** Whether the current platform is Apple iOS. */
+        /**
+         * Whether the current platform is Apple iOS.
+         */
         this.IOS = this.isBrowser && /iPad|iPhone|iPod/.test(navigator.userAgent) &&
-            !window.MSStream;
-        /** Whether the current browser is Firefox. */
+            !((/** @type {?} */ (window))).MSStream;
+        /**
+         * Whether the current browser is Firefox.
+         */
         // It's difficult to detect the plain Gecko engine, because most of the browsers identify
         // them self as Gecko-like browsers and modify the userAgent's according to that.
         // Since we only cover one explicit Firefox case, we can simply check for Firefox
         // instead of having an unstable check for Gecko.
         this.FIREFOX = this.isBrowser && /(firefox|minefield)/i.test(navigator.userAgent);
-        /** Whether the current platform is Android. */
+        /**
+         * Whether the current platform is Android.
+         */
         // Trident on mobile adds the android platform to the userAgent to trick detections.
         this.ANDROID = this.isBrowser && /android/i.test(navigator.userAgent) && !this.TRIDENT;
-        /** Whether the current browser is Safari. */
+        /**
+         * Whether the current browser is Safari.
+         */
         // Safari browsers will include the Safari keyword in their userAgent. Some browsers may fake
         // this and just place the Safari keyword in the userAgent. To be more safe about Safari every
         // Safari browser should also use Webkit as its layout engine.
         this.SAFARI = this.isBrowser && /safari/i.test(navigator.userAgent) && this.WEBKIT;
     }
-};
-Platform.ngInjectableDef = defineInjectable({ factory: function Platform_Factory() { return new Platform(inject(PLATFORM_ID, 8)); }, token: Platform, providedIn: "root" });
-Platform = __decorate([
-    Injectable({ providedIn: 'root' }),
-    __param(0, Optional()), __param(0, Inject(PLATFORM_ID)),
-    __metadata("design:paramtypes", [Object])
-], Platform);
+}
+Platform.decorators = [
+    { type: Injectable, args: [{ providedIn: 'root' },] },
+];
+/** @nocollapse */
+Platform.ctorParameters = () => [
+    { type: Object, decorators: [{ type: Optional }, { type: Inject, args: [PLATFORM_ID,] }] }
+];
+/** @nocollapse */ Platform.ngInjectableDef = defineInjectable({ factory: function Platform_Factory() { return new Platform(inject(PLATFORM_ID, 8)); }, token: Platform, providedIn: "root" });
 
-let PlatformModule = class PlatformModule {
-};
-PlatformModule = __decorate([
-    NgModule({})
-], PlatformModule);
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class PlatformModule {
+}
+PlatformModule.decorators = [
+    { type: NgModule, args: [{},] },
+];
 
-/** Cached result Set of input types support by the current browser. */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Cached result Set of input types support by the current browser.
+ * @type {?}
+ */
 let supportedInputTypes;
-/** Types of `<input>` that *might* be supported. */
+/**
+ * Types of `<input>` that *might* be supported.
+ * @type {?}
+ */
 const candidateInputTypes = [
     // `color` must come first. Chrome 56 shows a warning if we change the type to `color` after
     // first changing it to something else:
@@ -102,7 +141,9 @@ const candidateInputTypes = [
     'url',
     'week'
 ];
-/** @returns The input types supported by this browser. */
+/**
+ * @return {?} The input types supported by this browser.
+ */
 function getSupportedInputTypes() {
     // Result is cached.
     if (supportedInputTypes) {
@@ -115,6 +156,7 @@ function getSupportedInputTypes() {
         supportedInputTypes = new Set(candidateInputTypes);
         return supportedInputTypes;
     }
+    /** @type {?} */
     const featureTestInput = document.createElement('input');
     supportedInputTypes = new Set(candidateInputTypes.filter((value) => {
         featureTestInput.setAttribute('type', value);
@@ -123,16 +165,24 @@ function getSupportedInputTypes() {
     return supportedInputTypes;
 }
 
-/** Cached result of whether the user's browser supports passive event listeners. */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Cached result of whether the user's browser supports passive event listeners.
+ * @type {?}
+ */
 let supportsPassiveEvents;
 /**
  * Checks whether the user's browser supports passive event listeners.
  * See: https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+ * @return {?}
  */
 function supportsPassiveEventListeners() {
     if (supportsPassiveEvents == null && typeof window !== 'undefined') {
         try {
-            window.addEventListener('test', null, Object.defineProperty({}, 'passive', {
+            window.addEventListener('test', (/** @type {?} */ (null)), Object.defineProperty({}, 'passive', {
                 get: () => supportsPassiveEvents = true
             }));
         }
@@ -146,40 +196,54 @@ function supportsPassiveEventListeners() {
  * Normalizes an `AddEventListener` object to something that can be passed
  * to `addEventListener` on any browser, no matter whether it supports the
  * `options` parameter.
- * @param options Object to be normalized.
+ * @param {?} options Object to be normalized.
+ * @return {?}
  */
 function normalizePassiveListenerOptions(options) {
     return supportsPassiveEventListeners() ? options : !!options.capture;
 }
 
-/** The possible ways the browser may handle the horizontal scroll axis in RTL languages. */
-var RtlScrollAxisType;
-(function (RtlScrollAxisType) {
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @enum {number} */
+const RtlScrollAxisType = {
     /**
      * scrollLeft is 0 when scrolled all the way left and (scrollWidth - clientWidth) when scrolled
      * all the way right.
      */
-    RtlScrollAxisType[RtlScrollAxisType["NORMAL"] = 0] = "NORMAL";
+    NORMAL: 0,
     /**
      * scrollLeft is -(scrollWidth - clientWidth) when scrolled all the way left and 0 when scrolled
      * all the way right.
      */
-    RtlScrollAxisType[RtlScrollAxisType["NEGATED"] = 1] = "NEGATED";
+    NEGATED: 1,
     /**
      * scrollLeft is (scrollWidth - clientWidth) when scrolled all the way left and 0 when scrolled
      * all the way right.
      */
-    RtlScrollAxisType[RtlScrollAxisType["INVERTED"] = 2] = "INVERTED";
-})(RtlScrollAxisType || (RtlScrollAxisType = {}));
-/** Cached result of the way the browser handles the horizontal scroll axis in RTL mode. */
+    INVERTED: 2,
+};
+RtlScrollAxisType[RtlScrollAxisType.NORMAL] = 'NORMAL';
+RtlScrollAxisType[RtlScrollAxisType.NEGATED] = 'NEGATED';
+RtlScrollAxisType[RtlScrollAxisType.INVERTED] = 'INVERTED';
+/**
+ * Cached result of the way the browser handles the horizontal scroll axis in RTL mode.
+ * @type {?}
+ */
 let rtlScrollAxisType;
-/** Check whether the browser supports scroll behaviors. */
+/**
+ * Check whether the browser supports scroll behaviors.
+ * @return {?}
+ */
 function supportsScrollBehavior() {
-    return !!(typeof document == 'object' && 'scrollBehavior' in document.documentElement.style);
+    return !!(typeof document == 'object' && 'scrollBehavior' in (/** @type {?} */ (document.documentElement)).style);
 }
 /**
  * Checks the type of RTL scroll axis used by this browser. As of time of writing, Chrome is NORMAL,
  * Firefox & Safari are NEGATED, and IE & Edge are INVERTED.
+ * @return {?}
  */
 function getRtlScrollAxisType() {
     // We can't check unless we're on the browser. Just assume 'normal' if we're not.
@@ -188,7 +252,9 @@ function getRtlScrollAxisType() {
     }
     if (!rtlScrollAxisType) {
         // Create a 1px wide scrolling container and a 2px wide content element.
+        /** @type {?} */
         const scrollContainer = document.createElement('div');
+        /** @type {?} */
         const containerStyle = scrollContainer.style;
         scrollContainer.dir = 'rtl';
         containerStyle.height = '1px';
@@ -197,7 +263,9 @@ function getRtlScrollAxisType() {
         containerStyle.visibility = 'hidden';
         containerStyle.pointerEvents = 'none';
         containerStyle.position = 'absolute';
+        /** @type {?} */
         const content = document.createElement('div');
+        /** @type {?} */
         const contentStyle = content.style;
         contentStyle.width = '2px';
         contentStyle.height = '1px';
@@ -216,14 +284,20 @@ function getRtlScrollAxisType() {
             rtlScrollAxisType =
                 scrollContainer.scrollLeft === 0 ? RtlScrollAxisType.NEGATED : RtlScrollAxisType.INVERTED;
         }
-        scrollContainer.parentNode.removeChild(scrollContainer);
+        (/** @type {?} */ (scrollContainer.parentNode)).removeChild(scrollContainer);
     }
     return rtlScrollAxisType;
 }
 
 /**
- * Generated bundle index. Do not edit.
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { Platform, PlatformModule, getSupportedInputTypes, supportsPassiveEventListeners, normalizePassiveListenerOptions, RtlScrollAxisType, supportsScrollBehavior, getRtlScrollAxisType };
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+export { Platform, PlatformModule, getSupportedInputTypes, supportsPassiveEventListeners, normalizePassiveListenerOptions, supportsScrollBehavior, getRtlScrollAxisType, RtlScrollAxisType };
 //# sourceMappingURL=platform.js.map

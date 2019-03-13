@@ -10,46 +10,36 @@
 	(factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.layout = {}),global.ng.core,global.ng.cdk.platform,global.ng.cdk.coercion,global.rxjs,global.rxjs.operators));
 }(this, (function (exports,core,platform,coercion,rxjs,operators) { 'use strict';
 
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
-
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
-
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
-***************************************************************************** */
-
-function __decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
-
-function __metadata(metadataKey, metadataValue) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-}
-
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 var LayoutModule = /** @class */ (function () {
     function LayoutModule() {
     }
-    LayoutModule = __decorate([
-        core.NgModule()
-    ], LayoutModule);
+    LayoutModule.decorators = [
+        { type: core.NgModule },
+    ];
     return LayoutModule;
 }());
 
-/** Global registry for all dynamically-created, injected media queries. */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Global registry for all dynamically-created, injected media queries.
+ * @type {?}
+ */
 var mediaQueriesForWebkitCompatibility = new Set();
-/** Style tag that holds all of the dynamically-created media queries. */
+/**
+ * Style tag that holds all of the dynamically-created media queries.
+ * @type {?}
+ */
 var mediaQueryStyleNode;
-/** A utility for calling matchMedia queries. */
+/**
+ * A utility for calling matchMedia queries.
+ */
 var MediaMatcher = /** @class */ (function () {
     function MediaMatcher(platform$$1) {
         this.platform = platform$$1;
@@ -65,22 +55,43 @@ var MediaMatcher = /** @class */ (function () {
      * Confirms the layout engine will trigger for the selector query provided and returns the
      * MediaQueryList for the query provided.
      */
-    MediaMatcher.prototype.matchMedia = function (query) {
+    /**
+     * Evaluates the given media query and returns the native MediaQueryList from which results
+     * can be retrieved.
+     * Confirms the layout engine will trigger for the selector query provided and returns the
+     * MediaQueryList for the query provided.
+     * @param {?} query
+     * @return {?}
+     */
+    MediaMatcher.prototype.matchMedia = /**
+     * Evaluates the given media query and returns the native MediaQueryList from which results
+     * can be retrieved.
+     * Confirms the layout engine will trigger for the selector query provided and returns the
+     * MediaQueryList for the query provided.
+     * @param {?} query
+     * @return {?}
+     */
+    function (query) {
         if (this.platform.WEBKIT) {
             createEmptyStyleRule(query);
         }
         return this._matchMedia(query);
     };
-    MediaMatcher.ngInjectableDef = core.defineInjectable({ factory: function MediaMatcher_Factory() { return new MediaMatcher(core.inject(platform.Platform)); }, token: MediaMatcher, providedIn: "root" });
-    MediaMatcher = __decorate([
-        core.Injectable({ providedIn: 'root' }),
-        __metadata("design:paramtypes", [platform.Platform])
-    ], MediaMatcher);
+    MediaMatcher.decorators = [
+        { type: core.Injectable, args: [{ providedIn: 'root' },] },
+    ];
+    /** @nocollapse */
+    MediaMatcher.ctorParameters = function () { return [
+        { type: platform.Platform }
+    ]; };
+    /** @nocollapse */ MediaMatcher.ngInjectableDef = core.defineInjectable({ factory: function MediaMatcher_Factory() { return new MediaMatcher(core.inject(platform.Platform)); }, token: MediaMatcher, providedIn: "root" });
     return MediaMatcher;
 }());
 /**
  * For Webkit engines that only trigger the MediaQueryListListener when
  * there is at least one CSS selector for the respective media query.
+ * @param {?} query
+ * @return {?}
  */
 function createEmptyStyleRule(query) {
     if (mediaQueriesForWebkitCompatibility.has(query)) {
@@ -90,10 +101,10 @@ function createEmptyStyleRule(query) {
         if (!mediaQueryStyleNode) {
             mediaQueryStyleNode = document.createElement('style');
             mediaQueryStyleNode.setAttribute('type', 'text/css');
-            document.head.appendChild(mediaQueryStyleNode);
+            (/** @type {?} */ (document.head)).appendChild(mediaQueryStyleNode);
         }
         if (mediaQueryStyleNode.sheet) {
-            mediaQueryStyleNode.sheet
+            ((/** @type {?} */ (mediaQueryStyleNode.sheet)))
                 .insertRule("@media " + query + " {.fx-query-test{ }}", 0);
             mediaQueriesForWebkitCompatibility.add(query);
         }
@@ -102,28 +113,51 @@ function createEmptyStyleRule(query) {
         console.error(e); //tslint:disable-line
     }
 }
-/** No-op matchMedia replacement for non-browser platforms. */
+/**
+ * No-op matchMedia replacement for non-browser platforms.
+ * @param {?} query
+ * @return {?}
+ */
 function noopMatchMedia(query) {
-    return {
+    return (/** @type {?} */ ({
         matches: query === 'all' || query === '',
         media: query,
         addListener: function () { },
+        //tslint:disable-line
         removeListener: function () { } //tslint:disable-line
-    };
+    }));
 }
 
-/** Utility for checking the matching state of @media queries. */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Utility for checking the matching state of \@media queries.
+ */
 var BreakpointObserver = /** @class */ (function () {
     function BreakpointObserver(mediaMatcher, zone) {
         this.mediaMatcher = mediaMatcher;
         this.zone = zone;
-        /**  A map of all media queries currently being listened for. */
+        /**
+         * A map of all media queries currently being listened for.
+         */
         this._queries = new Map();
-        /** A subject for all other observables to takeUntil based on. */
+        /**
+         * A subject for all other observables to takeUntil based on.
+         */
         this._destroySubject = new rxjs.Subject();
     }
     /** Completes the active subject, signalling to all other observables to complete. */
-    BreakpointObserver.prototype.ngOnDestroy = function () {
+    /**
+     * Completes the active subject, signalling to all other observables to complete.
+     * @return {?}
+     */
+    BreakpointObserver.prototype.ngOnDestroy = /**
+     * Completes the active subject, signalling to all other observables to complete.
+     * @return {?}
+     */
+    function () {
         this._destroySubject.next();
         this._destroySubject.complete();
     };
@@ -132,8 +166,19 @@ var BreakpointObserver = /** @class */ (function () {
      * @param value One or more media queries to check.
      * @returns Whether any of the media queries match.
      */
-    BreakpointObserver.prototype.isMatched = function (value) {
+    /**
+     * Whether one or more media queries match the current viewport size.
+     * @param {?} value One or more media queries to check.
+     * @return {?} Whether any of the media queries match.
+     */
+    BreakpointObserver.prototype.isMatched = /**
+     * Whether one or more media queries match the current viewport size.
+     * @param {?} value One or more media queries to check.
+     * @return {?} Whether any of the media queries match.
+     */
+    function (value) {
         var _this = this;
+        /** @type {?} */
         var queries = splitQueries(coercion.coerceArray(value));
         return queries.some(function (mediaQuery) { return _this._registerQuery(mediaQuery).mql.matches; });
     };
@@ -143,11 +188,26 @@ var BreakpointObserver = /** @class */ (function () {
      * @param value One or more media queries to check.
      * @returns A stream of matches for the given queries.
      */
-    BreakpointObserver.prototype.observe = function (value) {
+    /**
+     * Gets an observable of results for the given queries that will emit new results for any changes
+     * in matching of the given queries.
+     * @param {?} value One or more media queries to check.
+     * @return {?} A stream of matches for the given queries.
+     */
+    BreakpointObserver.prototype.observe = /**
+     * Gets an observable of results for the given queries that will emit new results for any changes
+     * in matching of the given queries.
+     * @param {?} value One or more media queries to check.
+     * @return {?} A stream of matches for the given queries.
+     */
+    function (value) {
         var _this = this;
+        /** @type {?} */
         var queries = splitQueries(coercion.coerceArray(value));
+        /** @type {?} */
         var observables = queries.map(function (query) { return _this._registerQuery(query).observable; });
         return rxjs.combineLatest(observables).pipe(operators.debounceTime(0, rxjs.asapScheduler), operators.map(function (breakpointStates) {
+            /** @type {?} */
             var response = {
                 matches: false,
                 breakpoints: {}
@@ -160,15 +220,30 @@ var BreakpointObserver = /** @class */ (function () {
         }));
     };
     /** Registers a specific query to be listened for. */
-    BreakpointObserver.prototype._registerQuery = function (query) {
+    /**
+     * Registers a specific query to be listened for.
+     * @private
+     * @param {?} query
+     * @return {?}
+     */
+    BreakpointObserver.prototype._registerQuery = /**
+     * Registers a specific query to be listened for.
+     * @private
+     * @param {?} query
+     * @return {?}
+     */
+    function (query) {
         var _this = this;
         // Only set up a new MediaQueryList if it is not already being listened for.
         if (this._queries.has(query)) {
-            return this._queries.get(query); //tslint:disable-line
+            return (/** @type {?} */ (this._queries.get(query))); //tslint:disable-line
         }
+        /** @type {?} */
         var mql = this.mediaMatcher.matchMedia(query);
+        /** @type {?} */
         var queryListener;
         // Create callback for match changes and add it is as a listener.
+        /** @type {?} */
         var queryObservable = rxjs.fromEventPattern(
         // Listener callback methods are wrapped to be placed back in ngZone. Callbacks must be placed
         // back into the zone because matchMedia is only included in Zone.js by loading the
@@ -181,20 +256,27 @@ var BreakpointObserver = /** @class */ (function () {
         }, function () { return mql.removeListener(queryListener); })
             .pipe(operators.takeUntil(this._destroySubject), operators.startWith(mql), operators.map(function (nextMql) { return ({ query: query, matches: nextMql.matches }); }));
         // Add the MediaQueryList to the set of queries.
-        var output = { observable: queryObservable, mql: mql }; //tslint:disable-line
+        /** @type {?} */
+        var output = { observable: queryObservable, mql: mql };
         this._queries.set(query, output);
         return output;
     };
-    BreakpointObserver.ngInjectableDef = core.defineInjectable({ factory: function BreakpointObserver_Factory() { return new BreakpointObserver(core.inject(MediaMatcher), core.inject(core.NgZone)); }, token: BreakpointObserver, providedIn: "root" });
-    BreakpointObserver = __decorate([
-        core.Injectable({ providedIn: 'root' }),
-        __metadata("design:paramtypes", [MediaMatcher, core.NgZone])
-    ], BreakpointObserver);
+    BreakpointObserver.decorators = [
+        { type: core.Injectable, args: [{ providedIn: 'root' },] },
+    ];
+    /** @nocollapse */
+    BreakpointObserver.ctorParameters = function () { return [
+        { type: MediaMatcher },
+        { type: core.NgZone }
+    ]; };
+    /** @nocollapse */ BreakpointObserver.ngInjectableDef = core.defineInjectable({ factory: function BreakpointObserver_Factory() { return new BreakpointObserver(core.inject(MediaMatcher), core.inject(core.NgZone)); }, token: BreakpointObserver, providedIn: "root" });
     return BreakpointObserver;
 }());
 /**
  * Split each query string into separate query strings if two queries are provided as comma
  * separated.
+ * @param {?} queries
+ * @return {?}
  */
 function splitQueries(queries) {
     return queries.map(function (query) { return query.split(','); })
@@ -202,8 +284,13 @@ function splitQueries(queries) {
         .map(function (query) { return query.trim(); });
 }
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 // PascalCase is being used as Breakpoints is used like an enum.
 // tslint:disable-next-line:variable-name
+/** @type {?} */
 var Breakpoints = {
     XSmall: '(max-width: 599px)',
     Small: '(min-width: 600px) and (max-width: 959px)',

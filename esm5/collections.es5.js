@@ -4,16 +4,32 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
-import { __extends, __decorate } from 'tslib';
+import { __extends } from 'tslib';
 import { Observable, of, Subject } from 'rxjs';
 import { Injectable, defineInjectable } from '@angular/core';
 
-var DataSource = /** @class */ (function () {
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @abstract
+ * @template T
+ */
+var  /**
+ * @abstract
+ * @template T
+ */
+DataSource = /** @class */ (function () {
     function DataSource() {
     }
     return DataSource;
 }());
-/** Checks whether an object is a data source. */
+/**
+ * Checks whether an object is a data source.
+ * @param {?} value
+ * @return {?}
+ */
 function isDataSource(value) {
     // Check if the value is a DataSource by observing if it has a connect function. Cannot
     // be checked as an `instanceof DataSource` since people could create their own sources
@@ -21,45 +37,98 @@ function isDataSource(value) {
     return value && typeof value.connect === 'function';
 }
 
-/** DataSource wrapper for a native array. */
-var ArrayDataSource = /** @class */ (function (_super) {
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * DataSource wrapper for a native array.
+ * @template T
+ */
+var  /**
+ * DataSource wrapper for a native array.
+ * @template T
+ */
+ArrayDataSource = /** @class */ (function (_super) {
     __extends(ArrayDataSource, _super);
     function ArrayDataSource(_data) {
         var _this = _super.call(this) || this;
         _this._data = _data;
         return _this;
     }
-    ArrayDataSource.prototype.connect = function () {
+    /**
+     * @return {?}
+     */
+    ArrayDataSource.prototype.connect = /**
+     * @return {?}
+     */
+    function () {
         return this._data instanceof Observable ? this._data : of(this._data);
     };
     // tslint:disable-next-line
-    ArrayDataSource.prototype.disconnect = function () { };
+    // tslint:disable-next-line
+    /**
+     * @return {?}
+     */
+    ArrayDataSource.prototype.disconnect = 
+    // tslint:disable-next-line
+    /**
+     * @return {?}
+     */
+    function () { };
     return ArrayDataSource;
 }(DataSource));
 
 /**
- * Class to be used to power selecting one or more options from a list.
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-var SelectionModel = /** @class */ (function () {
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Class to be used to power selecting one or more options from a list.
+ * @template T
+ */
+var  /**
+ * Class to be used to power selecting one or more options from a list.
+ * @template T
+ */
+SelectionModel = /** @class */ (function () {
     function SelectionModel(_multiple, initiallySelectedValues, _emitChanges) {
         if (_multiple === void 0) { _multiple = false; }
         if (_emitChanges === void 0) { _emitChanges = true; }
         var _this = this;
         this._multiple = _multiple;
         this._emitChanges = _emitChanges;
-        /** Event emitted when the value has changed. */
+        /**
+         * Event emitted when the value has changed.
+         */
         this.changed = new Subject();
         /**
          * Event emitted when the value has changed.
          * @deprecated Use `changed` instead.
-         * @breaking-change 8.0.0 To be changed to `changed`
+         * \@breaking-change 8.0.0 To be changed to `changed`
          */
         this.onChange = this.changed;
-        /** Currently-selected values. */
+        /**
+         * Currently-selected values.
+         */
         this.selection = new Set();
-        /** Keeps track of the deselected options that haven't been emitted by the change event. */
+        /**
+         * Keeps track of the deselected options that haven't been emitted by the change event.
+         */
         this.deselectedToEmit = [];
-        /** Keeps track of the selected options that haven't been emitted by the change event. */
+        /**
+         * Keeps track of the selected options that haven't been emitted by the change event.
+         */
         this.selectedToEmit = [];
         if (initiallySelectedValues && initiallySelectedValues.length) {
             if (_multiple) {
@@ -73,7 +142,10 @@ var SelectionModel = /** @class */ (function () {
         }
     }
     Object.defineProperty(SelectionModel.prototype, "selected", {
-        get: function () {
+        get: /**
+         * @return {?}
+         */
+        function () {
             if (!this._selected) {
                 this._selected = Array.from(this.selection.values());
             }
@@ -85,7 +157,17 @@ var SelectionModel = /** @class */ (function () {
     /**
      * Selects a value or an array of values.
      */
-    SelectionModel.prototype.select = function () {
+    /**
+     * Selects a value or an array of values.
+     * @param {...?} values
+     * @return {?}
+     */
+    SelectionModel.prototype.select = /**
+     * Selects a value or an array of values.
+     * @param {...?} values
+     * @return {?}
+     */
+    function () {
         var _this = this;
         var values = [];
         for (var _i = 0; _i < arguments.length; _i++) {
@@ -98,7 +180,17 @@ var SelectionModel = /** @class */ (function () {
     /**
      * Deselects a value or an array of values.
      */
-    SelectionModel.prototype.deselect = function () {
+    /**
+     * Deselects a value or an array of values.
+     * @param {...?} values
+     * @return {?}
+     */
+    SelectionModel.prototype.deselect = /**
+     * Deselects a value or an array of values.
+     * @param {...?} values
+     * @return {?}
+     */
+    function () {
         var _this = this;
         var values = [];
         for (var _i = 0; _i < arguments.length; _i++) {
@@ -111,7 +203,17 @@ var SelectionModel = /** @class */ (function () {
     /**
      * Toggles a value between selected and deselected.
      */
-    SelectionModel.prototype.toggle = function (value) {
+    /**
+     * Toggles a value between selected and deselected.
+     * @param {?} value
+     * @return {?}
+     */
+    SelectionModel.prototype.toggle = /**
+     * Toggles a value between selected and deselected.
+     * @param {?} value
+     * @return {?}
+     */
+    function (value) {
         if (this.isSelected(value)) {
             this.deselect(value);
         }
@@ -122,44 +224,106 @@ var SelectionModel = /** @class */ (function () {
     /**
      * Clears all of the selected values.
      */
-    SelectionModel.prototype.clear = function () {
+    /**
+     * Clears all of the selected values.
+     * @return {?}
+     */
+    SelectionModel.prototype.clear = /**
+     * Clears all of the selected values.
+     * @return {?}
+     */
+    function () {
         this.unmarkAll();
         this.emitChangeEvent();
     };
     /**
      * Determines whether a value is selected.
      */
-    SelectionModel.prototype.isSelected = function (value) {
+    /**
+     * Determines whether a value is selected.
+     * @param {?} value
+     * @return {?}
+     */
+    SelectionModel.prototype.isSelected = /**
+     * Determines whether a value is selected.
+     * @param {?} value
+     * @return {?}
+     */
+    function (value) {
         return this.selection.has(value);
     };
     /**
      * Determines whether the model does not have a value.
      */
-    SelectionModel.prototype.isEmpty = function () {
+    /**
+     * Determines whether the model does not have a value.
+     * @return {?}
+     */
+    SelectionModel.prototype.isEmpty = /**
+     * Determines whether the model does not have a value.
+     * @return {?}
+     */
+    function () {
         return this.selection.size === 0;
     };
     /**
      * Determines whether the model has a value.
      */
-    SelectionModel.prototype.hasValue = function () {
+    /**
+     * Determines whether the model has a value.
+     * @return {?}
+     */
+    SelectionModel.prototype.hasValue = /**
+     * Determines whether the model has a value.
+     * @return {?}
+     */
+    function () {
         return !this.isEmpty();
     };
     /**
      * Sorts the selected values based on a predicate function.
      */
-    SelectionModel.prototype.sort = function (predicate) {
+    /**
+     * Sorts the selected values based on a predicate function.
+     * @param {?=} predicate
+     * @return {?}
+     */
+    SelectionModel.prototype.sort = /**
+     * Sorts the selected values based on a predicate function.
+     * @param {?=} predicate
+     * @return {?}
+     */
+    function (predicate) {
         if (this._multiple && this.selected) {
-            this._selected.sort(predicate);
+            (/** @type {?} */ (this._selected)).sort(predicate);
         }
     };
     /**
      * Gets whether multiple values can be selected.
      */
-    SelectionModel.prototype.isMultipleSelection = function () {
+    /**
+     * Gets whether multiple values can be selected.
+     * @return {?}
+     */
+    SelectionModel.prototype.isMultipleSelection = /**
+     * Gets whether multiple values can be selected.
+     * @return {?}
+     */
+    function () {
         return this._multiple;
     };
     /** Emits a change event and clears the records of selected and deselected values. */
-    SelectionModel.prototype.emitChangeEvent = function () {
+    /**
+     * Emits a change event and clears the records of selected and deselected values.
+     * @private
+     * @return {?}
+     */
+    SelectionModel.prototype.emitChangeEvent = /**
+     * Emits a change event and clears the records of selected and deselected values.
+     * @private
+     * @return {?}
+     */
+    function () {
         // Clear the selected values so they can be re-cached.
         this._selected = null;
         if (this.selectedToEmit.length || this.deselectedToEmit.length) {
@@ -173,7 +337,19 @@ var SelectionModel = /** @class */ (function () {
         }
     };
     /** Selects a value. */
-    SelectionModel.prototype.markSelected = function (value) {
+    /**
+     * Selects a value.
+     * @private
+     * @param {?} value
+     * @return {?}
+     */
+    SelectionModel.prototype.markSelected = /**
+     * Selects a value.
+     * @private
+     * @param {?} value
+     * @return {?}
+     */
+    function (value) {
         if (!this.isSelected(value)) {
             if (!this._multiple) {
                 this.unmarkAll();
@@ -185,7 +361,19 @@ var SelectionModel = /** @class */ (function () {
         }
     };
     /** Deselects a value. */
-    SelectionModel.prototype.unmarkSelected = function (value) {
+    /**
+     * Deselects a value.
+     * @private
+     * @param {?} value
+     * @return {?}
+     */
+    SelectionModel.prototype.unmarkSelected = /**
+     * Deselects a value.
+     * @private
+     * @param {?} value
+     * @return {?}
+     */
+    function (value) {
         if (this.isSelected(value)) {
             this.selection.delete(value);
             if (this._emitChanges) {
@@ -194,7 +382,17 @@ var SelectionModel = /** @class */ (function () {
         }
     };
     /** Clears out the selected values. */
-    SelectionModel.prototype.unmarkAll = function () {
+    /**
+     * Clears out the selected values.
+     * @private
+     * @return {?}
+     */
+    SelectionModel.prototype.unmarkAll = /**
+     * Clears out the selected values.
+     * @private
+     * @return {?}
+     */
+    function () {
         var _this = this;
         if (!this.isEmpty()) {
             this.selection.forEach(function (value) { return _this.unmarkSelected(value); });
@@ -204,7 +402,21 @@ var SelectionModel = /** @class */ (function () {
      * Verifies the value assignment and throws an error if the specified value array is
      * including multiple values while the selection model is not supporting multiple values.
      */
-    SelectionModel.prototype.verifyValueAssignment = function (values) {
+    /**
+     * Verifies the value assignment and throws an error if the specified value array is
+     * including multiple values while the selection model is not supporting multiple values.
+     * @private
+     * @param {?} values
+     * @return {?}
+     */
+    SelectionModel.prototype.verifyValueAssignment = /**
+     * Verifies the value assignment and throws an error if the specified value array is
+     * including multiple values while the selection model is not supporting multiple values.
+     * @private
+     * @param {?} values
+     * @return {?}
+     */
+    function (values) {
         if (values.length > 1 && !this._multiple) {
             throw getMultipleValuesInSingleSelectionError();
         }
@@ -214,12 +426,17 @@ var SelectionModel = /** @class */ (function () {
 /**
  * Returns an error that reports that multiple values are passed into a selection model
  * with a single value.
- * @docs-private
+ * \@docs-private
+ * @return {?}
  */
 function getMultipleValuesInSingleSelectionError() {
     return Error('Cannot pass multiple values into SelectionModel with single-value mode.');
 }
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 /**
  * Class to coordinate unique selection based on name.
  * Intended to be consumed as an Angular service.
@@ -238,7 +455,19 @@ var UniqueSelectionDispatcher = /** @class */ (function () {
      * @param id ID of the item.
      * @param name Name of the item.
      */
-    UniqueSelectionDispatcher.prototype.notify = function (id, name) {
+    /**
+     * Notify other items that selection for the given name has been set.
+     * @param {?} id ID of the item.
+     * @param {?} name Name of the item.
+     * @return {?}
+     */
+    UniqueSelectionDispatcher.prototype.notify = /**
+     * Notify other items that selection for the given name has been set.
+     * @param {?} id ID of the item.
+     * @param {?} name Name of the item.
+     * @return {?}
+     */
+    function (id, name) {
         for (var _i = 0, _a = this._listeners; _i < _a.length; _i++) {
             var listener = _a[_i];
             listener(id, name);
@@ -248,7 +477,17 @@ var UniqueSelectionDispatcher = /** @class */ (function () {
      * Listen for future changes to item selection.
      * @return Function used to deregister listener
      */
-    UniqueSelectionDispatcher.prototype.listen = function (listener) {
+    /**
+     * Listen for future changes to item selection.
+     * @param {?} listener
+     * @return {?} Function used to deregister listener
+     */
+    UniqueSelectionDispatcher.prototype.listen = /**
+     * Listen for future changes to item selection.
+     * @param {?} listener
+     * @return {?} Function used to deregister listener
+     */
+    function (listener) {
         var _this = this;
         this._listeners.push(listener);
         return function () {
@@ -257,19 +496,31 @@ var UniqueSelectionDispatcher = /** @class */ (function () {
             });
         };
     };
-    UniqueSelectionDispatcher.prototype.ngOnDestroy = function () {
+    /**
+     * @return {?}
+     */
+    UniqueSelectionDispatcher.prototype.ngOnDestroy = /**
+     * @return {?}
+     */
+    function () {
         this._listeners = [];
     };
-    UniqueSelectionDispatcher.ngInjectableDef = defineInjectable({ factory: function UniqueSelectionDispatcher_Factory() { return new UniqueSelectionDispatcher(); }, token: UniqueSelectionDispatcher, providedIn: "root" });
-    UniqueSelectionDispatcher = __decorate([
-        Injectable({ providedIn: 'root' })
-    ], UniqueSelectionDispatcher);
+    UniqueSelectionDispatcher.decorators = [
+        { type: Injectable, args: [{ providedIn: 'root' },] },
+    ];
+    /** @nocollapse */ UniqueSelectionDispatcher.ngInjectableDef = defineInjectable({ factory: function UniqueSelectionDispatcher_Factory() { return new UniqueSelectionDispatcher(); }, token: UniqueSelectionDispatcher, providedIn: "root" });
     return UniqueSelectionDispatcher;
 }());
 
 /**
- * Generated bundle index. Do not edit.
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { UniqueSelectionDispatcher, ArrayDataSource, DataSource, isDataSource, SelectionModel, getMultipleValuesInSingleSelectionError };
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+export { UniqueSelectionDispatcher, ArrayDataSource, isDataSource, DataSource, getMultipleValuesInSingleSelectionError, SelectionModel };
 //# sourceMappingURL=collections.es5.js.map

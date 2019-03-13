@@ -39,65 +39,147 @@ function __extends(d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 
-function __decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
-
-function __param(paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-}
-
-function __metadata(metadataKey, metadataValue) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-}
-
-/** Base tree control. It has basic toggle/expand/collapse operations on a single data node. */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Base tree control. It has basic toggle/expand/collapse operations on a single data node.
+ * @abstract
+ * @template T
+ */
 // todo здесь явно ошибка проектирования, абстрактный класс реализует функционал
 /* tslint:disable-next-line:naming-convention */
-var BaseTreeControl = /** @class */ (function () {
+var   /**
+ * Base tree control. It has basic toggle/expand/collapse operations on a single data node.
+ * @abstract
+ * @template T
+ */
+// todo здесь явно ошибка проектирования, абстрактный класс реализует функционал
+/* tslint:disable-next-line:naming-convention */
+BaseTreeControl = /** @class */ (function () {
     function BaseTreeControl() {
-        /** A selection model with multi-selection to track expansion status. */
+        /**
+         * A selection model with multi-selection to track expansion status.
+         */
         this.expansionModel = new collections.SelectionModel(true);
     }
     /** Toggles one single data node's expanded/collapsed state. */
-    BaseTreeControl.prototype.toggle = function (dataNode) {
+    /**
+     * Toggles one single data node's expanded/collapsed state.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    BaseTreeControl.prototype.toggle = /**
+     * Toggles one single data node's expanded/collapsed state.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    function (dataNode) {
         this.expansionModel.toggle(dataNode);
     };
     /** Expands one single data node. */
-    BaseTreeControl.prototype.expand = function (dataNode) {
+    /**
+     * Expands one single data node.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    BaseTreeControl.prototype.expand = /**
+     * Expands one single data node.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    function (dataNode) {
         this.expansionModel.select(dataNode);
     };
     /** Collapses one single data node. */
-    BaseTreeControl.prototype.collapse = function (dataNode) {
+    /**
+     * Collapses one single data node.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    BaseTreeControl.prototype.collapse = /**
+     * Collapses one single data node.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    function (dataNode) {
         this.expansionModel.deselect(dataNode);
     };
     /** Whether a given data node is expanded or not. Returns true if the data node is expanded. */
-    BaseTreeControl.prototype.isExpanded = function (dataNode) {
+    /**
+     * Whether a given data node is expanded or not. Returns true if the data node is expanded.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    BaseTreeControl.prototype.isExpanded = /**
+     * Whether a given data node is expanded or not. Returns true if the data node is expanded.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    function (dataNode) {
         return this.expansionModel.isSelected(dataNode);
     };
     /** Toggles a subtree rooted at `node` recursively. */
-    BaseTreeControl.prototype.toggleDescendants = function (dataNode) {
+    /**
+     * Toggles a subtree rooted at `node` recursively.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    BaseTreeControl.prototype.toggleDescendants = /**
+     * Toggles a subtree rooted at `node` recursively.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    function (dataNode) {
         this.expansionModel.isSelected(dataNode)
             ? this.collapseDescendants(dataNode)
             : this.expandDescendants(dataNode);
     };
     /** Collapse all dataNodes in the tree. */
-    BaseTreeControl.prototype.collapseAll = function () {
+    /**
+     * Collapse all dataNodes in the tree.
+     * @return {?}
+     */
+    BaseTreeControl.prototype.collapseAll = /**
+     * Collapse all dataNodes in the tree.
+     * @return {?}
+     */
+    function () {
         this.expansionModel.clear();
     };
     /** Expands a subtree rooted at given data node recursively. */
-    BaseTreeControl.prototype.expandDescendants = function (dataNode) {
+    /**
+     * Expands a subtree rooted at given data node recursively.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    BaseTreeControl.prototype.expandDescendants = /**
+     * Expands a subtree rooted at given data node recursively.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    function (dataNode) {
         var _a;
+        /** @type {?} */
         var toBeProcessed = [dataNode];
         toBeProcessed.push.apply(toBeProcessed, this.getDescendants(dataNode));
         (_a = this.expansionModel).select.apply(_a, toBeProcessed);
     };
     /** Collapses a subtree rooted at given data node recursively. */
-    BaseTreeControl.prototype.collapseDescendants = function (dataNode) {
+    /**
+     * Collapses a subtree rooted at given data node recursively.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    BaseTreeControl.prototype.collapseDescendants = /**
+     * Collapses a subtree rooted at given data node recursively.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    function (dataNode) {
         var _a;
+        /** @type {?} */
         var toBeProcessed = [dataNode];
         toBeProcessed.push.apply(toBeProcessed, this.getDescendants(dataNode));
         (_a = this.expansionModel).deselect.apply(_a, toBeProcessed);
@@ -105,8 +187,19 @@ var BaseTreeControl = /** @class */ (function () {
     return BaseTreeControl;
 }());
 
-/** Flat tree control. Able to expand/collapse a subtree recursively for flattened tree. */
-var FlatTreeControl = /** @class */ (function (_super) {
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Flat tree control. Able to expand/collapse a subtree recursively for flattened tree.
+ * @template T
+ */
+var   /**
+ * Flat tree control. Able to expand/collapse a subtree recursively for flattened tree.
+ * @template T
+ */
+FlatTreeControl = /** @class */ (function (_super) {
     __extends(FlatTreeControl, _super);
     /** Construct with flat tree data node functions getLevel and isExpandable. */
     function FlatTreeControl(getLevel, isExpandable) {
@@ -121,8 +214,26 @@ var FlatTreeControl = /** @class */ (function (_super) {
      * To make this working, the `dataNodes` of the ITreeControl must be flattened tree nodes
      * with correct levels.
      */
-    FlatTreeControl.prototype.getDescendants = function (dataNode) {
+    /**
+     * Gets a list of the data node's subtree of descendent data nodes.
+     *
+     * To make this working, the `dataNodes` of the ITreeControl must be flattened tree nodes
+     * with correct levels.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    FlatTreeControl.prototype.getDescendants = /**
+     * Gets a list of the data node's subtree of descendent data nodes.
+     *
+     * To make this working, the `dataNodes` of the ITreeControl must be flattened tree nodes
+     * with correct levels.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    function (dataNode) {
+        /** @type {?} */
         var startIndex = this.dataNodes.indexOf(dataNode);
+        /** @type {?} */
         var results = [];
         // Goes through flattened tree nodes in the `dataNodes` array, and get all descendants.
         // The level of descendants of a tree node must be greater than the level of the given
@@ -141,15 +252,40 @@ var FlatTreeControl = /** @class */ (function (_super) {
      * To make this working, the `dataNodes` variable of the ITreeControl must be set to all flattened
      * data nodes of the tree.
      */
-    FlatTreeControl.prototype.expandAll = function () {
+    /**
+     * Expands all data nodes in the tree.
+     *
+     * To make this working, the `dataNodes` variable of the ITreeControl must be set to all flattened
+     * data nodes of the tree.
+     * @return {?}
+     */
+    FlatTreeControl.prototype.expandAll = /**
+     * Expands all data nodes in the tree.
+     *
+     * To make this working, the `dataNodes` variable of the ITreeControl must be set to all flattened
+     * data nodes of the tree.
+     * @return {?}
+     */
+    function () {
         var _a;
         (_a = this.expansionModel).select.apply(_a, this.dataNodes);
     };
     return FlatTreeControl;
 }(BaseTreeControl));
 
-/** Nested tree control. Able to expand/collapse a subtree recursively for NestedNode type. */
-var NestedTreeControl = /** @class */ (function (_super) {
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Nested tree control. Able to expand/collapse a subtree recursively for NestedNode type.
+ * @template T
+ */
+var   /**
+ * Nested tree control. Able to expand/collapse a subtree recursively for NestedNode type.
+ * @template T
+ */
+NestedTreeControl = /** @class */ (function (_super) {
     __extends(NestedTreeControl, _super);
     /** Construct with nested tree function getChildren. */
     function NestedTreeControl(getChildren) {
@@ -163,17 +299,43 @@ var NestedTreeControl = /** @class */ (function (_super) {
      * To make this working, the `dataNodes` variable of the ITreeControl must be set to all root level
      * data nodes of the tree.
      */
-    NestedTreeControl.prototype.expandAll = function () {
+    /**
+     * Expands all dataNodes in the tree.
+     *
+     * To make this working, the `dataNodes` variable of the ITreeControl must be set to all root level
+     * data nodes of the tree.
+     * @return {?}
+     */
+    NestedTreeControl.prototype.expandAll = /**
+     * Expands all dataNodes in the tree.
+     *
+     * To make this working, the `dataNodes` variable of the ITreeControl must be set to all root level
+     * data nodes of the tree.
+     * @return {?}
+     */
+    function () {
         var _this = this;
         var _a;
         this.expansionModel.clear();
+        /** @type {?} */
         var allNodes = this.dataNodes.reduce(function (accumulator, dataNode) {
             return accumulator.concat(_this.getDescendants(dataNode), [dataNode]);
         }, []);
         (_a = this.expansionModel).select.apply(_a, allNodes);
     };
     /** Gets a list of descendant dataNodes of a subtree rooted at given data node recursively. */
-    NestedTreeControl.prototype.getDescendants = function (dataNode) {
+    /**
+     * Gets a list of descendant dataNodes of a subtree rooted at given data node recursively.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    NestedTreeControl.prototype.getDescendants = /**
+     * Gets a list of descendant dataNodes of a subtree rooted at given data node recursively.
+     * @param {?} dataNode
+     * @return {?}
+     */
+    function (dataNode) {
+        /** @type {?} */
         var descendants = [];
         this._getDescendants(descendants, dataNode);
         return descendants.splice(1);
@@ -181,7 +343,25 @@ var NestedTreeControl = /** @class */ (function (_super) {
     /** A helper function to get descendants recursively. */
     // todo нужно придумать другое название и понять в чем отличие между getDescendants и _getDescendants
     /* tslint:disable-next-line:naming-convention */
-    NestedTreeControl.prototype._getDescendants = function (descendants, dataNode) {
+    /**
+     * A helper function to get descendants recursively.
+     * @private
+     * @param {?} descendants
+     * @param {?} dataNode
+     * @return {?}
+     */
+    // todo нужно придумать другое название и понять в чем отличие между getDescendants и _getDescendants
+    /* tslint:disable-next-line:naming-convention */
+    NestedTreeControl.prototype._getDescendants = /**
+     * A helper function to get descendants recursively.
+     * @private
+     * @param {?} descendants
+     * @param {?} dataNode
+     * @return {?}
+     */
+    // todo нужно придумать другое название и понять в чем отличие между getDescendants и _getDescendants
+    /* tslint:disable-next-line:naming-convention */
+    function (descendants, dataNode) {
         var _this = this;
         descendants.push(dataNode);
         this.getChildren(dataNode)
@@ -196,6 +376,15 @@ var NestedTreeControl = /** @class */ (function (_super) {
 }(BaseTreeControl));
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
  * Outlet for nested CdkNode. Put `[cdkTreeNodeOutlet]` on a tag to place children dataNodes
  * inside the outlet.
  */
@@ -204,15 +393,30 @@ var CdkTreeNodeOutlet = /** @class */ (function () {
         this.viewContainer = viewContainer;
         this.changeDetectorRef = changeDetectorRef;
     }
-    CdkTreeNodeOutlet = __decorate([
-        core.Directive({ selector: '[cdkTreeNodeOutlet]' }),
-        __metadata("design:paramtypes", [core.ViewContainerRef, core.ChangeDetectorRef])
-    ], CdkTreeNodeOutlet);
+    CdkTreeNodeOutlet.decorators = [
+        { type: core.Directive, args: [{ selector: '[cdkTreeNodeOutlet]' },] },
+    ];
+    /** @nocollapse */
+    CdkTreeNodeOutlet.ctorParameters = function () { return [
+        { type: core.ViewContainerRef },
+        { type: core.ChangeDetectorRef }
+    ]; };
     return CdkTreeNodeOutlet;
 }());
 
-/** Context provided to the tree node component. */
-var CdkTreeNodeOutletContext = /** @class */ (function () {
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Context provided to the tree node component.
+ * @template T
+ */
+var   /**
+ * Context provided to the tree node component.
+ * @template T
+ */
+CdkTreeNodeOutletContext = /** @class */ (function () {
     function CdkTreeNodeOutletContext(data) {
         this.$implicit = data;
     }
@@ -221,63 +425,81 @@ var CdkTreeNodeOutletContext = /** @class */ (function () {
 /**
  * Data node definition for the CdkTree.
  * Captures the node's template and a when predicate that describes when this node should be used.
+ * @template T
  */
 var CdkTreeNodeDef = /** @class */ (function () {
     /** @docs-private */
     function CdkTreeNodeDef(template) {
         this.template = template;
     }
-    CdkTreeNodeDef = __decorate([
-        core.Directive({
-            selector: '[cdkTreeNodeDef]',
-            inputs: [
-                'when: cdkTreeNodeDefWhen'
-            ]
-        }),
-        __metadata("design:paramtypes", [core.TemplateRef])
-    ], CdkTreeNodeDef);
+    CdkTreeNodeDef.decorators = [
+        { type: core.Directive, args: [{
+                    selector: '[cdkTreeNodeDef]',
+                    inputs: [
+                        'when: cdkTreeNodeDefWhen'
+                    ]
+                },] },
+    ];
+    /** @nocollapse */
+    CdkTreeNodeDef.ctorParameters = function () { return [
+        { type: core.TemplateRef }
+    ]; };
     return CdkTreeNodeDef;
 }());
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
  * Returns an error to be thrown when there is no usable data.
- * @docs-private
+ * \@docs-private
+ * @return {?}
  */
 function getTreeNoValidDataSourceError() {
     return Error("A valid data source must be provided.");
 }
 /**
  * Returns an error to be thrown when there are multiple nodes that are missing a when function.
- * @docs-private
+ * \@docs-private
+ * @return {?}
  */
 function getTreeMultipleDefaultNodeDefsError() {
     return Error("There can only be one default row without a when predicate function.");
 }
 /**
  * Returns an error to be thrown when there are no matching node defs for a particular set of data.
- * @docs-private
+ * \@docs-private
+ * @return {?}
  */
 function getTreeMissingMatchingNodeDefError() {
     return Error("Could not find a matching node definition for the provided node data.");
 }
 /**
  * Returns an error to be thrown when there are tree control.
- * @docs-private
+ * \@docs-private
+ * @return {?}
  */
 function getTreeControlMissingError() {
     return Error("Could not find a tree control for the tree.");
 }
 /**
  * Returns an error to be thrown when tree control did not implement functions for flat/nested node.
- * @docs-private
+ * \@docs-private
+ * @return {?}
  */
 function getTreeControlFunctionsMissingError() {
     return Error("Could not find functions for nested/flat tree in tree control.");
 }
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
  * CDK tree component that connects with a data source to retrieve data of type `T` and renders
  * dataNodes with hierarchy. Updates the dataNodes when new data is provided by the data source.
+ * @template T
  */
 var CdkTree = /** @class */ (function () {
     function CdkTree(differs, changeDetectorRef) {
@@ -290,9 +512,13 @@ var CdkTree = /** @class */ (function () {
          * Can be used by the data source to as a heuristic of what data should be provided.
          */
         this.viewChange = new rxjs.BehaviorSubject({ start: 0, end: Number.MAX_VALUE });
-        /** Subject that emits when the component has been destroyed. */
+        /**
+         * Subject that emits when the component has been destroyed.
+         */
         this.onDestroy = new rxjs.Subject();
-        /** Level of nodes */
+        /**
+         * Level of nodes
+         */
         this.levels = new Map();
     }
     Object.defineProperty(CdkTree.prototype, "dataSource", {
@@ -301,10 +527,20 @@ var CdkTree = /** @class */ (function () {
          * stream of view window (what dataNodes are currently on screen).
          * Data source can be an observable of data array, or a dara array to render.
          */
-        get: function () {
+        get: /**
+         * Provides a stream containing the latest data array to render. Influenced by the tree's
+         * stream of view window (what dataNodes are currently on screen).
+         * Data source can be an observable of data array, or a dara array to render.
+         * @return {?}
+         */
+        function () {
             return this._dataSource;
         },
-        set: function (dataSource) {
+        set: /**
+         * @param {?} dataSource
+         * @return {?}
+         */
+        function (dataSource) {
             if (this._dataSource !== dataSource) {
                 this.switchDataSource(dataSource);
             }
@@ -312,26 +548,45 @@ var CdkTree = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    CdkTree.prototype.ngOnInit = function () {
+    /**
+     * @return {?}
+     */
+    CdkTree.prototype.ngOnInit = /**
+     * @return {?}
+     */
+    function () {
         this.dataDiffer = this.differs.find([]).create(this.trackBy);
         if (!this.treeControl) {
             throw getTreeControlMissingError();
         }
     };
-    CdkTree.prototype.ngOnDestroy = function () {
+    /**
+     * @return {?}
+     */
+    CdkTree.prototype.ngOnDestroy = /**
+     * @return {?}
+     */
+    function () {
         this.nodeOutlet.viewContainer.clear();
         this.onDestroy.next();
         this.onDestroy.complete();
         // tslint:disable-next-line:no-unbound-method
-        if (this._dataSource && typeof this.dataSource.disconnect === 'function') {
-            this.dataSource.disconnect(this);
+        if (this._dataSource && typeof ((/** @type {?} */ (this.dataSource))).disconnect === 'function') {
+            ((/** @type {?} */ (this.dataSource))).disconnect(this);
         }
         if (this.dataSubscription) {
             this.dataSubscription.unsubscribe();
             this.dataSubscription = null;
         }
     };
-    CdkTree.prototype.ngAfterContentChecked = function () {
+    /**
+     * @return {?}
+     */
+    CdkTree.prototype.ngAfterContentChecked = /**
+     * @return {?}
+     */
+    function () {
+        /** @type {?} */
         var defaultNodeDefs = this.nodeDefs.filter(function (def) { return !def.when; });
         if (defaultNodeDefs.length > 1) {
             throw getTreeMultipleDefaultNodeDefsError();
@@ -342,25 +597,43 @@ var CdkTree = /** @class */ (function () {
         }
     };
     /** Check for changes made in the data and render each change (node added/removed/moved). */
-    CdkTree.prototype.renderNodeChanges = function (data, dataDiffer, viewContainer, parentData) {
+    /**
+     * Check for changes made in the data and render each change (node added/removed/moved).
+     * @param {?} data
+     * @param {?=} dataDiffer
+     * @param {?=} viewContainer
+     * @param {?=} parentData
+     * @return {?}
+     */
+    CdkTree.prototype.renderNodeChanges = /**
+     * Check for changes made in the data and render each change (node added/removed/moved).
+     * @param {?} data
+     * @param {?=} dataDiffer
+     * @param {?=} viewContainer
+     * @param {?=} parentData
+     * @return {?}
+     */
+    function (data, dataDiffer, viewContainer, parentData) {
         var _this = this;
         if (dataDiffer === void 0) { dataDiffer = this.dataDiffer; }
         if (viewContainer === void 0) { viewContainer = this.nodeOutlet.viewContainer; }
+        /** @type {?} */
         var changes = dataDiffer.diff(data);
         if (!changes) {
             return;
         }
         changes.forEachOperation(function (item, adjustedPreviousIndex, currentIndex) {
             if (item.previousIndex == null) {
-                _this.insertNode(data[currentIndex], currentIndex, viewContainer, parentData);
+                _this.insertNode(data[(/** @type {?} */ (currentIndex))], (/** @type {?} */ (currentIndex)), viewContainer, parentData);
             }
             else if (currentIndex == null) {
-                viewContainer.remove(adjustedPreviousIndex);
+                viewContainer.remove((/** @type {?} */ (adjustedPreviousIndex)));
                 _this.levels.delete(item.item);
             }
             else {
-                var view = viewContainer.get(adjustedPreviousIndex);
-                viewContainer.move(view, currentIndex);
+                /** @type {?} */
+                var view = viewContainer.get((/** @type {?} */ (adjustedPreviousIndex)));
+                viewContainer.move((/** @type {?} */ (view)), currentIndex);
             }
         });
         this.changeDetectorRef.detectChanges();
@@ -371,10 +644,29 @@ var CdkTree = /** @class */ (function () {
      * predicate that returns true with the data. If none return true, return the default node
      * definition.
      */
-    CdkTree.prototype.getNodeDef = function (data, i) {
+    /**
+     * Finds the matching node definition that should be used for this node data. If there is only
+     * one node definition, it is returned. Otherwise, find the node definition that has a when
+     * predicate that returns true with the data. If none return true, return the default node
+     * definition.
+     * @param {?} data
+     * @param {?} i
+     * @return {?}
+     */
+    CdkTree.prototype.getNodeDef = /**
+     * Finds the matching node definition that should be used for this node data. If there is only
+     * one node definition, it is returned. Otherwise, find the node definition that has a when
+     * predicate that returns true with the data. If none return true, return the default node
+     * definition.
+     * @param {?} data
+     * @param {?} i
+     * @return {?}
+     */
+    function (data, i) {
         if (this.nodeDefs.length === 1) {
             return this.nodeDefs.first;
         }
+        /** @type {?} */
         var nodeDef = this.nodeDefs.find(function (def) { return def.when && def.when(i, data); }) || this.defaultNodeDef;
         if (!nodeDef) {
             throw getTreeMissingMatchingNodeDefError();
@@ -385,9 +677,29 @@ var CdkTree = /** @class */ (function () {
      * Create the embedded view for the data node template and place it in the correct index location
      * within the data node view container.
      */
-    CdkTree.prototype.insertNode = function (nodeData, index, viewContainer, parentData) {
+    /**
+     * Create the embedded view for the data node template and place it in the correct index location
+     * within the data node view container.
+     * @param {?} nodeData
+     * @param {?} index
+     * @param {?=} viewContainer
+     * @param {?=} parentData
+     * @return {?}
+     */
+    CdkTree.prototype.insertNode = /**
+     * Create the embedded view for the data node template and place it in the correct index location
+     * within the data node view container.
+     * @param {?} nodeData
+     * @param {?} index
+     * @param {?=} viewContainer
+     * @param {?=} parentData
+     * @return {?}
+     */
+    function (nodeData, index, viewContainer, parentData) {
+        /** @type {?} */
         var node = this.getNodeDef(nodeData, index);
         // Node context that will be provided to created embedded view
+        /** @type {?} */
         var context = new CdkTreeNodeOutletContext(nodeData);
         // If the tree is flat tree, then use the `getLevel` function in flat tree control
         // Otherwise, use the level of parent node.
@@ -396,13 +708,14 @@ var CdkTree = /** @class */ (function () {
             /* tslint:disable-next-line:no-typeof-undefined */
         }
         else if (typeof parentData !== 'undefined' && this.levels.has(parentData)) {
-            context.level = this.levels.get(parentData) + 1;
+            context.level = (/** @type {?} */ (this.levels.get(parentData))) + 1;
         }
         else {
             context.level = 0;
         }
         this.levels.set(nodeData, context.level);
         // Use default tree nodeOutlet, or nested node's nodeOutlet
+        /** @type {?} */
         var container = viewContainer ? viewContainer : this.nodeOutlet.viewContainer;
         container.createEmbeddedView(node.template, context, index);
         // Set the data to just created `CdkTreeNode`.
@@ -413,14 +726,25 @@ var CdkTree = /** @class */ (function () {
         }
     };
     /** Set up a subscription for the data provided by the data source. */
-    CdkTree.prototype.observeRenderChanges = function () {
+    /**
+     * Set up a subscription for the data provided by the data source.
+     * @private
+     * @return {?}
+     */
+    CdkTree.prototype.observeRenderChanges = /**
+     * Set up a subscription for the data provided by the data source.
+     * @private
+     * @return {?}
+     */
+    function () {
         var _this = this;
+        /** @type {?} */
         var dataStream;
         // Cannot use `instanceof DataSource` since the data source could be a literal with
         // `connect` function and may not extends DataSource.
         // tslint:disable-next-line:no-unbound-method
-        if (typeof this._dataSource.connect === 'function') {
-            dataStream = this._dataSource.connect(this);
+        if (typeof ((/** @type {?} */ (this._dataSource))).connect === 'function') {
+            dataStream = ((/** @type {?} */ (this._dataSource))).connect(this);
         }
         else if (this._dataSource instanceof rxjs.Observable) {
             dataStream = this._dataSource;
@@ -442,10 +766,26 @@ var CdkTree = /** @class */ (function () {
      * render change subscription if one exists. If the data source is null, interpret this by
      * clearing the node outlet. Otherwise start listening for new data.
      */
-    CdkTree.prototype.switchDataSource = function (dataSource) {
+    /**
+     * Switch to the provided data source by resetting the data and unsubscribing from the current
+     * render change subscription if one exists. If the data source is null, interpret this by
+     * clearing the node outlet. Otherwise start listening for new data.
+     * @private
+     * @param {?} dataSource
+     * @return {?}
+     */
+    CdkTree.prototype.switchDataSource = /**
+     * Switch to the provided data source by resetting the data and unsubscribing from the current
+     * render change subscription if one exists. If the data source is null, interpret this by
+     * clearing the node outlet. Otherwise start listening for new data.
+     * @private
+     * @param {?} dataSource
+     * @return {?}
+     */
+    function (dataSource) {
         // tslint:disable-next-line:no-unbound-method
-        if (this._dataSource && typeof this._dataSource.disconnect === 'function') {
-            this.dataSource.disconnect(this);
+        if (this._dataSource && typeof ((/** @type {?} */ (this._dataSource))).disconnect === 'function') {
+            ((/** @type {?} */ (this.dataSource))).disconnect(this);
         }
         if (this.dataSubscription) {
             this.dataSubscription.unsubscribe();
@@ -460,45 +800,36 @@ var CdkTree = /** @class */ (function () {
             this.observeRenderChanges();
         }
     };
-    __decorate([
-        core.Input(),
-        __metadata("design:type", Object)
-    ], CdkTree.prototype, "treeControl", void 0);
-    __decorate([
-        core.Input(),
-        __metadata("design:type", Function)
-    ], CdkTree.prototype, "trackBy", void 0);
-    __decorate([
-        core.ViewChild(CdkTreeNodeOutlet),
-        __metadata("design:type", CdkTreeNodeOutlet)
-    ], CdkTree.prototype, "nodeOutlet", void 0);
-    __decorate([
-        core.ContentChildren(CdkTreeNodeDef),
-        __metadata("design:type", core.QueryList)
-    ], CdkTree.prototype, "nodeDefs", void 0);
-    __decorate([
-        core.Input(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], CdkTree.prototype, "dataSource", null);
-    CdkTree = __decorate([
-        core.Component({
-            selector: 'cdk-tree',
-            exportAs: 'cdkTree',
-            template: "<ng-container cdkTreeNodeOutlet></ng-container>",
-            host: {
-                class: 'cdk-tree',
-                role: 'tree'
-            },
-            encapsulation: core.ViewEncapsulation.None,
-            changeDetection: core.ChangeDetectionStrategy.OnPush
-        }),
-        __metadata("design:paramtypes", [core.IterableDiffers, core.ChangeDetectorRef])
-    ], CdkTree);
+    CdkTree.decorators = [
+        { type: core.Component, args: [{
+                    selector: 'cdk-tree',
+                    exportAs: 'cdkTree',
+                    template: "<ng-container cdkTreeNodeOutlet></ng-container>",
+                    host: {
+                        class: 'cdk-tree',
+                        role: 'tree'
+                    },
+                    encapsulation: core.ViewEncapsulation.None,
+                    changeDetection: core.ChangeDetectionStrategy.OnPush
+                },] },
+    ];
+    /** @nocollapse */
+    CdkTree.ctorParameters = function () { return [
+        { type: core.IterableDiffers },
+        { type: core.ChangeDetectorRef }
+    ]; };
+    CdkTree.propDecorators = {
+        treeControl: [{ type: core.Input }],
+        trackBy: [{ type: core.Input }],
+        nodeOutlet: [{ type: core.ViewChild, args: [CdkTreeNodeOutlet,] }],
+        nodeDefs: [{ type: core.ContentChildren, args: [CdkTreeNodeDef,] }],
+        dataSource: [{ type: core.Input }]
+    };
     return CdkTree;
 }());
 /**
  * Tree node for CdkTree. It contains the data in the tree node.
+ * @template T
  */
 var CdkTreeNode = /** @class */ (function () {
     function CdkTreeNode(elementRef, tree) {
@@ -506,14 +837,20 @@ var CdkTreeNode = /** @class */ (function () {
         this.tree = tree;
         this.role = 'treeitem';
         this.destroyed = new rxjs.Subject();
-        CdkTreeNode_1.mostRecentTreeNode = this;
+        CdkTreeNode.mostRecentTreeNode = (/** @type {?} */ (this));
     }
-    CdkTreeNode_1 = CdkTreeNode;
     Object.defineProperty(CdkTreeNode.prototype, "data", {
-        get: function () {
+        get: /**
+         * @return {?}
+         */
+        function () {
             return this._data;
         },
-        set: function (value) {
+        set: /**
+         * @param {?} value
+         * @return {?}
+         */
+        function (value) {
             this._data = value;
             this.setRoleFromData();
         },
@@ -521,27 +858,53 @@ var CdkTreeNode = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(CdkTreeNode.prototype, "isExpanded", {
-        get: function () {
+        get: /**
+         * @return {?}
+         */
+        function () {
             return this.tree.treeControl.isExpanded(this._data);
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(CdkTreeNode.prototype, "level", {
-        get: function () {
+        get: /**
+         * @return {?}
+         */
+        function () {
             return this.tree.treeControl.getLevel ? this.tree.treeControl.getLevel(this._data) : 0;
         },
         enumerable: true,
         configurable: true
     });
-    CdkTreeNode.prototype.ngOnDestroy = function () {
+    /**
+     * @return {?}
+     */
+    CdkTreeNode.prototype.ngOnDestroy = /**
+     * @return {?}
+     */
+    function () {
         this.destroyed.next();
         this.destroyed.complete();
     };
-    CdkTreeNode.prototype.focus = function () {
+    /**
+     * @return {?}
+     */
+    CdkTreeNode.prototype.focus = /**
+     * @return {?}
+     */
+    function () {
         this.elementRef.nativeElement.focus();
     };
-    CdkTreeNode.prototype.setRoleFromData = function () {
+    /**
+     * @private
+     * @return {?}
+     */
+    CdkTreeNode.prototype.setRoleFromData = /**
+     * @private
+     * @return {?}
+     */
+    function () {
         var _this = this;
         if (this.tree.treeControl.isExpandable) {
             this.role = this.tree.treeControl.isExpandable(this._data) ? 'group' : 'treeitem';
@@ -556,34 +919,38 @@ var CdkTreeNode = /** @class */ (function () {
             });
         }
     };
-    var CdkTreeNode_1;
     /**
      * The most recently created `CdkTreeNode`. We save it in static variable so we can retrieve it
      * in `CdkTree` and set the data to it.
      */
     CdkTreeNode.mostRecentTreeNode = null;
-    __decorate([
-        core.Input(),
-        __metadata("design:type", String)
-    ], CdkTreeNode.prototype, "role", void 0);
-    CdkTreeNode = CdkTreeNode_1 = __decorate([
-        core.Directive({
-            selector: 'cdk-tree-node',
-            exportAs: 'cdkTreeNode',
-            host: {
-                class: 'cdk-tree-node',
-                '[attr.aria-expanded]': 'isExpanded',
-                '[attr.aria-level]': 'role === "treeitem" ? level : null',
-                '[attr.role]': 'role'
-            }
-        }),
-        __param(1, core.Inject(core.forwardRef(function () { return CdkTree; }))),
-        __metadata("design:paramtypes", [core.ElementRef,
-            CdkTree])
-    ], CdkTreeNode);
+    CdkTreeNode.decorators = [
+        { type: core.Directive, args: [{
+                    selector: 'cdk-tree-node',
+                    exportAs: 'cdkTreeNode',
+                    host: {
+                        class: 'cdk-tree-node',
+                        '[attr.aria-expanded]': 'isExpanded',
+                        '[attr.aria-level]': 'role === "treeitem" ? level : null',
+                        '[attr.role]': 'role'
+                    }
+                },] },
+    ];
+    /** @nocollapse */
+    CdkTreeNode.ctorParameters = function () { return [
+        { type: core.ElementRef },
+        { type: CdkTree, decorators: [{ type: core.Inject, args: [core.forwardRef(function () { return CdkTree; }),] }] }
+    ]; };
+    CdkTreeNode.propDecorators = {
+        role: [{ type: core.Input }]
+    };
     return CdkTreeNode;
 }());
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 /**
  * Nested node is a child of `<cdk-tree>`. It works with nested tree.
  * By using `cdk-nested-tree-node` component in tree node template, children of the parent node will
@@ -604,6 +971,7 @@ var CdkTreeNode = /** @class */ (function () {
  *      <cdk-nested-tree-node>{{child2.name}}</cdk-tree-node>
  *   </cdk-tree-node>
  *   ```
+ * @template T
  */
 var CdkNestedTreeNode = /** @class */ (function (_super) {
     __extends(CdkNestedTreeNode, _super);
@@ -614,8 +982,13 @@ var CdkNestedTreeNode = /** @class */ (function (_super) {
         _this.differs = differs;
         return _this;
     }
-    CdkNestedTreeNode_1 = CdkNestedTreeNode;
-    CdkNestedTreeNode.prototype.ngAfterContentInit = function () {
+    /**
+     * @return {?}
+     */
+    CdkNestedTreeNode.prototype.ngAfterContentInit = /**
+     * @return {?}
+     */
+    function () {
         var _this = this;
         this.dataDiffer = this.differs.find([]).create(this.tree.trackBy);
         if (!this.tree.treeControl.getChildren) {
@@ -631,12 +1004,28 @@ var CdkNestedTreeNode = /** @class */ (function (_super) {
             .pipe(operators.takeUntil(this.destroyed))
             .subscribe(function () { return _this.updateChildrenNodes(); });
     };
-    CdkNestedTreeNode.prototype.ngOnDestroy = function () {
+    /**
+     * @return {?}
+     */
+    CdkNestedTreeNode.prototype.ngOnDestroy = /**
+     * @return {?}
+     */
+    function () {
         this.clear();
         _super.prototype.ngOnDestroy.call(this);
     };
     /** Add children dataNodes to the NodeOutlet */
-    CdkNestedTreeNode.prototype.updateChildrenNodes = function () {
+    /**
+     * Add children dataNodes to the NodeOutlet
+     * @protected
+     * @return {?}
+     */
+    CdkNestedTreeNode.prototype.updateChildrenNodes = /**
+     * Add children dataNodes to the NodeOutlet
+     * @protected
+     * @return {?}
+     */
+    function () {
         if (this.nodeOutlet.length && this.children) {
             this.tree.renderNodeChanges(this.children, this.dataDiffer, this.nodeOutlet.first.viewContainer, this.data);
         }
@@ -646,36 +1035,54 @@ var CdkNestedTreeNode = /** @class */ (function (_super) {
         }
     };
     /** Clear the children dataNodes. */
-    CdkNestedTreeNode.prototype.clear = function () {
+    /**
+     * Clear the children dataNodes.
+     * @protected
+     * @return {?}
+     */
+    CdkNestedTreeNode.prototype.clear = /**
+     * Clear the children dataNodes.
+     * @protected
+     * @return {?}
+     */
+    function () {
         if (this.nodeOutlet && this.nodeOutlet.first) {
             this.nodeOutlet.first.viewContainer.clear();
             this.dataDiffer.diff([]);
         }
     };
-    var CdkNestedTreeNode_1;
-    __decorate([
-        core.ContentChildren(CdkTreeNodeOutlet),
-        __metadata("design:type", core.QueryList)
-    ], CdkNestedTreeNode.prototype, "nodeOutlet", void 0);
-    CdkNestedTreeNode = CdkNestedTreeNode_1 = __decorate([
-        core.Directive({
-            selector: 'cdk-nested-tree-node',
-            exportAs: 'cdkNestedTreeNode',
-            host: {
-                '[attr.aria-expanded]': 'isExpanded',
-                '[attr.role]': 'role',
-                class: 'cdk-tree-node cdk-nested-tree-node'
-            },
-            providers: [{ provide: CdkTreeNode, useExisting: CdkNestedTreeNode_1 }]
-        }),
-        __metadata("design:paramtypes", [core.ElementRef, CdkTree, core.IterableDiffers])
-    ], CdkNestedTreeNode);
+    CdkNestedTreeNode.decorators = [
+        { type: core.Directive, args: [{
+                    selector: 'cdk-nested-tree-node',
+                    exportAs: 'cdkNestedTreeNode',
+                    host: {
+                        '[attr.aria-expanded]': 'isExpanded',
+                        '[attr.role]': 'role',
+                        class: 'cdk-tree-node cdk-nested-tree-node'
+                    },
+                    providers: [{ provide: CdkTreeNode, useExisting: CdkNestedTreeNode }]
+                },] },
+    ];
+    /** @nocollapse */
+    CdkNestedTreeNode.ctorParameters = function () { return [
+        { type: core.ElementRef },
+        { type: CdkTree },
+        { type: core.IterableDiffers }
+    ]; };
+    CdkNestedTreeNode.propDecorators = {
+        nodeOutlet: [{ type: core.ContentChildren, args: [CdkTreeNodeOutlet,] }]
+    };
     return CdkNestedTreeNode;
 }(CdkTreeNode));
 
 /**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
  * Indent for the children tree dataNodes.
  * This directive will add left-padding to the node to show hierarchy.
+ * @template T
  */
 var CdkTreeNodePadding = /** @class */ (function () {
     function CdkTreeNodePadding(treeNode, tree, renderer, element, dir) {
@@ -694,10 +1101,18 @@ var CdkTreeNodePadding = /** @class */ (function () {
     }
     Object.defineProperty(CdkTreeNodePadding.prototype, "level", {
         /** The level of depth of the tree node. The padding will be `level * indent` pixels. */
-        get: function () {
+        get: /**
+         * The level of depth of the tree node. The padding will be `level * indent` pixels.
+         * @return {?}
+         */
+        function () {
             return this._level;
         },
-        set: function (value) {
+        set: /**
+         * @param {?} value
+         * @return {?}
+         */
+        function (value) {
             this._level = value;
             this.setPadding();
         },
@@ -705,57 +1120,95 @@ var CdkTreeNodePadding = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(CdkTreeNodePadding.prototype, "indent", {
-        get: function () {
+        get: /**
+         * @return {?}
+         */
+        function () {
             return this._indent;
         },
-        set: function (value) {
+        set: /**
+         * @param {?} value
+         * @return {?}
+         */
+        function (value) {
             this._indent = value;
             this.setPadding();
         },
         enumerable: true,
         configurable: true
     });
-    CdkTreeNodePadding.prototype.ngOnDestroy = function () {
+    /**
+     * @return {?}
+     */
+    CdkTreeNodePadding.prototype.ngOnDestroy = /**
+     * @return {?}
+     */
+    function () {
         this.destroyed.next();
         this.destroyed.complete();
     };
     /** The padding indent value for the tree node. Returns a string with px numbers if not null. */
-    CdkTreeNodePadding.prototype.paddingIndent = function () {
+    /**
+     * The padding indent value for the tree node. Returns a string with px numbers if not null.
+     * @protected
+     * @return {?}
+     */
+    CdkTreeNodePadding.prototype.paddingIndent = /**
+     * The padding indent value for the tree node. Returns a string with px numbers if not null.
+     * @protected
+     * @return {?}
+     */
+    function () {
+        /** @type {?} */
         var nodeLevel = (this.treeNode.data && this.tree.treeControl.getLevel)
             ? this.tree.treeControl.getLevel(this.treeNode.data)
             : null;
+        /** @type {?} */
         var level = this._level || nodeLevel;
         return level ? (level * this._indent) + 12 + "px" : '12px';
     };
-    CdkTreeNodePadding.prototype.setPadding = function () {
+    /**
+     * @protected
+     * @return {?}
+     */
+    CdkTreeNodePadding.prototype.setPadding = /**
+     * @protected
+     * @return {?}
+     */
+    function () {
+        /** @type {?} */
         var padding = this.paddingIndent();
+        /** @type {?} */
         var paddingProp = this.dir && this.dir.value === 'rtl' ? 'paddingRight' : 'paddingLeft';
         this.renderer.setStyle(this.element.nativeElement, paddingProp, padding);
     };
-    __decorate([
-        core.Input('cdkTreeNodePadding'),
-        __metadata("design:type", Number),
-        __metadata("design:paramtypes", [Number])
-    ], CdkTreeNodePadding.prototype, "level", null);
-    __decorate([
-        core.Input('cdkTreeNodePaddingIndent'),
-        __metadata("design:type", Number),
-        __metadata("design:paramtypes", [Number])
-    ], CdkTreeNodePadding.prototype, "indent", null);
-    CdkTreeNodePadding = __decorate([
-        core.Directive({
-            selector: '[cdkTreeNodePadding]'
-        }),
-        __param(4, core.Optional()),
-        __metadata("design:paramtypes", [CdkTreeNode,
-            CdkTree,
-            core.Renderer2,
-            core.ElementRef,
-            bidi.Directionality])
-    ], CdkTreeNodePadding);
+    CdkTreeNodePadding.decorators = [
+        { type: core.Directive, args: [{
+                    selector: '[cdkTreeNodePadding]'
+                },] },
+    ];
+    /** @nocollapse */
+    CdkTreeNodePadding.ctorParameters = function () { return [
+        { type: CdkTreeNode },
+        { type: CdkTree },
+        { type: core.Renderer2 },
+        { type: core.ElementRef },
+        { type: bidi.Directionality, decorators: [{ type: core.Optional }] }
+    ]; };
+    CdkTreeNodePadding.propDecorators = {
+        level: [{ type: core.Input, args: ['cdkTreeNodePadding',] }],
+        indent: [{ type: core.Input, args: ['cdkTreeNodePaddingIndent',] }]
+    };
     return CdkTreeNodePadding;
 }());
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @template T
+ */
 var CdkTreeNodeToggle = /** @class */ (function () {
     function CdkTreeNodeToggle(tree, treeNode) {
         this.tree = tree;
@@ -763,34 +1216,56 @@ var CdkTreeNodeToggle = /** @class */ (function () {
         this._recursive = false;
     }
     Object.defineProperty(CdkTreeNodeToggle.prototype, "recursive", {
-        get: function () { return this._recursive; },
-        set: function (value) { this._recursive = value; },
+        get: /**
+         * @return {?}
+         */
+        function () { return this._recursive; },
+        set: /**
+         * @param {?} value
+         * @return {?}
+         */
+        function (value) { this._recursive = value; },
         enumerable: true,
         configurable: true
     });
-    CdkTreeNodeToggle.prototype.toggle = function (event) {
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    CdkTreeNodeToggle.prototype.toggle = /**
+     * @param {?} event
+     * @return {?}
+     */
+    function (event) {
         this.recursive
             ? this.tree.treeControl.toggleDescendants(this.treeNode.data)
             : this.tree.treeControl.toggle(this.treeNode.data);
         event.stopPropagation();
     };
-    __decorate([
-        core.Input('cdkTreeNodeToggleRecursive'),
-        __metadata("design:type", Boolean),
-        __metadata("design:paramtypes", [Boolean])
-    ], CdkTreeNodeToggle.prototype, "recursive", null);
-    CdkTreeNodeToggle = __decorate([
-        core.Directive({
-            selector: '[cdkTreeNodeToggle]',
-            host: {
-                '(click)': 'toggle($event)'
-            }
-        }),
-        __metadata("design:paramtypes", [CdkTree, CdkTreeNode])
-    ], CdkTreeNodeToggle);
+    CdkTreeNodeToggle.decorators = [
+        { type: core.Directive, args: [{
+                    selector: '[cdkTreeNodeToggle]',
+                    host: {
+                        '(click)': 'toggle($event)'
+                    }
+                },] },
+    ];
+    /** @nocollapse */
+    CdkTreeNodeToggle.ctorParameters = function () { return [
+        { type: CdkTree },
+        { type: CdkTreeNode }
+    ]; };
+    CdkTreeNodeToggle.propDecorators = {
+        recursive: [{ type: core.Input, args: ['cdkTreeNodeToggleRecursive',] }]
+    };
     return CdkTreeNodeToggle;
 }());
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @type {?} */
 var EXPORTED_DECLARATIONS = [
     CdkNestedTreeNode,
     CdkTreeNodeDef,
@@ -803,14 +1278,14 @@ var EXPORTED_DECLARATIONS = [
 var CdkTreeModule = /** @class */ (function () {
     function CdkTreeModule() {
     }
-    CdkTreeModule = __decorate([
-        core.NgModule({
-            imports: [common.CommonModule],
-            exports: EXPORTED_DECLARATIONS,
-            declarations: EXPORTED_DECLARATIONS,
-            providers: [a11y.FocusMonitor]
-        })
-    ], CdkTreeModule);
+    CdkTreeModule.decorators = [
+        { type: core.NgModule, args: [{
+                    imports: [common.CommonModule],
+                    exports: EXPORTED_DECLARATIONS,
+                    declarations: EXPORTED_DECLARATIONS,
+                    providers: [a11y.FocusMonitor]
+                },] },
+    ];
     return CdkTreeModule;
 }());
 

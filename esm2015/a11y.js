@@ -8,16 +8,23 @@ import { QueryList, Directive, ElementRef, EventEmitter, Injectable, NgZone, Opt
 import { Subject, Subscription, of } from 'rxjs';
 import { debounceTime, filter, map, tap } from 'rxjs/operators';
 import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, TAB, A, Z, ZERO, NINE } from '@ptsecurity/cdk/keycodes';
-import { __decorate, __metadata, __param } from 'tslib';
 import { Platform, supportsPassiveEventListeners, PlatformModule } from '@ptsecurity/cdk/platform';
 import { DOCUMENT, CommonModule } from '@angular/common';
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 /* tslint:disable:member-ordering */
 /**
  * This class manages keyboard events for selectable lists. If you pass it a query list
  * of items, it will set the active item correctly when arrow events occur.
+ * @template T
  */
 class ListKeyManager {
+    /**
+     * @param {?} _items
+     */
     constructor(_items) {
         this._items = _items;
         /**
@@ -25,7 +32,9 @@ class ListKeyManager {
          * when focus is shifted off of the list.
          */
         this.tabOut = new Subject();
-        /** Stream that emits whenever the active item of the list manager changes. */
+        /**
+         * Stream that emits whenever the active item of the list manager changes.
+         */
         this.change = new Subject();
         this.previousActiveItemIndex = -1;
         this._activeItemIndex = -1;
@@ -44,7 +53,9 @@ class ListKeyManager {
         if (_items instanceof QueryList) {
             _items.changes.subscribe((newItems) => {
                 if (this._activeItem) {
+                    /** @type {?} */
                     const itemArray = newItems.toArray();
+                    /** @type {?} */
                     const newIndex = itemArray.indexOf(this._activeItem);
                     if (newIndex > -1 && newIndex !== this._activeItemIndex) {
                         this._activeItemIndex = newIndex;
@@ -53,65 +64,87 @@ class ListKeyManager {
             });
         }
     }
+    /**
+     * @template THIS
+     * @this {THIS}
+     * @param {?} scrollSize
+     * @return {THIS}
+     */
     withScrollSize(scrollSize) {
-        this._scrollSize = scrollSize;
-        return this;
+        (/** @type {?} */ (this))._scrollSize = scrollSize;
+        return (/** @type {?} */ (this));
     }
     /**
      * Turns on wrapping mode, which ensures that the active item will wrap to
      * the other end of list when there are no more items in the given direction.
+     * @template THIS
+     * @this {THIS}
+     * @return {THIS}
      */
     withWrap() {
-        this._wrap = true;
-        return this;
+        (/** @type {?} */ (this))._wrap = true;
+        return (/** @type {?} */ (this));
     }
     /**
      * Configures whether the key manager should be able to move the selection vertically.
-     * @param enabled Whether vertical selection should be enabled.
+     * @template THIS
+     * @this {THIS}
+     * @param {?=} enabled Whether vertical selection should be enabled.
+     * @return {THIS}
      */
     withVerticalOrientation(enabled = true) {
-        this._vertical = enabled;
-        return this;
+        (/** @type {?} */ (this))._vertical = enabled;
+        return (/** @type {?} */ (this));
     }
     /**
      * Configures the key manager to move the selection horizontally.
      * Passing in `null` will disable horizontal movement.
-     * @param direction Direction in which the selection can be moved.
+     * @template THIS
+     * @this {THIS}
+     * @param {?} direction Direction in which the selection can be moved.
+     * @return {THIS}
      */
     withHorizontalOrientation(direction) {
-        this._horizontal = direction;
-        return this;
+        (/** @type {?} */ (this))._horizontal = direction;
+        return (/** @type {?} */ (this));
     }
     /**
      * Turns on typeahead mode which allows users to set the active item by typing.
-     * @param debounceInterval Time to wait after the last keystroke before setting the active item.
+     * @template THIS
+     * @this {THIS}
+     * @param {?=} debounceInterval Time to wait after the last keystroke before setting the active item.
+     * @return {THIS}
      */
     withTypeAhead(debounceInterval = 200) {
-        if (this._items.length && this._items.some((item) => typeof item.getLabel !== 'function')) {
+        if ((/** @type {?} */ (this))._items.length && (/** @type {?} */ (this))._items.some((item) => typeof item.getLabel !== 'function')) {
             throw Error('ListKeyManager items in typeahead mode must implement the `getLabel` method.');
         }
-        this._typeaheadSubscription.unsubscribe();
+        (/** @type {?} */ (this))._typeaheadSubscription.unsubscribe();
         // Debounce the presses of non-navigational keys, collect the ones that correspond to letters and convert those
         // letters back into a string. Afterwards find the first item that starts with that string and select it.
-        this._typeaheadSubscription = this._letterKeyStream.pipe(tap((keyCode) => this._pressedLetters.push(keyCode)), debounceTime(debounceInterval), filter(() => this._pressedLetters.length > 0), map(() => this._pressedLetters.join(''))).subscribe((inputString) => {
-            const items = this._items.toArray();
+        (/** @type {?} */ (this))._typeaheadSubscription = (/** @type {?} */ (this))._letterKeyStream.pipe(tap((keyCode) => (/** @type {?} */ (this))._pressedLetters.push(keyCode)), debounceTime(debounceInterval), filter(() => (/** @type {?} */ (this))._pressedLetters.length > 0), map(() => (/** @type {?} */ (this))._pressedLetters.join(''))).subscribe((inputString) => {
+            /** @type {?} */
+            const items = (/** @type {?} */ (this))._items.toArray();
             // Start at 1 because we want to start searching at the item immediately
             // following the current active item.
             for (let i = 1; i < items.length + 1; i++) {
-                const index = (this._activeItemIndex + i) % items.length;
+                /** @type {?} */
+                const index = ((/** @type {?} */ (this))._activeItemIndex + i) % items.length;
+                /** @type {?} */
                 const item = items[index];
-                if (!item.disabled && item.getLabel().toUpperCase().trim().indexOf(inputString) === 0) {
-                    this.setActiveItem(index);
+                if (!item.disabled && (/** @type {?} */ (item.getLabel))().toUpperCase().trim().indexOf(inputString) === 0) {
+                    (/** @type {?} */ (this)).setActiveItem(index);
                     break;
                 }
             }
-            this._pressedLetters = [];
+            (/** @type {?} */ (this))._pressedLetters = [];
         });
-        return this;
+        return (/** @type {?} */ (this));
     }
     /**
      * Sets the active item to the item at the index specified.
-     * @param item The index of the item to be set as active.
+     * @param {?} item The index of the item to be set as active.
+     * @return {?}
      */
     setActiveItem(item) {
         this.previousActiveItemIndex = this._activeItemIndex;
@@ -122,9 +155,11 @@ class ListKeyManager {
     }
     /**
      * Sets the active item depending on the key event passed in.
-     * @param event Keyboard event to be used for determining which element should be active.
+     * @param {?} event Keyboard event to be used for determining which element should be active.
+     * @return {?}
      */
     onKeydown(event) {
+        /** @type {?} */
         const keyCode = event.keyCode;
         switch (keyCode) {
             case TAB:
@@ -187,31 +222,54 @@ class ListKeyManager {
         event.preventDefault();
     }
     // Index of the currently active item.
+    /**
+     * @return {?}
+     */
     get activeItemIndex() {
         return this._activeItemIndex;
     }
     // The active item.
+    /**
+     * @return {?}
+     */
     get activeItem() {
         return this._activeItem;
     }
     // Sets the active item to the first enabled item in the list.
+    /**
+     * @return {?}
+     */
     setFirstItemActive() {
         this._setActiveItemByIndex(0, 1);
     }
     // Sets the active item to the last enabled item in the list.
+    /**
+     * @return {?}
+     */
     setLastItemActive() {
         this._setActiveItemByIndex(this._items.length - 1, -1);
     }
     // Sets the active item to the next enabled item in the list.
+    /**
+     * @return {?}
+     */
     setNextItemActive() {
         this._activeItemIndex < 0 ? this.setFirstItemActive() : this._setActiveItemByDelta(1);
     }
     // Sets the active item to a previous enabled item in the list.
+    /**
+     * @return {?}
+     */
     setPreviousItemActive() {
         this._activeItemIndex < 0 && this._wrap ? this.setLastItemActive()
             : this._setActiveItemByDelta(-1);
     }
+    /**
+     * @param {?=} delta
+     * @return {?}
+     */
     setNextPageItemActive(delta = this._scrollSize) {
+        /** @type {?} */
         const nextItemIndex = this._activeItemIndex + delta;
         if (nextItemIndex >= this._items.length) {
             this.setLastItemActive();
@@ -220,7 +278,12 @@ class ListKeyManager {
             this._setActiveItemByDelta(delta);
         }
     }
+    /**
+     * @param {?=} delta
+     * @return {?}
+     */
     setPreviousPageItemActive(delta = this._scrollSize) {
+        /** @type {?} */
         const nextItemIndex = this._activeItemIndex - delta;
         if (nextItemIndex <= 0) {
             this.setFirstItemActive();
@@ -229,8 +292,14 @@ class ListKeyManager {
             this._setActiveItemByDelta(-delta);
         }
     }
+    /**
+     * @param {?} item
+     * @return {?}
+     */
     updateActiveItem(item) {
+        /** @type {?} */
         const itemArray = this._items.toArray();
+        /** @type {?} */
         const index = typeof item === 'number' ? item : itemArray.indexOf(item);
         this._activeItemIndex = index;
         this._activeItem = itemArray[index];
@@ -239,6 +308,9 @@ class ListKeyManager {
      * This method sets the active item, given a list of items and the delta between the
      * currently active item and the new active item. It will calculate differently
      * depending on whether wrap mode is turned on.
+     * @private
+     * @param {?} delta
+     * @return {?}
      */
     _setActiveItemByDelta(delta) {
         this._wrap ? this._setActiveInWrapMode(delta) : this._setActiveInDefaultMode(delta);
@@ -247,11 +319,17 @@ class ListKeyManager {
      * Sets the active item properly given "wrap" mode. In other words, it will continue to move
      * down the list until it finds an item that is not disabled, and it will wrap if it
      * encounters either end of the list.
+     * @private
+     * @param {?} delta
+     * @return {?}
      */
     _setActiveInWrapMode(delta) {
+        /** @type {?} */
         const items = this._getItemsArray();
         for (let i = 1; i <= items.length; i++) {
+            /** @type {?} */
             const index = (this._activeItemIndex + (delta * i) + items.length) % items.length;
+            /** @type {?} */
             const item = items[index];
             if (!this._skipPredicateFn(item)) {
                 this.setActiveItem(index);
@@ -263,6 +341,9 @@ class ListKeyManager {
      * Sets the active item properly given the default mode. In other words, it will
      * continue to move down the list until it finds an item that is not disabled. If
      * it encounters either end of the list, it will stop and not wrap.
+     * @private
+     * @param {?} delta
+     * @return {?}
      */
     _setActiveInDefaultMode(delta) {
         this._setActiveItemByIndex(this._activeItemIndex + delta, delta);
@@ -271,8 +352,13 @@ class ListKeyManager {
      * Sets the active item to the first enabled item starting at the index specified. If the
      * item is disabled, it will move in the fallbackDelta direction until it either
      * finds an enabled item or encounters the end of the list.
+     * @private
+     * @param {?} index
+     * @param {?} fallbackDelta
+     * @return {?}
      */
     _setActiveItemByIndex(index, fallbackDelta) {
+        /** @type {?} */
         const items = this._getItemsArray();
         if (!items[index]) {
             return;
@@ -285,18 +371,30 @@ class ListKeyManager {
         }
         this.setActiveItem(index);
     }
-    /** Returns the items as an array. */
+    /**
+     * Returns the items as an array.
+     * @private
+     * @return {?}
+     */
     _getItemsArray() {
         return this._items instanceof QueryList ? this._items.toArray() : this._items;
     }
 }
-/* tslint:enable:member-ordering */
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @template T
+ */
 class ActiveDescendantKeyManager extends ListKeyManager {
     /**
      * This method sets the active item to the item at the specified index.
      * It also adds active styles to the newly active item and removes active
      * styles from the previously active item.
+     * @param {?} index
+     * @return {?}
      */
     setActiveItem(index) {
         if (this.activeItem) {
@@ -309,6 +407,13 @@ class ActiveDescendantKeyManager extends ListKeyManager {
     }
 }
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * @template T
+ */
 class FocusKeyManager extends ListKeyManager {
     constructor() {
         super(...arguments);
@@ -316,12 +421,19 @@ class FocusKeyManager extends ListKeyManager {
     }
     /**
      * Sets the focus origin that will be passed in to the items for any subsequent `focus` calls.
-     * @param origin Focus origin to be used when focusing items.
+     * @template THIS
+     * @this {THIS}
+     * @param {?} origin Focus origin to be used when focusing items.
+     * @return {THIS}
      */
     setFocusOrigin(origin) {
-        this._origin = origin;
-        return this;
+        (/** @type {?} */ (this))._origin = origin;
+        return (/** @type {?} */ (this));
     }
+    /**
+     * @param {?} item
+     * @return {?}
+     */
     setActiveItem(item) {
         super.setActiveItem(item);
         if (this.activeItem) {
@@ -330,30 +442,51 @@ class FocusKeyManager extends ListKeyManager {
     }
 }
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 // This is the value used by AngularJS Material. Through trial and error (on iPhone 6S) they found
 // that a value of around 650ms seems appropriate.
+/** @type {?} */
 const TOUCH_BUFFER_MS = 650;
-/** Monitors mouse and keyboard events to determine the cause of focus events. */
-let FocusMonitor = class FocusMonitor {
+/**
+ * Monitors mouse and keyboard events to determine the cause of focus events.
+ */
+class FocusMonitor {
+    /**
+     * @param {?} _ngZone
+     * @param {?} _platform
+     */
     constructor(_ngZone, _platform) {
         this._ngZone = _ngZone;
         this._platform = _platform;
-        /** The focus origin that the next focus event is a result of. */
+        /**
+         * The focus origin that the next focus event is a result of.
+         */
         this._origin = null;
-        /** Whether the window has just been focused. */
+        /**
+         * Whether the window has just been focused.
+         */
         this._windowFocused = false;
-        /** Map of elements being monitored to their info. */
+        /**
+         * Map of elements being monitored to their info.
+         */
         this._elementInfo = new Map();
-        /** A map of global objects to lists of current listeners. */
+        /**
+         * A map of global objects to lists of current listeners.
+         */
         this._unregisterGlobalListeners = () => { };
-        /** The number of elements currently being monitored. */
+        /**
+         * The number of elements currently being monitored.
+         */
         this._monitoredElementCount = 0;
     }
     /**
      * Monitors focus on an element and applies appropriate CSS classes.
-     * @param element The element to monitor
-     * @param checkChildren Whether to count the element as focused when its children are focused.
-     * @returns An observable that emits when the focus state of the element changes.
+     * @param {?} element The element to monitor
+     * @param {?=} checkChildren Whether to count the element as focused when its children are focused.
+     * @return {?} An observable that emits when the focus state of the element changes.
      *     When the element is blurred, null will be emitted.
      */
     monitor(element, checkChildren = false) {
@@ -362,11 +495,13 @@ let FocusMonitor = class FocusMonitor {
         }
         // Check if we're already monitoring this element.
         if (this._elementInfo.has(element)) {
+            /** @type {?} */
             const cachedInfo = this._elementInfo.get(element);
-            cachedInfo.checkChildren = checkChildren;
-            return cachedInfo.subject.asObservable();
+            (/** @type {?} */ (cachedInfo)).checkChildren = checkChildren;
+            return (/** @type {?} */ (cachedInfo)).subject.asObservable();
         }
         // Create monitored element info.
+        /** @type {?} */
         const info = {
             unlisten: () => { },
             checkChildren: checkChildren,
@@ -375,7 +510,9 @@ let FocusMonitor = class FocusMonitor {
         this._elementInfo.set(element, info);
         this._incrementMonitoredElementCount();
         // Start listening. We need to listen in capture phase since focus events don't bubble.
+        /** @type {?} */
         const focusListener = (event) => this._onFocus(event, element);
+        /** @type {?} */
         const blurListener = (event) => this._onBlur(event, element);
         this._ngZone.runOutsideAngular(() => {
             element.addEventListener('focus', focusListener, true);
@@ -390,9 +527,11 @@ let FocusMonitor = class FocusMonitor {
     }
     /**
      * Stops monitoring an element and removes all focus classes.
-     * @param element The element to stop monitoring.
+     * @param {?} element The element to stop monitoring.
+     * @return {?}
      */
     stopMonitoring(element) {
+        /** @type {?} */
         const elementInfo = this._elementInfo.get(element);
         if (elementInfo) {
             elementInfo.unlisten();
@@ -404,8 +543,9 @@ let FocusMonitor = class FocusMonitor {
     }
     /**
      * Focuses the element via the specified focus origin.
-     * @param element The element to focus.
-     * @param origin The focus origin.
+     * @param {?} element The element to focus.
+     * @param {?} origin The focus origin.
+     * @return {?}
      */
     focusVia(element, origin) {
         this._setOriginForCurrentEventQueue(origin);
@@ -414,22 +554,31 @@ let FocusMonitor = class FocusMonitor {
             element.focus();
         }
     }
+    /**
+     * @return {?}
+     */
     ngOnDestroy() {
         this._elementInfo.forEach((_info, element) => this.stopMonitoring(element));
     }
-    /** Register necessary event listeners on the document and window. */
+    /**
+     * Register necessary event listeners on the document and window.
+     * @private
+     * @return {?}
+     */
     _registerGlobalListeners() {
         // Do nothing if we're not on the browser platform.
         if (!this._platform.isBrowser) {
             return;
         }
         // On keydown record the origin and clear any touch event that may be in progress.
+        /** @type {?} */
         const documentKeydownListener = () => {
             this._lastTouchTarget = null;
             this._setOriginForCurrentEventQueue('keyboard');
         };
         // On mousedown record the origin only if there is not touch target, since a mousedown can
         // happen as a result of a touch event.
+        /** @type {?} */
         const documentMousedownListener = () => {
             if (!this._lastTouchTarget) {
                 this._setOriginForCurrentEventQueue('mouse');
@@ -438,6 +587,7 @@ let FocusMonitor = class FocusMonitor {
         // When the touchstart event fires the focus event is not yet in the event queue. This means
         // we can't rely on the trick used above (setting timeout of 0ms). Instead we wait 650ms to
         // see if a focus happens.
+        /** @type {?} */
         const documentTouchstartListener = (event) => {
             if (this._touchTimeoutId != null) {
                 clearTimeout(this._touchTimeoutId);
@@ -447,6 +597,7 @@ let FocusMonitor = class FocusMonitor {
         };
         // Make a note of when the window regains focus, so we can restore the origin info for the
         // focused element.
+        /** @type {?} */
         const windowFocusListener = () => {
             this._windowFocused = true;
             this._windowFocusTimeoutId = window.setTimeout(() => this._windowFocused = false, 0);
@@ -456,13 +607,13 @@ let FocusMonitor = class FocusMonitor {
         this._ngZone.runOutsideAngular(() => {
             document.addEventListener('keydown', documentKeydownListener, true);
             document.addEventListener('mousedown', documentMousedownListener, true);
-            document.addEventListener('touchstart', documentTouchstartListener, supportsPassiveEventListeners() ? { passive: true, capture: true } : true);
+            document.addEventListener('touchstart', documentTouchstartListener, supportsPassiveEventListeners() ? ((/** @type {?} */ ({ passive: true, capture: true }))) : true);
             window.addEventListener('focus', windowFocusListener);
         });
         this._unregisterGlobalListeners = () => {
             document.removeEventListener('keydown', documentKeydownListener, true);
             document.removeEventListener('mousedown', documentMousedownListener, true);
-            document.removeEventListener('touchstart', documentTouchstartListener, supportsPassiveEventListeners() ? { passive: true, capture: true } : true);
+            document.removeEventListener('touchstart', documentTouchstartListener, supportsPassiveEventListeners() ? ((/** @type {?} */ ({ passive: true, capture: true }))) : true);
             window.removeEventListener('focus', windowFocusListener);
             // Clear timeouts for all potentially pending timeouts to prevent the leaks.
             clearTimeout(this._windowFocusTimeoutId);
@@ -470,6 +621,13 @@ let FocusMonitor = class FocusMonitor {
             clearTimeout(this._originTimeoutId);
         };
     }
+    /**
+     * @private
+     * @param {?} element
+     * @param {?} className
+     * @param {?} shouldSet
+     * @return {?}
+     */
     _toggleClass(element, className, shouldSet) {
         if (shouldSet) {
             element.classList.add(className);
@@ -480,10 +638,13 @@ let FocusMonitor = class FocusMonitor {
     }
     /**
      * Sets the focus classes on the element based on the given focus origin.
-     * @param element The element to update the classes on.
-     * @param origin The focus origin.
+     * @private
+     * @param {?} element The element to update the classes on.
+     * @param {?=} origin The focus origin.
+     * @return {?}
      */
     _setClasses(element, origin) {
+        /** @type {?} */
         const elementInfo = this._elementInfo.get(element);
         if (elementInfo) {
             this._toggleClass(element, 'cdk-focused', !!origin);
@@ -495,7 +656,9 @@ let FocusMonitor = class FocusMonitor {
     }
     /**
      * Sets the origin and schedules an async function to clear it at the end of the event queue.
-     * @param origin The origin to set.
+     * @private
+     * @param {?} origin The origin to set.
+     * @return {?}
      */
     _setOriginForCurrentEventQueue(origin) {
         this._ngZone.runOutsideAngular(() => {
@@ -505,8 +668,9 @@ let FocusMonitor = class FocusMonitor {
     }
     /**
      * Checks whether the given focus event was caused by a touchstart event.
-     * @param event The focus event to check.
-     * @returns Whether the event was caused by a touch.
+     * @private
+     * @param {?} event The focus event to check.
+     * @return {?} Whether the event was caused by a touch.
      */
     _wasCausedByTouch(event) {
         // Note(mmalerba): This implementation is not quite perfect, there is a small edge case.
@@ -526,22 +690,30 @@ let FocusMonitor = class FocusMonitor {
         // for the first focus event after the touchstart, and then the first blur event after that
         // focus event. When that blur event fires we know that whatever follows is not a result of the
         // touchstart.
+        /** @type {?} */
         const focusTarget = event.target;
         return this._lastTouchTarget instanceof Node && focusTarget instanceof Node &&
             (focusTarget === this._lastTouchTarget || focusTarget.contains(this._lastTouchTarget));
     }
     /**
      * Handles focus events on a registered element.
-     * @param event The focus event.
-     * @param element The monitored element.
+     * @private
+     * @param {?} event The focus event.
+     * @param {?} element The monitored element.
+     * @return {?}
      */
     _onFocus(event, element) {
         // NOTE(mmalerba): We currently set the classes based on the focus origin of the most recent
         // focus event affecting the monitored element. If we want to use the origin of the first event
         // instead we should check for the cdk-focused class here and return if the element already has
         // it. (This only matters for elements that have includesChildren = true).
+        // NOTE(mmalerba): We currently set the classes based on the focus origin of the most recent
+        // focus event affecting the monitored element. If we want to use the origin of the first event
+        // instead we should check for the cdk-focused class here and return if the element already has
+        // it. (This only matters for elements that have includesChildren = true).
         // If we are not counting child-element-focus as focused, make sure that the event target is the
         // monitored element itself.
+        /** @type {?} */
         const elementInfo = this._elementInfo.get(element);
         if (!elementInfo || (!elementInfo.checkChildren && element !== event.target)) {
             return;
@@ -552,6 +724,7 @@ let FocusMonitor = class FocusMonitor {
         // 2) It was caused by a touch event, in which case we mark the origin as 'touch'.
         // 3) The element was programmatically focused, in which case we should mark the origin as
         //    'program'.
+        /** @type {?} */
         let origin = this._origin;
         if (!origin) {
             if (this._windowFocused && this._lastFocusOrigin) {
@@ -570,12 +743,14 @@ let FocusMonitor = class FocusMonitor {
     }
     /**
      * Handles blur events on a registered element.
-     * @param event The blur event.
-     * @param element The monitored element.
+     * @param {?} event The blur event.
+     * @param {?} element The monitored element.
+     * @return {?}
      */
     _onBlur(event, element) {
         // If we are counting child-element-focus as focused, make sure that we aren't just blurring in
         // order to focus another child of the monitored element.
+        /** @type {?} */
         const elementInfo = this._elementInfo.get(element);
         if (!elementInfo || (elementInfo.checkChildren && event.relatedTarget instanceof Node &&
             element.contains(event.relatedTarget))) {
@@ -584,15 +759,29 @@ let FocusMonitor = class FocusMonitor {
         this._setClasses(element);
         elementInfo.subject.next(null);
     }
+    /**
+     * @private
+     * @param {?} subject
+     * @param {?} origin
+     * @return {?}
+     */
     _emitOrigin(subject, origin) {
         this._ngZone.run(() => subject.next(origin));
     }
+    /**
+     * @private
+     * @return {?}
+     */
     _incrementMonitoredElementCount() {
         // Register global listeners when first element is monitored.
         if (++this._monitoredElementCount === 1) {
             this._registerGlobalListeners();
         }
     }
+    /**
+     * @private
+     * @return {?}
+     */
     _decrementMonitoredElementCount() {
         // Unregister global listeners when last element is unmonitored.
         if (!--this._monitoredElementCount) {
@@ -600,12 +789,16 @@ let FocusMonitor = class FocusMonitor {
             this._unregisterGlobalListeners = () => { };
         }
     }
-};
-FocusMonitor.ngInjectableDef = defineInjectable({ factory: function FocusMonitor_Factory() { return new FocusMonitor(inject(NgZone), inject(Platform)); }, token: FocusMonitor, providedIn: "root" });
-FocusMonitor = __decorate([
-    Injectable({ providedIn: 'root' }),
-    __metadata("design:paramtypes", [NgZone, Platform])
-], FocusMonitor);
+}
+FocusMonitor.decorators = [
+    { type: Injectable, args: [{ providedIn: 'root' },] },
+];
+/** @nocollapse */
+FocusMonitor.ctorParameters = () => [
+    { type: NgZone },
+    { type: Platform }
+];
+/** @nocollapse */ FocusMonitor.ngInjectableDef = defineInjectable({ factory: function FocusMonitor_Factory() { return new FocusMonitor(inject(NgZone), inject(Platform)); }, token: FocusMonitor, providedIn: "root" });
 /**
  * Directive that determines how a particular element was focused (via keyboard, mouse, touch, or
  * programmatically) and adds corresponding classes to the element.
@@ -615,7 +808,11 @@ FocusMonitor = __decorate([
  *    focused.
  * 2) cdkMonitorSubtreeFocus: considers an element focused if it or any of its children are focused.
  */
-let CdkMonitorFocus = class CdkMonitorFocus {
+class CdkMonitorFocus {
+    /**
+     * @param {?} _elementRef
+     * @param {?} _focusMonitor
+     */
     constructor(_elementRef, _focusMonitor) {
         this._elementRef = _elementRef;
         this._focusMonitor = _focusMonitor;
@@ -623,26 +820,41 @@ let CdkMonitorFocus = class CdkMonitorFocus {
         this._monitorSubscription = this._focusMonitor.monitor(this._elementRef.nativeElement, this._elementRef.nativeElement.hasAttribute('cdkMonitorSubtreeFocus'))
             .subscribe((origin) => this.cdkFocusChange.emit(origin));
     }
+    /**
+     * @return {?}
+     */
     ngOnDestroy() {
         this._focusMonitor.stopMonitoring(this._elementRef.nativeElement);
         this._monitorSubscription.unsubscribe();
     }
+}
+CdkMonitorFocus.decorators = [
+    { type: Directive, args: [{
+                selector: '[cdkMonitorElementFocus], [cdkMonitorSubtreeFocus]'
+            },] },
+];
+/** @nocollapse */
+CdkMonitorFocus.ctorParameters = () => [
+    { type: ElementRef },
+    { type: FocusMonitor }
+];
+CdkMonitorFocus.propDecorators = {
+    cdkFocusChange: [{ type: Output }]
 };
-__decorate([
-    Output(),
-    __metadata("design:type", Object)
-], CdkMonitorFocus.prototype, "cdkFocusChange", void 0);
-CdkMonitorFocus = __decorate([
-    Directive({
-        selector: '[cdkMonitorElementFocus], [cdkMonitorSubtreeFocus]'
-    }),
-    __metadata("design:paramtypes", [ElementRef, FocusMonitor])
-], CdkMonitorFocus);
-/** @docs-private @deprecated*/
+/**
+ * \@docs-private \@deprecated
+ * @param {?} parentDispatcher
+ * @param {?} ngZone
+ * @param {?} platform
+ * @return {?}
+ */
 function FOCUS_MONITOR_PROVIDER_FACTORY(parentDispatcher, ngZone, platform) {
     return parentDispatcher || new FocusMonitor(ngZone, platform);
 }
-/** @docs-private */
+/**
+ * \@docs-private
+ * @type {?}
+ */
 const FOCUS_MONITOR_PROVIDER = {
     // If there is already a FocusMonitor available, use that. Otherwise, provide a new one.
     provide: FocusMonitor,
@@ -650,12 +862,22 @@ const FOCUS_MONITOR_PROVIDER = {
     useFactory: FOCUS_MONITOR_PROVIDER_FACTORY
 };
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @type {?} */
 const ID_DELIMINATOR = ' ';
 /**
  * Adds the given ID to the specified ARIA attribute on an element.
  * Used for attributes such as aria-labelledby, aria-owns, etc.
+ * @param {?} el
+ * @param {?} attr
+ * @param {?} id
+ * @return {?}
  */
 function addAriaReferencedId(el, attr, id) {
+    /** @type {?} */
     const ids = getAriaReferenceIds(el, attr);
     if (ids.some((existingId) => existingId.trim() === id.trim())) {
         return;
@@ -666,40 +888,74 @@ function addAriaReferencedId(el, attr, id) {
 /**
  * Removes the given ID from the specified ARIA attribute on an element.
  * Used for attributes such as aria-labelledby, aria-owns, etc.
+ * @param {?} el
+ * @param {?} attr
+ * @param {?} id
+ * @return {?}
  */
 function removeAriaReferencedId(el, attr, id) {
+    /** @type {?} */
     const ids = getAriaReferenceIds(el, attr);
+    /** @type {?} */
     const filteredIds = ids.filter((val) => val !== id.trim());
     el.setAttribute(attr, filteredIds.join(ID_DELIMINATOR));
 }
 /**
  * Gets the list of IDs referenced by the given ARIA attribute on an element.
  * Used for attributes such as aria-labelledby, aria-owns, etc.
+ * @param {?} el
+ * @param {?} attr
+ * @return {?}
  */
 function getAriaReferenceIds(el, attr) {
     // Get string array of all individual ids (whitespace deliminated) in the attribute value
     return (el.getAttribute(attr) || '').match(/\S+/g) || [];
 }
 
-/** ID used for the body container where all messages are appended. */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * ID used for the body container where all messages are appended.
+ * @type {?}
+ */
 const MESSAGES_CONTAINER_ID = 'cdk-describedby-message-container';
-/** ID prefix used for each created message element. */
+/**
+ * ID prefix used for each created message element.
+ * @type {?}
+ */
 const CDK_DESCRIBEDBY_ID_PREFIX = 'cdk-describedby-message';
-/** Attribute given to each host element that is described by a message element. */
+/**
+ * Attribute given to each host element that is described by a message element.
+ * @type {?}
+ */
 const CDK_DESCRIBEDBY_HOST_ATTRIBUTE = 'cdk-describedby-host';
-/** Global incremental identifier for each registered message element. */
+/**
+ * Global incremental identifier for each registered message element.
+ * @type {?}
+ */
 let nextId = 0;
-/** Global map of all registered message elements that have been placed into the document. */
+/**
+ * Global map of all registered message elements that have been placed into the document.
+ * @type {?}
+ */
 const messageRegistry = new Map();
-/** Container for all registered messages. */
+/**
+ * Container for all registered messages.
+ * @type {?}
+ */
 let messagesContainer = null;
 /**
  * Utility that creates visually hidden elements with a message content. Useful for elements that
  * want to use aria-describedby to further describe themselves without adding additional visual
  * content.
- * @docs-private
+ * \@docs-private
  */
-let AriaDescriber = class AriaDescriber {
+class AriaDescriber {
+    /**
+     * @param {?} _document
+     */
     constructor(_document) {
         this._document = _document;
     }
@@ -707,6 +963,9 @@ let AriaDescriber = class AriaDescriber {
      * Adds to the host element an aria-describedby reference to a hidden element that contains
      * the message. If the same message has already been registered, then it will reuse the created
      * message element.
+     * @param {?} hostElement
+     * @param {?} message
+     * @return {?}
      */
     describe(hostElement, message) {
         if (!this._canBeDescribed(hostElement, message)) {
@@ -719,7 +978,12 @@ let AriaDescriber = class AriaDescriber {
             this._addMessageReference(hostElement, message);
         }
     }
-    /** Removes the host element's aria-describedby reference to the message element. */
+    /**
+     * Removes the host element's aria-describedby reference to the message element.
+     * @param {?} hostElement
+     * @param {?} message
+     * @return {?}
+     */
     removeDescription(hostElement, message) {
         if (!this._canBeDescribed(hostElement, message)) {
             return;
@@ -727,6 +991,7 @@ let AriaDescriber = class AriaDescriber {
         if (this._isElementDescribedByMessage(hostElement, message)) {
             this._removeMessageReference(hostElement, message);
         }
+        /** @type {?} */
         const registeredMessage = messageRegistry.get(message);
         if (registeredMessage && registeredMessage.referenceCount === 0) {
             this._deleteMessageElement(message);
@@ -735,8 +1000,12 @@ let AriaDescriber = class AriaDescriber {
             this._deleteMessagesContainer();
         }
     }
-    /** Unregisters all created message elements and removes the message container. */
+    /**
+     * Unregisters all created message elements and removes the message container.
+     * @return {?}
+     */
     ngOnDestroy() {
+        /** @type {?} */
         const describedElements = this._document.querySelectorAll(`[${CDK_DESCRIBEDBY_HOST_ATTRIBUTE}]`);
         for (let i = 0; i < describedElements.length; i++) { //tslint:disable-line
             this._removeCdkDescribedByReferenceIds(describedElements[i]);
@@ -750,27 +1019,42 @@ let AriaDescriber = class AriaDescriber {
     /**
      * Creates a new element in the visually hidden message container element with the message
      * as its content and adds it to the message registry.
+     * @private
+     * @param {?} message
+     * @return {?}
      */
     _createMessageElement(message) {
+        /** @type {?} */
         const messageElement = this._document.createElement('div');
         messageElement.setAttribute('id', `${CDK_DESCRIBEDBY_ID_PREFIX}-${nextId++}`);
-        messageElement.appendChild(this._document.createTextNode(message)); //tslint:disable-line
+        messageElement.appendChild((/** @type {?} */ (this._document.createTextNode(message)))); //tslint:disable-line
         if (!messagesContainer) {
             this._createMessagesContainer();
         }
-        messagesContainer.appendChild(messageElement); //tslint:disable-line
+        (/** @type {?} */ (messagesContainer)).appendChild(messageElement); //tslint:disable-line
         messageRegistry.set(message, { messageElement, referenceCount: 0 });
     }
-    /** Deletes the message element from the global messages container. */
+    /**
+     * Deletes the message element from the global messages container.
+     * @private
+     * @param {?} message
+     * @return {?}
+     */
     _deleteMessageElement(message) {
+        /** @type {?} */
         const registeredMessage = messageRegistry.get(message);
+        /** @type {?} */
         const messageElement = registeredMessage && registeredMessage.messageElement;
         if (messagesContainer && messageElement) {
             messagesContainer.removeChild(messageElement);
         }
         messageRegistry.delete(message);
     }
-    /** Creates the global container for all aria-describedby messages. */
+    /**
+     * Creates the global container for all aria-describedby messages.
+     * @private
+     * @return {?}
+     */
     _createMessagesContainer() {
         messagesContainer = this._document.createElement('div');
         messagesContainer.setAttribute('id', MESSAGES_CONTAINER_ID);
@@ -778,16 +1062,26 @@ let AriaDescriber = class AriaDescriber {
         messagesContainer.style.display = 'none';
         this._document.body.appendChild(messagesContainer);
     }
-    /** Deletes the global messages container. */
+    /**
+     * Deletes the global messages container.
+     * @private
+     * @return {?}
+     */
     _deleteMessagesContainer() {
         if (messagesContainer && messagesContainer.parentNode) {
             messagesContainer.parentNode.removeChild(messagesContainer);
             messagesContainer = null;
         }
     }
-    /** Removes all cdk-describedby messages that are hosted through the element. */
+    /**
+     * Removes all cdk-describedby messages that are hosted through the element.
+     * @private
+     * @param {?} element
+     * @return {?}
+     */
     _removeCdkDescribedByReferenceIds(element) {
         // Remove all aria-describedby reference IDs that are prefixed by CDK_DESCRIBEDBY_ID_PREFIX
+        /** @type {?} */
         const originalReferenceIds = getAriaReferenceIds(element, 'aria-describedby')
             .filter((id) => id.indexOf(CDK_DESCRIBEDBY_ID_PREFIX) !== 0);
         element.setAttribute('aria-describedby', originalReferenceIds.join(' '));
@@ -795,9 +1089,14 @@ let AriaDescriber = class AriaDescriber {
     /**
      * Adds a message reference to the element using aria-describedby and increments the registered
      * message's reference count.
+     * @private
+     * @param {?} element
+     * @param {?} message
+     * @return {?}
      */
     _addMessageReference(element, message) {
-        const registeredMessage = messageRegistry.get(message); //tslint:disable-line
+        /** @type {?} */
+        const registeredMessage = (/** @type {?} */ (messageRegistry.get(message)));
         // Add the aria-describedby reference and set the
         // describedby_host attribute to mark the element.
         addAriaReferencedId(element, 'aria-describedby', registeredMessage.messageElement.id);
@@ -807,63 +1106,103 @@ let AriaDescriber = class AriaDescriber {
     /**
      * Removes a message reference from the element using aria-describedby
      * and decrements the registered message's reference count.
+     * @private
+     * @param {?} element
+     * @param {?} message
+     * @return {?}
      */
     _removeMessageReference(element, message) {
-        const registeredMessage = messageRegistry.get(message); //tslint:disable-line
+        /** @type {?} */
+        const registeredMessage = (/** @type {?} */ (messageRegistry.get(message)));
         registeredMessage.referenceCount--;
         removeAriaReferencedId(element, 'aria-describedby', registeredMessage.messageElement.id);
         element.removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
     }
-    /** Returns true if the element has been described by the provided message ID. */
+    /**
+     * Returns true if the element has been described by the provided message ID.
+     * @private
+     * @param {?} element
+     * @param {?} message
+     * @return {?}
+     */
     _isElementDescribedByMessage(element, message) {
+        /** @type {?} */
         const referenceIds = getAriaReferenceIds(element, 'aria-describedby');
+        /** @type {?} */
         const registeredMessage = messageRegistry.get(message);
+        /** @type {?} */
         const messageId = registeredMessage && registeredMessage.messageElement.id;
         return !!messageId && referenceIds.indexOf(messageId) !== -1;
     }
-    /** Determines whether a message can be described on a particular element. */
+    /**
+     * Determines whether a message can be described on a particular element.
+     * @private
+     * @param {?} element
+     * @param {?} message
+     * @return {?}
+     */
     _canBeDescribed(element, message) {
         return element.nodeType === this._document.ELEMENT_NODE && message != null &&
             !!`${message}`.trim();
     }
-};
-AriaDescriber.ngInjectableDef = defineInjectable({ factory: function AriaDescriber_Factory() { return new AriaDescriber(inject(DOCUMENT)); }, token: AriaDescriber, providedIn: "root" });
-AriaDescriber = __decorate([
-    Injectable({ providedIn: 'root' }),
-    __param(0, Inject(DOCUMENT)),
-    __metadata("design:paramtypes", [Object])
-], AriaDescriber);
-/** @docs-private @deprecated @deletion-target 7.0.0 */
+}
+AriaDescriber.decorators = [
+    { type: Injectable, args: [{ providedIn: 'root' },] },
+];
+/** @nocollapse */
+AriaDescriber.ctorParameters = () => [
+    { type: undefined, decorators: [{ type: Inject, args: [DOCUMENT,] }] }
+];
+/** @nocollapse */ AriaDescriber.ngInjectableDef = defineInjectable({ factory: function AriaDescriber_Factory() { return new AriaDescriber(inject(DOCUMENT)); }, token: AriaDescriber, providedIn: "root" });
+/**
+ * \@docs-private \@deprecated \@deletion-target 7.0.0
+ * @param {?} parentDispatcher
+ * @param {?} _document
+ * @return {?}
+ */
 function ARIA_DESCRIBER_PROVIDER_FACTORY(parentDispatcher, _document) {
     return parentDispatcher || new AriaDescriber(_document);
 }
-/** @docs-private @deprecated @deletion-target 7.0.0 */
+/**
+ * \@docs-private \@deprecated \@deletion-target 7.0.0
+ * @type {?}
+ */
 const ARIA_DESCRIBER_PROVIDER = {
     // If there is already an AriaDescriber available, use that. Otherwise, provide a new one.
     provide: AriaDescriber,
     deps: [
         [new Optional(), new SkipSelf(), AriaDescriber],
-        DOCUMENT
+        (/** @type {?} */ (DOCUMENT))
     ],
     useFactory: ARIA_DESCRIBER_PROVIDER_FACTORY
 };
 
-let A11yModule = class A11yModule {
-};
-A11yModule = __decorate([
-    NgModule({
-        imports: [CommonModule, PlatformModule],
-        declarations: [CdkMonitorFocus],
-        exports: [CdkMonitorFocus],
-        providers: [
-            FOCUS_MONITOR_PROVIDER
-        ]
-    })
-], A11yModule);
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class A11yModule {
+}
+A11yModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [CommonModule, PlatformModule],
+                declarations: [CdkMonitorFocus],
+                exports: [CdkMonitorFocus],
+                providers: [
+                    FOCUS_MONITOR_PROVIDER
+                ]
+            },] },
+];
 
 /**
- * Generated bundle index. Do not edit.
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { ActiveDescendantKeyManager, FocusKeyManager, ListKeyManager, TOUCH_BUFFER_MS, FocusMonitor, CdkMonitorFocus, FOCUS_MONITOR_PROVIDER_FACTORY, FOCUS_MONITOR_PROVIDER, MESSAGES_CONTAINER_ID, CDK_DESCRIBEDBY_ID_PREFIX, CDK_DESCRIBEDBY_HOST_ATTRIBUTE, AriaDescriber, ARIA_DESCRIBER_PROVIDER_FACTORY, ARIA_DESCRIBER_PROVIDER, addAriaReferencedId, removeAriaReferencedId, getAriaReferenceIds, A11yModule };
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+export { ActiveDescendantKeyManager, FocusKeyManager, ListKeyManager, FOCUS_MONITOR_PROVIDER_FACTORY, TOUCH_BUFFER_MS, FocusMonitor, CdkMonitorFocus, FOCUS_MONITOR_PROVIDER, ARIA_DESCRIBER_PROVIDER_FACTORY, MESSAGES_CONTAINER_ID, CDK_DESCRIBEDBY_ID_PREFIX, CDK_DESCRIBEDBY_HOST_ATTRIBUTE, AriaDescriber, ARIA_DESCRIBER_PROVIDER, addAriaReferencedId, removeAriaReferencedId, getAriaReferenceIds, A11yModule };
 //# sourceMappingURL=a11y.js.map

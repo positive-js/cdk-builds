@@ -10,96 +10,132 @@
 	(factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.accordion = {}),global.ng.core,global.ng.cdk.coercion,global.rxjs,global.ng.cdk.collections));
 }(this, (function (exports,core,coercion,rxjs,collections) { 'use strict';
 
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
-
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
-
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
-***************************************************************************** */
-
-function __decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
-
-function __param(paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-}
-
-function __metadata(metadataKey, metadataValue) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-}
-
-/** Used to generate unique ID for each accordion. */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Used to generate unique ID for each accordion.
+ * @type {?}
+ */
 var nextId = 0;
 /**
  * Directive whose purpose is to manage the expanded state of CdkAccordionItem children.
  */
 var CdkAccordion = /** @class */ (function () {
     function CdkAccordion() {
-        /** Emits when the state of the accordion changes */
+        /**
+         * Emits when the state of the accordion changes
+         */
         this.stateChanges = new rxjs.Subject();
-        /** Stream that emits true/false when openAll/closeAll is triggered. */
+        /**
+         * Stream that emits true/false when openAll/closeAll is triggered.
+         */
         this.openCloseAllActions = new rxjs.Subject();
-        /** A readonly id value to use for unique selection coordination. */
+        /**
+         * A readonly id value to use for unique selection coordination.
+         */
         this.id = "cdk-accordion-" + nextId++;
         this._multi = false;
     }
     Object.defineProperty(CdkAccordion.prototype, "multi", {
         /** Whether the accordion should allow multiple expanded accordion items simultaneously. */
-        get: function () {
+        get: /**
+         * Whether the accordion should allow multiple expanded accordion items simultaneously.
+         * @return {?}
+         */
+        function () {
             return this._multi;
         },
-        set: function (multi) {
+        set: /**
+         * @param {?} multi
+         * @return {?}
+         */
+        function (multi) {
             this._multi = coercion.coerceBooleanProperty(multi);
         },
         enumerable: true,
         configurable: true
     });
     /** Opens all enabled accordion items in an accordion where multi is enabled. */
-    CdkAccordion.prototype.openAll = function () {
+    /**
+     * Opens all enabled accordion items in an accordion where multi is enabled.
+     * @return {?}
+     */
+    CdkAccordion.prototype.openAll = /**
+     * Opens all enabled accordion items in an accordion where multi is enabled.
+     * @return {?}
+     */
+    function () {
         this.openCloseAll(true);
     };
     /** Closes all enabled accordion items in an accordion where multi is enabled. */
-    CdkAccordion.prototype.closeAll = function () {
+    /**
+     * Closes all enabled accordion items in an accordion where multi is enabled.
+     * @return {?}
+     */
+    CdkAccordion.prototype.closeAll = /**
+     * Closes all enabled accordion items in an accordion where multi is enabled.
+     * @return {?}
+     */
+    function () {
         this.openCloseAll(false);
     };
-    CdkAccordion.prototype.ngOnChanges = function (changes) {
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    CdkAccordion.prototype.ngOnChanges = /**
+     * @param {?} changes
+     * @return {?}
+     */
+    function (changes) {
         this.stateChanges.next(changes);
     };
-    CdkAccordion.prototype.ngOnDestroy = function () {
+    /**
+     * @return {?}
+     */
+    CdkAccordion.prototype.ngOnDestroy = /**
+     * @return {?}
+     */
+    function () {
         this.stateChanges.complete();
     };
-    CdkAccordion.prototype.openCloseAll = function (expanded) {
+    /**
+     * @private
+     * @param {?} expanded
+     * @return {?}
+     */
+    CdkAccordion.prototype.openCloseAll = /**
+     * @private
+     * @param {?} expanded
+     * @return {?}
+     */
+    function (expanded) {
         if (this.multi) {
             this.openCloseAllActions.next(expanded);
         }
     };
-    __decorate([
-        core.Input(),
-        __metadata("design:type", Boolean),
-        __metadata("design:paramtypes", [Boolean])
-    ], CdkAccordion.prototype, "multi", null);
-    CdkAccordion = __decorate([
-        core.Directive({
-            selector: 'cdk-accordion, [cdkAccordion]',
-            exportAs: 'cdkAccordion'
-        })
-    ], CdkAccordion);
+    CdkAccordion.decorators = [
+        { type: core.Directive, args: [{
+                    selector: 'cdk-accordion, [cdkAccordion]',
+                    exportAs: 'cdkAccordion'
+                },] },
+    ];
+    CdkAccordion.propDecorators = {
+        multi: [{ type: core.Input }]
+    };
     return CdkAccordion;
 }());
 
-/** Used to generate unique ID for each accordion item. */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Used to generate unique ID for each accordion item.
+ * @type {?}
+ */
 var nextId$1 = 0;
 var ɵ0 = undefined;
 /**
@@ -112,25 +148,37 @@ var CdkAccordionItem = /** @class */ (function () {
         this.accordion = accordion;
         this._changeDetectorRef = _changeDetectorRef;
         this._expansionDispatcher = _expansionDispatcher;
-        /** Event emitted every time the AccordionItem is closed. */
+        /**
+         * Event emitted every time the AccordionItem is closed.
+         */
         this.closed = new core.EventEmitter();
-        /** Event emitted every time the AccordionItem is opened. */
+        /**
+         * Event emitted every time the AccordionItem is opened.
+         */
         this.opened = new core.EventEmitter();
-        /** Event emitted when the AccordionItem is destroyed. */
+        /**
+         * Event emitted when the AccordionItem is destroyed.
+         */
         this.destroyed = new core.EventEmitter();
         /**
          * Emits whenever the expanded state of the accordion changes.
          * Primarily used to facilitate two-way binding.
-         * @docs-private
+         * \@docs-private
          */
         this.expandedChange = new core.EventEmitter();
-        /** The unique AccordionItem id. */
+        /**
+         * The unique AccordionItem id.
+         */
         this.id = "cdk-accordion-child-" + nextId$1++;
-        /** Subscription to openAll/closeAll events. */
+        /**
+         * Subscription to openAll/closeAll events.
+         */
         this.openCloseAllSubscription = rxjs.Subscription.EMPTY;
         this._expanded = false;
         this._disabled = false;
-        /** Unregister function for _expansionDispatcher. */
+        /**
+         * Unregister function for _expansionDispatcher.
+         */
         // tslint:disable:no-empty
         this.removeUniqueSelectionListener = function () { };
         this.removeUniqueSelectionListener =
@@ -147,10 +195,18 @@ var CdkAccordionItem = /** @class */ (function () {
     }
     Object.defineProperty(CdkAccordionItem.prototype, "expanded", {
         /** Whether the AccordionItem is expanded. */
-        get: function () {
+        get: /**
+         * Whether the AccordionItem is expanded.
+         * @return {?}
+         */
+        function () {
             return this._expanded;
         },
-        set: function (expanded) {
+        set: /**
+         * @param {?} expanded
+         * @return {?}
+         */
+        function (expanded) {
             // tslint:disable:no-parameter-reassignment
             expanded = coercion.coerceBooleanProperty(expanded);
             // Only emit events and update the internal value if the value changes.
@@ -162,6 +218,7 @@ var CdkAccordionItem = /** @class */ (function () {
                     /**
                      * In the unique selection dispatcher, the id parameter is the id of the CdkAccordionItem,
                      * the name value is the id of the accordion.
+                     * @type {?}
                      */
                     var accordionId = this.accordion ? this.accordion.id : this.id;
                     this._expansionDispatcher.notify(this.id, accordionId);
@@ -179,17 +236,33 @@ var CdkAccordionItem = /** @class */ (function () {
     });
     Object.defineProperty(CdkAccordionItem.prototype, "disabled", {
         /** Whether the AccordionItem is disabled. */
-        get: function () {
+        get: /**
+         * Whether the AccordionItem is disabled.
+         * @return {?}
+         */
+        function () {
             return this._disabled;
         },
-        set: function (disabled) {
+        set: /**
+         * @param {?} disabled
+         * @return {?}
+         */
+        function (disabled) {
             this._disabled = coercion.coerceBooleanProperty(disabled);
         },
         enumerable: true,
         configurable: true
     });
     /** Emits an event for the accordion item being destroyed. */
-    CdkAccordionItem.prototype.ngOnDestroy = function () {
+    /**
+     * Emits an event for the accordion item being destroyed.
+     * @return {?}
+     */
+    CdkAccordionItem.prototype.ngOnDestroy = /**
+     * Emits an event for the accordion item being destroyed.
+     * @return {?}
+     */
+    function () {
         this.opened.complete();
         this.closed.complete();
         this.destroyed.emit();
@@ -198,24 +271,56 @@ var CdkAccordionItem = /** @class */ (function () {
         this.openCloseAllSubscription.unsubscribe();
     };
     /** Toggles the expanded state of the accordion item. */
-    CdkAccordionItem.prototype.toggle = function () {
+    /**
+     * Toggles the expanded state of the accordion item.
+     * @return {?}
+     */
+    CdkAccordionItem.prototype.toggle = /**
+     * Toggles the expanded state of the accordion item.
+     * @return {?}
+     */
+    function () {
         if (!this.disabled) {
             this.expanded = !this.expanded;
         }
     };
     /** Sets the expanded state of the accordion item to false. */
-    CdkAccordionItem.prototype.close = function () {
+    /**
+     * Sets the expanded state of the accordion item to false.
+     * @return {?}
+     */
+    CdkAccordionItem.prototype.close = /**
+     * Sets the expanded state of the accordion item to false.
+     * @return {?}
+     */
+    function () {
         if (!this.disabled) {
             this.expanded = false;
         }
     };
     /** Sets the expanded state of the accordion item to true. */
-    CdkAccordionItem.prototype.open = function () {
+    /**
+     * Sets the expanded state of the accordion item to true.
+     * @return {?}
+     */
+    CdkAccordionItem.prototype.open = /**
+     * Sets the expanded state of the accordion item to true.
+     * @return {?}
+     */
+    function () {
         if (!this.disabled) {
             this.expanded = true;
         }
     };
-    CdkAccordionItem.prototype.subscribeToOpenCloseAllActions = function () {
+    /**
+     * @private
+     * @return {?}
+     */
+    CdkAccordionItem.prototype.subscribeToOpenCloseAllActions = /**
+     * @private
+     * @return {?}
+     */
+    function () {
         var _this = this;
         return this.accordion.openCloseAllActions.subscribe(function (expanded) {
             // Only change expanded state if item is enabled
@@ -224,63 +329,51 @@ var CdkAccordionItem = /** @class */ (function () {
             }
         });
     };
-    __decorate([
-        core.Input(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], CdkAccordionItem.prototype, "expanded", null);
-    __decorate([
-        core.Input(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], CdkAccordionItem.prototype, "disabled", null);
-    __decorate([
-        core.Output(),
-        __metadata("design:type", core.EventEmitter)
-    ], CdkAccordionItem.prototype, "closed", void 0);
-    __decorate([
-        core.Output(),
-        __metadata("design:type", core.EventEmitter)
-    ], CdkAccordionItem.prototype, "opened", void 0);
-    __decorate([
-        core.Output(),
-        __metadata("design:type", core.EventEmitter)
-    ], CdkAccordionItem.prototype, "destroyed", void 0);
-    __decorate([
-        core.Output(),
-        __metadata("design:type", core.EventEmitter)
-    ], CdkAccordionItem.prototype, "expandedChange", void 0);
-    CdkAccordionItem = __decorate([
-        core.Directive({
-            selector: 'cdk-accordion-item, [cdkAccordionItem]',
-            exportAs: 'cdkAccordionItem',
-            providers: [
-                // Provide CdkAccordion as undefined to prevent nested accordion items from registering
-                // to the same accordion.
-                { provide: CdkAccordion, useValue: ɵ0 }
-            ]
-        }),
-        __param(0, core.Optional()), __param(0, core.SkipSelf()),
-        __metadata("design:paramtypes", [CdkAccordion,
-            core.ChangeDetectorRef,
-            collections.UniqueSelectionDispatcher])
-    ], CdkAccordionItem);
+    CdkAccordionItem.decorators = [
+        { type: core.Directive, args: [{
+                    selector: 'cdk-accordion-item, [cdkAccordionItem]',
+                    exportAs: 'cdkAccordionItem',
+                    providers: [
+                        // Provide CdkAccordion as undefined to prevent nested accordion items from registering
+                        // to the same accordion.
+                        { provide: CdkAccordion, useValue: ɵ0 }
+                    ]
+                },] },
+    ];
+    /** @nocollapse */
+    CdkAccordionItem.ctorParameters = function () { return [
+        { type: CdkAccordion, decorators: [{ type: core.Optional }, { type: core.SkipSelf }] },
+        { type: core.ChangeDetectorRef },
+        { type: collections.UniqueSelectionDispatcher }
+    ]; };
+    CdkAccordionItem.propDecorators = {
+        expanded: [{ type: core.Input }],
+        disabled: [{ type: core.Input }],
+        closed: [{ type: core.Output }],
+        opened: [{ type: core.Output }],
+        destroyed: [{ type: core.Output }],
+        expandedChange: [{ type: core.Output }]
+    };
     return CdkAccordionItem;
 }());
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 var CdkAccordionModule = /** @class */ (function () {
     function CdkAccordionModule() {
     }
-    CdkAccordionModule = __decorate([
-        core.NgModule({
-            exports: [
-                CdkAccordion, CdkAccordionItem
-            ],
-            declarations: [
-                CdkAccordion, CdkAccordionItem
-            ]
-        })
-    ], CdkAccordionModule);
+    CdkAccordionModule.decorators = [
+        { type: core.NgModule, args: [{
+                    exports: [
+                        CdkAccordion, CdkAccordionItem
+                    ],
+                    declarations: [
+                        CdkAccordion, CdkAccordionItem
+                    ]
+                },] },
+    ];
     return CdkAccordionModule;
 }());
 

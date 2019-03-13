@@ -7,26 +7,48 @@
 import { InjectionToken, inject, LOCALE_ID } from '@angular/core';
 import { Subject } from 'rxjs';
 
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @type {?} */
 const MC_DATE_FORMATS = new InjectionToken('mc-date-formats');
 
-/** InjectionToken for datepicker that can be used to override default locale code. */
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * InjectionToken for datepicker that can be used to override default locale code.
+ * @type {?}
+ */
 const MC_DATE_LOCALE = new InjectionToken('MC_DATE_LOCALE', {
     providedIn: 'root',
     factory: MC_DATE_LOCALE_FACTORY
 });
-/** @docs-private */
+/**
+ * \@docs-private
+ * @return {?}
+ */
 // tslint:disable-next-line:naming-convention
 function MC_DATE_LOCALE_FACTORY() {
     return inject(LOCALE_ID);
 }
-/** Adapts type `D` to be usable as a date by cdk-based components that work with dates. */
+/**
+ * Adapts type `D` to be usable as a date by cdk-based components that work with dates.
+ * @abstract
+ * @template D
+ */
 // tslint:disable-next-line:naming-convention
 class DateAdapter {
     constructor() {
         // tslint:disable-next-line:naming-convention
         this._localeChanges = new Subject();
     }
-    /** A stream that emits when the locale changes. */
+    /**
+     * A stream that emits when the locale changes.
+     * @return {?}
+     */
     get localeChanges() {
         return this._localeChanges;
     }
@@ -35,11 +57,11 @@ class DateAdapter {
      * deserialize should only accept non-ambiguous, locale-independent formats (e.g. a ISO 8601
      * string). The default implementation does not allow any deserialization, it simply checks that
      * the given value is already a valid date object or null. The `<mat-datepicker>` will call this
-     * method on all of it's `@Input()` properties that accept dates. It is therefore possible to
+     * method on all of it's `\@Input()` properties that accept dates. It is therefore possible to
      * support passing values from your backend directly to these properties by overriding this method
      * to also deserialize the format used by your backend.
-     * @param value The value to be deserialized into a date object.
-     * @returns The deserialized date object, either a valid date, null if the value can be
+     * @param {?} value The value to be deserialized into a date object.
+     * @return {?} The deserialized date object, either a valid date, null if the value can be
      *     deserialized into a null date (e.g. the empty string), or an invalid date.
      */
     deserialize(value) {
@@ -50,7 +72,8 @@ class DateAdapter {
     }
     /**
      * Sets the locale used for all dates.
-     * @param locale The new locale.
+     * @param {?} locale The new locale.
+     * @return {?}
      */
     setLocale(locale) {
         this.locale = locale;
@@ -58,9 +81,9 @@ class DateAdapter {
     }
     /**
      * Compares two dates.
-     * @param first The first date to compare.
-     * @param second The second date to compare.
-     * @returns 0 if the dates are equal, a number less than 0 if the first date is earlier,
+     * @param {?} first The first date to compare.
+     * @param {?} second The second date to compare.
+     * @return {?} 0 if the dates are equal, a number less than 0 if the first date is earlier,
      *     a number greater than 0 if the first date is later.
      */
     compareDate(first, second) {
@@ -70,14 +93,16 @@ class DateAdapter {
     }
     /**
      * Checks if two dates are equal.
-     * @param first The first date to check.
-     * @param second The second date to check.
-     * @returns Whether the two dates are equal.
+     * @param {?} first The first date to check.
+     * @param {?} second The second date to check.
+     * @return {?} Whether the two dates are equal.
      *     Null dates are considered equal to other null dates.
      */
     sameDate(first, second) {
         if (first && second) {
+            /** @type {?} */
             const firstValid = this.isValid(first);
+            /** @type {?} */
             const secondValid = this.isValid(second);
             if (firstValid && secondValid) {
                 return !this.compareDate(first, second);
@@ -88,10 +113,10 @@ class DateAdapter {
     }
     /**
      * Clamp the given date between min and max dates.
-     * @param date The date to clamp.
-     * @param min The minimum value to allow. If null or omitted no min is enforced.
-     * @param max The maximum value to allow. If null or omitted no max is enforced.
-     * @returns `min` if `date` is less than `min`, `max` if date is greater than `max`,
+     * @param {?} date The date to clamp.
+     * @param {?=} min The minimum value to allow. If null or omitted no min is enforced.
+     * @param {?=} max The maximum value to allow. If null or omitted no max is enforced.
+     * @return {?} `min` if `date` is less than `min`, `max` if date is greater than `max`,
      *     otherwise `date`.
      */
     clampDate(date, min, max) {
@@ -106,8 +131,14 @@ class DateAdapter {
 }
 
 /**
- * Generated bundle index. Do not edit.
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { MC_DATE_FORMATS, MC_DATE_LOCALE, MC_DATE_LOCALE_FACTORY, DateAdapter };
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+export { MC_DATE_FORMATS, MC_DATE_LOCALE_FACTORY, MC_DATE_LOCALE, DateAdapter };
 //# sourceMappingURL=datetime.js.map
