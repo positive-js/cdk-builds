@@ -1244,7 +1244,7 @@ var CdkVirtualScrollViewport = /** @class */ (function (_super) {
         if (to === 'to-end') {
             transform += " translate" + axis + "(-100%)";
             // The viewport should rewrite this as a `to-start` offset on the next render cycle. Otherwise
-            // elements will appear to expand in the wrong direction (e.g. `mat-expansion-panel` would
+            // elements will appear to expand in the wrong direction (e.g. `mc-expansion-panel` would
             // expand upward).
             this._renderedContentOffsetNeedsRewrite = true;
         }

@@ -261,7 +261,23 @@ var CLOSE_SQUARE_BRACKET = 221;
 var SINGLE_QUOTE = 222;
 /** @type {?} */
 var MAC_META = 224;
+/**
+ * @param {?} event
+ * @param {...?} modifiers
+ * @return {?}
+ */
+function hasModifierKey(event) {
+    var modifiers = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        modifiers[_i - 1] = arguments[_i];
+    }
+    if (modifiers.length) {
+        return modifiers.some(function (modifier) { return event[modifier]; });
+    }
+    return event.altKey || event.shiftKey || event.ctrlKey || event.metaKey;
+}
 
+exports.hasModifierKey = hasModifierKey;
 exports.MAC_ENTER = MAC_ENTER;
 exports.BACKSPACE = BACKSPACE;
 exports.TAB = TAB;
