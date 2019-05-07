@@ -446,7 +446,7 @@ class FocusKeyManager extends ListKeyManager {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-// This is the value used by AngularJS Material. Through trial and error (on iPhone 6S) they found
+// Through trial and error (on iPhone 6S) they found
 // that a value of around 650ms seems appropriate.
 /** @type {?} */
 const TOUCH_BUFFER_MS = 650;
