@@ -61,7 +61,7 @@ function findModuleFromOptions(host, options) {
     }
     const project = workspace.projects[options.project];
     if (options.path === undefined) {
-        options.path = `/${project.root}/src/app`;
+        options.path = `/${project.root}/packages/app`;
     }
     return find_module_1.findModuleFromOptions(host, options);
 }
