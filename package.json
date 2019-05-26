@@ -1,6 +1,6 @@
 {
     "name": "@ptsecurity/cdk",
-    "version": "1.0.0-beta.6-d2e885e",
+    "version": "1.0.0-beta.6-4076c6e",
     "description": "Mosaic Component Development Kit",
     "main": "./bundles/cdk.umd.js",
     "module": "./esm5/cdk.es5.js",
