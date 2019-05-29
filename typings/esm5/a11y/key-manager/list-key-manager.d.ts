@@ -52,9 +52,10 @@ export declare class ListKeyManager<T extends ListKeyManagerOption> {
     withHorizontalOrientation(direction: 'ltr' | 'rtl' | null): this;
     /**
      * Turns on typeahead mode which allows users to set the active item by typing.
+     * @param searchLetterIndex letter index for incremental search, if is -1 search is disabled
      * @param debounceInterval Time to wait after the last keystroke before setting the active item.
      */
-    withTypeAhead(debounceInterval?: number): this;
+    withTypeAhead(debounceInterval?: number, searchLetterIndex?: number): this;
     /**
      * Sets the active item to the item at the index specified.
      * @param index The index of the item to be set as active or item The item to be set as active.

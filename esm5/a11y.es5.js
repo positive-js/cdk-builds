@@ -157,6 +157,7 @@ ListKeyManager = /** @class */ (function () {
     };
     /**
      * Turns on typeahead mode which allows users to set the active item by typing.
+     * @param searchLetterIndex letter index for incremental search, if is -1 search is disabled
      * @param debounceInterval Time to wait after the last keystroke before setting the active item.
      */
     /**
@@ -164,6 +165,7 @@ ListKeyManager = /** @class */ (function () {
      * @template THIS
      * @this {THIS}
      * @param {?=} debounceInterval Time to wait after the last keystroke before setting the active item.
+     * @param {?=} searchLetterIndex letter index for incremental search, if is -1 search is disabled
      * @return {THIS}
      */
     ListKeyManager.prototype.withTypeAhead = /**
@@ -171,11 +173,13 @@ ListKeyManager = /** @class */ (function () {
      * @template THIS
      * @this {THIS}
      * @param {?=} debounceInterval Time to wait after the last keystroke before setting the active item.
+     * @param {?=} searchLetterIndex letter index for incremental search, if is -1 search is disabled
      * @return {THIS}
      */
-    function (debounceInterval) {
+    function (debounceInterval, searchLetterIndex) {
         var _this = this;
         if (debounceInterval === void 0) { debounceInterval = 200; }
+        if (searchLetterIndex === void 0) { searchLetterIndex = 0; }
         if ((/** @type {?} */ (this))._items.length && (/** @type {?} */ (this))._items.some(function (item) { return typeof item.getLabel !== 'function'; })) {
             throw Error('ListKeyManager items in typeahead mode must implement the `getLabel` method.');
         }
@@ -183,6 +187,10 @@ ListKeyManager = /** @class */ (function () {
         // Debounce the presses of non-navigational keys, collect the ones that correspond to letters and convert those
         // letters back into a string. Afterwards find the first item that starts with that string and select it.
         (/** @type {?} */ (this))._typeaheadSubscription = (/** @type {?} */ (this))._letterKeyStream.pipe(tap(function (keyCode) { return (/** @type {?} */ (_this))._pressedLetters.push(keyCode); }), debounceTime(debounceInterval), filter(function () { return (/** @type {?} */ (_this))._pressedLetters.length > 0; }), map(function () { return (/** @type {?} */ (_this))._pressedLetters.join(''); })).subscribe(function (inputString) {
+            if (searchLetterIndex === -1) {
+                (/** @type {?} */ (_this))._pressedLetters = [];
+                return;
+            }
             /** @type {?} */
             var items = (/** @type {?} */ (_this))._items.toArray();
             // Start at 1 because we want to start searching at the item immediately
@@ -192,7 +200,8 @@ ListKeyManager = /** @class */ (function () {
                 var index = ((/** @type {?} */ (_this))._activeItemIndex + i) % items.length;
                 /** @type {?} */
                 var item = items[index];
-                if (!item.disabled && (/** @type {?} */ (item.getLabel))().toUpperCase().trim().indexOf(inputString) === 0) {
+                if (!item.disabled &&
+                    (/** @type {?} */ (item.getLabel))().toUpperCase().trim().indexOf(inputString) === searchLetterIndex) {
                     (/** @type {?} */ (_this)).setActiveItem(index);
                     break;
                 }
