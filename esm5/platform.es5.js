@@ -5,11 +5,11 @@
  * Use of this source code is governed by an MIT-style license.
  */
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, Optional, PLATFORM_ID, NgModule, defineInjectable, inject } from '@angular/core';
+import { Inject, Injectable, Optional, PLATFORM_ID, NgModule, ɵɵdefineInjectable, ɵɵinject } from '@angular/core';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Whether the current platform supports the V8 Break Iterator. The V8 check
 // is necessary to detect all Blink based browsers.
@@ -84,13 +84,13 @@ var Platform = /** @class */ (function () {
     Platform.ctorParameters = function () { return [
         { type: Object, decorators: [{ type: Optional }, { type: Inject, args: [PLATFORM_ID,] }] }
     ]; };
-    /** @nocollapse */ Platform.ngInjectableDef = defineInjectable({ factory: function Platform_Factory() { return new Platform(inject(PLATFORM_ID, 8)); }, token: Platform, providedIn: "root" });
+    /** @nocollapse */ Platform.ngInjectableDef = ɵɵdefineInjectable({ factory: function Platform_Factory() { return new Platform(ɵɵinject(PLATFORM_ID, 8)); }, token: Platform, providedIn: "root" });
     return Platform;
 }());
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var PlatformModule = /** @class */ (function () {
     function PlatformModule() {
@@ -103,7 +103,7 @@ var PlatformModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Cached result Set of input types support by the current browser.
@@ -159,16 +159,20 @@ function getSupportedInputTypes() {
     }
     /** @type {?} */
     var featureTestInput = document.createElement('input');
-    supportedInputTypes = new Set(candidateInputTypes.filter(function (value) {
+    supportedInputTypes = new Set(candidateInputTypes.filter((/**
+     * @param {?} value
+     * @return {?}
+     */
+    function (value) {
         featureTestInput.setAttribute('type', value);
         return featureTestInput.type === value;
-    }));
+    })));
     return supportedInputTypes;
 }
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Cached result of whether the user's browser supports passive event listeners.
@@ -184,7 +188,10 @@ function supportsPassiveEventListeners() {
     if (supportsPassiveEvents == null && typeof window !== 'undefined') {
         try {
             window.addEventListener('test', (/** @type {?} */ (null)), Object.defineProperty({}, 'passive', {
-                get: function () { return supportsPassiveEvents = true; }
+                get: (/**
+                 * @return {?}
+                 */
+                function () { return supportsPassiveEvents = true; })
             }));
         }
         finally {
@@ -206,7 +213,7 @@ function normalizePassiveListenerOptions(options) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @enum {number} */
 var RtlScrollAxisType = {
@@ -292,12 +299,12 @@ function getRtlScrollAxisType() {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 export { Platform, PlatformModule, getSupportedInputTypes, supportsPassiveEventListeners, normalizePassiveListenerOptions, supportsScrollBehavior, getRtlScrollAxisType, RtlScrollAxisType };

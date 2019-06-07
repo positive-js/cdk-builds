@@ -1,16 +1,3 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
- * This is just a type import and won't be generated in the release output.
- *
- * Note that we always need to adjust this type import based on the location of the Typescript
- * dependency that will be shipped with `@schematics/angular`.
- */
 import typescript = require('typescript');
 /**
  * This is an agnostic re-export of TypeScript. Depending on the context, this module file will
@@ -21,4 +8,4 @@ import typescript = require('typescript');
  * `@schematics/angular` package which might have a different TypeScript version installed.
  */
 declare let ts: typeof typescript;
-export { ts };
+export { ts, typescript };

@@ -1,9 +1,9 @@
-import { InjectionToken, OnDestroy, Optional } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 /**
  * Interface used to register message elements and keep a count of how many registrations have
  * the same message and the reference to the message element used for the `aria-describedby`.
  */
-export interface IRegisteredMessage {
+export interface RegisteredMessage {
     /** The element containing the message. */
     messageElement: Element;
     /** The number of elements that reference this message element via `aria-describedby`. */
@@ -61,12 +61,6 @@ export declare class AriaDescriber implements OnDestroy {
     private _isElementDescribedByMessage;
     /** Determines whether a message can be described on a particular element. */
     private _canBeDescribed;
+    /** Checks whether a node is an Element node. */
+    private _isElementNode;
 }
-/** @docs-private @deprecated @deletion-target 7.0.0 */
-export declare function ARIA_DESCRIBER_PROVIDER_FACTORY(parentDispatcher: AriaDescriber, _document: any): AriaDescriber;
-/** @docs-private @deprecated @deletion-target 7.0.0 */
-export declare const ARIA_DESCRIBER_PROVIDER: {
-    provide: typeof AriaDescriber;
-    deps: (Optional[] | InjectionToken<any>)[];
-    useFactory: typeof ARIA_DESCRIBER_PROVIDER_FACTORY;
-};

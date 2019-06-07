@@ -1,13 +1,5 @@
 "use strict";
-/* tslint:disable */
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 const core_1 = require("@angular-devkit/core");
 const schematics_1 = require("@angular-devkit/schematics");
 const ast_utils_1 = require("@schematics/angular/utility/ast-utils");
@@ -22,6 +14,11 @@ const path_1 = require("path");
 const get_project_1 = require("./get-project");
 const schematic_options_1 = require("./schematic-options");
 const version_agnostic_typescript_1 = require("./version-agnostic-typescript");
+/**
+ * List of style extensions which are CSS compatible. All supported CLI style extensions can be
+ * found here: angular/angular-cli/master/packages/schematics/angular/ng-new/schema.json#L118-L122
+ */
+const supportedCssExtensions = ['css', 'scss', 'less'];
 function readIntoSourceFile(host, modulePath) {
     const text = host.read(modulePath);
     if (text === null) {
@@ -35,14 +32,17 @@ function addDeclarationToNgModule(options) {
             return host;
         }
         const modulePath = options.module;
-        const source = readIntoSourceFile(host, modulePath);
+        let source = readIntoSourceFile(host, modulePath);
         const componentPath = `/${options.path}/`
             + (options.flat ? '' : core_1.strings.dasherize(options.name) + '/')
             + core_1.strings.dasherize(options.name)
             + '.component';
         const relativePath = find_module_1.buildRelativePath(modulePath, componentPath);
         const classifiedName = core_1.strings.classify(`${options.name}Component`);
-        const declarationChanges = ast_utils_1.addDeclarationToModule(source, modulePath, classifiedName, relativePath);
+        const declarationChanges = ast_utils_1.addDeclarationToModule(
+        // TODO: TypeScript version mismatch due to @schematics/angular using a different version
+        // than Material. Cast to any to avoid the type assignment failure.
+        source, modulePath, classifiedName, relativePath);
         const declarationRecorder = host.beginUpdate(modulePath);
         for (const change of declarationChanges) {
             if (change instanceof change_1.InsertChange) {
@@ -52,9 +52,12 @@ function addDeclarationToNgModule(options) {
         host.commitUpdate(declarationRecorder);
         if (options.export) {
             // Need to refresh the AST because we overwrote the file in the host.
-            const source = readIntoSourceFile(host, modulePath);
+            source = readIntoSourceFile(host, modulePath);
             const exportRecorder = host.beginUpdate(modulePath);
-            const exportChanges = ast_utils_1.addExportToModule(source, modulePath, core_1.strings.classify(`${options.name}Component`), relativePath);
+            const exportChanges = ast_utils_1.addExportToModule(
+            // TODO: TypeScript version mismatch due to @schematics/angular using a different version
+            // than Material. Cast to any to avoid the type assignment failure.
+            source, modulePath, core_1.strings.classify(`${options.name}Component`), relativePath);
             for (const change of exportChanges) {
                 if (change instanceof change_1.InsertChange) {
                     exportRecorder.insertLeft(change.pos, change.toAdd);
@@ -64,9 +67,12 @@ function addDeclarationToNgModule(options) {
         }
         if (options.entryComponent) {
             // Need to refresh the AST because we overwrote the file in the host.
-            const source = readIntoSourceFile(host, modulePath);
+            source = readIntoSourceFile(host, modulePath);
             const entryComponentRecorder = host.beginUpdate(modulePath);
-            const entryComponentChanges = ast_utils_1.addEntryComponentToModule(source, modulePath, core_1.strings.classify(`${options.name}Component`), relativePath);
+            const entryComponentChanges = ast_utils_1.addEntryComponentToModule(
+            // TODO: TypeScript version mismatch due to @schematics/angular using a different version
+            // than Material. Cast to any to avoid the type assignment failure.
+            source, modulePath, core_1.strings.classify(`${options.name}Component`), relativePath);
             for (const change of entryComponentChanges) {
                 if (change instanceof change_1.InsertChange) {
                     entryComponentRecorder.insertLeft(change.pos, change.toAdd);
@@ -93,7 +99,7 @@ function buildSelector(options, projectPrefix) {
  * include the additional files.
  */
 function indentTextContent(text, numSpaces) {
-    // In the project there should be only LF line-endings, but the schematic files
+    // In the Material project there should be only LF line-endings, but the schematic files
     // are not being linted and therefore there can be also CRLF or just CR line-endings.
     return text.replace(/(\r\n|\r|\n)/g, `$1${' '.repeat(numSpaces)}`);
 }
@@ -122,8 +128,8 @@ function buildComponent(options, additionalFiles = {}) {
         // Add the default component option values to the options if an option is not explicitly
         // specified but a default component option is available.
         Object.keys(options)
-            .filter(optionName => options[optionName] == null && defaultComponentOptions[optionName])
-            .forEach(optionName => options[optionName] = defaultComponentOptions[optionName]);
+            .filter((optionName) => options[optionName] == null && defaultComponentOptions[optionName])
+            .forEach((optionName) => options[optionName] = defaultComponentOptions[optionName]);
         if (options.path === undefined) {
             // TODO(jelbourn): figure out if the need for this `as any` is a bug due to two different
             // incompatible `WorkspaceProject` classes in @angular-devkit
@@ -136,12 +142,21 @@ function buildComponent(options, additionalFiles = {}) {
         options.selector = options.selector || buildSelector(options, project.prefix);
         validation_1.validateName(options.name);
         validation_1.validateHtmlSelector(options.selector);
+        // In case the specified style extension is not part of the supported CSS supersets,
+        // we generate the stylesheets with the "css" extension. This ensures that we don't
+        // accidentally generate invalid stylesheets (e.g. drag-drop-comp.styl) which will
+        // break the Angular CLI project. See: https://github.com/angular/components/issues/15164
+        if (!supportedCssExtensions.includes(options.style)) {
+            // TODO: Cast is necessary as we can't use the Style enum which has been introduced
+            // within CLI v7.3.0-rc.0. This would break the schematic for older CLI versions.
+            options.style = 'css';
+        }
         // Object that will be used as context for the EJS templates.
         const baseTemplateContext = Object.assign({}, core_1.strings, { 'if-flat': (s) => options.flat ? '' : s }, options);
         // Key-value object that includes the specified additional files with their loaded content.
         // The resolved contents can be used inside EJS templates.
         const resolvedFiles = {};
-        for (let key in additionalFiles) {
+        for (const key in additionalFiles) {
             if (additionalFiles[key]) {
                 const fileContent = fs_1.readFileSync(path_1.join(schematicFilesPath, additionalFiles[key]), 'utf-8');
                 // Interpolate the additional files with the base EJS template context.
@@ -149,21 +164,21 @@ function buildComponent(options, additionalFiles = {}) {
             }
         }
         const templateSource = schematics_1.apply(schematics_1.url(schematicFilesUrl), [
-            options.spec ? schematics_1.noop() : schematics_1.filter(path => !path.endsWith('.spec.ts')),
-            options.inlineStyle ? schematics_1.filter(path => !path.endsWith('.__styleext__')) : schematics_1.noop(),
-            options.inlineTemplate ? schematics_1.filter(path => !path.endsWith('.html')) : schematics_1.noop(),
+            options.skipTests ? schematics_1.filter((path) => !path.endsWith('.spec.ts')) : schematics_1.noop(),
+            options.inlineStyle ? schematics_1.filter((path) => !path.endsWith('.__style__')) : schematics_1.noop(),
+            options.inlineTemplate ? schematics_1.filter((path) => !path.endsWith('.html')) : schematics_1.noop(),
             // Treat the template options as any, because the type definition for the template options
             // is made unnecessarily explicit. Every type of object can be used in the EJS template.
             schematics_1.template(Object.assign({ indentTextContent, resolvedFiles }, baseTemplateContext)),
             // TODO(devversion): figure out why we cannot just remove the first parameter
             // See for example: angular-cli#schematics/angular/component/index.ts#L160
-            schematics_1.move(null, parsedPath.path),
+            schematics_1.move(null, parsedPath.path)
         ]);
         return schematics_1.chain([
             schematics_1.branchAndMerge(schematics_1.chain([
                 addDeclarationToNgModule(options),
-                schematics_1.mergeWith(templateSource),
-            ])),
+                schematics_1.mergeWith(templateSource)
+            ]))
         ])(host, context);
     };
 }

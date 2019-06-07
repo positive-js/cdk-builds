@@ -4,11 +4,11 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
-import { Injectable, defineInjectable } from '@angular/core';
+import { Injectable, ɵɵdefineInjectable } from '@angular/core';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Class for managing stylesheets. Stylesheets are loaded into named slots so that they can be
@@ -58,7 +58,7 @@ var StyleManager = /** @class */ (function () {
     StyleManager.decorators = [
         { type: Injectable, args: [{ providedIn: 'root' },] },
     ];
-    /** @nocollapse */ StyleManager.ngInjectableDef = defineInjectable({ factory: function StyleManager_Factory() { return new StyleManager(); }, token: StyleManager, providedIn: "root" });
+    /** @nocollapse */ StyleManager.ngInjectableDef = ɵɵdefineInjectable({ factory: function StyleManager_Factory() { return new StyleManager(); }, token: StyleManager, providedIn: "root" });
     return StyleManager;
 }());
 /**
@@ -97,12 +97,12 @@ function getClassNameForKey(key) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 export { StyleManager };

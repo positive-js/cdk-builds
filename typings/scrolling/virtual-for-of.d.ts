@@ -1,9 +1,9 @@
 import { DoCheck, IterableDiffers, NgIterable, NgZone, OnDestroy, TemplateRef, TrackByFunction, ViewContainerRef } from '@angular/core';
-import { ICollectionViewer, DataSource, ListRange } from '@ptsecurity/cdk/collections';
 import { Observable, Subject } from 'rxjs';
+import { ICollectionViewer, DataSource, ListRange } from '@ptsecurity/cdk/collections';
 import { CdkVirtualScrollViewport } from './virtual-scroll-viewport';
 /** The context for an item rendered by `CdkVirtualForOf` */
-export interface CdkVirtualForOfContext<T> {
+export declare type CdkVirtualForOfContext<T> = {
     /** The item value. */
     $implicit: T;
     /** The DataSource, Observable, or NgIterable that was passed to *cdkVirtualFor. */
@@ -20,7 +20,7 @@ export interface CdkVirtualForOfContext<T> {
     even: boolean;
     /** Whether the index is odd. */
     odd: boolean;
-}
+};
 /**
  * A directive similar to `ngForOf` to be used for rendering data inside a virtual scrolling
  * container.
@@ -34,28 +34,28 @@ export declare class CdkVirtualForOf<T> implements ICollectionViewer, DoCheck, O
     private _differs;
     /** The virtual scrolling viewport that these items are being rendered in. */
     private _viewport;
+    /** Emits when the rendered view of the data changes. */
+    viewChange: Subject<ListRange>;
+    /** Subject that emits when a new DataSource instance is given. */
+    private _dataSourceChanges;
     /** The DataSource to display. */
     cdkVirtualForOf: DataSource<T> | Observable<T[]> | NgIterable<T>;
+    _cdkVirtualForOf: DataSource<T> | Observable<T[]> | NgIterable<T>;
     /**
      * The `TrackByFunction` to use for tracking changes. The `TrackByFunction` takes the index and
      * the item and produces a value to be used as the item's identity when tracking changes.
      */
     cdkVirtualForTrackBy: TrackByFunction<T> | undefined;
+    private _cdkVirtualForTrackBy;
     /** The template used to stamp out new elements. */
     cdkVirtualForTemplate: TemplateRef<CdkVirtualForOfContext<T>>;
-    /** Emits when the rendered view of the data changes. */
-    viewChange: Subject<ListRange>;
-    _cdkVirtualForOf: DataSource<T> | Observable<T[]> | NgIterable<T>;
     /**
      * The size of the cache used to store templates that are not being used for re-use later.
      * Setting the cache size to `0` will disable caching. Defaults to 20 templates.
      */
     cdkVirtualForTemplateCacheSize: number;
-    /** Subject that emits when a new DataSource instance is given. */
-    private _dataSourceChanges;
     /** Emits whenever the data in the current DataSource changes. */
     dataStream: Observable<T[] | ReadonlyArray<T>>;
-    private _cdkVirtualForTrackBy;
     /** The differ used to calculate changes to the data. */
     private _differ;
     /** The most recent data emitted from the DataSource. */
@@ -100,8 +100,14 @@ export declare class CdkVirtualForOf<T> implements ICollectionViewer, DoCheck, O
     private _applyChanges;
     /** Cache the given detached view. */
     private _cacheView;
-    /** Get a view for a new item, either from the cache or by creating a new one. */
-    private _getViewForNewItem;
+    /** Inserts a view for a new item, either from the cache or by creating a new one. */
+    private _insertViewForNewItem;
     /** Update the computed properties on the `CdkVirtualForOfContext`. */
     private _updateComputedContextProperties;
+    /** Creates a new embedded view and moves it to the given index */
+    private _createEmbeddedViewAt;
+    /** Inserts a recycled view from the cache at the given index. */
+    private _insertViewFromCache;
+    /** Detaches the embedded view at the given index. */
+    private _detachView;
 }

@@ -41,7 +41,7 @@ function __extends(d, b) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * The injection token used to specify the virtual scrolling strategy.
@@ -51,7 +51,7 @@ var VIRTUAL_SCROLL_STRATEGY = new core.InjectionToken('VIRTUAL_SCROLL_STRATEGY')
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Virtual scrolling strategy for lists with items of known fixed size.
@@ -381,7 +381,10 @@ var CdkFixedSizeVirtualScroll = /** @class */ (function () {
                     providers: [{
                             provide: VIRTUAL_SCROLL_STRATEGY,
                             useFactory: _fixedSizeVirtualScrollStrategyFactory,
-                            deps: [core.forwardRef(function () { return CdkFixedSizeVirtualScroll; })]
+                            deps: [core.forwardRef((/**
+                                 * @return {?}
+                                 */
+                                function () { return CdkFixedSizeVirtualScroll; }))]
                         }]
                 },] },
     ];
@@ -395,7 +398,7 @@ var CdkFixedSizeVirtualScroll = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Time in ms to throttle the scrolling events by default.
@@ -449,7 +452,10 @@ var ScrollDispatcher = /** @class */ (function () {
         var _this = this;
         if (!this.scrollContainers.has(scrollable)) {
             this.scrollContainers.set(scrollable, scrollable.elementScrolled()
-                .subscribe(function () { return _this._scrolled.next(scrollable); }));
+                .subscribe((/**
+             * @return {?}
+             */
+            function () { return _this._scrolled.next(scrollable); })));
         }
     };
     /**
@@ -514,7 +520,11 @@ var ScrollDispatcher = /** @class */ (function () {
         if (!this.platform.isBrowser) {
             return rxjs.of();
         }
-        return new rxjs.Observable(function (observer) {
+        return new rxjs.Observable((/**
+         * @param {?} observer
+         * @return {?}
+         */
+        function (observer) {
             if (!_this._globalSubscription) {
                 _this.addGlobalListener();
             }
@@ -525,14 +535,17 @@ var ScrollDispatcher = /** @class */ (function () {
                 _this._scrolled.pipe(operators.auditTime(auditTimeInMs)).subscribe(observer) :
                 _this._scrolled.subscribe(observer);
             _this.scrolledCount++;
-            return function () {
+            return (/**
+             * @return {?}
+             */
+            function () {
                 subscription.unsubscribe();
                 _this.scrolledCount--;
                 if (!_this.scrolledCount) {
                     _this.removeGlobalListener();
                 }
-            };
-        });
+            });
+        }));
     };
     /**
      * @return {?}
@@ -543,7 +556,12 @@ var ScrollDispatcher = /** @class */ (function () {
     function () {
         var _this = this;
         this.removeGlobalListener();
-        this.scrollContainers.forEach(function (_, container) { return _this.deregister(container); });
+        this.scrollContainers.forEach((/**
+         * @param {?} _
+         * @param {?} container
+         * @return {?}
+         */
+        function (_, container) { return _this.deregister(container); }));
         this._scrolled.complete();
     };
     /**
@@ -569,9 +587,13 @@ var ScrollDispatcher = /** @class */ (function () {
     function (elementRef, auditTimeInMs) {
         /** @type {?} */
         var ancestors = this.getAncestorScrollContainers(elementRef);
-        return this.scrolled(auditTimeInMs).pipe(operators.filter(function (target) {
+        return this.scrolled(auditTimeInMs).pipe(operators.filter((/**
+         * @param {?} target
+         * @return {?}
+         */
+        function (target) {
             return !target || ancestors.indexOf(target) > -1;
-        }));
+        })));
     };
     /** Returns all registered Scrollables that contain the provided element. */
     /**
@@ -588,11 +610,16 @@ var ScrollDispatcher = /** @class */ (function () {
         var _this = this;
         /** @type {?} */
         var scrollingContainers = [];
-        this.scrollContainers.forEach(function (_subscription, scrollable) {
+        this.scrollContainers.forEach((/**
+         * @param {?} _subscription
+         * @param {?} scrollable
+         * @return {?}
+         */
+        function (_subscription, scrollable) {
             if (_this.scrollableContainsElement(scrollable, elementRef)) {
                 scrollingContainers.push(scrollable);
             }
-        });
+        }));
         return scrollingContainers;
     };
     /** Returns true if the element is contained within the provided Scrollable. */
@@ -637,9 +664,15 @@ var ScrollDispatcher = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this._globalSubscription = this.ngZone.runOutsideAngular(function () {
-            return rxjs.fromEvent(window.document, 'scroll').subscribe(function () { return _this._scrolled.next(); });
-        });
+        this._globalSubscription = this.ngZone.runOutsideAngular((/**
+         * @return {?}
+         */
+        function () {
+            return rxjs.fromEvent(window.document, 'scroll').subscribe((/**
+             * @return {?}
+             */
+            function () { return _this._scrolled.next(); }));
+        }));
     };
     /** Cleans up the global scroll listener. */
     /**
@@ -666,13 +699,13 @@ var ScrollDispatcher = /** @class */ (function () {
         { type: core.NgZone },
         { type: platform.Platform }
     ]; };
-    /** @nocollapse */ ScrollDispatcher.ngInjectableDef = core.defineInjectable({ factory: function ScrollDispatcher_Factory() { return new ScrollDispatcher(core.inject(core.NgZone), core.inject(platform.Platform)); }, token: ScrollDispatcher, providedIn: "root" });
+    /** @nocollapse */ ScrollDispatcher.ngInjectableDef = core.ɵɵdefineInjectable({ factory: function ScrollDispatcher_Factory() { return new ScrollDispatcher(core.ɵɵinject(core.NgZone), core.ɵɵinject(platform.Platform)); }, token: ScrollDispatcher, providedIn: "root" });
     return ScrollDispatcher;
 }());
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Sends an event when the directive's element is scrolled. Registers itself with the
@@ -687,12 +720,19 @@ var CdkScrollable = /** @class */ (function () {
         this.ngZone = ngZone;
         this.dir = dir;
         this.destroyed = new rxjs.Subject();
-        this._elementScrolled = new rxjs.Observable(function (observer) {
-            return _this.ngZone.runOutsideAngular(function () {
+        this._elementScrolled = new rxjs.Observable((/**
+         * @param {?} observer
+         * @return {?}
+         */
+        function (observer) {
+            return _this.ngZone.runOutsideAngular((/**
+             * @return {?}
+             */
+            function () {
                 return rxjs.fromEvent(_this.elementRef.nativeElement, 'scroll').pipe(operators.takeUntil(_this.destroyed))
                     .subscribe(observer);
-            });
-        });
+            }));
+        }));
     }
     /**
      * @return {?}
@@ -922,7 +962,7 @@ var CdkScrollable = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Checks if the given ranges are equal.
@@ -954,11 +994,25 @@ var CdkVirtualScrollViewport = /** @class */ (function (_super) {
         /**
          * Emits when the index of the first element visible in the viewport changes.
          */
-        _this.scrolledIndexChange = new rxjs.Observable(function (observer) {
-            return _this._scrollStrategy.scrolledIndexChange.subscribe(function (index) {
-                return Promise.resolve().then(function () { return _this.ngZone.run(function () { return observer.next(index); }); });
-            });
-        });
+        _this.scrolledIndexChange = new rxjs.Observable((/**
+         * @param {?} observer
+         * @return {?}
+         */
+        function (observer) {
+            return _this._scrollStrategy.scrolledIndexChange.subscribe((/**
+             * @param {?} index
+             * @return {?}
+             */
+            function (index) {
+                return Promise.resolve().then((/**
+                 * @return {?}
+                 */
+                function () { return _this.ngZone.run((/**
+                 * @return {?}
+                 */
+                function () { return observer.next(index); })); }));
+            }));
+        }));
         /**
          * Emits when the viewport is detached from a CdkVirtualForOf.
          */
@@ -1027,7 +1081,13 @@ var CdkVirtualScrollViewport = /** @class */ (function (_super) {
         // the Viewport to be rendered with the correct size before we measure. We run this outside the
         // zone to avoid causing more change detection cycles. We handle the change detection loop
         // ourselves instead.
-        this.ngZone.runOutsideAngular(function () { return Promise.resolve().then(function () {
+        this.ngZone.runOutsideAngular((/**
+         * @return {?}
+         */
+        function () { return Promise.resolve().then((/**
+         * @return {?}
+         */
+        function () {
             _this._measureViewportSize();
             _this._scrollStrategy.attach(_this);
             _this.elementScrolled()
@@ -1038,9 +1098,12 @@ var CdkVirtualScrollViewport = /** @class */ (function (_super) {
             // there are multiple scroll events in the same frame we only need to recheck
             // our layout once.
             operators.auditTime(0, rxjs.animationFrameScheduler))
-                .subscribe(function () { return _this._scrollStrategy.onContentScrolled(); });
+                .subscribe((/**
+             * @return {?}
+             */
+            function () { return _this._scrollStrategy.onContentScrolled(); }));
             _this._markChangeDetectionNeeded();
-        }); });
+        })); }));
     };
     /**
      * @return {?}
@@ -1075,9 +1138,16 @@ var CdkVirtualScrollViewport = /** @class */ (function (_super) {
         // Subscribe to the data stream of the CdkVirtualForOf to keep track of when the data length
         // changes. Run outside the zone to avoid triggering change detection, since we're managing the
         // change detection loop ourselves.
-        this.ngZone.runOutsideAngular(function () {
+        this.ngZone.runOutsideAngular((/**
+         * @return {?}
+         */
+        function () {
             _this._forOf = forOf;
-            _this._forOf.dataStream.pipe(operators.takeUntil(_this._detachedSubject)).subscribe(function (data) {
+            _this._forOf.dataStream.pipe(operators.takeUntil(_this._detachedSubject)).subscribe((/**
+             * @param {?} data
+             * @return {?}
+             */
+            function (data) {
                 /** @type {?} */
                 var newLength = data.length;
                 if (newLength !== _this._dataLength) {
@@ -1085,8 +1155,8 @@ var CdkVirtualScrollViewport = /** @class */ (function (_super) {
                     _this._scrollStrategy.onDataLengthChanged();
                 }
                 _this._doChangeDetection();
-            });
-        });
+            }));
+        }));
     };
     /** Detaches the current `CdkVirtualForOf`. */
     /**
@@ -1190,7 +1260,10 @@ var CdkVirtualScrollViewport = /** @class */ (function (_super) {
         var _this = this;
         if (!rangesEqual(this._renderedRange, range)) {
             this._renderedRangeSubject.next(this._renderedRange = range);
-            this._markChangeDetectionNeeded(function () { return _this._scrollStrategy.onContentRendered(); });
+            this._markChangeDetectionNeeded((/**
+             * @return {?}
+             */
+            function () { return _this._scrollStrategy.onContentRendered(); }));
         }
     };
     /**
@@ -1252,7 +1325,10 @@ var CdkVirtualScrollViewport = /** @class */ (function (_super) {
             // We know this value is safe because we parse `offset` with `Number()` before passing it
             // into the string.
             this._renderedContentTransform = transform;
-            this._markChangeDetectionNeeded(function () {
+            this._markChangeDetectionNeeded((/**
+             * @return {?}
+             */
+            function () {
                 if (_this._renderedContentOffsetNeedsRewrite) {
                     _this._renderedContentOffset -= _this.measureRenderedContentSize();
                     _this._renderedContentOffsetNeedsRewrite = false;
@@ -1261,7 +1337,7 @@ var CdkVirtualScrollViewport = /** @class */ (function (_super) {
                 else {
                     _this._scrollStrategy.onRenderedOffsetChanged();
                 }
-            });
+            }));
         }
     };
     /**
@@ -1429,9 +1505,15 @@ var CdkVirtualScrollViewport = /** @class */ (function (_super) {
         // properties sequentially we only have to run `_doChangeDetection` once at the end.
         if (!this._isChangeDetectionPending) {
             this._isChangeDetectionPending = true;
-            this.ngZone.runOutsideAngular(function () { return Promise.resolve().then(function () {
+            this.ngZone.runOutsideAngular((/**
+             * @return {?}
+             */
+            function () { return Promise.resolve().then((/**
+             * @return {?}
+             */
+            function () {
                 _this._doChangeDetection();
-            }); });
+            })); }));
         }
     };
     /** Run change detection. */
@@ -1451,7 +1533,10 @@ var CdkVirtualScrollViewport = /** @class */ (function (_super) {
         // Apply changes to Angular bindings. Note: We must call `markForCheck` to run change detection
         // from the root, since the repeated items are content projected in. Calling `detectChanges`
         // instead does not properly check the projected content.
-        this.ngZone.run(function () { return _this._changeDetectorRef.markForCheck(); });
+        this.ngZone.run((/**
+         * @return {?}
+         */
+        function () { return _this._changeDetectorRef.markForCheck(); }));
         // Apply the content transform. The transform can't be set via an Angular binding because
         // bypassSecurityTrustStyle is banned in Google. However the value is safe, it's composed of
         // string literals, a variable that can only be 'X' or 'Y', and user input that is run through
@@ -1495,14 +1580,14 @@ var CdkVirtualScrollViewport = /** @class */ (function (_super) {
     CdkVirtualScrollViewport.propDecorators = {
         orientation: [{ type: core.Input }],
         scrolledIndexChange: [{ type: core.Output }],
-        _contentWrapper: [{ type: core.ViewChild, args: ['contentWrapper',] }]
+        _contentWrapper: [{ type: core.ViewChild, args: ['contentWrapper', { static: true },] }]
     };
     return CdkVirtualScrollViewport;
 }(CdkScrollable));
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Helper to extract size from a DOM Node.
@@ -1518,7 +1603,7 @@ function getSize(orientation, node) {
     }
     /** @type {?} */
     var rect = el.getBoundingClientRect();
-    return orientation == 'horizontal' ? rect.width : rect.height;
+    return orientation === 'horizontal' ? rect.width : rect.height;
 }
 /**
  * A directive similar to `ngForOf` to be used for rendering data inside a virtual scrolling
@@ -1537,14 +1622,14 @@ var CdkVirtualForOf = /** @class */ (function () {
          */
         this.viewChange = new rxjs.Subject();
         /**
+         * Subject that emits when a new DataSource instance is given.
+         */
+        this._dataSourceChanges = new rxjs.Subject();
+        /**
          * The size of the cache used to store templates that are not being used for re-use later.
          * Setting the cache size to `0` will disable caching. Defaults to 20 templates.
          */
         this.cdkVirtualForTemplateCacheSize = 20;
-        /**
-         * Subject that emits when a new DataSource instance is given.
-         */
-        this._dataSourceChanges = new rxjs.Subject();
         /**
          * Emits whenever the data in the current DataSource changes.
          */
@@ -1557,10 +1642,14 @@ var CdkVirtualForOf = /** @class */ (function () {
         // Use `_changeDataSource` to disconnect from the previous data source and connect to the
         // new one, passing back a stream of data changes which we run through `switchMap` to give
         // us a data stream that emits the latest data from whatever the current `DataSource` is.
-        operators.switchMap(function (_a) {
+        operators.switchMap((/**
+         * @param {?} __0
+         * @return {?}
+         */
+        function (_a) {
             var prev = _a[0], cur = _a[1];
             return _this._changeDataSource(prev, cur);
-        }), 
+        })), 
         // Replay the last emitted data when someone subscribes.
         operators.shareReplay(1));
         /**
@@ -1578,15 +1667,26 @@ var CdkVirtualForOf = /** @class */ (function () {
          */
         this._needsUpdate = false;
         this._destroyed = new rxjs.Subject();
-        this.dataStream.subscribe(function (data) {
+        this.dataStream.subscribe((/**
+         * @param {?} data
+         * @return {?}
+         */
+        function (data) {
             _this._data = data;
             _this._onRenderedDataChange();
-        });
-        this._viewport.renderedRangeStream.pipe(operators.takeUntil(this._destroyed)).subscribe(function (range) {
+        }));
+        this._viewport.renderedRangeStream.pipe(operators.takeUntil(this._destroyed)).subscribe((/**
+         * @param {?} range
+         * @return {?}
+         */
+        function (range) {
             _this._renderedRange = range;
-            ngZone.run(function () { return _this.viewChange.next(_this._renderedRange); });
+            ngZone.run((/**
+             * @return {?}
+             */
+            function () { return _this.viewChange.next(_this._renderedRange); }));
             _this._onRenderedDataChange();
-        });
+        }));
         this._viewport.attach(this);
     }
     Object.defineProperty(CdkVirtualForOf.prototype, "cdkVirtualForOf", {
@@ -1634,7 +1734,12 @@ var CdkVirtualForOf = /** @class */ (function () {
             var _this = this;
             this._needsUpdate = true;
             this._cdkVirtualForTrackBy = fn ?
-                function (index, item) { return fn(index + (_this._renderedRange ? _this._renderedRange.start : 0), item); } :
+                (/**
+                 * @param {?} index
+                 * @param {?} item
+                 * @return {?}
+                 */
+                function (index, item) { return fn(index + (_this._renderedRange ? _this._renderedRange.start : 0), item); }) :
                 undefined;
         },
         enumerable: true,
@@ -1736,6 +1841,7 @@ var CdkVirtualForOf = /** @class */ (function () {
      */
     function () {
         this._viewport.detach();
+        this._dataSourceChanges.next();
         this._dataSourceChanges.complete();
         this.viewChange.complete();
         this._destroyed.next();
@@ -1786,7 +1892,7 @@ var CdkVirtualForOf = /** @class */ (function () {
             oldDs.disconnect(this);
         }
         this._needsUpdate = true;
-        return newDs.connect(this);
+        return newDs ? newDs.connect(this) : rxjs.of();
     };
     /** Update the `CdkVirtualForOfContext` for all views. */
     /**
@@ -1829,16 +1935,21 @@ var CdkVirtualForOf = /** @class */ (function () {
     function (changes) {
         var _this = this;
         // Rearrange the views to put them in the right location.
-        changes.forEachOperation(function (record, adjustedPreviousIndex, currentIndex) {
+        changes.forEachOperation((/**
+         * @param {?} record
+         * @param {?} adjustedPreviousIndex
+         * @param {?} currentIndex
+         * @return {?}
+         */
+        function (record, adjustedPreviousIndex, currentIndex) {
             if (record.previousIndex == null) { // Item added.
                 // Item added.
                 /** @type {?} */
-                var view = _this._getViewForNewItem();
-                _this._viewContainerRef.insert(view, (/** @type {?} */ (currentIndex)));
+                var view = _this._insertViewForNewItem((/** @type {?} */ (currentIndex)));
                 view.context.$implicit = record.item;
             }
             else if (currentIndex == null) { // Item removed.
-                _this._cacheView((/** @type {?} */ (_this._viewContainerRef.detach((/** @type {?} */ (adjustedPreviousIndex))))));
+                _this._cacheView(_this._detachView((/** @type {?} */ (adjustedPreviousIndex))));
             }
             else { // Item moved.
                 // Item moved.
@@ -1847,13 +1958,17 @@ var CdkVirtualForOf = /** @class */ (function () {
                 _this._viewContainerRef.move(view, currentIndex);
                 view.context.$implicit = record.item;
             }
-        });
+        }));
         // Update $implicit for any items that had an identity change.
-        changes.forEachIdentityChange(function (record) {
+        changes.forEachIdentityChange((/**
+         * @param {?} record
+         * @return {?}
+         */
+        function (record) {
             /** @type {?} */
             var view = (/** @type {?} */ (_this._viewContainerRef.get((/** @type {?} */ (record.currentIndex)))));
             view.context.$implicit = record.item;
-        });
+        }));
         // Update the context variables on all items.
         /** @type {?} */
         var count = this._data.length;
@@ -1898,28 +2013,21 @@ var CdkVirtualForOf = /** @class */ (function () {
             }
         }
     };
-    /** Get a view for a new item, either from the cache or by creating a new one. */
+    /** Inserts a view for a new item, either from the cache or by creating a new one. */
     /**
-     * Get a view for a new item, either from the cache or by creating a new one.
+     * Inserts a view for a new item, either from the cache or by creating a new one.
      * @private
+     * @param {?} index
      * @return {?}
      */
-    CdkVirtualForOf.prototype._getViewForNewItem = /**
-     * Get a view for a new item, either from the cache or by creating a new one.
+    CdkVirtualForOf.prototype._insertViewForNewItem = /**
+     * Inserts a view for a new item, either from the cache or by creating a new one.
      * @private
+     * @param {?} index
      * @return {?}
      */
-    function () {
-        return this._templateCache.pop() || this._viewContainerRef.createEmbeddedView(this._template, {
-            $implicit: (/** @type {?} */ (null)),
-            cdkVirtualForOf: this._cdkVirtualForOf,
-            index: -1,
-            count: -1,
-            first: false,
-            last: false,
-            odd: false,
-            even: false
-        });
+    function (index) {
+        return this._insertViewFromCache(index) || this._createEmbeddedViewAt(index);
     };
     /** Update the computed properties on the `CdkVirtualForOfContext`. */
     /**
@@ -1940,9 +2048,76 @@ var CdkVirtualForOf = /** @class */ (function () {
         context.even = context.index % 2 === 0;
         context.odd = !context.even;
     };
+    /** Creates a new embedded view and moves it to the given index */
+    /**
+     * Creates a new embedded view and moves it to the given index
+     * @private
+     * @param {?} index
+     * @return {?}
+     */
+    CdkVirtualForOf.prototype._createEmbeddedViewAt = /**
+     * Creates a new embedded view and moves it to the given index
+     * @private
+     * @param {?} index
+     * @return {?}
+     */
+    function (index) {
+        /** @type {?} */
+        var view = this._viewContainerRef.createEmbeddedView(this._template, {
+            $implicit: (/** @type {?} */ (null)),
+            cdkVirtualForOf: this._cdkVirtualForOf,
+            index: -1,
+            count: -1,
+            first: false,
+            last: false,
+            odd: false,
+            even: false
+        });
+        if (index < this._viewContainerRef.length) {
+            this._viewContainerRef.move(view, index);
+        }
+        return view;
+    };
+    /** Inserts a recycled view from the cache at the given index. */
+    /**
+     * Inserts a recycled view from the cache at the given index.
+     * @private
+     * @param {?} index
+     * @return {?}
+     */
+    CdkVirtualForOf.prototype._insertViewFromCache = /**
+     * Inserts a recycled view from the cache at the given index.
+     * @private
+     * @param {?} index
+     * @return {?}
+     */
+    function (index) {
+        /** @type {?} */
+        var cachedView = this._templateCache.pop();
+        if (cachedView) {
+            this._viewContainerRef.insert(cachedView, index);
+        }
+        return cachedView || null;
+    };
+    /** Detaches the embedded view at the given index. */
+    /**
+     * Detaches the embedded view at the given index.
+     * @private
+     * @param {?} index
+     * @return {?}
+     */
+    CdkVirtualForOf.prototype._detachView = /**
+     * Detaches the embedded view at the given index.
+     * @private
+     * @param {?} index
+     * @return {?}
+     */
+    function (index) {
+        return (/** @type {?} */ (this._viewContainerRef.detach(index)));
+    };
     CdkVirtualForOf.decorators = [
         { type: core.Directive, args: [{
-                    selector: '[cdkVirtualFor][cdkVirtualForOf]'
+                    selector: '[cdkVirtualFor][cdkVirtualForOf]',
                 },] },
     ];
     /** @nocollapse */
@@ -1964,7 +2139,7 @@ var CdkVirtualForOf = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var ScrollingModule = /** @class */ (function () {
     function ScrollingModule() {
@@ -2007,7 +2182,7 @@ var ScrollDispatchModule = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Time in ms to throttle the resize events by default.
@@ -2022,14 +2197,20 @@ var ViewportRuler = /** @class */ (function () {
     function ViewportRuler(_platform, ngZone) {
         var _this = this;
         this._platform = _platform;
-        ngZone.runOutsideAngular(function () {
+        ngZone.runOutsideAngular((/**
+         * @return {?}
+         */
+        function () {
             _this._change = _platform.isBrowser ?
                 rxjs.merge(rxjs.fromEvent(window, 'resize'), rxjs.fromEvent(window, 'orientationchange')) :
                 rxjs.of();
             // Note that we need to do the subscription inside `runOutsideAngular`
             // since subscribing is what causes the event listener to be added.
-            _this._invalidateCache = _this.change().subscribe(function () { return _this._updateViewportSize(); });
-        });
+            _this._invalidateCache = _this.change().subscribe((/**
+             * @return {?}
+             */
+            function () { return _this._updateViewportSize(); }));
+        }));
     }
     /**
      * @return {?}
@@ -2167,7 +2348,7 @@ var ViewportRuler = /** @class */ (function () {
         { type: platform.Platform },
         { type: core.NgZone }
     ]; };
-    /** @nocollapse */ ViewportRuler.ngInjectableDef = core.defineInjectable({ factory: function ViewportRuler_Factory() { return new ViewportRuler(core.inject(platform.Platform), core.inject(core.NgZone)); }, token: ViewportRuler, providedIn: "root" });
+    /** @nocollapse */ ViewportRuler.ngInjectableDef = core.ɵɵdefineInjectable({ factory: function ViewportRuler_Factory() { return new ViewportRuler(core.ɵɵinject(platform.Platform), core.ɵɵinject(core.NgZone)); }, token: ViewportRuler, providedIn: "root" });
     return ViewportRuler;
 }());
 /**

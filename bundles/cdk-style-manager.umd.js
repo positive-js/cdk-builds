@@ -12,7 +12,7 @@
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Class for managing stylesheets. Stylesheets are loaded into named slots so that they can be
@@ -62,7 +62,7 @@ var StyleManager = /** @class */ (function () {
     StyleManager.decorators = [
         { type: core.Injectable, args: [{ providedIn: 'root' },] },
     ];
-    /** @nocollapse */ StyleManager.ngInjectableDef = core.defineInjectable({ factory: function StyleManager_Factory() { return new StyleManager(); }, token: StyleManager, providedIn: "root" });
+    /** @nocollapse */ StyleManager.ngInjectableDef = core.ɵɵdefineInjectable({ factory: function StyleManager_Factory() { return new StyleManager(); }, token: StyleManager, providedIn: "root" });
     return StyleManager;
 }());
 /**

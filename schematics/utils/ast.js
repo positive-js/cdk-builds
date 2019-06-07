@@ -1,11 +1,4 @@
 "use strict";
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 Object.defineProperty(exports, "__esModule", { value: true });
 const schematics_1 = require("@angular-devkit/schematics");
 const ast_utils_1 = require("@schematics/angular/utility/ast-utils");
@@ -21,8 +14,7 @@ function getSourceFile(host, path) {
     if (!buffer) {
         throw new schematics_1.SchematicsException(`Could not find file for path: ${path}`);
     }
-    const content = buffer.toString();
-    return version_agnostic_typescript_1.ts.createSourceFile(path, content, version_agnostic_typescript_1.ts.ScriptTarget.Latest, true);
+    return version_agnostic_typescript_1.ts.createSourceFile(path, buffer.toString(), version_agnostic_typescript_1.ts.ScriptTarget.Latest, true);
 }
 exports.getSourceFile = getSourceFile;
 /** Import and add module to root app module. */
@@ -43,6 +35,8 @@ function addModuleImportToModule(host, modulePath, moduleName, src) {
     if (!moduleSource) {
         throw new schematics_1.SchematicsException(`Module not found: ${modulePath}`);
     }
+    // TODO: TypeScript version mismatch due to @schematics/angular using a different version
+    // than Material. Cast to any to avoid the type assignment failure.
     const changes = ast_utils_1.addImportToModule(moduleSource, modulePath, moduleName, src);
     const recorder = host.beginUpdate(modulePath);
     changes.forEach((change) => {
@@ -61,7 +55,7 @@ function findModuleFromOptions(host, options) {
     }
     const project = workspace.projects[options.project];
     if (options.path === undefined) {
-        options.path = `/${project.root}/packages/app`;
+        options.path = `/${project.root}/src/app`;
     }
     return find_module_1.findModuleFromOptions(host, options);
 }

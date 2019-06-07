@@ -4,7 +4,7 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
-import { QueryList, Directive, ElementRef, EventEmitter, Injectable, NgZone, Optional, Output, SkipSelf, Inject, NgModule, defineInjectable, inject } from '@angular/core';
+import { QueryList, Directive, ElementRef, EventEmitter, Injectable, NgZone, Optional, Output, SkipSelf, Inject, NgModule, ɵɵdefineInjectable, ɵɵinject } from '@angular/core';
 import { Subject, Subscription, of } from 'rxjs';
 import { debounceTime, filter, map, tap } from 'rxjs/operators';
 import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, TAB, A, Z, ZERO, NINE } from '@ptsecurity/cdk/keycodes';
@@ -13,7 +13,7 @@ import { DOCUMENT, CommonModule } from '@angular/common';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /* tslint:disable:member-ordering */
 /**
@@ -47,11 +47,19 @@ class ListKeyManager {
          * Predicate function that can be used to check whether an item should be skipped
          * by the key manager. By default, disabled items are skipped.
          */
-        this._skipPredicateFn = (item) => item.disabled;
+        this._skipPredicateFn = (/**
+         * @param {?} item
+         * @return {?}
+         */
+        (item) => item.disabled);
         // Buffer for the letters that the user has pressed when the typeahead option is turned on.
         this._pressedLetters = [];
         if (_items instanceof QueryList) {
-            _items.changes.subscribe((newItems) => {
+            _items.changes.subscribe((/**
+             * @param {?} newItems
+             * @return {?}
+             */
+            (newItems) => {
                 if (this._activeItem) {
                     /** @type {?} */
                     const itemArray = newItems.toArray();
@@ -61,7 +69,7 @@ class ListKeyManager {
                         this._activeItemIndex = newIndex;
                     }
                 }
-            });
+            }));
         }
     }
     /**
@@ -117,13 +125,31 @@ class ListKeyManager {
      * @return {THIS}
      */
     withTypeAhead(debounceInterval = 200, searchLetterIndex = 0) {
-        if ((/** @type {?} */ (this))._items.length && (/** @type {?} */ (this))._items.some((item) => typeof item.getLabel !== 'function')) {
+        if ((/** @type {?} */ (this))._items.length && (/** @type {?} */ (this))._items.some((/**
+         * @param {?} item
+         * @return {?}
+         */
+        (item) => typeof item.getLabel !== 'function'))) {
             throw Error('ListKeyManager items in typeahead mode must implement the `getLabel` method.');
         }
         (/** @type {?} */ (this))._typeaheadSubscription.unsubscribe();
         // Debounce the presses of non-navigational keys, collect the ones that correspond to letters and convert those
         // letters back into a string. Afterwards find the first item that starts with that string and select it.
-        (/** @type {?} */ (this))._typeaheadSubscription = (/** @type {?} */ (this))._letterKeyStream.pipe(tap((keyCode) => (/** @type {?} */ (this))._pressedLetters.push(keyCode)), debounceTime(debounceInterval), filter(() => (/** @type {?} */ (this))._pressedLetters.length > 0), map(() => (/** @type {?} */ (this))._pressedLetters.join(''))).subscribe((inputString) => {
+        (/** @type {?} */ (this))._typeaheadSubscription = (/** @type {?} */ (this))._letterKeyStream.pipe(tap((/**
+         * @param {?} keyCode
+         * @return {?}
+         */
+        (keyCode) => (/** @type {?} */ (this))._pressedLetters.push(keyCode))), debounceTime(debounceInterval), filter((/**
+         * @return {?}
+         */
+        () => (/** @type {?} */ (this))._pressedLetters.length > 0)), map((/**
+         * @return {?}
+         */
+        () => (/** @type {?} */ (this))._pressedLetters.join('')))).subscribe((/**
+         * @param {?} inputString
+         * @return {?}
+         */
+        (inputString) => {
             if (searchLetterIndex === -1) {
                 (/** @type {?} */ (this))._pressedLetters = [];
                 return;
@@ -144,7 +170,7 @@ class ListKeyManager {
                 }
             }
             (/** @type {?} */ (this))._pressedLetters = [];
-        });
+        }));
         return (/** @type {?} */ (this));
     }
     /**
@@ -389,7 +415,7 @@ class ListKeyManager {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -415,7 +441,7 @@ class ActiveDescendantKeyManager extends ListKeyManager {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -450,7 +476,7 @@ class FocusKeyManager extends ListKeyManager {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Through trial and error (on iPhone 6S) they found
 // that a value of around 650ms seems appropriate.
@@ -482,7 +508,10 @@ class FocusMonitor {
         /**
          * A map of global objects to lists of current listeners.
          */
-        this._unregisterGlobalListeners = () => { };
+        this._unregisterGlobalListeners = (/**
+         * @return {?}
+         */
+        () => { });
         /**
          * The number of elements currently being monitored.
          */
@@ -509,7 +538,10 @@ class FocusMonitor {
         // Create monitored element info.
         /** @type {?} */
         const info = {
-            unlisten: () => { },
+            unlisten: (/**
+             * @return {?}
+             */
+            () => { }),
             checkChildren: checkChildren,
             subject: new Subject()
         };
@@ -517,18 +549,32 @@ class FocusMonitor {
         this._incrementMonitoredElementCount();
         // Start listening. We need to listen in capture phase since focus events don't bubble.
         /** @type {?} */
-        const focusListener = (event) => this._onFocus(event, element);
+        const focusListener = (/**
+         * @param {?} event
+         * @return {?}
+         */
+        (event) => this._onFocus(event, element));
         /** @type {?} */
-        const blurListener = (event) => this._onBlur(event, element);
-        this._ngZone.runOutsideAngular(() => {
+        const blurListener = (/**
+         * @param {?} event
+         * @return {?}
+         */
+        (event) => this._onBlur(event, element));
+        this._ngZone.runOutsideAngular((/**
+         * @return {?}
+         */
+        () => {
             element.addEventListener('focus', focusListener, true);
             element.addEventListener('blur', blurListener, true);
-        });
+        }));
         // Create an unlisten function for later.
-        info.unlisten = () => {
+        info.unlisten = (/**
+         * @return {?}
+         */
+        () => {
             element.removeEventListener('focus', focusListener, true);
             element.removeEventListener('blur', blurListener, true);
-        };
+        });
         return info.subject.asObservable();
     }
     /**
@@ -564,7 +610,12 @@ class FocusMonitor {
      * @return {?}
      */
     ngOnDestroy() {
-        this._elementInfo.forEach((_info, element) => this.stopMonitoring(element));
+        this._elementInfo.forEach((/**
+         * @param {?} _info
+         * @param {?} element
+         * @return {?}
+         */
+        (_info, element) => this.stopMonitoring(element)));
     }
     /**
      * Register necessary event listeners on the document and window.
@@ -578,45 +629,70 @@ class FocusMonitor {
         }
         // On keydown record the origin and clear any touch event that may be in progress.
         /** @type {?} */
-        const documentKeydownListener = () => {
+        const documentKeydownListener = (/**
+         * @return {?}
+         */
+        () => {
             this._lastTouchTarget = null;
             this._setOriginForCurrentEventQueue('keyboard');
-        };
+        });
         // On mousedown record the origin only if there is not touch target, since a mousedown can
         // happen as a result of a touch event.
         /** @type {?} */
-        const documentMousedownListener = () => {
+        const documentMousedownListener = (/**
+         * @return {?}
+         */
+        () => {
             if (!this._lastTouchTarget) {
                 this._setOriginForCurrentEventQueue('mouse');
             }
-        };
+        });
         // When the touchstart event fires the focus event is not yet in the event queue. This means
         // we can't rely on the trick used above (setting timeout of 0ms). Instead we wait 650ms to
         // see if a focus happens.
         /** @type {?} */
-        const documentTouchstartListener = (event) => {
+        const documentTouchstartListener = (/**
+         * @param {?} event
+         * @return {?}
+         */
+        (event) => {
             if (this._touchTimeoutId != null) {
                 clearTimeout(this._touchTimeoutId);
             }
             this._lastTouchTarget = event.target;
-            this._touchTimeoutId = window.setTimeout(() => this._lastTouchTarget = null, TOUCH_BUFFER_MS);
-        };
+            this._touchTimeoutId = window.setTimeout((/**
+             * @return {?}
+             */
+            () => this._lastTouchTarget = null), TOUCH_BUFFER_MS);
+        });
         // Make a note of when the window regains focus, so we can restore the origin info for the
         // focused element.
         /** @type {?} */
-        const windowFocusListener = () => {
+        const windowFocusListener = (/**
+         * @return {?}
+         */
+        () => {
             this._windowFocused = true;
-            this._windowFocusTimeoutId = window.setTimeout(() => this._windowFocused = false, 0);
-        };
+            this._windowFocusTimeoutId = window.setTimeout((/**
+             * @return {?}
+             */
+            () => this._windowFocused = false), 0);
+        });
         // Note: we listen to events in the capture phase so we can detect them even if the user stops
         // propagation.
-        this._ngZone.runOutsideAngular(() => {
+        this._ngZone.runOutsideAngular((/**
+         * @return {?}
+         */
+        () => {
             document.addEventListener('keydown', documentKeydownListener, true);
             document.addEventListener('mousedown', documentMousedownListener, true);
             document.addEventListener('touchstart', documentTouchstartListener, supportsPassiveEventListeners() ? ((/** @type {?} */ ({ passive: true, capture: true }))) : true);
             window.addEventListener('focus', windowFocusListener);
-        });
-        this._unregisterGlobalListeners = () => {
+        }));
+        this._unregisterGlobalListeners = (/**
+         * @return {?}
+         */
+        () => {
             document.removeEventListener('keydown', documentKeydownListener, true);
             document.removeEventListener('mousedown', documentMousedownListener, true);
             document.removeEventListener('touchstart', documentTouchstartListener, supportsPassiveEventListeners() ? ((/** @type {?} */ ({ passive: true, capture: true }))) : true);
@@ -625,7 +701,7 @@ class FocusMonitor {
             clearTimeout(this._windowFocusTimeoutId);
             clearTimeout(this._touchTimeoutId);
             clearTimeout(this._originTimeoutId);
-        };
+        });
     }
     /**
      * @private
@@ -667,10 +743,16 @@ class FocusMonitor {
      * @return {?}
      */
     _setOriginForCurrentEventQueue(origin) {
-        this._ngZone.runOutsideAngular(() => {
+        this._ngZone.runOutsideAngular((/**
+         * @return {?}
+         */
+        () => {
             this._origin = origin;
-            this._originTimeoutId = window.setTimeout(() => this._origin = null);
-        });
+            this._originTimeoutId = window.setTimeout((/**
+             * @return {?}
+             */
+            () => this._origin = null));
+        }));
     }
     /**
      * Checks whether the given focus event was caused by a touchstart event.
@@ -772,7 +854,10 @@ class FocusMonitor {
      * @return {?}
      */
     _emitOrigin(subject, origin) {
-        this._ngZone.run(() => subject.next(origin));
+        this._ngZone.run((/**
+         * @return {?}
+         */
+        () => subject.next(origin)));
     }
     /**
      * @private
@@ -792,7 +877,10 @@ class FocusMonitor {
         // Unregister global listeners when last element is unmonitored.
         if (!--this._monitoredElementCount) {
             this._unregisterGlobalListeners();
-            this._unregisterGlobalListeners = () => { };
+            this._unregisterGlobalListeners = (/**
+             * @return {?}
+             */
+            () => { });
         }
     }
 }
@@ -804,7 +892,7 @@ FocusMonitor.ctorParameters = () => [
     { type: NgZone },
     { type: Platform }
 ];
-/** @nocollapse */ FocusMonitor.ngInjectableDef = defineInjectable({ factory: function FocusMonitor_Factory() { return new FocusMonitor(inject(NgZone), inject(Platform)); }, token: FocusMonitor, providedIn: "root" });
+/** @nocollapse */ FocusMonitor.ngInjectableDef = ɵɵdefineInjectable({ factory: function FocusMonitor_Factory() { return new FocusMonitor(ɵɵinject(NgZone), ɵɵinject(Platform)); }, token: FocusMonitor, providedIn: "root" });
 /**
  * Directive that determines how a particular element was focused (via keyboard, mouse, touch, or
  * programmatically) and adds corresponding classes to the element.
@@ -824,7 +912,11 @@ class CdkMonitorFocus {
         this._focusMonitor = _focusMonitor;
         this.cdkFocusChange = new EventEmitter();
         this._monitorSubscription = this._focusMonitor.monitor(this._elementRef.nativeElement, this._elementRef.nativeElement.hasAttribute('cdkMonitorSubtreeFocus'))
-            .subscribe((origin) => this.cdkFocusChange.emit(origin));
+            .subscribe((/**
+         * @param {?} origin
+         * @return {?}
+         */
+        (origin) => this.cdkFocusChange.emit(origin)));
     }
     /**
      * @return {?}
@@ -870,7 +962,7 @@ const FOCUS_MONITOR_PROVIDER = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 const ID_DELIMINATOR = ' ';
@@ -885,7 +977,11 @@ const ID_DELIMINATOR = ' ';
 function addAriaReferencedId(el, attr, id) {
     /** @type {?} */
     const ids = getAriaReferenceIds(el, attr);
-    if (ids.some((existingId) => existingId.trim() === id.trim())) {
+    if (ids.some((/**
+     * @param {?} existingId
+     * @return {?}
+     */
+    (existingId) => existingId.trim() === id.trim()))) {
         return;
     }
     ids.push(id.trim());
@@ -903,7 +999,11 @@ function removeAriaReferencedId(el, attr, id) {
     /** @type {?} */
     const ids = getAriaReferenceIds(el, attr);
     /** @type {?} */
-    const filteredIds = ids.filter((val) => val !== id.trim());
+    const filteredIds = ids.filter((/**
+     * @param {?} val
+     * @return {?}
+     */
+    (val) => val !== id.trim()));
     el.setAttribute(attr, filteredIds.join(ID_DELIMINATOR));
 }
 /**
@@ -920,7 +1020,7 @@ function getAriaReferenceIds(el, attr) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * ID used for the body container where all messages are appended.
@@ -991,7 +1091,7 @@ class AriaDescriber {
      * @return {?}
      */
     removeDescription(hostElement, message) {
-        if (!this._canBeDescribed(hostElement, message)) {
+        if (!this._isElementNode(hostElement)) {
             return;
         }
         if (this._isElementDescribedByMessage(hostElement, message)) {
@@ -1013,7 +1113,7 @@ class AriaDescriber {
     ngOnDestroy() {
         /** @type {?} */
         const describedElements = this._document.querySelectorAll(`[${CDK_DESCRIBEDBY_HOST_ATTRIBUTE}]`);
-        for (let i = 0; i < describedElements.length; i++) { //tslint:disable-line
+        for (let i = 0; i < describedElements.length; i++) {
             this._removeCdkDescribedByReferenceIds(describedElements[i]);
             describedElements[i].removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
         }
@@ -1033,11 +1133,9 @@ class AriaDescriber {
         /** @type {?} */
         const messageElement = this._document.createElement('div');
         messageElement.setAttribute('id', `${CDK_DESCRIBEDBY_ID_PREFIX}-${nextId++}`);
-        messageElement.appendChild((/** @type {?} */ (this._document.createTextNode(message)))); //tslint:disable-line
-        if (!messagesContainer) {
-            this._createMessagesContainer();
-        }
-        (/** @type {?} */ (messagesContainer)).appendChild(messageElement); //tslint:disable-line
+        messageElement.appendChild((/** @type {?} */ (this._document.createTextNode(message))));
+        this._createMessagesContainer();
+        (/** @type {?} */ (messagesContainer)).appendChild(messageElement);
         messageRegistry.set(message, { messageElement, referenceCount: 0 });
     }
     /**
@@ -1062,11 +1160,22 @@ class AriaDescriber {
      * @return {?}
      */
     _createMessagesContainer() {
-        messagesContainer = this._document.createElement('div');
-        messagesContainer.setAttribute('id', MESSAGES_CONTAINER_ID);
-        messagesContainer.setAttribute('aria-hidden', 'true');
-        messagesContainer.style.display = 'none';
-        this._document.body.appendChild(messagesContainer);
+        if (!messagesContainer) {
+            /** @type {?} */
+            const preExistingContainer = this._document.getElementById(MESSAGES_CONTAINER_ID);
+            // When going from the server to the client, we may end up in a situation where there's
+            // already a container on the page, but we don't have a reference to it. Clear the
+            // old container so we don't get duplicates. Doing this, instead of emptying the previous
+            // container, should be slightly faster.
+            if (preExistingContainer) {
+                (/** @type {?} */ (preExistingContainer.parentNode)).removeChild(preExistingContainer);
+            }
+            messagesContainer = this._document.createElement('div');
+            messagesContainer.id = MESSAGES_CONTAINER_ID;
+            messagesContainer.setAttribute('aria-hidden', 'true');
+            messagesContainer.style.display = 'none';
+            this._document.body.appendChild(messagesContainer);
+        }
     }
     /**
      * Deletes the global messages container.
@@ -1089,7 +1198,11 @@ class AriaDescriber {
         // Remove all aria-describedby reference IDs that are prefixed by CDK_DESCRIBEDBY_ID_PREFIX
         /** @type {?} */
         const originalReferenceIds = getAriaReferenceIds(element, 'aria-describedby')
-            .filter((id) => id.indexOf(CDK_DESCRIBEDBY_ID_PREFIX) !== 0);
+            .filter((/**
+         * @param {?} id
+         * @return {?}
+         */
+        (id) => id.indexOf(CDK_DESCRIBEDBY_ID_PREFIX) != 0));
         element.setAttribute('aria-describedby', originalReferenceIds.join(' '));
     }
     /**
@@ -1138,7 +1251,7 @@ class AriaDescriber {
         const registeredMessage = messageRegistry.get(message);
         /** @type {?} */
         const messageId = registeredMessage && registeredMessage.messageElement.id;
-        return !!messageId && referenceIds.indexOf(messageId) !== -1;
+        return !!messageId && referenceIds.indexOf(messageId) != -1;
     }
     /**
      * Determines whether a message can be described on a particular element.
@@ -1148,8 +1261,25 @@ class AriaDescriber {
      * @return {?}
      */
     _canBeDescribed(element, message) {
-        return element.nodeType === this._document.ELEMENT_NODE && message != null &&
-            !!`${message}`.trim();
+        if (!this._isElementNode(element)) {
+            return false;
+        }
+        /** @type {?} */
+        const trimmedMessage = message == null ? '' : `${message}`.trim();
+        /** @type {?} */
+        const ariaLabel = element.getAttribute('aria-label');
+        // We shouldn't set descriptions if they're exactly the same as the `aria-label` of the element,
+        // because screen readers will end up reading out the same text twice in a row.
+        return trimmedMessage ? (!ariaLabel || ariaLabel.trim() !== trimmedMessage) : false;
+    }
+    /**
+     * Checks whether a node is an Element node.
+     * @private
+     * @param {?} element
+     * @return {?}
+     */
+    _isElementNode(element) {
+        return element.nodeType === this._document.ELEMENT_NODE;
     }
 }
 AriaDescriber.decorators = [
@@ -1159,33 +1289,11 @@ AriaDescriber.decorators = [
 AriaDescriber.ctorParameters = () => [
     { type: undefined, decorators: [{ type: Inject, args: [DOCUMENT,] }] }
 ];
-/** @nocollapse */ AriaDescriber.ngInjectableDef = defineInjectable({ factory: function AriaDescriber_Factory() { return new AriaDescriber(inject(DOCUMENT)); }, token: AriaDescriber, providedIn: "root" });
-/**
- * \@docs-private \@deprecated \@deletion-target 7.0.0
- * @param {?} parentDispatcher
- * @param {?} _document
- * @return {?}
- */
-function ARIA_DESCRIBER_PROVIDER_FACTORY(parentDispatcher, _document) {
-    return parentDispatcher || new AriaDescriber(_document);
-}
-/**
- * \@docs-private \@deprecated \@deletion-target 7.0.0
- * @type {?}
- */
-const ARIA_DESCRIBER_PROVIDER = {
-    // If there is already an AriaDescriber available, use that. Otherwise, provide a new one.
-    provide: AriaDescriber,
-    deps: [
-        [new Optional(), new SkipSelf(), AriaDescriber],
-        (/** @type {?} */ (DOCUMENT))
-    ],
-    useFactory: ARIA_DESCRIBER_PROVIDER_FACTORY
-};
+/** @nocollapse */ AriaDescriber.ngInjectableDef = ɵɵdefineInjectable({ factory: function AriaDescriber_Factory() { return new AriaDescriber(ɵɵinject(DOCUMENT)); }, token: AriaDescriber, providedIn: "root" });
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class A11yModule {
 }
@@ -1202,13 +1310,13 @@ A11yModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { ActiveDescendantKeyManager, FocusKeyManager, ListKeyManager, FOCUS_MONITOR_PROVIDER_FACTORY, TOUCH_BUFFER_MS, FocusMonitor, CdkMonitorFocus, FOCUS_MONITOR_PROVIDER, ARIA_DESCRIBER_PROVIDER_FACTORY, MESSAGES_CONTAINER_ID, CDK_DESCRIBEDBY_ID_PREFIX, CDK_DESCRIBEDBY_HOST_ATTRIBUTE, AriaDescriber, ARIA_DESCRIBER_PROVIDER, addAriaReferencedId, removeAriaReferencedId, getAriaReferenceIds, A11yModule };
+export { ActiveDescendantKeyManager, FocusKeyManager, ListKeyManager, FOCUS_MONITOR_PROVIDER_FACTORY, TOUCH_BUFFER_MS, FocusMonitor, CdkMonitorFocus, FOCUS_MONITOR_PROVIDER, MESSAGES_CONTAINER_ID, CDK_DESCRIBEDBY_ID_PREFIX, CDK_DESCRIBEDBY_HOST_ATTRIBUTE, AriaDescriber, addAriaReferencedId, removeAriaReferencedId, getAriaReferenceIds, A11yModule };
 //# sourceMappingURL=a11y.js.map

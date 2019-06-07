@@ -1,11 +1,4 @@
 "use strict";
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular-devkit/core");
 const project_targets_1 = require("./project-targets");
@@ -20,11 +13,11 @@ const validStyleFileRegex = /\.(c|le|sc)ss/;
 function getProjectStyleFile(project, extension) {
     const buildOptions = project_targets_1.getProjectTargetOptions(project, 'build');
     if (buildOptions.styles && buildOptions.styles.length) {
-        const styles = buildOptions.styles.map(s => typeof s === 'string' ? s : s.input);
+        const styles = buildOptions.styles.map((s) => typeof s === 'string' ? s : s.input);
         // Look for the default style file that is generated for new projects by the Angular CLI. This
         // default style file is usually called `styles.ext` unless it has been changed explicitly.
         const defaultMainStylePath = styles
-            .find(file => extension ? file === `styles.${extension}` : defaultStyleFileRegex.test(file));
+            .find((file) => extension ? file === `styles.${extension}` : defaultStyleFileRegex.test(file));
         if (defaultMainStylePath) {
             return core_1.normalize(defaultMainStylePath);
         }
@@ -32,7 +25,7 @@ function getProjectStyleFile(project, extension) {
         // extension. If no extension specified explicitly, we look for any file with a valid style
         // file extension.
         const fallbackStylePath = styles
-            .find(file => extension ? file.endsWith(`.${extension}`) : validStyleFileRegex.test(file));
+            .find((file) => extension ? file.endsWith(`.${extension}`) : validStyleFileRegex.test(file));
         if (fallbackStylePath) {
             return core_1.normalize(fallbackStylePath);
         }

@@ -12,13 +12,13 @@
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Current version of the Component Development Kit.
  * @type {?}
  */
-var VERSION = new core.Version('1.0.0-beta.7');
+var VERSION = new core.Version('8.0.0-beta.0');
 
 exports.VERSION = VERSION;
 

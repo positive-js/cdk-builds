@@ -41,7 +41,7 @@ function __extends(d, b) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /* tslint:disable:member-ordering */
 /**
@@ -79,11 +79,19 @@ ListKeyManager = /** @class */ (function () {
          * Predicate function that can be used to check whether an item should be skipped
          * by the key manager. By default, disabled items are skipped.
          */
-        this._skipPredicateFn = function (item) { return item.disabled; };
+        this._skipPredicateFn = (/**
+         * @param {?} item
+         * @return {?}
+         */
+        function (item) { return item.disabled; });
         // Buffer for the letters that the user has pressed when the typeahead option is turned on.
         this._pressedLetters = [];
         if (_items instanceof core.QueryList) {
-            _items.changes.subscribe(function (newItems) {
+            _items.changes.subscribe((/**
+             * @param {?} newItems
+             * @return {?}
+             */
+            function (newItems) {
                 if (_this._activeItem) {
                     /** @type {?} */
                     var itemArray = newItems.toArray();
@@ -93,7 +101,7 @@ ListKeyManager = /** @class */ (function () {
                         _this._activeItemIndex = newIndex;
                     }
                 }
-            });
+            }));
         }
     }
     /**
@@ -207,13 +215,31 @@ ListKeyManager = /** @class */ (function () {
         var _this = this;
         if (debounceInterval === void 0) { debounceInterval = 200; }
         if (searchLetterIndex === void 0) { searchLetterIndex = 0; }
-        if ((/** @type {?} */ (this))._items.length && (/** @type {?} */ (this))._items.some(function (item) { return typeof item.getLabel !== 'function'; })) {
+        if ((/** @type {?} */ (this))._items.length && (/** @type {?} */ (this))._items.some((/**
+         * @param {?} item
+         * @return {?}
+         */
+        function (item) { return typeof item.getLabel !== 'function'; }))) {
             throw Error('ListKeyManager items in typeahead mode must implement the `getLabel` method.');
         }
         (/** @type {?} */ (this))._typeaheadSubscription.unsubscribe();
         // Debounce the presses of non-navigational keys, collect the ones that correspond to letters and convert those
         // letters back into a string. Afterwards find the first item that starts with that string and select it.
-        (/** @type {?} */ (this))._typeaheadSubscription = (/** @type {?} */ (this))._letterKeyStream.pipe(operators.tap(function (keyCode) { return (/** @type {?} */ (_this))._pressedLetters.push(keyCode); }), operators.debounceTime(debounceInterval), operators.filter(function () { return (/** @type {?} */ (_this))._pressedLetters.length > 0; }), operators.map(function () { return (/** @type {?} */ (_this))._pressedLetters.join(''); })).subscribe(function (inputString) {
+        (/** @type {?} */ (this))._typeaheadSubscription = (/** @type {?} */ (this))._letterKeyStream.pipe(operators.tap((/**
+         * @param {?} keyCode
+         * @return {?}
+         */
+        function (keyCode) { return (/** @type {?} */ (_this))._pressedLetters.push(keyCode); })), operators.debounceTime(debounceInterval), operators.filter((/**
+         * @return {?}
+         */
+        function () { return (/** @type {?} */ (_this))._pressedLetters.length > 0; })), operators.map((/**
+         * @return {?}
+         */
+        function () { return (/** @type {?} */ (_this))._pressedLetters.join(''); }))).subscribe((/**
+         * @param {?} inputString
+         * @return {?}
+         */
+        function (inputString) {
             if (searchLetterIndex === -1) {
                 (/** @type {?} */ (_this))._pressedLetters = [];
                 return;
@@ -234,7 +260,7 @@ ListKeyManager = /** @class */ (function () {
                 }
             }
             (/** @type {?} */ (_this))._pressedLetters = [];
-        });
+        }));
         return (/** @type {?} */ (this));
     };
     /**
@@ -607,7 +633,7 @@ ListKeyManager = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -653,7 +679,7 @@ ActiveDescendantKeyManager = /** @class */ (function (_super) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * @template T
@@ -709,7 +735,7 @@ FocusKeyManager = /** @class */ (function (_super) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 // Through trial and error (on iPhone 6S) they found
 // that a value of around 650ms seems appropriate.
@@ -737,7 +763,10 @@ var FocusMonitor = /** @class */ (function () {
         /**
          * A map of global objects to lists of current listeners.
          */
-        this._unregisterGlobalListeners = function () { };
+        this._unregisterGlobalListeners = (/**
+         * @return {?}
+         */
+        function () { });
         /**
          * The number of elements currently being monitored.
          */
@@ -780,7 +809,10 @@ var FocusMonitor = /** @class */ (function () {
         // Create monitored element info.
         /** @type {?} */
         var info = {
-            unlisten: function () { },
+            unlisten: (/**
+             * @return {?}
+             */
+            function () { }),
             checkChildren: checkChildren,
             subject: new rxjs.Subject()
         };
@@ -788,18 +820,32 @@ var FocusMonitor = /** @class */ (function () {
         this._incrementMonitoredElementCount();
         // Start listening. We need to listen in capture phase since focus events don't bubble.
         /** @type {?} */
-        var focusListener = function (event) { return _this._onFocus(event, element); };
+        var focusListener = (/**
+         * @param {?} event
+         * @return {?}
+         */
+        function (event) { return _this._onFocus(event, element); });
         /** @type {?} */
-        var blurListener = function (event) { return _this._onBlur(event, element); };
-        this._ngZone.runOutsideAngular(function () {
+        var blurListener = (/**
+         * @param {?} event
+         * @return {?}
+         */
+        function (event) { return _this._onBlur(event, element); });
+        this._ngZone.runOutsideAngular((/**
+         * @return {?}
+         */
+        function () {
             element.addEventListener('focus', focusListener, true);
             element.addEventListener('blur', blurListener, true);
-        });
+        }));
         // Create an unlisten function for later.
-        info.unlisten = function () {
+        info.unlisten = (/**
+         * @return {?}
+         */
+        function () {
             element.removeEventListener('focus', focusListener, true);
             element.removeEventListener('blur', blurListener, true);
-        };
+        });
         return info.subject.asObservable();
     };
     /**
@@ -859,7 +905,12 @@ var FocusMonitor = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this._elementInfo.forEach(function (_info, element) { return _this.stopMonitoring(element); });
+        this._elementInfo.forEach((/**
+         * @param {?} _info
+         * @param {?} element
+         * @return {?}
+         */
+        function (_info, element) { return _this.stopMonitoring(element); }));
     };
     /** Register necessary event listeners on the document and window. */
     /**
@@ -880,45 +931,70 @@ var FocusMonitor = /** @class */ (function () {
         }
         // On keydown record the origin and clear any touch event that may be in progress.
         /** @type {?} */
-        var documentKeydownListener = function () {
+        var documentKeydownListener = (/**
+         * @return {?}
+         */
+        function () {
             _this._lastTouchTarget = null;
             _this._setOriginForCurrentEventQueue('keyboard');
-        };
+        });
         // On mousedown record the origin only if there is not touch target, since a mousedown can
         // happen as a result of a touch event.
         /** @type {?} */
-        var documentMousedownListener = function () {
+        var documentMousedownListener = (/**
+         * @return {?}
+         */
+        function () {
             if (!_this._lastTouchTarget) {
                 _this._setOriginForCurrentEventQueue('mouse');
             }
-        };
+        });
         // When the touchstart event fires the focus event is not yet in the event queue. This means
         // we can't rely on the trick used above (setting timeout of 0ms). Instead we wait 650ms to
         // see if a focus happens.
         /** @type {?} */
-        var documentTouchstartListener = function (event) {
+        var documentTouchstartListener = (/**
+         * @param {?} event
+         * @return {?}
+         */
+        function (event) {
             if (_this._touchTimeoutId != null) {
                 clearTimeout(_this._touchTimeoutId);
             }
             _this._lastTouchTarget = event.target;
-            _this._touchTimeoutId = window.setTimeout(function () { return _this._lastTouchTarget = null; }, TOUCH_BUFFER_MS);
-        };
+            _this._touchTimeoutId = window.setTimeout((/**
+             * @return {?}
+             */
+            function () { return _this._lastTouchTarget = null; }), TOUCH_BUFFER_MS);
+        });
         // Make a note of when the window regains focus, so we can restore the origin info for the
         // focused element.
         /** @type {?} */
-        var windowFocusListener = function () {
+        var windowFocusListener = (/**
+         * @return {?}
+         */
+        function () {
             _this._windowFocused = true;
-            _this._windowFocusTimeoutId = window.setTimeout(function () { return _this._windowFocused = false; }, 0);
-        };
+            _this._windowFocusTimeoutId = window.setTimeout((/**
+             * @return {?}
+             */
+            function () { return _this._windowFocused = false; }), 0);
+        });
         // Note: we listen to events in the capture phase so we can detect them even if the user stops
         // propagation.
-        this._ngZone.runOutsideAngular(function () {
+        this._ngZone.runOutsideAngular((/**
+         * @return {?}
+         */
+        function () {
             document.addEventListener('keydown', documentKeydownListener, true);
             document.addEventListener('mousedown', documentMousedownListener, true);
             document.addEventListener('touchstart', documentTouchstartListener, platform.supportsPassiveEventListeners() ? ((/** @type {?} */ ({ passive: true, capture: true }))) : true);
             window.addEventListener('focus', windowFocusListener);
-        });
-        this._unregisterGlobalListeners = function () {
+        }));
+        this._unregisterGlobalListeners = (/**
+         * @return {?}
+         */
+        function () {
             document.removeEventListener('keydown', documentKeydownListener, true);
             document.removeEventListener('mousedown', documentMousedownListener, true);
             document.removeEventListener('touchstart', documentTouchstartListener, platform.supportsPassiveEventListeners() ? ((/** @type {?} */ ({ passive: true, capture: true }))) : true);
@@ -927,7 +1003,7 @@ var FocusMonitor = /** @class */ (function () {
             clearTimeout(_this._windowFocusTimeoutId);
             clearTimeout(_this._touchTimeoutId);
             clearTimeout(_this._originTimeoutId);
-        };
+        });
     };
     /**
      * @private
@@ -999,10 +1075,16 @@ var FocusMonitor = /** @class */ (function () {
      */
     function (origin) {
         var _this = this;
-        this._ngZone.runOutsideAngular(function () {
+        this._ngZone.runOutsideAngular((/**
+         * @return {?}
+         */
+        function () {
             _this._origin = origin;
-            _this._originTimeoutId = window.setTimeout(function () { return _this._origin = null; });
-        });
+            _this._originTimeoutId = window.setTimeout((/**
+             * @return {?}
+             */
+            function () { return _this._origin = null; }));
+        }));
     };
     /**
      * Checks whether the given focus event was caused by a touchstart event.
@@ -1144,7 +1226,10 @@ var FocusMonitor = /** @class */ (function () {
      * @return {?}
      */
     function (subject, origin) {
-        this._ngZone.run(function () { return subject.next(origin); });
+        this._ngZone.run((/**
+         * @return {?}
+         */
+        function () { return subject.next(origin); }));
     };
     /**
      * @private
@@ -1172,7 +1257,10 @@ var FocusMonitor = /** @class */ (function () {
         // Unregister global listeners when last element is unmonitored.
         if (!--this._monitoredElementCount) {
             this._unregisterGlobalListeners();
-            this._unregisterGlobalListeners = function () { };
+            this._unregisterGlobalListeners = (/**
+             * @return {?}
+             */
+            function () { });
         }
     };
     FocusMonitor.decorators = [
@@ -1183,7 +1271,7 @@ var FocusMonitor = /** @class */ (function () {
         { type: core.NgZone },
         { type: platform.Platform }
     ]; };
-    /** @nocollapse */ FocusMonitor.ngInjectableDef = core.defineInjectable({ factory: function FocusMonitor_Factory() { return new FocusMonitor(core.inject(core.NgZone), core.inject(platform.Platform)); }, token: FocusMonitor, providedIn: "root" });
+    /** @nocollapse */ FocusMonitor.ngInjectableDef = core.ɵɵdefineInjectable({ factory: function FocusMonitor_Factory() { return new FocusMonitor(core.ɵɵinject(core.NgZone), core.ɵɵinject(platform.Platform)); }, token: FocusMonitor, providedIn: "root" });
     return FocusMonitor;
 }());
 /**
@@ -1202,7 +1290,11 @@ var CdkMonitorFocus = /** @class */ (function () {
         this._focusMonitor = _focusMonitor;
         this.cdkFocusChange = new core.EventEmitter();
         this._monitorSubscription = this._focusMonitor.monitor(this._elementRef.nativeElement, this._elementRef.nativeElement.hasAttribute('cdkMonitorSubtreeFocus'))
-            .subscribe(function (origin) { return _this.cdkFocusChange.emit(origin); });
+            .subscribe((/**
+         * @param {?} origin
+         * @return {?}
+         */
+        function (origin) { return _this.cdkFocusChange.emit(origin); }));
     }
     /**
      * @return {?}
@@ -1252,7 +1344,7 @@ var FOCUS_MONITOR_PROVIDER = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 var ID_DELIMINATOR = ' ';
@@ -1267,7 +1359,11 @@ var ID_DELIMINATOR = ' ';
 function addAriaReferencedId(el, attr, id) {
     /** @type {?} */
     var ids = getAriaReferenceIds(el, attr);
-    if (ids.some(function (existingId) { return existingId.trim() === id.trim(); })) {
+    if (ids.some((/**
+     * @param {?} existingId
+     * @return {?}
+     */
+    function (existingId) { return existingId.trim() === id.trim(); }))) {
         return;
     }
     ids.push(id.trim());
@@ -1285,7 +1381,11 @@ function removeAriaReferencedId(el, attr, id) {
     /** @type {?} */
     var ids = getAriaReferenceIds(el, attr);
     /** @type {?} */
-    var filteredIds = ids.filter(function (val) { return val !== id.trim(); });
+    var filteredIds = ids.filter((/**
+     * @param {?} val
+     * @return {?}
+     */
+    function (val) { return val !== id.trim(); }));
     el.setAttribute(attr, filteredIds.join(ID_DELIMINATOR));
 }
 /**
@@ -1302,7 +1402,7 @@ function getAriaReferenceIds(el, attr) {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * ID used for the body container where all messages are appended.
@@ -1390,7 +1490,7 @@ var AriaDescriber = /** @class */ (function () {
      * @return {?}
      */
     function (hostElement, message) {
-        if (!this._canBeDescribed(hostElement, message)) {
+        if (!this._isElementNode(hostElement)) {
             return;
         }
         if (this._isElementDescribedByMessage(hostElement, message)) {
@@ -1417,7 +1517,7 @@ var AriaDescriber = /** @class */ (function () {
     function () {
         /** @type {?} */
         var describedElements = this._document.querySelectorAll("[" + CDK_DESCRIBEDBY_HOST_ATTRIBUTE + "]");
-        for (var i = 0; i < describedElements.length; i++) { //tslint:disable-line
+        for (var i = 0; i < describedElements.length; i++) {
             this._removeCdkDescribedByReferenceIds(describedElements[i]);
             describedElements[i].removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
         }
@@ -1448,11 +1548,9 @@ var AriaDescriber = /** @class */ (function () {
         /** @type {?} */
         var messageElement = this._document.createElement('div');
         messageElement.setAttribute('id', CDK_DESCRIBEDBY_ID_PREFIX + "-" + nextId++);
-        messageElement.appendChild((/** @type {?} */ (this._document.createTextNode(message)))); //tslint:disable-line
-        if (!messagesContainer) {
-            this._createMessagesContainer();
-        }
-        (/** @type {?} */ (messagesContainer)).appendChild(messageElement); //tslint:disable-line
+        messageElement.appendChild((/** @type {?} */ (this._document.createTextNode(message))));
+        this._createMessagesContainer();
+        (/** @type {?} */ (messagesContainer)).appendChild(messageElement);
         messageRegistry.set(message, { messageElement: messageElement, referenceCount: 0 });
     };
     /** Deletes the message element from the global messages container. */
@@ -1490,11 +1588,22 @@ var AriaDescriber = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        messagesContainer = this._document.createElement('div');
-        messagesContainer.setAttribute('id', MESSAGES_CONTAINER_ID);
-        messagesContainer.setAttribute('aria-hidden', 'true');
-        messagesContainer.style.display = 'none';
-        this._document.body.appendChild(messagesContainer);
+        if (!messagesContainer) {
+            /** @type {?} */
+            var preExistingContainer = this._document.getElementById(MESSAGES_CONTAINER_ID);
+            // When going from the server to the client, we may end up in a situation where there's
+            // already a container on the page, but we don't have a reference to it. Clear the
+            // old container so we don't get duplicates. Doing this, instead of emptying the previous
+            // container, should be slightly faster.
+            if (preExistingContainer) {
+                (/** @type {?} */ (preExistingContainer.parentNode)).removeChild(preExistingContainer);
+            }
+            messagesContainer = this._document.createElement('div');
+            messagesContainer.id = MESSAGES_CONTAINER_ID;
+            messagesContainer.setAttribute('aria-hidden', 'true');
+            messagesContainer.style.display = 'none';
+            this._document.body.appendChild(messagesContainer);
+        }
     };
     /** Deletes the global messages container. */
     /**
@@ -1530,7 +1639,11 @@ var AriaDescriber = /** @class */ (function () {
         // Remove all aria-describedby reference IDs that are prefixed by CDK_DESCRIBEDBY_ID_PREFIX
         /** @type {?} */
         var originalReferenceIds = getAriaReferenceIds(element, 'aria-describedby')
-            .filter(function (id) { return id.indexOf(CDK_DESCRIBEDBY_ID_PREFIX) !== 0; });
+            .filter((/**
+         * @param {?} id
+         * @return {?}
+         */
+        function (id) { return id.indexOf(CDK_DESCRIBEDBY_ID_PREFIX) != 0; }));
         element.setAttribute('aria-describedby', originalReferenceIds.join(' '));
     };
     /**
@@ -1611,7 +1724,7 @@ var AriaDescriber = /** @class */ (function () {
         var registeredMessage = messageRegistry.get(message);
         /** @type {?} */
         var messageId = registeredMessage && registeredMessage.messageElement.id;
-        return !!messageId && referenceIds.indexOf(messageId) !== -1;
+        return !!messageId && referenceIds.indexOf(messageId) != -1;
     };
     /** Determines whether a message can be described on a particular element. */
     /**
@@ -1629,8 +1742,32 @@ var AriaDescriber = /** @class */ (function () {
      * @return {?}
      */
     function (element, message) {
-        return element.nodeType === this._document.ELEMENT_NODE && message != null &&
-            !!("" + message).trim();
+        if (!this._isElementNode(element)) {
+            return false;
+        }
+        /** @type {?} */
+        var trimmedMessage = message == null ? '' : ("" + message).trim();
+        /** @type {?} */
+        var ariaLabel = element.getAttribute('aria-label');
+        // We shouldn't set descriptions if they're exactly the same as the `aria-label` of the element,
+        // because screen readers will end up reading out the same text twice in a row.
+        return trimmedMessage ? (!ariaLabel || ariaLabel.trim() !== trimmedMessage) : false;
+    };
+    /** Checks whether a node is an Element node. */
+    /**
+     * Checks whether a node is an Element node.
+     * @private
+     * @param {?} element
+     * @return {?}
+     */
+    AriaDescriber.prototype._isElementNode = /**
+     * Checks whether a node is an Element node.
+     * @private
+     * @param {?} element
+     * @return {?}
+     */
+    function (element) {
+        return element.nodeType === this._document.ELEMENT_NODE;
     };
     AriaDescriber.decorators = [
         { type: core.Injectable, args: [{ providedIn: 'root' },] },
@@ -1639,35 +1776,13 @@ var AriaDescriber = /** @class */ (function () {
     AriaDescriber.ctorParameters = function () { return [
         { type: undefined, decorators: [{ type: core.Inject, args: [common.DOCUMENT,] }] }
     ]; };
-    /** @nocollapse */ AriaDescriber.ngInjectableDef = core.defineInjectable({ factory: function AriaDescriber_Factory() { return new AriaDescriber(core.inject(common.DOCUMENT)); }, token: AriaDescriber, providedIn: "root" });
+    /** @nocollapse */ AriaDescriber.ngInjectableDef = core.ɵɵdefineInjectable({ factory: function AriaDescriber_Factory() { return new AriaDescriber(core.ɵɵinject(common.DOCUMENT)); }, token: AriaDescriber, providedIn: "root" });
     return AriaDescriber;
 }());
-/**
- * \@docs-private \@deprecated \@deletion-target 7.0.0
- * @param {?} parentDispatcher
- * @param {?} _document
- * @return {?}
- */
-function ARIA_DESCRIBER_PROVIDER_FACTORY(parentDispatcher, _document) {
-    return parentDispatcher || new AriaDescriber(_document);
-}
-/**
- * \@docs-private \@deprecated \@deletion-target 7.0.0
- * @type {?}
- */
-var ARIA_DESCRIBER_PROVIDER = {
-    // If there is already an AriaDescriber available, use that. Otherwise, provide a new one.
-    provide: AriaDescriber,
-    deps: [
-        [new core.Optional(), new core.SkipSelf(), AriaDescriber],
-        (/** @type {?} */ (common.DOCUMENT))
-    ],
-    useFactory: ARIA_DESCRIBER_PROVIDER_FACTORY
-};
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var A11yModule = /** @class */ (function () {
     function A11yModule() {
@@ -1693,12 +1808,10 @@ exports.TOUCH_BUFFER_MS = TOUCH_BUFFER_MS;
 exports.FocusMonitor = FocusMonitor;
 exports.CdkMonitorFocus = CdkMonitorFocus;
 exports.FOCUS_MONITOR_PROVIDER = FOCUS_MONITOR_PROVIDER;
-exports.ARIA_DESCRIBER_PROVIDER_FACTORY = ARIA_DESCRIBER_PROVIDER_FACTORY;
 exports.MESSAGES_CONTAINER_ID = MESSAGES_CONTAINER_ID;
 exports.CDK_DESCRIBEDBY_ID_PREFIX = CDK_DESCRIBEDBY_ID_PREFIX;
 exports.CDK_DESCRIBEDBY_HOST_ATTRIBUTE = CDK_DESCRIBEDBY_HOST_ATTRIBUTE;
 exports.AriaDescriber = AriaDescriber;
-exports.ARIA_DESCRIBER_PROVIDER = ARIA_DESCRIBER_PROVIDER;
 exports.addAriaReferencedId = addAriaReferencedId;
 exports.removeAriaReferencedId = removeAriaReferencedId;
 exports.getAriaReferenceIds = getAriaReferenceIds;

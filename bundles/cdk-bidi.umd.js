@@ -12,7 +12,7 @@
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Injection token used to inject the document into Directionality.
@@ -44,7 +44,7 @@ function DIR_DOCUMENT_FACTORY() {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * The directionality (LTR / RTL) context for the application (or a subtree of it).
@@ -86,13 +86,13 @@ var Directionality = /** @class */ (function () {
     Directionality.ctorParameters = function () { return [
         { type: undefined, decorators: [{ type: core.Optional }, { type: core.Inject, args: [DIR_DOCUMENT,] }] }
     ]; };
-    /** @nocollapse */ Directionality.ngInjectableDef = core.defineInjectable({ factory: function Directionality_Factory() { return new Directionality(core.inject(DIR_DOCUMENT, 8)); }, token: Directionality, providedIn: "root" });
+    /** @nocollapse */ Directionality.ngInjectableDef = core.ɵɵdefineInjectable({ factory: function Directionality_Factory() { return new Directionality(core.ɵɵinject(DIR_DOCUMENT, 8)); }, token: Directionality, providedIn: "root" });
     return Directionality;
 }());
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Directive to listen for changes of direction of part of the DOM.
@@ -184,7 +184,7 @@ var Dir = /** @class */ (function () {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 var BidiModule = /** @class */ (function () {
     function BidiModule() {

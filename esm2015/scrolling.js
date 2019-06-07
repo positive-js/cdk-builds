@@ -4,7 +4,7 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
-import { InjectionToken, Directive, forwardRef, Input, Injectable, NgZone, ElementRef, Optional, NgModule, IterableDiffers, SkipSelf, TemplateRef, ViewContainerRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Output, ViewChild, ViewEncapsulation, defineInjectable, inject } from '@angular/core';
+import { InjectionToken, Directive, forwardRef, Input, Injectable, NgZone, ElementRef, Optional, NgModule, IterableDiffers, SkipSelf, TemplateRef, ViewContainerRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Output, ViewChild, ViewEncapsulation, ɵɵdefineInjectable, ɵɵinject } from '@angular/core';
 import { coerceNumberProperty } from '@ptsecurity/cdk/coercion';
 import { Subject, fromEvent, of, Observable, animationFrameScheduler, merge } from 'rxjs';
 import { distinctUntilChanged, auditTime, filter, takeUntil, startWith, pairwise, shareReplay, switchMap } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { ArrayDataSource, isDataSource } from '@ptsecurity/cdk/collections';
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * The injection token used to specify the virtual scrolling strategy.
@@ -24,7 +24,7 @@ const VIRTUAL_SCROLL_STRATEGY = new InjectionToken('VIRTUAL_SCROLL_STRATEGY');
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Virtual scrolling strategy for lists with items of known fixed size.
@@ -258,7 +258,10 @@ CdkFixedSizeVirtualScroll.decorators = [
                 providers: [{
                         provide: VIRTUAL_SCROLL_STRATEGY,
                         useFactory: _fixedSizeVirtualScrollStrategyFactory,
-                        deps: [forwardRef(() => CdkFixedSizeVirtualScroll)]
+                        deps: [forwardRef((/**
+                             * @return {?}
+                             */
+                            () => CdkFixedSizeVirtualScroll))]
                     }]
             },] },
 ];
@@ -270,7 +273,7 @@ CdkFixedSizeVirtualScroll.propDecorators = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Time in ms to throttle the scrolling events by default.
@@ -316,7 +319,10 @@ class ScrollDispatcher {
     register(scrollable) {
         if (!this.scrollContainers.has(scrollable)) {
             this.scrollContainers.set(scrollable, scrollable.elementScrolled()
-                .subscribe(() => this._scrolled.next(scrollable)));
+                .subscribe((/**
+             * @return {?}
+             */
+            () => this._scrolled.next(scrollable))));
         }
     }
     /**
@@ -348,7 +354,11 @@ class ScrollDispatcher {
         if (!this.platform.isBrowser) {
             return of();
         }
-        return new Observable((observer) => {
+        return new Observable((/**
+         * @param {?} observer
+         * @return {?}
+         */
+        (observer) => {
             if (!this._globalSubscription) {
                 this.addGlobalListener();
             }
@@ -359,21 +369,29 @@ class ScrollDispatcher {
                 this._scrolled.pipe(auditTime(auditTimeInMs)).subscribe(observer) :
                 this._scrolled.subscribe(observer);
             this.scrolledCount++;
-            return () => {
+            return (/**
+             * @return {?}
+             */
+            () => {
                 subscription.unsubscribe();
                 this.scrolledCount--;
                 if (!this.scrolledCount) {
                     this.removeGlobalListener();
                 }
-            };
-        });
+            });
+        }));
     }
     /**
      * @return {?}
      */
     ngOnDestroy() {
         this.removeGlobalListener();
-        this.scrollContainers.forEach((_, container) => this.deregister(container));
+        this.scrollContainers.forEach((/**
+         * @param {?} _
+         * @param {?} container
+         * @return {?}
+         */
+        (_, container) => this.deregister(container)));
         this._scrolled.complete();
     }
     /**
@@ -386,9 +404,13 @@ class ScrollDispatcher {
     ancestorScrolled(elementRef, auditTimeInMs) {
         /** @type {?} */
         const ancestors = this.getAncestorScrollContainers(elementRef);
-        return this.scrolled(auditTimeInMs).pipe(filter((target) => {
+        return this.scrolled(auditTimeInMs).pipe(filter((/**
+         * @param {?} target
+         * @return {?}
+         */
+        (target) => {
             return !target || ancestors.indexOf(target) > -1;
-        }));
+        })));
     }
     /**
      * Returns all registered Scrollables that contain the provided element.
@@ -398,11 +420,16 @@ class ScrollDispatcher {
     getAncestorScrollContainers(elementRef) {
         /** @type {?} */
         const scrollingContainers = [];
-        this.scrollContainers.forEach((_subscription, scrollable) => {
+        this.scrollContainers.forEach((/**
+         * @param {?} _subscription
+         * @param {?} scrollable
+         * @return {?}
+         */
+        (_subscription, scrollable) => {
             if (this.scrollableContainsElement(scrollable, elementRef)) {
                 scrollingContainers.push(scrollable);
             }
-        });
+        }));
         return scrollingContainers;
     }
     /**
@@ -432,9 +459,15 @@ class ScrollDispatcher {
      * @return {?}
      */
     addGlobalListener() {
-        this._globalSubscription = this.ngZone.runOutsideAngular(() => {
-            return fromEvent(window.document, 'scroll').subscribe(() => this._scrolled.next());
-        });
+        this._globalSubscription = this.ngZone.runOutsideAngular((/**
+         * @return {?}
+         */
+        () => {
+            return fromEvent(window.document, 'scroll').subscribe((/**
+             * @return {?}
+             */
+            () => this._scrolled.next()));
+        }));
     }
     /**
      * Cleans up the global scroll listener.
@@ -456,11 +489,11 @@ ScrollDispatcher.ctorParameters = () => [
     { type: NgZone },
     { type: Platform }
 ];
-/** @nocollapse */ ScrollDispatcher.ngInjectableDef = defineInjectable({ factory: function ScrollDispatcher_Factory() { return new ScrollDispatcher(inject(NgZone), inject(Platform)); }, token: ScrollDispatcher, providedIn: "root" });
+/** @nocollapse */ ScrollDispatcher.ngInjectableDef = ɵɵdefineInjectable({ factory: function ScrollDispatcher_Factory() { return new ScrollDispatcher(ɵɵinject(NgZone), ɵɵinject(Platform)); }, token: ScrollDispatcher, providedIn: "root" });
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Sends an event when the directive's element is scrolled. Registers itself with the
@@ -480,8 +513,15 @@ class CdkScrollable {
         this.ngZone = ngZone;
         this.dir = dir;
         this.destroyed = new Subject();
-        this._elementScrolled = new Observable((observer) => this.ngZone.runOutsideAngular(() => fromEvent(this.elementRef.nativeElement, 'scroll').pipe(takeUntil(this.destroyed))
-            .subscribe(observer)));
+        this._elementScrolled = new Observable((/**
+         * @param {?} observer
+         * @return {?}
+         */
+        (observer) => this.ngZone.runOutsideAngular((/**
+         * @return {?}
+         */
+        () => fromEvent(this.elementRef.nativeElement, 'scroll').pipe(takeUntil(this.destroyed))
+            .subscribe(observer)))));
     }
     /**
      * @return {?}
@@ -653,7 +693,7 @@ CdkScrollable.ctorParameters = () => [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Checks if the given ranges are equal.
@@ -692,7 +732,21 @@ class CdkVirtualScrollViewport extends CdkScrollable {
         /**
          * Emits when the index of the first element visible in the viewport changes.
          */
-        this.scrolledIndexChange = new Observable((observer) => this._scrollStrategy.scrolledIndexChange.subscribe((index) => Promise.resolve().then(() => this.ngZone.run(() => observer.next(index)))));
+        this.scrolledIndexChange = new Observable((/**
+         * @param {?} observer
+         * @return {?}
+         */
+        (observer) => this._scrollStrategy.scrolledIndexChange.subscribe((/**
+         * @param {?} index
+         * @return {?}
+         */
+        (index) => Promise.resolve().then((/**
+         * @return {?}
+         */
+        () => this.ngZone.run((/**
+         * @return {?}
+         */
+        () => observer.next(index)))))))));
         /**
          * Emits when the viewport is detached from a CdkVirtualForOf.
          */
@@ -756,7 +810,13 @@ class CdkVirtualScrollViewport extends CdkScrollable {
         // the Viewport to be rendered with the correct size before we measure. We run this outside the
         // zone to avoid causing more change detection cycles. We handle the change detection loop
         // ourselves instead.
-        this.ngZone.runOutsideAngular(() => Promise.resolve().then(() => {
+        this.ngZone.runOutsideAngular((/**
+         * @return {?}
+         */
+        () => Promise.resolve().then((/**
+         * @return {?}
+         */
+        () => {
             this._measureViewportSize();
             this._scrollStrategy.attach(this);
             this.elementScrolled()
@@ -767,9 +827,12 @@ class CdkVirtualScrollViewport extends CdkScrollable {
             // there are multiple scroll events in the same frame we only need to recheck
             // our layout once.
             auditTime(0, animationFrameScheduler))
-                .subscribe(() => this._scrollStrategy.onContentScrolled());
+                .subscribe((/**
+             * @return {?}
+             */
+            () => this._scrollStrategy.onContentScrolled()));
             this._markChangeDetectionNeeded();
-        }));
+        }))));
     }
     /**
      * @return {?}
@@ -794,9 +857,16 @@ class CdkVirtualScrollViewport extends CdkScrollable {
         // Subscribe to the data stream of the CdkVirtualForOf to keep track of when the data length
         // changes. Run outside the zone to avoid triggering change detection, since we're managing the
         // change detection loop ourselves.
-        this.ngZone.runOutsideAngular(() => {
+        this.ngZone.runOutsideAngular((/**
+         * @return {?}
+         */
+        () => {
             this._forOf = forOf;
-            this._forOf.dataStream.pipe(takeUntil(this._detachedSubject)).subscribe((data) => {
+            this._forOf.dataStream.pipe(takeUntil(this._detachedSubject)).subscribe((/**
+             * @param {?} data
+             * @return {?}
+             */
+            (data) => {
                 /** @type {?} */
                 const newLength = data.length;
                 if (newLength !== this._dataLength) {
@@ -804,8 +874,8 @@ class CdkVirtualScrollViewport extends CdkScrollable {
                     this._scrollStrategy.onDataLengthChanged();
                 }
                 this._doChangeDetection();
-            });
-        });
+            }));
+        }));
     }
     /**
      * Detaches the current `CdkVirtualForOf`.
@@ -863,7 +933,10 @@ class CdkVirtualScrollViewport extends CdkScrollable {
     setRenderedRange(range) {
         if (!rangesEqual(this._renderedRange, range)) {
             this._renderedRangeSubject.next(this._renderedRange = range);
-            this._markChangeDetectionNeeded(() => this._scrollStrategy.onContentRendered());
+            this._markChangeDetectionNeeded((/**
+             * @return {?}
+             */
+            () => this._scrollStrategy.onContentRendered()));
         }
     }
     /**
@@ -905,7 +978,10 @@ class CdkVirtualScrollViewport extends CdkScrollable {
             // We know this value is safe because we parse `offset` with `Number()` before passing it
             // into the string.
             this._renderedContentTransform = transform;
-            this._markChangeDetectionNeeded(() => {
+            this._markChangeDetectionNeeded((/**
+             * @return {?}
+             */
+            () => {
                 if (this._renderedContentOffsetNeedsRewrite) {
                     this._renderedContentOffset -= this.measureRenderedContentSize();
                     this._renderedContentOffsetNeedsRewrite = false;
@@ -914,7 +990,7 @@ class CdkVirtualScrollViewport extends CdkScrollable {
                 else {
                     this._scrollStrategy.onRenderedOffsetChanged();
                 }
-            });
+            }));
         }
     }
     /**
@@ -1009,9 +1085,15 @@ class CdkVirtualScrollViewport extends CdkScrollable {
         // properties sequentially we only have to run `_doChangeDetection` once at the end.
         if (!this._isChangeDetectionPending) {
             this._isChangeDetectionPending = true;
-            this.ngZone.runOutsideAngular(() => Promise.resolve().then(() => {
+            this.ngZone.runOutsideAngular((/**
+             * @return {?}
+             */
+            () => Promise.resolve().then((/**
+             * @return {?}
+             */
+            () => {
                 this._doChangeDetection();
-            }));
+            }))));
         }
     }
     /**
@@ -1024,7 +1106,10 @@ class CdkVirtualScrollViewport extends CdkScrollable {
         // Apply changes to Angular bindings. Note: We must call `markForCheck` to run change detection
         // from the root, since the repeated items are content projected in. Calling `detectChanges`
         // instead does not properly check the projected content.
-        this.ngZone.run(() => this._changeDetectorRef.markForCheck());
+        this.ngZone.run((/**
+         * @return {?}
+         */
+        () => this._changeDetectorRef.markForCheck()));
         // Apply the content transform. The transform can't be set via an Angular binding because
         // bypassSecurityTrustStyle is banned in Google. However the value is safe, it's composed of
         // string literals, a variable that can only be 'X' or 'Y', and user input that is run through
@@ -1068,12 +1153,12 @@ CdkVirtualScrollViewport.ctorParameters = () => [
 CdkVirtualScrollViewport.propDecorators = {
     orientation: [{ type: Input }],
     scrolledIndexChange: [{ type: Output }],
-    _contentWrapper: [{ type: ViewChild, args: ['contentWrapper',] }]
+    _contentWrapper: [{ type: ViewChild, args: ['contentWrapper', { static: true },] }]
 };
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Helper to extract size from a DOM Node.
@@ -1089,7 +1174,7 @@ function getSize(orientation, node) {
     }
     /** @type {?} */
     const rect = el.getBoundingClientRect();
-    return orientation == 'horizontal' ? rect.width : rect.height;
+    return orientation === 'horizontal' ? rect.width : rect.height;
 }
 /**
  * A directive similar to `ngForOf` to be used for rendering data inside a virtual scrolling
@@ -1114,14 +1199,14 @@ class CdkVirtualForOf {
          */
         this.viewChange = new Subject();
         /**
+         * Subject that emits when a new DataSource instance is given.
+         */
+        this._dataSourceChanges = new Subject();
+        /**
          * The size of the cache used to store templates that are not being used for re-use later.
          * Setting the cache size to `0` will disable caching. Defaults to 20 templates.
          */
         this.cdkVirtualForTemplateCacheSize = 20;
-        /**
-         * Subject that emits when a new DataSource instance is given.
-         */
-        this._dataSourceChanges = new Subject();
         /**
          * Emits whenever the data in the current DataSource changes.
          */
@@ -1134,7 +1219,11 @@ class CdkVirtualForOf {
         // Use `_changeDataSource` to disconnect from the previous data source and connect to the
         // new one, passing back a stream of data changes which we run through `switchMap` to give
         // us a data stream that emits the latest data from whatever the current `DataSource` is.
-        switchMap(([prev, cur]) => this._changeDataSource(prev, cur)), 
+        switchMap((/**
+         * @param {?} __0
+         * @return {?}
+         */
+        ([prev, cur]) => this._changeDataSource(prev, cur))), 
         // Replay the last emitted data when someone subscribes.
         shareReplay(1));
         /**
@@ -1152,15 +1241,26 @@ class CdkVirtualForOf {
          */
         this._needsUpdate = false;
         this._destroyed = new Subject();
-        this.dataStream.subscribe((data) => {
+        this.dataStream.subscribe((/**
+         * @param {?} data
+         * @return {?}
+         */
+        data => {
             this._data = data;
             this._onRenderedDataChange();
-        });
-        this._viewport.renderedRangeStream.pipe(takeUntil(this._destroyed)).subscribe((range) => {
+        }));
+        this._viewport.renderedRangeStream.pipe(takeUntil(this._destroyed)).subscribe((/**
+         * @param {?} range
+         * @return {?}
+         */
+        range => {
             this._renderedRange = range;
-            ngZone.run(() => this.viewChange.next(this._renderedRange));
+            ngZone.run((/**
+             * @return {?}
+             */
+            () => this.viewChange.next(this._renderedRange)));
             this._onRenderedDataChange();
-        });
+        }));
         this._viewport.attach(this);
     }
     /**
@@ -1197,7 +1297,12 @@ class CdkVirtualForOf {
     set cdkVirtualForTrackBy(fn) {
         this._needsUpdate = true;
         this._cdkVirtualForTrackBy = fn ?
-            (index, item) => fn(index + (this._renderedRange ? this._renderedRange.start : 0), item) :
+            (/**
+             * @param {?} index
+             * @param {?} item
+             * @return {?}
+             */
+            (index, item) => fn(index + (this._renderedRange ? this._renderedRange.start : 0), item)) :
             undefined;
     }
     /**
@@ -1272,11 +1377,12 @@ class CdkVirtualForOf {
      */
     ngOnDestroy() {
         this._viewport.detach();
+        this._dataSourceChanges.next();
         this._dataSourceChanges.complete();
         this.viewChange.complete();
         this._destroyed.next();
         this._destroyed.complete();
-        for (const view of this._templateCache) {
+        for (let view of this._templateCache) {
             view.destroy();
         }
     }
@@ -1307,7 +1413,7 @@ class CdkVirtualForOf {
             oldDs.disconnect(this);
         }
         this._needsUpdate = true;
-        return newDs.connect(this);
+        return newDs ? newDs.connect(this) : of();
     }
     /**
      * Update the `CdkVirtualForOfContext` for all views.
@@ -1321,7 +1427,7 @@ class CdkVirtualForOf {
         let i = this._viewContainerRef.length;
         while (i--) {
             /** @type {?} */
-            const view = (/** @type {?} */ (this._viewContainerRef.get(i)));
+            let view = (/** @type {?} */ (this._viewContainerRef.get(i)));
             view.context.index = this._renderedRange.start + i;
             view.context.count = count;
             this._updateComputedContextProperties(view.context);
@@ -1336,16 +1442,21 @@ class CdkVirtualForOf {
      */
     _applyChanges(changes) {
         // Rearrange the views to put them in the right location.
-        changes.forEachOperation((record, adjustedPreviousIndex, currentIndex) => {
+        changes.forEachOperation((/**
+         * @param {?} record
+         * @param {?} adjustedPreviousIndex
+         * @param {?} currentIndex
+         * @return {?}
+         */
+        (record, adjustedPreviousIndex, currentIndex) => {
             if (record.previousIndex == null) { // Item added.
                 // Item added.
                 /** @type {?} */
-                const view = this._getViewForNewItem();
-                this._viewContainerRef.insert(view, (/** @type {?} */ (currentIndex)));
+                const view = this._insertViewForNewItem((/** @type {?} */ (currentIndex)));
                 view.context.$implicit = record.item;
             }
             else if (currentIndex == null) { // Item removed.
-                this._cacheView((/** @type {?} */ (this._viewContainerRef.detach((/** @type {?} */ (adjustedPreviousIndex))))));
+                this._cacheView(this._detachView((/** @type {?} */ (adjustedPreviousIndex))));
             }
             else { // Item moved.
                 // Item moved.
@@ -1354,13 +1465,17 @@ class CdkVirtualForOf {
                 this._viewContainerRef.move(view, currentIndex);
                 view.context.$implicit = record.item;
             }
-        });
+        }));
         // Update $implicit for any items that had an identity change.
-        changes.forEachIdentityChange((record) => {
+        changes.forEachIdentityChange((/**
+         * @param {?} record
+         * @return {?}
+         */
+        (record) => {
             /** @type {?} */
             const view = (/** @type {?} */ (this._viewContainerRef.get((/** @type {?} */ (record.currentIndex)))));
             view.context.$implicit = record.item;
-        });
+        }));
         // Update the context variables on all items.
         /** @type {?} */
         const count = this._data.length;
@@ -1399,21 +1514,13 @@ class CdkVirtualForOf {
         }
     }
     /**
-     * Get a view for a new item, either from the cache or by creating a new one.
+     * Inserts a view for a new item, either from the cache or by creating a new one.
      * @private
+     * @param {?} index
      * @return {?}
      */
-    _getViewForNewItem() {
-        return this._templateCache.pop() || this._viewContainerRef.createEmbeddedView(this._template, {
-            $implicit: (/** @type {?} */ (null)),
-            cdkVirtualForOf: this._cdkVirtualForOf,
-            index: -1,
-            count: -1,
-            first: false,
-            last: false,
-            odd: false,
-            even: false
-        });
+    _insertViewForNewItem(index) {
+        return this._insertViewFromCache(index) || this._createEmbeddedViewAt(index);
     }
     /**
      * Update the computed properties on the `CdkVirtualForOfContext`.
@@ -1427,10 +1534,56 @@ class CdkVirtualForOf {
         context.even = context.index % 2 === 0;
         context.odd = !context.even;
     }
+    /**
+     * Creates a new embedded view and moves it to the given index
+     * @private
+     * @param {?} index
+     * @return {?}
+     */
+    _createEmbeddedViewAt(index) {
+        /** @type {?} */
+        const view = this._viewContainerRef.createEmbeddedView(this._template, {
+            $implicit: (/** @type {?} */ (null)),
+            cdkVirtualForOf: this._cdkVirtualForOf,
+            index: -1,
+            count: -1,
+            first: false,
+            last: false,
+            odd: false,
+            even: false
+        });
+        if (index < this._viewContainerRef.length) {
+            this._viewContainerRef.move(view, index);
+        }
+        return view;
+    }
+    /**
+     * Inserts a recycled view from the cache at the given index.
+     * @private
+     * @param {?} index
+     * @return {?}
+     */
+    _insertViewFromCache(index) {
+        /** @type {?} */
+        const cachedView = this._templateCache.pop();
+        if (cachedView) {
+            this._viewContainerRef.insert(cachedView, index);
+        }
+        return cachedView || null;
+    }
+    /**
+     * Detaches the embedded view at the given index.
+     * @private
+     * @param {?} index
+     * @return {?}
+     */
+    _detachView(index) {
+        return (/** @type {?} */ (this._viewContainerRef.detach(index)));
+    }
 }
 CdkVirtualForOf.decorators = [
     { type: Directive, args: [{
-                selector: '[cdkVirtualFor][cdkVirtualForOf]'
+                selector: '[cdkVirtualFor][cdkVirtualForOf]',
             },] },
 ];
 /** @nocollapse */
@@ -1450,7 +1603,7 @@ CdkVirtualForOf.propDecorators = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 class ScrollingModule {
 }
@@ -1487,7 +1640,7 @@ ScrollDispatchModule.decorators = [
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
  * Time in ms to throttle the resize events by default.
@@ -1505,14 +1658,20 @@ class ViewportRuler {
      */
     constructor(_platform, ngZone) {
         this._platform = _platform;
-        ngZone.runOutsideAngular(() => {
+        ngZone.runOutsideAngular((/**
+         * @return {?}
+         */
+        () => {
             this._change = _platform.isBrowser ?
                 merge(fromEvent(window, 'resize'), fromEvent(window, 'orientationchange')) :
                 of();
             // Note that we need to do the subscription inside `runOutsideAngular`
             // since subscribing is what causes the event listener to be added.
-            this._invalidateCache = this.change().subscribe(() => this._updateViewportSize());
-        });
+            this._invalidateCache = this.change().subscribe((/**
+             * @return {?}
+             */
+            () => this._updateViewportSize()));
+        }));
     }
     /**
      * @return {?}
@@ -1617,7 +1776,7 @@ ViewportRuler.ctorParameters = () => [
     { type: Platform },
     { type: NgZone }
 ];
-/** @nocollapse */ ViewportRuler.ngInjectableDef = defineInjectable({ factory: function ViewportRuler_Factory() { return new ViewportRuler(inject(Platform), inject(NgZone)); }, token: ViewportRuler, providedIn: "root" });
+/** @nocollapse */ ViewportRuler.ngInjectableDef = ɵɵdefineInjectable({ factory: function ViewportRuler_Factory() { return new ViewportRuler(ɵɵinject(Platform), ɵɵinject(NgZone)); }, token: ViewportRuler, providedIn: "root" });
 /**
  * \@docs-private
  * @deprecated
@@ -1642,12 +1801,12 @@ const VIEWPORT_RULER_PROVIDER = {
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
 export { _fixedSizeVirtualScrollStrategyFactory, FixedSizeVirtualScrollStrategy, CdkFixedSizeVirtualScroll, DEFAULT_SCROLL_TIME, ScrollDispatcher, CdkScrollable, ScrollingModule, ScrollDispatchModule, VIEWPORT_RULER_PROVIDER_FACTORY, DEFAULT_RESIZE_TIME, ViewportRuler, VIEWPORT_RULER_PROVIDER, CdkVirtualForOf, VIRTUAL_SCROLL_STRATEGY, CdkVirtualScrollViewport };

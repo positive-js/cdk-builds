@@ -12,7 +12,7 @@
 
 /**
  * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /** @type {?} */
 var MAC_ENTER = 3;
@@ -272,7 +272,11 @@ function hasModifierKey(event) {
         modifiers[_i - 1] = arguments[_i];
     }
     if (modifiers.length) {
-        return modifiers.some(function (modifier) { return event[modifier]; });
+        return modifiers.some((/**
+         * @param {?} modifier
+         * @return {?}
+         */
+        function (modifier) { return event[modifier]; }));
     }
     return event.altKey || event.shiftKey || event.ctrlKey || event.metaKey;
 }
