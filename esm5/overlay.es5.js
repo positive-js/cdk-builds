@@ -10,7 +10,7 @@ import { DOCUMENT } from '@angular/common';
 import { ScrollDispatcher, ViewportRuler, ScrollDispatchModule, VIEWPORT_RULER_PROVIDER } from '@ptsecurity/cdk/scrolling';
 export { ViewportRuler, VIEWPORT_RULER_PROVIDER, CdkScrollable, ScrollDispatcher } from '@ptsecurity/cdk/scrolling';
 import { __assign, __extends } from 'tslib';
-import { Subject, Observable, Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Platform } from '@ptsecurity/cdk/platform';
 import { Directionality, BidiModule } from '@ptsecurity/cdk/bidi';
@@ -1494,7 +1494,6 @@ var  /**
  */
 FlexibleConnectedPositionStrategy = /** @class */ (function () {
     function FlexibleConnectedPositionStrategy(connectedTo, _viewportRuler, _document, _platform) {
-        var _this = this;
         this._viewportRuler = _viewportRuler;
         this._document = _document;
         this._platform = _platform;
@@ -1502,25 +1501,6 @@ FlexibleConnectedPositionStrategy = /** @class */ (function () {
          * Ordered list of preferred positions, from most to least desirable.
          */
         this._preferredPositions = [];
-        /**
-         * Observable sequence of position changes.
-         */
-        this.positionChanges = new Observable((/**
-         * @param {?} observer
-         * @return {?}
-         */
-        function (observer) {
-            /** @type {?} */
-            var subscription = _this._positionChanges.subscribe(observer);
-            _this._positionChangeSubscriptions++;
-            return (/**
-             * @return {?}
-             */
-            function () {
-                subscription.unsubscribe();
-                _this._positionChangeSubscriptions--;
-            });
-        }));
         /**
          * Whether we're performing the very first positioning of the overlay.
          */
@@ -1574,9 +1554,9 @@ FlexibleConnectedPositionStrategy = /** @class */ (function () {
          */
         this._offsetY = 0;
         /**
-         * Amount of subscribers to the `positionChanges` stream.
+         * Observable sequence of position changes.
          */
-        this._positionChangeSubscriptions = 0;
+        this.positionChanges = this._positionChanges.asObservable();
         this.setOrigin(connectedTo);
     }
     Object.defineProperty(FlexibleConnectedPositionStrategy.prototype, "positions", {
@@ -2379,7 +2359,7 @@ FlexibleConnectedPositionStrategy = /** @class */ (function () {
         // Notify that the position has been changed along with its change properties.
         // We only emit if we've got any subscriptions, because the scroll visibility
         // calculcations can be somewhat expensive.
-        if (this._positionChangeSubscriptions > 0) {
+        if (this._positionChanges.observers.length) {
             /** @type {?} */
             var scrollableViewProperties = this._getScrollVisibility();
             /** @type {?} */

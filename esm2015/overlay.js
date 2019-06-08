@@ -9,7 +9,7 @@ import { coerceCssPixelValue, coerceArray, coerceBooleanProperty } from '@ptsecu
 import { DOCUMENT } from '@angular/common';
 import { ScrollDispatcher, ViewportRuler, ScrollDispatchModule, VIEWPORT_RULER_PROVIDER } from '@ptsecurity/cdk/scrolling';
 export { ViewportRuler, VIEWPORT_RULER_PROVIDER, CdkScrollable, ScrollDispatcher } from '@ptsecurity/cdk/scrolling';
-import { Subject, Observable, Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Platform } from '@ptsecurity/cdk/platform';
 import { Directionality, BidiModule } from '@ptsecurity/cdk/bidi';
@@ -1205,25 +1205,6 @@ class FlexibleConnectedPositionStrategy {
          */
         this._preferredPositions = [];
         /**
-         * Observable sequence of position changes.
-         */
-        this.positionChanges = new Observable((/**
-         * @param {?} observer
-         * @return {?}
-         */
-        (observer) => {
-            /** @type {?} */
-            const subscription = this._positionChanges.subscribe(observer);
-            this._positionChangeSubscriptions++;
-            return (/**
-             * @return {?}
-             */
-            () => {
-                subscription.unsubscribe();
-                this._positionChangeSubscriptions--;
-            });
-        }));
-        /**
          * Whether we're performing the very first positioning of the overlay.
          */
         this._isInitialRender = true;
@@ -1276,9 +1257,9 @@ class FlexibleConnectedPositionStrategy {
          */
         this._offsetY = 0;
         /**
-         * Amount of subscribers to the `positionChanges` stream.
+         * Observable sequence of position changes.
          */
-        this._positionChangeSubscriptions = 0;
+        this.positionChanges = this._positionChanges.asObservable();
         this.setOrigin(connectedTo);
     }
     /**
@@ -1810,7 +1791,7 @@ class FlexibleConnectedPositionStrategy {
         // Notify that the position has been changed along with its change properties.
         // We only emit if we've got any subscriptions, because the scroll visibility
         // calculcations can be somewhat expensive.
-        if (this._positionChangeSubscriptions > 0) {
+        if (this._positionChanges.observers.length) {
             /** @type {?} */
             const scrollableViewProperties = this._getScrollVisibility();
             /** @type {?} */

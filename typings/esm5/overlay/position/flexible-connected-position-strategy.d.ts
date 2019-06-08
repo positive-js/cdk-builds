@@ -18,8 +18,6 @@ export declare class FlexibleConnectedPositionStrategy implements IPositionStrat
     private _platform?;
     /** Ordered list of preferred positions, from most to least desirable. */
     _preferredPositions: ConnectionPositionPair[];
-    /** Observable sequence of position changes. */
-    positionChanges: Observable<ConnectedOverlayPositionChange>;
     /** Ordered list of preferred positions, from most to least desirable. */
     readonly positions: ConnectionPositionPair[];
     /** The overlay to which this strategy is attached. */
@@ -71,8 +69,8 @@ export declare class FlexibleConnectedPositionStrategy implements IPositionStrat
     private _offsetY;
     /** Selector to be used when finding the elements on which to set the transform origin. */
     private _transformOriginSelector;
-    /** Amount of subscribers to the `positionChanges` stream. */
-    private _positionChangeSubscriptions;
+    /** Observable sequence of position changes. */
+    positionChanges: Observable<ConnectedOverlayPositionChange>;
     constructor(connectedTo: ElementRef | HTMLElement, _viewportRuler: ViewportRuler, _document: Document, _platform?: Platform | undefined);
     /** Attaches this position strategy to an overlay. */
     attach(overlayRef: IOverlayReference): void;
