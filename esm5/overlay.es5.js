@@ -738,7 +738,7 @@ var OverlayKeyboardDispatcher = /** @class */ (function () {
     function (overlayRef) {
         // Lazily start dispatcher once first overlay is added
         if (!this._isAttached) {
-            this._document.body.addEventListener('keydown', this._keydownListener, true);
+            this._document.body.addEventListener('keydown', this._keydownListener);
             this._isAttached = true;
         }
         this._attachedOverlays.push(overlayRef);
@@ -778,7 +778,7 @@ var OverlayKeyboardDispatcher = /** @class */ (function () {
      */
     function () {
         if (this._isAttached) {
-            this._document.body.removeEventListener('keydown', this._keydownListener, true);
+            this._document.body.removeEventListener('keydown', this._keydownListener);
             this._isAttached = false;
         }
     };
