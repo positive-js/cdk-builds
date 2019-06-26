@@ -462,12 +462,12 @@
         "signature": "400db42c3a46984118bff14260d60cec580057dc1ab4c2d7310beb643e4f5935"
       },
       "/home/circleci/mosaic/node_modules/@types/node/inspector.d.ts": {
-        "version": "fc514174d61a5d9a9ccca41424ffd92f36ff3aa4616fd1fd4e26df51563f5749",
-        "signature": "fc514174d61a5d9a9ccca41424ffd92f36ff3aa4616fd1fd4e26df51563f5749"
+        "version": "caed669d251c501c960ae069c024de3116e961526c5b2ad9b33b941a8a6e8f05",
+        "signature": "caed669d251c501c960ae069c024de3116e961526c5b2ad9b33b941a8a6e8f05"
       },
       "/home/circleci/mosaic/node_modules/@types/node/index.d.ts": {
-        "version": "c1822231cac080ba96fb492c55ad4d8b1199ab16c3a074bb61b68c71b1e889a3",
-        "signature": "c1822231cac080ba96fb492c55ad4d8b1199ab16c3a074bb61b68c71b1e889a3"
+        "version": "d1d42f7adbcf94e09d885065ef9d42ca971850cabcbb7c56a77b69e643960474",
+        "signature": "d1d42f7adbcf94e09d885065ef9d42ca971850cabcbb7c56a77b69e643960474"
       },
       "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/analytics/api.d.ts": {
         "version": "a61febeea691bb19bbde0669f1c9d3ff2b2058d77757247c3ff43b15ebd10543",
