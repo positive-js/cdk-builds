@@ -14,6 +14,7 @@
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/* tslint:disable:no-magic-numbers no-bitwise */
 /** @type {?} */
 var MAC_ENTER = 3;
 /** @type {?} */
@@ -280,8 +281,119 @@ function hasModifierKey(event) {
     }
     return event.altKey || event.shiftKey || event.ctrlKey || event.metaKey;
 }
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isControl(event) {
+    /** @type {?} */
+    var keyCode = event.which;
+    switch (keyCode) {
+        case SHIFT:
+        case CONTROL:
+        case ALT:
+            return true;
+        default:
+            return !!event.metaKey;
+    }
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isNumberKey(event) {
+    /** @type {?} */
+    var keyCode = event.which ? event.which : event;
+    return keyCode >= 49 && keyCode <= 57;
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isLetterKey(event) {
+    /** @type {?} */
+    var keyCode = event.which ? event.which : event;
+    return keyCode >= 65 && keyCode <= 90;
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isFunctionKey(event) {
+    /** @type {?} */
+    var keyCode = event.which ? event.which : event;
+    return keyCode >= 112 && keyCode <= 123;
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isVerticalMovement(event) {
+    return ~[UP_ARROW, DOWN_ARROW, PAGE_DOWN, PAGE_UP, HOME, END].indexOf(event);
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isHorizontalMovement(event) {
+    return ~[LEFT_ARROW, RIGHT_ARROW, BACKSPACE, DELETE].indexOf(event);
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isSelectAll(event) {
+    return event.ctrlKey && event.keyCode === 65;
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isCopy(event) {
+    return event.ctrlKey && event.keyCode === 67;
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isInput(event) {
+    return event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA';
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isLeftBracket(event) {
+    return event.code === 'BracketLeft';
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isRightBracket(event) {
+    return event.code === 'BracketRight';
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isDigit(event) {
+    return [48, 49, 50, 51, 52, 53, 54, 55, 56, 57].indexOf(event.which) !== -1;
+}
 
 exports.hasModifierKey = hasModifierKey;
+exports.isControl = isControl;
+exports.isNumberKey = isNumberKey;
+exports.isLetterKey = isLetterKey;
+exports.isFunctionKey = isFunctionKey;
+exports.isVerticalMovement = isVerticalMovement;
+exports.isHorizontalMovement = isHorizontalMovement;
+exports.isSelectAll = isSelectAll;
+exports.isCopy = isCopy;
+exports.isInput = isInput;
+exports.isLeftBracket = isLeftBracket;
+exports.isRightBracket = isRightBracket;
+exports.isDigit = isDigit;
 exports.MAC_ENTER = MAC_ENTER;
 exports.BACKSPACE = BACKSPACE;
 exports.TAB = TAB;

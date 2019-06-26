@@ -8,6 +8,7 @@
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+/* tslint:disable:no-magic-numbers no-bitwise */
 /** @type {?} */
 const MAC_ENTER = 3;
 /** @type {?} */
@@ -270,6 +271,105 @@ function hasModifierKey(event, ...modifiers) {
     }
     return event.altKey || event.shiftKey || event.ctrlKey || event.metaKey;
 }
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isControl(event) {
+    /** @type {?} */
+    const keyCode = event.which;
+    switch (keyCode) {
+        case SHIFT:
+        case CONTROL:
+        case ALT:
+            return true;
+        default:
+            return !!event.metaKey;
+    }
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isNumberKey(event) {
+    /** @type {?} */
+    const keyCode = event.which ? event.which : event;
+    return keyCode >= 49 && keyCode <= 57;
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isLetterKey(event) {
+    /** @type {?} */
+    const keyCode = event.which ? event.which : event;
+    return keyCode >= 65 && keyCode <= 90;
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isFunctionKey(event) {
+    /** @type {?} */
+    const keyCode = event.which ? event.which : event;
+    return keyCode >= 112 && keyCode <= 123;
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isVerticalMovement(event) {
+    return ~[UP_ARROW, DOWN_ARROW, PAGE_DOWN, PAGE_UP, HOME, END].indexOf(event);
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isHorizontalMovement(event) {
+    return ~[LEFT_ARROW, RIGHT_ARROW, BACKSPACE, DELETE].indexOf(event);
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isSelectAll(event) {
+    return event.ctrlKey && event.keyCode === 65;
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isCopy(event) {
+    return event.ctrlKey && event.keyCode === 67;
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isInput(event) {
+    return event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA';
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isLeftBracket(event) {
+    return event.code === 'BracketLeft';
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isRightBracket(event) {
+    return event.code === 'BracketRight';
+}
+/**
+ * @param {?} event
+ * @return {?}
+ */
+function isDigit(event) {
+    return [48, 49, 50, 51, 52, 53, 54, 55, 56, 57].indexOf(event.which) !== -1;
+}
 
 /**
  * @fileoverview added by tsickle
@@ -281,5 +381,5 @@ function hasModifierKey(event, ...modifiers) {
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { hasModifierKey, MAC_ENTER, BACKSPACE, TAB, NUM_CENTER, ENTER, SHIFT, CONTROL, ALT, PAUSE, CAPS_LOCK, ESCAPE, SPACE, PAGE_UP, PAGE_DOWN, END, HOME, LEFT_ARROW, UP_ARROW, RIGHT_ARROW, DOWN_ARROW, PLUS_SIGN, PRINT_SCREEN, INSERT, DELETE, ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, FF_SEMICOLON, FF_EQUALS, QUESTION_MARK, AT_SIGN, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, META, MAC_WK_CMD_LEFT, MAC_WK_CMD_RIGHT, CONTEXT_MENU, NUMPAD_ZERO, NUMPAD_ONE, NUMPAD_TWO, NUMPAD_THREE, NUMPAD_FOUR, NUMPAD_FIVE, NUMPAD_SIX, NUMPAD_SEVEN, NUMPAD_EIGHT, NUMPAD_NINE, NUMPAD_MULTIPLY, NUMPAD_PLUS, NUMPAD_MINUS, NUMPAD_PERIOD, NUMPAD_DIVIDE, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, NUM_LOCK, SCROLL_LOCK, FIRST_MEDIA, FF_MINUS, MUTE, VOLUME_DOWN, VOLUME_UP, FF_MUTE, FF_VOLUME_DOWN, LAST_MEDIA, FF_VOLUME_UP, SEMICOLON, EQUALS, COMMA, DASH, PERIOD, SLASH, APOSTROPHE, TILDE, OPEN_SQUARE_BRACKET, BACKSLASH, CLOSE_SQUARE_BRACKET, SINGLE_QUOTE, MAC_META };
+export { hasModifierKey, isControl, isNumberKey, isLetterKey, isFunctionKey, isVerticalMovement, isHorizontalMovement, isSelectAll, isCopy, isInput, isLeftBracket, isRightBracket, isDigit, MAC_ENTER, BACKSPACE, TAB, NUM_CENTER, ENTER, SHIFT, CONTROL, ALT, PAUSE, CAPS_LOCK, ESCAPE, SPACE, PAGE_UP, PAGE_DOWN, END, HOME, LEFT_ARROW, UP_ARROW, RIGHT_ARROW, DOWN_ARROW, PLUS_SIGN, PRINT_SCREEN, INSERT, DELETE, ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, FF_SEMICOLON, FF_EQUALS, QUESTION_MARK, AT_SIGN, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, META, MAC_WK_CMD_LEFT, MAC_WK_CMD_RIGHT, CONTEXT_MENU, NUMPAD_ZERO, NUMPAD_ONE, NUMPAD_TWO, NUMPAD_THREE, NUMPAD_FOUR, NUMPAD_FIVE, NUMPAD_SIX, NUMPAD_SEVEN, NUMPAD_EIGHT, NUMPAD_NINE, NUMPAD_MULTIPLY, NUMPAD_PLUS, NUMPAD_MINUS, NUMPAD_PERIOD, NUMPAD_DIVIDE, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, NUM_LOCK, SCROLL_LOCK, FIRST_MEDIA, FF_MINUS, MUTE, VOLUME_DOWN, VOLUME_UP, FF_MUTE, FF_VOLUME_DOWN, LAST_MEDIA, FF_VOLUME_UP, SEMICOLON, EQUALS, COMMA, DASH, PERIOD, SLASH, APOSTROPHE, TILDE, OPEN_SQUARE_BRACKET, BACKSLASH, CLOSE_SQUARE_BRACKET, SINGLE_QUOTE, MAC_META };
 //# sourceMappingURL=keycodes.js.map
