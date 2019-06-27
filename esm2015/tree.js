@@ -4,11 +4,11 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
-import { SelectionModel } from '@ptsecurity/cdk/collections';
+import { SelectionModel } from '@angular/cdk/collections';
 import { take, takeUntil } from 'rxjs/operators';
 import { ChangeDetectorRef, Directive, ViewContainerRef, TemplateRef, ChangeDetectionStrategy, Component, ContentChildren, ElementRef, Input, IterableDiffers, ViewChild, ViewEncapsulation, Inject, forwardRef, Optional, Renderer2, NgModule } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { Directionality } from '@ptsecurity/cdk/bidi';
+import { Directionality } from '@angular/cdk/bidi';
 import { CommonModule } from '@angular/common';
 import { FocusMonitor } from '@ptsecurity/cdk/a11y';
 

@@ -1,6 +1,6 @@
+import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { AfterContentChecked, ChangeDetectorRef, ElementRef, IterableDiffer, IterableDiffers, OnDestroy, OnInit, QueryList, ViewContainerRef, TrackByFunction } from '@angular/core';
 import { IFocusableOption } from '@ptsecurity/cdk/a11y';
-import { ICollectionViewer, DataSource } from '@ptsecurity/cdk/collections';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ITreeControl } from './control/tree-control';
 import { CdkTreeNodeDef } from './node';
@@ -9,7 +9,7 @@ import { CdkTreeNodeOutlet } from './outlet';
  * CDK tree component that connects with a data source to retrieve data of type `T` and renders
  * dataNodes with hierarchy. Updates the dataNodes when new data is provided by the data source.
  */
-export declare class CdkTree<T> implements AfterContentChecked, ICollectionViewer, OnDestroy, OnInit {
+export declare class CdkTree<T> implements AfterContentChecked, CollectionViewer, OnDestroy, OnInit {
     protected differs: IterableDiffers;
     protected changeDetectorRef: ChangeDetectorRef;
     /** The tree controller */
@@ -54,7 +54,7 @@ export declare class CdkTree<T> implements AfterContentChecked, ICollectionViewe
     ngOnDestroy(): void;
     ngAfterContentChecked(): void;
     /** Check for changes made in the data and render each change (node added/removed/moved). */
-    renderNodeChanges(data: T[], dataDiffer?: IterableDiffer<T>, viewContainer?: ViewContainerRef, parentData?: T): void;
+    renderNodeChanges(data: T[] | ReadonlyArray<T>, dataDiffer?: IterableDiffer<T>, viewContainer?: ViewContainerRef, parentData?: T): void;
     /**
      * Finds the matching node definition that should be used for this node data. If there is only
      * one node definition, it is returned. Otherwise, find the node definition that has a when

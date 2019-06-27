@@ -1,4 +1,4 @@
-import { SelectionModel } from '@ptsecurity/cdk/collections';
+import { SelectionModel } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
 /**
  * Tree control interface. User can implement ITreeControl to expand/collapse dataNodes in the tree.

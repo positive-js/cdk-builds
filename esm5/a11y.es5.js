@@ -9,7 +9,7 @@ import { Subject, Subscription, of } from 'rxjs';
 import { debounceTime, filter, map, tap } from 'rxjs/operators';
 import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, TAB, A, Z, ZERO, NINE } from '@ptsecurity/cdk/keycodes';
 import { __extends } from 'tslib';
-import { Platform, supportsPassiveEventListeners, PlatformModule } from '@ptsecurity/cdk/platform';
+import { Platform, supportsPassiveEventListeners, PlatformModule } from '@angular/cdk/platform';
 import { DOCUMENT, CommonModule } from '@angular/common';
 
 /**
@@ -734,16 +734,16 @@ var FocusMonitor = /** @class */ (function () {
          */
         this._elementInfo = new Map();
         /**
+         * The number of elements currently being monitored.
+         */
+        this._monitoredElementCount = 0;
+        /**
          * A map of global objects to lists of current listeners.
          */
         this._unregisterGlobalListeners = (/**
          * @return {?}
          */
         function () { });
-        /**
-         * The number of elements currently being monitored.
-         */
-        this._monitoredElementCount = 0;
     }
     /**
      * Monitors focus on an element and applies appropriate CSS classes.
@@ -884,6 +884,35 @@ var FocusMonitor = /** @class */ (function () {
          * @return {?}
          */
         function (_info, element) { return _this.stopMonitoring(element); }));
+    };
+    /**
+     * Handles blur events on a registered element.
+     * @param event The blur event.
+     * @param element The monitored element.
+     */
+    /**
+     * Handles blur events on a registered element.
+     * @param {?} event The blur event.
+     * @param {?} element The monitored element.
+     * @return {?}
+     */
+    FocusMonitor.prototype._onBlur = /**
+     * Handles blur events on a registered element.
+     * @param {?} event The blur event.
+     * @param {?} element The monitored element.
+     * @return {?}
+     */
+    function (event, element) {
+        // If we are counting child-element-focus as focused, make sure that we aren't just blurring in
+        // order to focus another child of the monitored element.
+        /** @type {?} */
+        var elementInfo = this._elementInfo.get(element);
+        if (!elementInfo || (elementInfo.checkChildren && event.relatedTarget instanceof Node &&
+            element.contains(event.relatedTarget))) {
+            return;
+        }
+        this._setClasses(element);
+        elementInfo.subject.next(null);
     };
     /** Register necessary event listeners on the document and window. */
     /**
@@ -1156,35 +1185,6 @@ var FocusMonitor = /** @class */ (function () {
         this._setClasses(element, origin);
         this._emitOrigin(elementInfo.subject, origin);
         this._lastFocusOrigin = origin;
-    };
-    /**
-     * Handles blur events on a registered element.
-     * @param event The blur event.
-     * @param element The monitored element.
-     */
-    /**
-     * Handles blur events on a registered element.
-     * @param {?} event The blur event.
-     * @param {?} element The monitored element.
-     * @return {?}
-     */
-    FocusMonitor.prototype._onBlur = /**
-     * Handles blur events on a registered element.
-     * @param {?} event The blur event.
-     * @param {?} element The monitored element.
-     * @return {?}
-     */
-    function (event, element) {
-        // If we are counting child-element-focus as focused, make sure that we aren't just blurring in
-        // order to focus another child of the monitored element.
-        /** @type {?} */
-        var elementInfo = this._elementInfo.get(element);
-        if (!elementInfo || (elementInfo.checkChildren && event.relatedTarget instanceof Node &&
-            element.contains(event.relatedTarget))) {
-            return;
-        }
-        this._setClasses(element);
-        elementInfo.subject.next(null);
     };
     /**
      * @private

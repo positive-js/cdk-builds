@@ -5,8 +5,8 @@
  * Use of this source code is governed by an MIT-style license.
  */
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@ptsecurity/cdk/collections'), require('rxjs/operators'), require('@angular/core'), require('rxjs'), require('@ptsecurity/cdk/bidi'), require('@angular/common'), require('@ptsecurity/cdk/a11y')) :
-	typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/tree', ['exports', '@ptsecurity/cdk/collections', 'rxjs/operators', '@angular/core', 'rxjs', '@ptsecurity/cdk/bidi', '@angular/common', '@ptsecurity/cdk/a11y'], factory) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/cdk/collections'), require('rxjs/operators'), require('@angular/core'), require('rxjs'), require('@angular/cdk/bidi'), require('@angular/common'), require('@ptsecurity/cdk/a11y')) :
+	typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/tree', ['exports', '@angular/cdk/collections', 'rxjs/operators', '@angular/core', 'rxjs', '@angular/cdk/bidi', '@angular/common', '@ptsecurity/cdk/a11y'], factory) :
 	(factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.tree = {}),global.ng.cdk.collections,global.rxjs.operators,global.ng.core,global.rxjs,global.ng.cdk.bidi,global.ng.common,global.ng.cdk.a11y));
 }(this, (function (exports,collections,operators,core,rxjs,bidi,common,a11y) { 'use strict';
 

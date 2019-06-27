@@ -1,6 +1,6 @@
+import { Platform } from '@angular/cdk/platform';
 import { ElementRef, EventEmitter, NgZone, OnDestroy, Optional } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Platform } from '@ptsecurity/cdk/platform';
 export declare const TOUCH_BUFFER_MS = 650;
 export declare type FocusOrigin = 'touch' | 'mouse' | 'keyboard' | 'program' | null;
 /** Monitors mouse and keyboard events to determine the cause of focus events. */
@@ -23,8 +23,6 @@ export declare class FocusMonitor implements OnDestroy {
     private _originTimeoutId;
     /** Map of elements being monitored to their info. */
     private _elementInfo;
-    /** A map of global objects to lists of current listeners. */
-    private _unregisterGlobalListeners;
     /** The number of elements currently being monitored. */
     private _monitoredElementCount;
     constructor(_ngZone: NgZone, _platform: Platform);
@@ -48,6 +46,14 @@ export declare class FocusMonitor implements OnDestroy {
      */
     focusVia(element: HTMLElement, origin: FocusOrigin): void;
     ngOnDestroy(): void;
+    /**
+     * Handles blur events on a registered element.
+     * @param event The blur event.
+     * @param element The monitored element.
+     */
+    _onBlur(event: FocusEvent, element: HTMLElement): void;
+    /** A map of global objects to lists of current listeners. */
+    private _unregisterGlobalListeners;
     /** Register necessary event listeners on the document and window. */
     private _registerGlobalListeners;
     private _toggleClass;
@@ -74,12 +80,6 @@ export declare class FocusMonitor implements OnDestroy {
      * @param element The monitored element.
      */
     private _onFocus;
-    /**
-     * Handles blur events on a registered element.
-     * @param event The blur event.
-     * @param element The monitored element.
-     */
-    _onBlur(event: FocusEvent, element: HTMLElement): void;
     private _emitOrigin;
     private _incrementMonitoredElementCount;
     private _decrementMonitoredElementCount;

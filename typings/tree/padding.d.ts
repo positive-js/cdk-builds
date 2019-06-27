@@ -1,5 +1,5 @@
+import { Directionality } from '@angular/cdk/bidi';
 import { ElementRef, OnDestroy, Renderer2 } from '@angular/core';
-import { Directionality } from '@ptsecurity/cdk/bidi';
 import { CdkTree, CdkTreeNode } from './tree';
 /**
  * Indent for the children tree dataNodes.
