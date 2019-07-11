@@ -74,6 +74,36 @@ export declare abstract class DateAdapter<D> {
      */
     abstract getDayOfWeek(date: D): number;
     /**
+     * Gets the hours component of the given date.
+     * @param date The date to extract from.
+     * @returns The hours component in 24h format.
+     */
+    abstract getHours(date: D): number;
+    /**
+     * Gets the minutes component of the given date.
+     * @param date The date to extract from.
+     * @returns The minutes component
+     */
+    abstract getMinutes(date: D): number;
+    /**
+     * Gets the seconds component of the given date.
+     * @param date The date to extract from.
+     * @returns The seconds component
+     */
+    abstract getSeconds(date: D): number;
+    /**
+     * Gets the milliseconds component of the given date.
+     * @param date The date to extract from.
+     * @returns The milliseconds component
+     */
+    abstract getMilliseconds(date: D): number;
+    /**
+     * Gets returns the number of milliseconds since the Unix Epoch of the given date.
+     * @param date The date to extract from.
+     * @returns The milliseconds
+     */
+    abstract getTime(date: D): number;
+    /**
      * Gets a list of names for the months.
      * @param style The naming style (e.g. long = 'January', short = 'Jan', narrow = 'J').
      * @returns An ordered list of all month names, starting with January.
@@ -122,6 +152,19 @@ export declare abstract class DateAdapter<D> {
      * @returns The new date, or null if invalid.
      */
     abstract createDate(year: number, month: number, date: number): D;
+    /**
+     * Creates a date time with the given year, month, date, hours, minutes, seconds and milliseconds.
+     * Does not allow over/under-flow of the month and date.
+     * @param year The full year of the date. (e.g. 89 means the year 89, not the year 1989).
+     * @param month The month of the date (0-indexed, 0 = January). Must be an integer 0 - 11.
+     * @param date The date of month of the date. Must be an integer 1 - length of the given month.
+     * @param hours The date of month of the date. Must be an integer 1 - length of the given month.
+     * @param minutes The date of month of the date. Must be an integer 1 - length of the given month.
+     * @param seconds The date of month of the date. Must be an integer 1 - length of the given month.
+     * @param milliseconds The date of month of the date. Must be an integer 1 - length of the given month.
+     * @returns The new date, or null if invalid.
+     */
+    abstract createDateTime(year: number, month: number, date: number, hours: number, minutes: number, seconds: number, milliseconds: number): D;
     /**
      * Gets today's date.
      * @returns Today's date.
@@ -306,6 +349,14 @@ export declare abstract class DateAdapter<D> {
      *     a number greater than 0 if the first date is later.
      */
     compareDate(first: D, second: D): number;
+    /**
+     * Compares two datetimes.
+     * @param first The first date to compare.
+     * @param second The second date to compare.
+     * @returns 0 if the dates are equal, a number less than 0 if the first date is earlier,
+     *     a number greater than 0 if the first date is later.
+     */
+    compareDateTime(first: D, second: D): number;
     /**
      * Checks if two dates are equal.
      * @param first The first date to check.

@@ -153,6 +153,36 @@ DateAdapter = /** @class */ (function () {
             this.getDate(first) - this.getDate(second);
     };
     /**
+     * Compares two datetimes.
+     * @param first The first date to compare.
+     * @param second The second date to compare.
+     * @returns 0 if the dates are equal, a number less than 0 if the first date is earlier,
+     *     a number greater than 0 if the first date is later.
+     */
+    /**
+     * Compares two datetimes.
+     * @param {?} first The first date to compare.
+     * @param {?} second The second date to compare.
+     * @return {?} 0 if the dates are equal, a number less than 0 if the first date is earlier,
+     *     a number greater than 0 if the first date is later.
+     */
+    DateAdapter.prototype.compareDateTime = /**
+     * Compares two datetimes.
+     * @param {?} first The first date to compare.
+     * @param {?} second The second date to compare.
+     * @return {?} 0 if the dates are equal, a number less than 0 if the first date is earlier,
+     *     a number greater than 0 if the first date is later.
+     */
+    function (first, second) {
+        return this.getYear(first) - this.getYear(second) ||
+            this.getMonth(first) - this.getMonth(second) ||
+            this.getDate(first) - this.getDate(second) ||
+            this.getHours(first) - this.getHours(second) ||
+            this.getMinutes(first) - this.getMinutes(second) ||
+            this.getSeconds(first) - this.getSeconds(second) ||
+            this.getMilliseconds(first) - this.getMilliseconds(second);
+    };
+    /**
      * Checks if two dates are equal.
      * @param first The first date to check.
      * @param second The second date to check.
