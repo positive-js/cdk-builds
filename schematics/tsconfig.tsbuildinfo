@@ -349,7 +349,7 @@
         "version": "b8253076410bc11bfbd8aff865d9332efa50486e9dd709313da456d68f9c8d18",
         "signature": "b8253076410bc11bfbd8aff865d9332efa50486e9dd709313da456d68f9c8d18"
       },
-      "/home/circleci/mosaic/node_modules/ajv/lib/ajv.d.ts": {
+      "/home/circleci/mosaic/node_modules/@angular-devkit/core/node_modules/ajv/lib/ajv.d.ts": {
         "version": "2ededed48e7d88b78ed7d0212b78aa46c2c4ea96109f38b54185583db888baa9",
         "signature": "2ededed48e7d88b78ed7d0212b78aa46c2c4ea96109f38b54185583db888baa9"
       },
@@ -918,8 +918,8 @@
         "signature": "c6ef4b372d0de7bb17824905e017f196d53205d7008aee8cde0e5b253833460f"
       },
       "/home/circleci/mosaic/node_modules/@types/jasmine/ts3.1/index.d.ts": {
-        "version": "c222687481343afc71025e8ec9e25a8d589c2a92e92091109af97cd063c29b50",
-        "signature": "c222687481343afc71025e8ec9e25a8d589c2a92e92091109af97cd063c29b50"
+        "version": "7db7a68c87f2a758e3edeeb442ae2422c1525b5d85ad80608594f749620cd18d",
+        "signature": "7db7a68c87f2a758e3edeeb442ae2422c1525b5d85ad80608594f749620cd18d"
       }
     },
     "options": {
@@ -1253,7 +1253,7 @@
         "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/json/interface.d.ts"
       ],
       "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/json/schema/registry.d.ts": [
-        "/home/circleci/mosaic/node_modules/ajv/lib/ajv.d.ts",
+        "/home/circleci/mosaic/node_modules/@angular-devkit/core/node_modules/ajv/lib/ajv.d.ts",
         "/home/circleci/mosaic/node_modules/@angular-devkit/core/node_modules/rxjs/index.d.ts",
         "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/exception/exception.d.ts",
         "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/json/interface.d.ts",
@@ -2584,7 +2584,7 @@
         "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/analytics/api.d.ts"
       ],
       "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/json/schema/registry.d.ts": [
-        "/home/circleci/mosaic/node_modules/ajv/lib/ajv.d.ts",
+        "/home/circleci/mosaic/node_modules/@angular-devkit/core/node_modules/ajv/lib/ajv.d.ts",
         "/home/circleci/mosaic/node_modules/@angular-devkit/core/node_modules/rxjs/index.d.ts",
         "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/exception/exception.d.ts",
         "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/json/interface.d.ts",
@@ -2972,7 +2972,7 @@
       "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/json/parser.d.ts",
       "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/json/schema/interface.d.ts",
       "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/json/schema/pointer.d.ts",
-      "/home/circleci/mosaic/node_modules/ajv/lib/ajv.d.ts",
+      "/home/circleci/mosaic/node_modules/@angular-devkit/core/node_modules/ajv/lib/ajv.d.ts",
       "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/json/schema/schema.d.ts",
       "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/json/schema/registry.d.ts",
       "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/json/schema/visitor.d.ts",
