@@ -288,8 +288,8 @@ NestedTreeControl = /** @class */ (function (_super) {
      * @return {?}
      */
     function () {
-        var _a;
         var _this = this;
+        var _a;
         this.expansionModel.clear();
         /** @type {?} */
         var allNodes = this.dataNodes.reduce((/**

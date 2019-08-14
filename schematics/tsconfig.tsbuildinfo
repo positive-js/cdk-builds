@@ -2,8 +2,8 @@
   "program": {
     "fileInfos": {
       "/home/circleci/mosaic/node_modules/typescript/lib/lib.es5.d.ts": {
-        "version": "1f753cee573dea40df8a9dc873fef5566957b19ad513874f6643d8dfb14842d0",
-        "signature": "1f753cee573dea40df8a9dc873fef5566957b19ad513874f6643d8dfb14842d0"
+        "version": "c8665e66018917580e71792b91022bcaf53fb946fab4aaf8dfb0738ed564db88",
+        "signature": "c8665e66018917580e71792b91022bcaf53fb946fab4aaf8dfb0738ed564db88"
       },
       "/home/circleci/mosaic/node_modules/typescript/lib/lib.es2015.d.ts": {
         "version": "7994d44005046d1413ea31d046577cdda33b8b2470f30281fd9c8b3c99fe2d96",
@@ -18,8 +18,8 @@
         "signature": "459097c7bdd88fc5731367e56591e4f465f2c9de81a35427a7bd473165c34743"
       },
       "/home/circleci/mosaic/node_modules/typescript/lib/lib.es2015.core.d.ts": {
-        "version": "2a0390a665763bcc90f0670e43c587928d8fefe2a94a11209c1e22cba7b09f52",
-        "signature": "2a0390a665763bcc90f0670e43c587928d8fefe2a94a11209c1e22cba7b09f52"
+        "version": "384f66a3422d80014c51de2682159bb26f1e35854029880ccd5f6d1f00e6a36d",
+        "signature": "384f66a3422d80014c51de2682159bb26f1e35854029880ccd5f6d1f00e6a36d"
       },
       "/home/circleci/mosaic/node_modules/typescript/lib/lib.es2015.collection.d.ts": {
         "version": "dd94d8ef48c562389eb58af8df3a3a34d11367f7c818192aa5f16470d469e3f0",
@@ -30,12 +30,12 @@
         "signature": "828413486bdcaa342558e8e4570b1b287b776cb61b4b70b0214bd10c5d9a94c3"
       },
       "/home/circleci/mosaic/node_modules/typescript/lib/lib.es2015.iterable.d.ts": {
-        "version": "6c9f73334f8bf47aea685ca5b46a8f7e992a223e96fbceb030f26a4d2324ba21",
-        "signature": "6c9f73334f8bf47aea685ca5b46a8f7e992a223e96fbceb030f26a4d2324ba21"
+        "version": "4d1f39313a169b8599b8817688f504b56ba8204c2ebafd03f66ff77ddb1899a4",
+        "signature": "4d1f39313a169b8599b8817688f504b56ba8204c2ebafd03f66ff77ddb1899a4"
       },
       "/home/circleci/mosaic/node_modules/typescript/lib/lib.es2015.promise.d.ts": {
-        "version": "e6b8ff2798f8ebd7a1c7afd8671f2cb67ee1901c422f5964d74b0b34c6574ea2",
-        "signature": "e6b8ff2798f8ebd7a1c7afd8671f2cb67ee1901c422f5964d74b0b34c6574ea2"
+        "version": "7c07d934680d0e33275a44d22fb11a4ff31d46c8c26a8d056828a478753f1efe",
+        "signature": "7c07d934680d0e33275a44d22fb11a4ff31d46c8c26a8d056828a478753f1efe"
       },
       "/home/circleci/mosaic/node_modules/typescript/lib/lib.es2015.proxy.d.ts": {
         "version": "5e72f949a89717db444e3bd9433468890068bb21a5638d8ab15a1359e05e54fe",
@@ -794,8 +794,8 @@
         "signature": "516974f08e762f4834a08f4260671d0b4f91f7003b67ddb1ffc99071e2bbec98"
       },
       "/home/circleci/mosaic/node_modules/typescript/lib/typescript.d.ts": {
-        "version": "a84e4f748005e815471f04da8372f96d9090381a958dfb9019436d00762cfbc6",
-        "signature": "a84e4f748005e815471f04da8372f96d9090381a958dfb9019436d00762cfbc6"
+        "version": "017fad67b8495819f5e4a02132273d9bc42960ae64fc28ff10401c88bcdbda39",
+        "signature": "017fad67b8495819f5e4a02132273d9bc42960ae64fc28ff10401c88bcdbda39"
       },
       "/home/circleci/mosaic/packages/cdk/schematics/utils/version-agnostic-typescript.ts": {
         "version": "9a9fe7f0cfd2306c4a36ce98eb7280e31ec3f2abb75979cd2b696b5ba77bb475",
@@ -3119,5 +3119,5 @@
       "/home/circleci/mosaic/node_modules/@types/jasmine/ts3.1/index.d.ts"
     ]
   },
-  "version": "3.5.3"
+  "version": "3.4.5"
 }
