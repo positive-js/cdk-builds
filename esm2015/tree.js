@@ -5,9 +5,9 @@
  * Use of this source code is governed by an MIT-style license.
  */
 import { SelectionModel } from '@angular/cdk/collections';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { ChangeDetectorRef, Directive, ViewContainerRef, TemplateRef, ChangeDetectionStrategy, Component, ContentChildren, ElementRef, Input, IterableDiffers, ViewChild, ViewEncapsulation, Inject, forwardRef, Optional, Renderer2, NgModule } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { Directionality } from '@angular/cdk/bidi';
 import { CommonModule } from '@angular/common';
 import { FocusMonitor } from '@ptsecurity/cdk/a11y';
@@ -21,7 +21,6 @@ import { FocusMonitor } from '@ptsecurity/cdk/a11y';
  * @abstract
  * @template T
  */
-// todo здесь явно ошибка проектирования, абстрактный класс реализует функционал
 /* tslint:disable-next-line:naming-convention */
 class BaseTreeControl {
     constructor() {
@@ -29,6 +28,8 @@ class BaseTreeControl {
          * A selection model with multi-selection to track expansion status.
          */
         this.expansionModel = new SelectionModel(true);
+        this.filterModel = new SelectionModel(true);
+        this.filterValue = new BehaviorSubject('');
     }
     /**
      * Toggles one single data node's expanded/collapsed state.
@@ -36,6 +37,9 @@ class BaseTreeControl {
      * @return {?}
      */
     toggle(dataNode) {
+        if (this.filterValue.value) {
+            return;
+        }
         this.expansionModel.toggle(dataNode);
     }
     /**
@@ -44,6 +48,9 @@ class BaseTreeControl {
      * @return {?}
      */
     expand(dataNode) {
+        if (this.filterValue.value) {
+            return;
+        }
         this.expansionModel.select(dataNode);
     }
     /**
@@ -52,6 +59,9 @@ class BaseTreeControl {
      * @return {?}
      */
     collapse(dataNode) {
+        if (this.filterValue.value) {
+            return;
+        }
         this.expansionModel.deselect(dataNode);
     }
     /**
@@ -125,7 +135,7 @@ class FlatTreeControl extends BaseTreeControl {
     /**
      * Gets a list of the data node's subtree of descendent data nodes.
      *
-     * To make this working, the `dataNodes` of the ITreeControl must be flattened tree nodes
+     * To make this working, the `dataNodes` of the TreeControl must be flattened tree nodes
      * with correct levels.
      * @param {?} dataNode
      * @return {?}
@@ -149,12 +159,64 @@ class FlatTreeControl extends BaseTreeControl {
     /**
      * Expands all data nodes in the tree.
      *
-     * To make this working, the `dataNodes` variable of the ITreeControl must be set to all flattened
+     * To make this working, the `dataNodes` variable of the TreeControl must be set to all flattened
      * data nodes of the tree.
      * @return {?}
      */
     expandAll() {
         this.expansionModel.select(...this.dataNodes);
+    }
+    /**
+     * @param {?} node
+     * @param {?} result
+     * @return {?}
+     */
+    getParents(node, result) {
+        if (node.parent) {
+            result.unshift(node.parent);
+            return this.getParents(node.parent, result);
+        }
+        else {
+            return result;
+        }
+    }
+    /**
+     * @param {?} name
+     * @param {?} value
+     * @return {?}
+     */
+    compareFunction(name, value) {
+        return RegExp(value, 'gi').test(name);
+    }
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    filterNodes(value) {
+        this.filterModel.clear();
+        // todo нет возможности управлять параметром имени 'node.name'
+        /** @type {?} */
+        const filteredNodes = this.dataNodes.filter((/**
+         * @param {?} node
+         * @return {?}
+         */
+        (node) => this.compareFunction(node.name, value)));
+        /** @type {?} */
+        const filteredNodesWithTheirParents = new Set();
+        filteredNodes.forEach((/**
+         * @param {?} filteredNode
+         * @return {?}
+         */
+        (filteredNode) => {
+            this.getParents(filteredNode, []).forEach((/**
+             * @param {?} node
+             * @return {?}
+             */
+            (node) => filteredNodesWithTheirParents.add(node)));
+            filteredNodesWithTheirParents.add(filteredNode);
+        }));
+        this.filterModel.select(...Array.from(filteredNodesWithTheirParents));
+        this.filterValue.next(value);
     }
 }
 
@@ -178,7 +240,7 @@ class NestedTreeControl extends BaseTreeControl {
     /**
      * Expands all dataNodes in the tree.
      *
-     * To make this working, the `dataNodes` variable of the ITreeControl must be set to all root level
+     * To make this working, the `dataNodes` variable of the TreeControl must be set to all root level
      * data nodes of the tree.
      * @return {?}
      */

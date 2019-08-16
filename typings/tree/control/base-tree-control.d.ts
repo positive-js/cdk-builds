@@ -1,12 +1,13 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { ITreeControl } from './tree-control';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { TreeControl } from './tree-control';
 /** Base tree control. It has basic toggle/expand/collapse operations on a single data node. */
-export declare abstract class BaseTreeControl<T> implements ITreeControl<T> {
-    /** Saved data node for `expandAll` action. */
+export declare abstract class BaseTreeControl<T> implements TreeControl<T> {
     dataNodes: T[];
     /** A selection model with multi-selection to track expansion status. */
     expansionModel: SelectionModel<T>;
+    filterModel: SelectionModel<T>;
+    filterValue: BehaviorSubject<string>;
     /** Get depth of a given data node, return the level number. This is for flat tree node. */
     getLevel: (dataNode: T) => number;
     /**

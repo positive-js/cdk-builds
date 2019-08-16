@@ -8,15 +8,18 @@ export declare class FlatTreeControl<T> extends BaseTreeControl<T> {
     /**
      * Gets a list of the data node's subtree of descendent data nodes.
      *
-     * To make this working, the `dataNodes` of the ITreeControl must be flattened tree nodes
+     * To make this working, the `dataNodes` of the TreeControl must be flattened tree nodes
      * with correct levels.
      */
     getDescendants(dataNode: T): T[];
     /**
      * Expands all data nodes in the tree.
      *
-     * To make this working, the `dataNodes` variable of the ITreeControl must be set to all flattened
+     * To make this working, the `dataNodes` variable of the TreeControl must be set to all flattened
      * data nodes of the tree.
      */
     expandAll(): void;
+    getParents(node: any, result: T[]): T[];
+    compareFunction(name: string, value: string): boolean;
+    filterNodes(value: string): void;
 }

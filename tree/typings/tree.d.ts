@@ -2,7 +2,7 @@ import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { AfterContentChecked, ChangeDetectorRef, ElementRef, IterableDiffer, IterableDiffers, OnDestroy, OnInit, QueryList, ViewContainerRef, TrackByFunction } from '@angular/core';
 import { IFocusableOption } from '@ptsecurity/cdk/a11y';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { ITreeControl } from './control/tree-control';
+import { TreeControl } from './control/tree-control';
 import { CdkTreeNodeDef } from './node';
 import { CdkTreeNodeOutlet } from './outlet';
 /**
@@ -13,7 +13,7 @@ export declare class CdkTree<T> implements AfterContentChecked, CollectionViewer
     protected differs: IterableDiffers;
     protected changeDetectorRef: ChangeDetectorRef;
     /** The tree controller */
-    treeControl: ITreeControl<T>;
+    treeControl: TreeControl<T>;
     /**
      * Tracking function that will be used to check the differences in data changes. Used similarly
      * to `ngFor` `trackBy` function. Optimize node operations by identifying a node based on its data

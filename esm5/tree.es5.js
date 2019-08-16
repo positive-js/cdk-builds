@@ -5,10 +5,10 @@
  * Use of this source code is governed by an MIT-style license.
  */
 import { SelectionModel } from '@angular/cdk/collections';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { __extends } from 'tslib';
 import { take, takeUntil } from 'rxjs/operators';
 import { ChangeDetectorRef, Directive, ViewContainerRef, TemplateRef, ChangeDetectionStrategy, Component, ContentChildren, ElementRef, Input, IterableDiffers, ViewChild, ViewEncapsulation, Inject, forwardRef, Optional, Renderer2, NgModule } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { Directionality } from '@angular/cdk/bidi';
 import { CommonModule } from '@angular/common';
 import { FocusMonitor } from '@ptsecurity/cdk/a11y';
@@ -22,14 +22,12 @@ import { FocusMonitor } from '@ptsecurity/cdk/a11y';
  * @abstract
  * @template T
  */
-// todo здесь явно ошибка проектирования, абстрактный класс реализует функционал
 /* tslint:disable-next-line:naming-convention */
 var  /**
  * Base tree control. It has basic toggle/expand/collapse operations on a single data node.
  * @abstract
  * @template T
  */
-// todo здесь явно ошибка проектирования, абстрактный класс реализует функционал
 /* tslint:disable-next-line:naming-convention */
 BaseTreeControl = /** @class */ (function () {
     function BaseTreeControl() {
@@ -37,6 +35,8 @@ BaseTreeControl = /** @class */ (function () {
          * A selection model with multi-selection to track expansion status.
          */
         this.expansionModel = new SelectionModel(true);
+        this.filterModel = new SelectionModel(true);
+        this.filterValue = new BehaviorSubject('');
     }
     /** Toggles one single data node's expanded/collapsed state. */
     /**
@@ -50,6 +50,9 @@ BaseTreeControl = /** @class */ (function () {
      * @return {?}
      */
     function (dataNode) {
+        if (this.filterValue.value) {
+            return;
+        }
         this.expansionModel.toggle(dataNode);
     };
     /** Expands one single data node. */
@@ -64,6 +67,9 @@ BaseTreeControl = /** @class */ (function () {
      * @return {?}
      */
     function (dataNode) {
+        if (this.filterValue.value) {
+            return;
+        }
         this.expansionModel.select(dataNode);
     };
     /** Collapses one single data node. */
@@ -78,6 +84,9 @@ BaseTreeControl = /** @class */ (function () {
      * @return {?}
      */
     function (dataNode) {
+        if (this.filterValue.value) {
+            return;
+        }
         this.expansionModel.deselect(dataNode);
     };
     /** Whether a given data node is expanded or not. Returns true if the data node is expanded. */
@@ -185,13 +194,13 @@ FlatTreeControl = /** @class */ (function (_super) {
     /**
      * Gets a list of the data node's subtree of descendent data nodes.
      *
-     * To make this working, the `dataNodes` of the ITreeControl must be flattened tree nodes
+     * To make this working, the `dataNodes` of the TreeControl must be flattened tree nodes
      * with correct levels.
      */
     /**
      * Gets a list of the data node's subtree of descendent data nodes.
      *
-     * To make this working, the `dataNodes` of the ITreeControl must be flattened tree nodes
+     * To make this working, the `dataNodes` of the TreeControl must be flattened tree nodes
      * with correct levels.
      * @param {?} dataNode
      * @return {?}
@@ -199,7 +208,7 @@ FlatTreeControl = /** @class */ (function (_super) {
     FlatTreeControl.prototype.getDescendants = /**
      * Gets a list of the data node's subtree of descendent data nodes.
      *
-     * To make this working, the `dataNodes` of the ITreeControl must be flattened tree nodes
+     * To make this working, the `dataNodes` of the TreeControl must be flattened tree nodes
      * with correct levels.
      * @param {?} dataNode
      * @return {?}
@@ -223,26 +232,94 @@ FlatTreeControl = /** @class */ (function (_super) {
     /**
      * Expands all data nodes in the tree.
      *
-     * To make this working, the `dataNodes` variable of the ITreeControl must be set to all flattened
+     * To make this working, the `dataNodes` variable of the TreeControl must be set to all flattened
      * data nodes of the tree.
      */
     /**
      * Expands all data nodes in the tree.
      *
-     * To make this working, the `dataNodes` variable of the ITreeControl must be set to all flattened
+     * To make this working, the `dataNodes` variable of the TreeControl must be set to all flattened
      * data nodes of the tree.
      * @return {?}
      */
     FlatTreeControl.prototype.expandAll = /**
      * Expands all data nodes in the tree.
      *
-     * To make this working, the `dataNodes` variable of the ITreeControl must be set to all flattened
+     * To make this working, the `dataNodes` variable of the TreeControl must be set to all flattened
      * data nodes of the tree.
      * @return {?}
      */
     function () {
         var _a;
         (_a = this.expansionModel).select.apply(_a, this.dataNodes);
+    };
+    /**
+     * @param {?} node
+     * @param {?} result
+     * @return {?}
+     */
+    FlatTreeControl.prototype.getParents = /**
+     * @param {?} node
+     * @param {?} result
+     * @return {?}
+     */
+    function (node, result) {
+        if (node.parent) {
+            result.unshift(node.parent);
+            return this.getParents(node.parent, result);
+        }
+        else {
+            return result;
+        }
+    };
+    /**
+     * @param {?} name
+     * @param {?} value
+     * @return {?}
+     */
+    FlatTreeControl.prototype.compareFunction = /**
+     * @param {?} name
+     * @param {?} value
+     * @return {?}
+     */
+    function (name, value) {
+        return RegExp(value, 'gi').test(name);
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    FlatTreeControl.prototype.filterNodes = /**
+     * @param {?} value
+     * @return {?}
+     */
+    function (value) {
+        var _this = this;
+        var _a;
+        this.filterModel.clear();
+        // todo нет возможности управлять параметром имени 'node.name'
+        /** @type {?} */
+        var filteredNodes = this.dataNodes.filter((/**
+         * @param {?} node
+         * @return {?}
+         */
+        function (node) { return _this.compareFunction(node.name, value); }));
+        /** @type {?} */
+        var filteredNodesWithTheirParents = new Set();
+        filteredNodes.forEach((/**
+         * @param {?} filteredNode
+         * @return {?}
+         */
+        function (filteredNode) {
+            _this.getParents(filteredNode, []).forEach((/**
+             * @param {?} node
+             * @return {?}
+             */
+            function (node) { return filteredNodesWithTheirParents.add(node); }));
+            filteredNodesWithTheirParents.add(filteredNode);
+        }));
+        (_a = this.filterModel).select.apply(_a, Array.from(filteredNodesWithTheirParents));
+        this.filterValue.next(value);
     };
     return FlatTreeControl;
 }(BaseTreeControl));
@@ -270,20 +347,20 @@ NestedTreeControl = /** @class */ (function (_super) {
     /**
      * Expands all dataNodes in the tree.
      *
-     * To make this working, the `dataNodes` variable of the ITreeControl must be set to all root level
+     * To make this working, the `dataNodes` variable of the TreeControl must be set to all root level
      * data nodes of the tree.
      */
     /**
      * Expands all dataNodes in the tree.
      *
-     * To make this working, the `dataNodes` variable of the ITreeControl must be set to all root level
+     * To make this working, the `dataNodes` variable of the TreeControl must be set to all root level
      * data nodes of the tree.
      * @return {?}
      */
     NestedTreeControl.prototype.expandAll = /**
      * Expands all dataNodes in the tree.
      *
-     * To make this working, the `dataNodes` variable of the ITreeControl must be set to all root level
+     * To make this working, the `dataNodes` variable of the TreeControl must be set to all root level
      * data nodes of the tree.
      * @return {?}
      */
