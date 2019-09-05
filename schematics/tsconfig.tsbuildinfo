@@ -410,8 +410,8 @@
         "signature": "786c75edf5fdcc5e707fbe835859d30650a8a18f89cbb5925e6b9e6c8b93454d"
       },
       "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/virtual-fs/host/memory.d.ts": {
-        "version": "6149ce9549fab9340973b94bd495f6169fcd3124f8bfdbe5223740bb58618ed8",
-        "signature": "6149ce9549fab9340973b94bd495f6169fcd3124f8bfdbe5223740bb58618ed8"
+        "version": "9f05dce18b3cdd646581dc034fe8a8d7a5c077d27db35e8886d78f18924beafc",
+        "signature": "9f05dce18b3cdd646581dc034fe8a8d7a5c077d27db35e8886d78f18924beafc"
       },
       "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/virtual-fs/host/pattern.d.ts": {
         "version": "0bddaaf4fc3a0b68091f9212ec0eee1ad5f512f7f7f2880740cf13da37ef05e0",
@@ -610,8 +610,8 @@
         "signature": "5d5087352d671cd3ca5f7be280c4b8140a086b780de415119e004d869b47c193"
       },
       "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/workspace/definitions.d.ts": {
-        "version": "00e707f7fdbed2903924accbf9a4e949a836dbcf811fe5908c3137d24e04f54b",
-        "signature": "00e707f7fdbed2903924accbf9a4e949a836dbcf811fe5908c3137d24e04f54b"
+        "version": "4f5a41b0b123218e213997c14768b3019d556b1b72da1e1be26460af8381943e",
+        "signature": "4f5a41b0b123218e213997c14768b3019d556b1b72da1e1be26460af8381943e"
       },
       "/home/circleci/mosaic/node_modules/@angular-devkit/core/src/workspace/host.d.ts": {
         "version": "0c32df645b51399abd97bb0d575bba140124c7e6af033371fea5013f256aaecd",
