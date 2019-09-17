@@ -16,7 +16,7 @@ function createTestApp(runner, appOptions = {}, tree) {
             version: '8.0.0',
             newProjectRoot: 'projects'
         }, tree);
-        return runner.runExternalSchematicAsync('@schematics/angular', 'application', Object.assign({ name: 'material' }, appOptions), workspaceTree).toPromise();
+        return runner.runExternalSchematicAsync('@schematics/angular', 'application', Object.assign({ name: 'mosaic' }, appOptions), workspaceTree).toPromise();
     });
 }
 exports.createTestApp = createTestApp;

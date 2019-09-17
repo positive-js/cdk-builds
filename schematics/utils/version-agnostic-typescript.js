@@ -28,7 +28,7 @@ catch (_a) {
     }
     catch (_b) {
         throw new schematics_1.SchematicsException('Error: Could not find a TypeScript version for the ' +
-            'schematics. Please report an issue on the Angular Material repository.');
+            'schematics. Please report an issue on the Mosaic repository.');
     }
 }
 //# sourceMappingURL=version-agnostic-typescript.js.map
