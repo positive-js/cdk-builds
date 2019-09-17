@@ -778,8 +778,8 @@
         "signature": "f3c370ef0edeb0e1164330841efad8b2243a78db3b154ffc4c6752d3be109e67"
       },
       "/home/circleci/mosaic/node_modules/@schematics/angular/utility/find-module.d.ts": {
-        "version": "6ae3ec70b819b6a364fd54f498ce26ca986f13782cd119834b89d225782f6bda",
-        "signature": "6ae3ec70b819b6a364fd54f498ce26ca986f13782cd119834b89d225782f6bda"
+        "version": "2b64382fa93b4b07c0e40fda1132c9c98194c17e9526fa88f29c2aa59fa53518",
+        "signature": "2b64382fa93b4b07c0e40fda1132c9c98194c17e9526fa88f29c2aa59fa53518"
       },
       "/home/circleci/mosaic/node_modules/@schematics/angular/utility/ng-ast-utils.d.ts": {
         "version": "ab84a22bc4e9f35dbc80ae51f8dd630bea47528bea53ab68cd12a8db6dd743b2",
