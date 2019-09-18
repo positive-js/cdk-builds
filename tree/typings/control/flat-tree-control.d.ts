@@ -3,8 +3,10 @@ import { BaseTreeControl } from './base-tree-control';
 export declare class FlatTreeControl<T> extends BaseTreeControl<T> {
     getLevel: (dataNode: T) => number;
     isExpandable: (dataNode: T) => boolean;
+    getValue: (dataNode: any) => string;
+    getViewValue: (dataNode: any) => string;
     /** Construct with flat tree data node functions getLevel and isExpandable. */
-    constructor(getLevel: (dataNode: T) => number, isExpandable: (dataNode: T) => boolean);
+    constructor(getLevel: (dataNode: T) => number, isExpandable: (dataNode: T) => boolean, getValue: (dataNode: any) => string, getViewValue: (dataNode: any) => string);
     /**
      * Gets a list of the data node's subtree of descendent data nodes.
      *
@@ -20,6 +22,7 @@ export declare class FlatTreeControl<T> extends BaseTreeControl<T> {
      */
     expandAll(): void;
     getParents(node: any, result: T[]): T[];
-    compareFunction(name: string, value: string): boolean;
+    hasValue(value: string): T | undefined;
+    filterNodesFunction(name: string, value: string): boolean;
     filterNodes(value: string): void;
 }

@@ -24,7 +24,6 @@ import { CdkTree, CdkTreeNode } from './tree';
  */
 export declare class CdkNestedTreeNode<T> extends CdkTreeNode<T> implements AfterContentInit, OnDestroy {
     protected elementRef: ElementRef;
-    protected tree: CdkTree<T>;
     protected differs: IterableDiffers;
     /** The children node placeholder. */
     nodeOutlet: QueryList<CdkTreeNodeOutlet>;

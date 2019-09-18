@@ -81,7 +81,7 @@ export declare class CdkTree<T> implements AfterContentChecked, CollectionViewer
  */
 export declare class CdkTreeNode<T> implements IFocusableOption, OnDestroy {
     protected elementRef: ElementRef;
-    protected tree: CdkTree<T>;
+    tree: CdkTree<T>;
     /**
      * The most recently created `CdkTreeNode`. We save it in static variable so we can retrieve it
      * in `CdkTree` and set the data to it.
@@ -96,5 +96,4 @@ export declare class CdkTreeNode<T> implements IFocusableOption, OnDestroy {
     constructor(elementRef: ElementRef, tree: CdkTree<T>);
     ngOnDestroy(): void;
     focus(): void;
-    private setRoleFromData;
 }

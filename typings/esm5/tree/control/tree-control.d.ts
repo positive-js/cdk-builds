@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 /**
  * Tree control interface. User can implement TreeControl to expand/collapse dataNodes in the tree.
  * The CDKTree will use this TreeControl to expand/collapse a node.
@@ -11,6 +11,7 @@ export interface TreeControl<T> {
     /** The expansion model */
     expansionModel: SelectionModel<T>;
     filterModel: SelectionModel<T>;
+    filterValue: BehaviorSubject<string>;
     /** Get depth of a given data node, return the level number. This is for flat tree node. */
     getLevel(dataNode: T): number;
     /**

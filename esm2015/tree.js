@@ -126,11 +126,15 @@ class FlatTreeControl extends BaseTreeControl {
      * Construct with flat tree data node functions getLevel and isExpandable.
      * @param {?} getLevel
      * @param {?} isExpandable
+     * @param {?} getValue
+     * @param {?} getViewValue
      */
-    constructor(getLevel, isExpandable) {
+    constructor(getLevel, isExpandable, getValue, getViewValue) {
         super();
         this.getLevel = getLevel;
         this.isExpandable = isExpandable;
+        this.getValue = getValue;
+        this.getViewValue = getViewValue;
     }
     /**
      * Gets a list of the data node's subtree of descendent data nodes.
@@ -181,11 +185,22 @@ class FlatTreeControl extends BaseTreeControl {
         }
     }
     /**
+     * @param {?} value
+     * @return {?}
+     */
+    hasValue(value) {
+        return this.dataNodes.find((/**
+         * @param {?} node
+         * @return {?}
+         */
+        (node) => this.getValue(node) === value));
+    }
+    /**
      * @param {?} name
      * @param {?} value
      * @return {?}
      */
-    compareFunction(name, value) {
+    filterNodesFunction(name, value) {
         return RegExp(value, 'gi').test(name);
     }
     /**
@@ -194,13 +209,12 @@ class FlatTreeControl extends BaseTreeControl {
      */
     filterNodes(value) {
         this.filterModel.clear();
-        // todo нет возможности управлять параметром имени 'node.name'
         /** @type {?} */
         const filteredNodes = this.dataNodes.filter((/**
          * @param {?} node
          * @return {?}
          */
-        (node) => this.compareFunction(node.name, value)));
+        (node) => this.filterNodesFunction(this.getViewValue(node), value)));
         /** @type {?} */
         const filteredNodesWithTheirParents = new Set();
         filteredNodes.forEach((/**
@@ -707,7 +721,7 @@ class CdkTreeNode {
         this.tree = tree;
         this.role = 'treeitem';
         this.destroyed = new Subject();
-        CdkTreeNode.mostRecentTreeNode = (/** @type {?} */ (this));
+        CdkTreeNode.mostRecentTreeNode = this;
     }
     /**
      * @return {?}
@@ -721,7 +735,6 @@ class CdkTreeNode {
      */
     set data(value) {
         this._data = value;
-        this.setRoleFromData();
     }
     /**
      * @return {?}
@@ -747,28 +760,6 @@ class CdkTreeNode {
      */
     focus() {
         this.elementRef.nativeElement.focus();
-    }
-    /**
-     * @private
-     * @return {?}
-     */
-    setRoleFromData() {
-        if (this.tree.treeControl.isExpandable) {
-            this.role = this.tree.treeControl.isExpandable(this._data) ? 'group' : 'treeitem';
-        }
-        else {
-            if (!this.tree.treeControl.getChildren) {
-                throw getTreeControlFunctionsMissingError();
-            }
-            this.tree.treeControl.getChildren(this._data).pipe(takeUntil(this.destroyed))
-                .subscribe((/**
-             * @param {?} children
-             * @return {?}
-             */
-            (children) => {
-                this.role = children && children.length ? 'group' : 'treeitem';
-            }));
-        }
     }
 }
 /**
@@ -835,7 +826,6 @@ class CdkNestedTreeNode extends CdkTreeNode {
     constructor(elementRef, tree, differs) {
         super(elementRef, tree);
         this.elementRef = elementRef;
-        this.tree = tree;
         this.differs = differs;
     }
     /**
@@ -1051,12 +1041,16 @@ class CdkTreeNodeToggle {
     /**
      * @return {?}
      */
-    get recursive() { return this._recursive; }
+    get recursive() {
+        return this._recursive;
+    }
     /**
      * @param {?} value
      * @return {?}
      */
-    set recursive(value) { this._recursive = value; }
+    set recursive(value) {
+        this._recursive = value;
+    }
     /**
      * @param {?} event
      * @return {?}

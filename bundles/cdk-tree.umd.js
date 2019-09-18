@@ -211,10 +211,12 @@ var   /**
 FlatTreeControl = /** @class */ (function (_super) {
     __extends(FlatTreeControl, _super);
     /** Construct with flat tree data node functions getLevel and isExpandable. */
-    function FlatTreeControl(getLevel, isExpandable) {
+    function FlatTreeControl(getLevel, isExpandable, getValue, getViewValue) {
         var _this = _super.call(this) || this;
         _this.getLevel = getLevel;
         _this.isExpandable = isExpandable;
+        _this.getValue = getValue;
+        _this.getViewValue = getViewValue;
         return _this;
     }
     /**
@@ -299,11 +301,27 @@ FlatTreeControl = /** @class */ (function (_super) {
         }
     };
     /**
+     * @param {?} value
+     * @return {?}
+     */
+    FlatTreeControl.prototype.hasValue = /**
+     * @param {?} value
+     * @return {?}
+     */
+    function (value) {
+        var _this = this;
+        return this.dataNodes.find((/**
+         * @param {?} node
+         * @return {?}
+         */
+        function (node) { return _this.getValue(node) === value; }));
+    };
+    /**
      * @param {?} name
      * @param {?} value
      * @return {?}
      */
-    FlatTreeControl.prototype.compareFunction = /**
+    FlatTreeControl.prototype.filterNodesFunction = /**
      * @param {?} name
      * @param {?} value
      * @return {?}
@@ -323,13 +341,12 @@ FlatTreeControl = /** @class */ (function (_super) {
         var _this = this;
         var _a;
         this.filterModel.clear();
-        // todo нет возможности управлять параметром имени 'node.name'
         /** @type {?} */
         var filteredNodes = this.dataNodes.filter((/**
          * @param {?} node
          * @return {?}
          */
-        function (node) { return _this.compareFunction(node.name, value); }));
+        function (node) { return _this.filterNodesFunction(_this.getViewValue(node), value); }));
         /** @type {?} */
         var filteredNodesWithTheirParents = new Set();
         filteredNodes.forEach((/**
@@ -945,7 +962,7 @@ var CdkTreeNode = /** @class */ (function () {
         this.tree = tree;
         this.role = 'treeitem';
         this.destroyed = new rxjs.Subject();
-        CdkTreeNode.mostRecentTreeNode = (/** @type {?} */ (this));
+        CdkTreeNode.mostRecentTreeNode = this;
     }
     Object.defineProperty(CdkTreeNode.prototype, "data", {
         get: /**
@@ -960,7 +977,6 @@ var CdkTreeNode = /** @class */ (function () {
          */
         function (value) {
             this._data = value;
-            this.setRoleFromData();
         },
         enumerable: true,
         configurable: true
@@ -1003,33 +1019,6 @@ var CdkTreeNode = /** @class */ (function () {
      */
     function () {
         this.elementRef.nativeElement.focus();
-    };
-    /**
-     * @private
-     * @return {?}
-     */
-    CdkTreeNode.prototype.setRoleFromData = /**
-     * @private
-     * @return {?}
-     */
-    function () {
-        var _this = this;
-        if (this.tree.treeControl.isExpandable) {
-            this.role = this.tree.treeControl.isExpandable(this._data) ? 'group' : 'treeitem';
-        }
-        else {
-            if (!this.tree.treeControl.getChildren) {
-                throw getTreeControlFunctionsMissingError();
-            }
-            this.tree.treeControl.getChildren(this._data).pipe(operators.takeUntil(this.destroyed))
-                .subscribe((/**
-             * @param {?} children
-             * @return {?}
-             */
-            function (children) {
-                _this.role = children && children.length ? 'group' : 'treeitem';
-            }));
-        }
     };
     /**
      * The most recently created `CdkTreeNode`. We save it in static variable so we can retrieve it
@@ -1093,7 +1082,6 @@ var CdkNestedTreeNode = /** @class */ (function (_super) {
     function CdkNestedTreeNode(elementRef, tree, differs) {
         var _this = _super.call(this, elementRef, tree) || this;
         _this.elementRef = elementRef;
-        _this.tree = tree;
         _this.differs = differs;
         return _this;
     }
@@ -1344,12 +1332,16 @@ var CdkTreeNodeToggle = /** @class */ (function () {
         get: /**
          * @return {?}
          */
-        function () { return this._recursive; },
+        function () {
+            return this._recursive;
+        },
         set: /**
          * @param {?} value
          * @return {?}
          */
-        function (value) { this._recursive = value; },
+        function (value) {
+            this._recursive = value;
+        },
         enumerable: true,
         configurable: true
     });
