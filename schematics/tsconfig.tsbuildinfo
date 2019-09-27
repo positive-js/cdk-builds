@@ -918,8 +918,8 @@
         "signature": "c6ef4b372d0de7bb17824905e017f196d53205d7008aee8cde0e5b253833460f"
       },
       "/home/circleci/mosaic/node_modules/@types/jasmine/ts3.1/index.d.ts": {
-        "version": "7f1aa3510751778bec604818372887e978813334bdcd3c71ec70a121ed96b7c7",
-        "signature": "7f1aa3510751778bec604818372887e978813334bdcd3c71ec70a121ed96b7c7"
+        "version": "2b26b6cf9fda0b7b25eae2ea90a32b3d05df8f2fad22db91e859d69f55cbcf0e",
+        "signature": "2b26b6cf9fda0b7b25eae2ea90a32b3d05df8f2fad22db91e859d69f55cbcf0e"
       }
     },
     "options": {
