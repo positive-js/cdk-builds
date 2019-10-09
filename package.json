@@ -1,6 +1,6 @@
 {
     "name": "@ptsecurity/cdk",
-    "version": "8.0.0-8b5c860",
+    "version": "8.0.2-f4f0c22",
     "description": "Mosaic Component Development Kit",
     "main": "./bundles/cdk.umd.js",
     "module": "./esm5/cdk.es5.js",
@@ -22,8 +22,8 @@
     },
     "homepage": "https://github.com/positive-js/mosaic#readme",
     "peerDependencies": {
-        "@angular/core": ">=8.0.0-8b5c860",
-        "@angular/common": ">=8.0.0-8b5c860"
+        "@angular/core": ">=8.0.0",
+        "@angular/common": ">=8.0.0"
     },
     "dependencies": {
         "tslib": "^1.7.1"
