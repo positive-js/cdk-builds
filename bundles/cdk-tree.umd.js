@@ -201,6 +201,22 @@ BaseTreeControl = /** @class */ (function () {
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
+ * @param {?} firstValue
+ * @param {?} secondValue
+ * @return {?}
+ */
+function defaultCompareValues(firstValue, secondValue) {
+    return firstValue === secondValue;
+}
+/**
+ * @param {?} firstViewValue
+ * @param {?} secondViewValue
+ * @return {?}
+ */
+function defaultCompareViewValues(firstViewValue, secondViewValue) {
+    return RegExp(secondViewValue, 'gi').test(firstViewValue);
+}
+/**
  * Flat tree control. Able to expand/collapse a subtree recursively for flattened tree.
  * @template T
  */
@@ -210,13 +226,17 @@ var   /**
  */
 FlatTreeControl = /** @class */ (function (_super) {
     __extends(FlatTreeControl, _super);
-    /** Construct with flat tree data node functions getLevel and isExpandable. */
-    function FlatTreeControl(getLevel, isExpandable, getValue, getViewValue) {
+    /** Construct with flat tree data node functions getLevel, isExpandable, getValue and getViewValue. */
+    function FlatTreeControl(getLevel, isExpandable, getValue, getViewValue, compareValues, compareViewValues) {
+        if (compareValues === void 0) { compareValues = defaultCompareValues; }
+        if (compareViewValues === void 0) { compareViewValues = defaultCompareViewValues; }
         var _this = _super.call(this) || this;
         _this.getLevel = getLevel;
         _this.isExpandable = isExpandable;
         _this.getValue = getValue;
         _this.getViewValue = getViewValue;
+        _this.compareValues = compareValues;
+        _this.compareViewValues = compareViewValues;
         return _this;
     }
     /**
@@ -314,20 +334,7 @@ FlatTreeControl = /** @class */ (function (_super) {
          * @param {?} node
          * @return {?}
          */
-        function (node) { return _this.getValue(node) === value; }));
-    };
-    /**
-     * @param {?} name
-     * @param {?} value
-     * @return {?}
-     */
-    FlatTreeControl.prototype.filterNodesFunction = /**
-     * @param {?} name
-     * @param {?} value
-     * @return {?}
-     */
-    function (name, value) {
-        return RegExp(value, 'gi').test(name);
+        function (node) { return _this.compareValues(_this.getValue(node), value); }));
     };
     /**
      * @param {?} value
@@ -346,7 +353,7 @@ FlatTreeControl = /** @class */ (function (_super) {
          * @param {?} node
          * @return {?}
          */
-        function (node) { return _this.filterNodesFunction(_this.getViewValue(node), value); }));
+        function (node) { return _this.compareViewValues(_this.getViewValue(node), value); }));
         /** @type {?} */
         var filteredNodesWithTheirParents = new Set();
         filteredNodes.forEach((/**
@@ -1407,6 +1414,8 @@ var CdkTreeModule = /** @class */ (function () {
 }());
 
 exports.BaseTreeControl = BaseTreeControl;
+exports.defaultCompareValues = defaultCompareValues;
+exports.defaultCompareViewValues = defaultCompareViewValues;
 exports.FlatTreeControl = FlatTreeControl;
 exports.NestedTreeControl = NestedTreeControl;
 exports.CdkNestedTreeNode = CdkNestedTreeNode;

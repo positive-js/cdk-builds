@@ -1,12 +1,28 @@
 import { BaseTreeControl } from './base-tree-control';
+export declare function defaultCompareValues(firstValue: any, secondValue: any): boolean;
+export declare function defaultCompareViewValues(firstViewValue: any, secondViewValue: any): boolean;
 /** Flat tree control. Able to expand/collapse a subtree recursively for flattened tree. */
 export declare class FlatTreeControl<T> extends BaseTreeControl<T> {
     getLevel: (dataNode: T) => number;
     isExpandable: (dataNode: T) => boolean;
-    getValue: (dataNode: any) => string;
+    /** getValue will be used to determine if the tree contains value or not. Used in method hasValue */
+    getValue: (dataNode: any) => any;
+    /** getViewValue will be used for filter nodes. Returned value will be first argument in filterNodesFunction */
     getViewValue: (dataNode: any) => string;
-    /** Construct with flat tree data node functions getLevel and isExpandable. */
-    constructor(getLevel: (dataNode: T) => number, isExpandable: (dataNode: T) => boolean, getValue: (dataNode: any) => string, getViewValue: (dataNode: any) => string);
+    /** compareValues will be used to comparing values. */
+    compareValues: (firstValue: any, secondValue: any) => boolean;
+    /** compareValues will be used to comparing values. */
+    compareViewValues: (firstViewValue: any, secondViewValue: any) => boolean;
+    /** Construct with flat tree data node functions getLevel, isExpandable, getValue and getViewValue. */
+    constructor(getLevel: (dataNode: T) => number, isExpandable: (dataNode: T) => boolean, 
+    /** getValue will be used to determine if the tree contains value or not. Used in method hasValue */
+    getValue: (dataNode: any) => any, 
+    /** getViewValue will be used for filter nodes. Returned value will be first argument in filterNodesFunction */
+    getViewValue: (dataNode: any) => string, 
+    /** compareValues will be used to comparing values. */
+    compareValues?: (firstValue: any, secondValue: any) => boolean, 
+    /** compareValues will be used to comparing values. */
+    compareViewValues?: (firstViewValue: any, secondViewValue: any) => boolean);
     /**
      * Gets a list of the data node's subtree of descendent data nodes.
      *
@@ -23,6 +39,5 @@ export declare class FlatTreeControl<T> extends BaseTreeControl<T> {
     expandAll(): void;
     getParents(node: any, result: T[]): T[];
     hasValue(value: string): T | undefined;
-    filterNodesFunction(name: string, value: string): boolean;
     filterNodes(value: string): void;
 }

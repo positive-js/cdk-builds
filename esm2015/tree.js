@@ -118,23 +118,43 @@ class BaseTreeControl {
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
+ * @param {?} firstValue
+ * @param {?} secondValue
+ * @return {?}
+ */
+function defaultCompareValues(firstValue, secondValue) {
+    return firstValue === secondValue;
+}
+/**
+ * @param {?} firstViewValue
+ * @param {?} secondViewValue
+ * @return {?}
+ */
+function defaultCompareViewValues(firstViewValue, secondViewValue) {
+    return RegExp(secondViewValue, 'gi').test(firstViewValue);
+}
+/**
  * Flat tree control. Able to expand/collapse a subtree recursively for flattened tree.
  * @template T
  */
 class FlatTreeControl extends BaseTreeControl {
     /**
-     * Construct with flat tree data node functions getLevel and isExpandable.
+     * Construct with flat tree data node functions getLevel, isExpandable, getValue and getViewValue.
      * @param {?} getLevel
      * @param {?} isExpandable
      * @param {?} getValue
      * @param {?} getViewValue
+     * @param {?=} compareValues
+     * @param {?=} compareViewValues
      */
-    constructor(getLevel, isExpandable, getValue, getViewValue) {
+    constructor(getLevel, isExpandable, getValue, getViewValue, compareValues = defaultCompareValues, compareViewValues = defaultCompareViewValues) {
         super();
         this.getLevel = getLevel;
         this.isExpandable = isExpandable;
         this.getValue = getValue;
         this.getViewValue = getViewValue;
+        this.compareValues = compareValues;
+        this.compareViewValues = compareViewValues;
     }
     /**
      * Gets a list of the data node's subtree of descendent data nodes.
@@ -193,15 +213,7 @@ class FlatTreeControl extends BaseTreeControl {
          * @param {?} node
          * @return {?}
          */
-        (node) => this.getValue(node) === value));
-    }
-    /**
-     * @param {?} name
-     * @param {?} value
-     * @return {?}
-     */
-    filterNodesFunction(name, value) {
-        return RegExp(value, 'gi').test(name);
+        (node) => this.compareValues(this.getValue(node), value)));
     }
     /**
      * @param {?} value
@@ -214,7 +226,7 @@ class FlatTreeControl extends BaseTreeControl {
          * @param {?} node
          * @return {?}
          */
-        (node) => this.filterNodesFunction(this.getViewValue(node), value)));
+        (node) => this.compareViewValues(this.getViewValue(node), value)));
         /** @type {?} */
         const filteredNodesWithTheirParents = new Set();
         filteredNodes.forEach((/**
@@ -1114,5 +1126,5 @@ CdkTreeModule.decorators = [
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { BaseTreeControl, FlatTreeControl, NestedTreeControl, CdkNestedTreeNode, CdkTreeNodeOutletContext, CdkTreeNodeDef, CdkTreeNodePadding, CdkTreeNodeOutlet, CdkTree, CdkTreeNode, getTreeNoValidDataSourceError, getTreeMultipleDefaultNodeDefsError, getTreeMissingMatchingNodeDefError, getTreeControlMissingError, getTreeControlFunctionsMissingError, CdkTreeModule, CdkTreeNodeToggle };
+export { BaseTreeControl, defaultCompareValues, defaultCompareViewValues, FlatTreeControl, NestedTreeControl, CdkNestedTreeNode, CdkTreeNodeOutletContext, CdkTreeNodeDef, CdkTreeNodePadding, CdkTreeNodeOutlet, CdkTree, CdkTreeNode, getTreeNoValidDataSourceError, getTreeMultipleDefaultNodeDefsError, getTreeMissingMatchingNodeDefError, getTreeControlMissingError, getTreeControlFunctionsMissingError, CdkTreeModule, CdkTreeNodeToggle };
 //# sourceMappingURL=tree.js.map
