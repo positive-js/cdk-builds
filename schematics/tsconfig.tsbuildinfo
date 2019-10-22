@@ -854,8 +854,8 @@
         "signature": "7522512ea7c0622623bb0d1821e5866e52f21919b8bd46dd1ed1a992ef6d9c5f"
       },
       "/home/circleci/mosaic/node_modules/@schematics/angular/utility/project.d.ts": {
-        "version": "8.0.3-a0eff0d23616043c09c281d03dcd116b94df2d47c8fa3842e3d1152335eb6e4b18",
-        "signature": "8.0.3-a0eff0d23616043c09c281d03dcd116b94df2d47c8fa3842e3d1152335eb6e4b18"
+        "version": "8.0.3-f44c07523616043c09c281d03dcd116b94df2d47c8fa3842e3d1152335eb6e4b18",
+        "signature": "8.0.3-f44c07523616043c09c281d03dcd116b94df2d47c8fa3842e3d1152335eb6e4b18"
       },
       "/home/circleci/mosaic/node_modules/@schematics/angular/utility/validation.d.ts": {
         "version": "cee54d8dec0e0264044414ac24a8f6c7233ffaddbcfc5abbaad3ddb5a3c44763",
