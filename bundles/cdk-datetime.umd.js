@@ -51,7 +51,6 @@ var   /**
 // tslint:disable-next-line:naming-convention
 DateAdapter = /** @class */ (function () {
     function DateAdapter() {
-        // tslint:disable-next-line:naming-convention
         this._localeChanges = new rxjs.Subject();
     }
     Object.defineProperty(DateAdapter.prototype, "localeChanges", {
