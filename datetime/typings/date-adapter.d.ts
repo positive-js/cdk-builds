@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { Moment } from 'moment';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 /** InjectionToken for datepicker that can be used to override default locale code. */
 export declare const MC_DATE_LOCALE: InjectionToken<string>;
 /** @docs-private */
@@ -48,7 +48,7 @@ export declare abstract class DateAdapter<D> {
     protected locale: any;
     /** A stream that emits when the locale changes. */
     readonly localeChanges: Observable<void>;
-    protected _localeChanges: Subject<void>;
+    private _localeChanges;
     /**
      * Gets the year component of the given date.
      * @param date The date to extract the year from.
