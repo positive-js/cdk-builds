@@ -8,7 +8,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { __extends } from 'tslib';
 import { take, takeUntil } from 'rxjs/operators';
-import { ChangeDetectorRef, Directive, ViewContainerRef, TemplateRef, ChangeDetectionStrategy, Component, ContentChildren, ElementRef, Input, IterableDiffers, ViewChild, ViewEncapsulation, Inject, forwardRef, Optional, Renderer2, NgModule } from '@angular/core';
+import { Directive, ViewContainerRef, ChangeDetectorRef, TemplateRef, Component, ViewEncapsulation, ChangeDetectionStrategy, IterableDiffers, Input, ViewChild, ContentChildren, ElementRef, Inject, forwardRef, Renderer2, Optional, NgModule } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
 import { CommonModule } from '@angular/common';
 import { FocusMonitor } from '@ptsecurity/cdk/a11y';
@@ -462,11 +462,6 @@ NestedTreeControl = /** @class */ (function (_super) {
     };
     return NestedTreeControl;
 }(BaseTreeControl));
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 
 /**
  * @fileoverview added by tsickle
@@ -1387,15 +1382,5 @@ var CdkTreeModule = /** @class */ (function () {
     return CdkTreeModule;
 }());
 
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-export { BaseTreeControl, defaultCompareValues, defaultCompareViewValues, FlatTreeControl, NestedTreeControl, CdkNestedTreeNode, CdkTreeNodeOutletContext, CdkTreeNodeDef, CdkTreeNodePadding, CdkTreeNodeOutlet, CdkTree, CdkTreeNode, getTreeNoValidDataSourceError, getTreeMultipleDefaultNodeDefsError, getTreeMissingMatchingNodeDefError, getTreeControlMissingError, getTreeControlFunctionsMissingError, CdkTreeModule, CdkTreeNodeToggle };
+export { BaseTreeControl, CdkNestedTreeNode, CdkTree, CdkTreeModule, CdkTreeNode, CdkTreeNodeDef, CdkTreeNodeOutlet, CdkTreeNodeOutletContext, CdkTreeNodePadding, CdkTreeNodeToggle, FlatTreeControl, NestedTreeControl, defaultCompareValues, defaultCompareViewValues, getTreeControlFunctionsMissingError, getTreeControlMissingError, getTreeMissingMatchingNodeDefError, getTreeMultipleDefaultNodeDefsError, getTreeNoValidDataSourceError };
 //# sourceMappingURL=tree.es5.js.map

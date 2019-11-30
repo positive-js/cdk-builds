@@ -145,15 +145,5 @@ class DateAdapter {
     }
 }
 
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-export { MC_DATE_FORMATS, MC_DATE_LOCALE_FACTORY, MC_DATE_LOCALE, DateAdapter };
+export { DateAdapter, MC_DATE_FORMATS, MC_DATE_LOCALE, MC_DATE_LOCALE_FACTORY };
 //# sourceMappingURL=datetime.js.map

@@ -4,12 +4,12 @@
  *
  * Use of this source code is governed by an MIT-style license.
  */
-import { QueryList, Directive, ElementRef, EventEmitter, Injectable, NgZone, Optional, Output, SkipSelf, Inject, NgModule, ɵɵdefineInjectable, ɵɵinject } from '@angular/core';
-import { Subject, Subscription, of } from 'rxjs';
-import { debounceTime, filter, map, tap } from 'rxjs/operators';
-import { UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, TAB, A, Z, ZERO, NINE } from '@ptsecurity/cdk/keycodes';
 import { __extends } from 'tslib';
-import { Platform, supportsPassiveEventListeners, PlatformModule } from '@angular/cdk/platform';
+import { QueryList, Injectable, NgZone, ɵɵdefineInjectable, ɵɵinject, Directive, ElementRef, Output, Optional, SkipSelf, EventEmitter, Inject, NgModule } from '@angular/core';
+import { Subject, Subscription, of } from 'rxjs';
+import { tap, debounceTime, filter, map } from 'rxjs/operators';
+import { A, Z, ZERO, NINE, LEFT_ARROW, RIGHT_ARROW, UP_ARROW, DOWN_ARROW, TAB } from '@ptsecurity/cdk/keycodes';
+import { supportsPassiveEventListeners, Platform, PlatformModule } from '@angular/cdk/platform';
 import { DOCUMENT, CommonModule } from '@angular/common';
 
 /**
@@ -1773,15 +1773,5 @@ var A11yModule = /** @class */ (function () {
     return A11yModule;
 }());
 
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-export { ActiveDescendantKeyManager, FocusKeyManager, ListKeyManager, FOCUS_MONITOR_PROVIDER_FACTORY, TOUCH_BUFFER_MS, FocusMonitor, CdkMonitorFocus, FOCUS_MONITOR_PROVIDER, MESSAGES_CONTAINER_ID, CDK_DESCRIBEDBY_ID_PREFIX, CDK_DESCRIBEDBY_HOST_ATTRIBUTE, AriaDescriber, addAriaReferencedId, removeAriaReferencedId, getAriaReferenceIds, A11yModule };
+export { A11yModule, ActiveDescendantKeyManager, AriaDescriber, CDK_DESCRIBEDBY_HOST_ATTRIBUTE, CDK_DESCRIBEDBY_ID_PREFIX, CdkMonitorFocus, FOCUS_MONITOR_PROVIDER, FOCUS_MONITOR_PROVIDER_FACTORY, FocusKeyManager, FocusMonitor, ListKeyManager, MESSAGES_CONTAINER_ID, TOUCH_BUFFER_MS, addAriaReferencedId, getAriaReferenceIds, removeAriaReferencedId };
 //# sourceMappingURL=a11y.es5.js.map

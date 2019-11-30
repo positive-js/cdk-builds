@@ -16,15 +16,5 @@ import { Version } from '@angular/core';
  */
 var VERSION = new Version('8.1.3');
 
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
 export { VERSION };
 //# sourceMappingURL=cdk.es5.js.map
