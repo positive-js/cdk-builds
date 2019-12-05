@@ -41,7 +41,7 @@ function addDeclarationToNgModule(options) {
         const classifiedName = core_1.strings.classify(`${options.name}Component`);
         const declarationChanges = ast_utils_1.addDeclarationToModule(
         // TODO: TypeScript version mismatch due to @schematics/angular using a different version
-        // than Material. Cast to any to avoid the type assignment failure.
+        // Cast to any to avoid the type assignment failure.
         source, modulePath, classifiedName, relativePath);
         const declarationRecorder = host.beginUpdate(modulePath);
         for (const change of declarationChanges) {
@@ -56,7 +56,7 @@ function addDeclarationToNgModule(options) {
             const exportRecorder = host.beginUpdate(modulePath);
             const exportChanges = ast_utils_1.addExportToModule(
             // TODO: TypeScript version mismatch due to @schematics/angular using a different version
-            // than Material. Cast to any to avoid the type assignment failure.
+            // Cast to any to avoid the type assignment failure.
             source, modulePath, core_1.strings.classify(`${options.name}Component`), relativePath);
             for (const change of exportChanges) {
                 if (change instanceof change_1.InsertChange) {
@@ -71,7 +71,7 @@ function addDeclarationToNgModule(options) {
             const entryComponentRecorder = host.beginUpdate(modulePath);
             const entryComponentChanges = ast_utils_1.addEntryComponentToModule(
             // TODO: TypeScript version mismatch due to @schematics/angular using a different version
-            // than Material. Cast to any to avoid the type assignment failure.
+            // Cast to any to avoid the type assignment failure.
             source, modulePath, core_1.strings.classify(`${options.name}Component`), relativePath);
             for (const change of entryComponentChanges) {
                 if (change instanceof change_1.InsertChange) {
@@ -99,7 +99,7 @@ function buildSelector(options, projectPrefix) {
  * include the additional files.
  */
 function indentTextContent(text, numSpaces) {
-    // In the Material project there should be only LF line-endings, but the schematic files
+    // project there should be only LF line-endings, but the schematic files
     // are not being linted and therefore there can be also CRLF or just CR line-endings.
     return text.replace(/(\r\n|\r|\n)/g, `$1${' '.repeat(numSpaces)}`);
 }

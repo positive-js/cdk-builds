@@ -36,7 +36,7 @@ function addModuleImportToModule(host, modulePath, moduleName, src) {
         throw new schematics_1.SchematicsException(`Module not found: ${modulePath}`);
     }
     // TODO: TypeScript version mismatch due to @schematics/angular using a different version
-    // than Material. Cast to any to avoid the type assignment failure.
+    // Cast to any to avoid the type assignment failure.
     const changes = ast_utils_1.addImportToModule(moduleSource, modulePath, moduleName, src);
     const recorder = host.beginUpdate(modulePath);
     changes.forEach((change) => {
