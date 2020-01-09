@@ -33,10 +33,8 @@ function addDeclarationToNgModule(options) {
         }
         const modulePath = options.module;
         let source = readIntoSourceFile(host, modulePath);
-        const componentPath = `/${options.path}/`
-            + (options.flat ? '' : core_1.strings.dasherize(options.name) + '/')
-            + core_1.strings.dasherize(options.name)
-            + '.component';
+        const componentPath = `/${options.path}/${(options.flat ? '' :
+            `${core_1.strings.dasherize(options.name)}/`)}${core_1.strings.dasherize(options.name)}.component/`;
         const relativePath = find_module_1.buildRelativePath(modulePath, componentPath);
         const classifiedName = core_1.strings.classify(`${options.name}Component`);
         const declarationChanges = ast_utils_1.addDeclarationToModule(

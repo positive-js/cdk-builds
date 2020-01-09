@@ -6,9 +6,9 @@
  */
 import { __extends } from 'tslib';
 import { QueryList, Injectable, NgZone, ɵɵdefineInjectable, ɵɵinject, Directive, ElementRef, Output, Optional, SkipSelf, EventEmitter, Inject, NgModule } from '@angular/core';
+import { A, Z, ZERO, NINE, LEFT_ARROW, RIGHT_ARROW, UP_ARROW, DOWN_ARROW, TAB } from '@ptsecurity/cdk/keycodes';
 import { Subject, Subscription, of } from 'rxjs';
 import { tap, debounceTime, filter, map } from 'rxjs/operators';
-import { A, Z, ZERO, NINE, LEFT_ARROW, RIGHT_ARROW, UP_ARROW, DOWN_ARROW, TAB } from '@ptsecurity/cdk/keycodes';
 import { supportsPassiveEventListeners, Platform, PlatformModule } from '@angular/cdk/platform';
 import { DOCUMENT, CommonModule } from '@angular/common';
 
@@ -48,6 +48,8 @@ ListKeyManager = /** @class */ (function () {
         this._typeaheadSubscription = Subscription.EMPTY;
         this._vertical = true;
         this._scrollSize = 0;
+        // Buffer for the letters that the user has pressed when the typeahead option is turned on.
+        this._pressedLetters = [];
         /**
          * Predicate function that can be used to check whether an item should be skipped
          * by the key manager. By default, disabled items are skipped.
@@ -57,8 +59,6 @@ ListKeyManager = /** @class */ (function () {
          * @return {?}
          */
         function (item) { return item.disabled; });
-        // Buffer for the letters that the user has pressed when the typeahead option is turned on.
-        this._pressedLetters = [];
         if (_items instanceof QueryList) {
             _items.changes.subscribe((/**
              * @param {?} newItems
@@ -579,13 +579,15 @@ ListKeyManager = /** @class */ (function () {
         if (!items[index]) {
             return;
         }
-        while (this._skipPredicateFn(items[index])) {
-            index += fallbackDelta;
-            if (!items[index]) {
+        /** @type {?} */
+        var curIndex = index;
+        while (this._skipPredicateFn(items[curIndex])) {
+            curIndex += fallbackDelta;
+            if (!items[curIndex]) {
                 return;
             }
         }
-        this.setActiveItem(index);
+        this.setActiveItem(curIndex);
     };
     /** Returns the items as an array. */
     /**
@@ -743,7 +745,7 @@ var FocusMonitor = /** @class */ (function () {
         this._unregisterGlobalListeners = (/**
          * @return {?}
          */
-        function () { });
+        function () { }); // tslint:disable-line no-empty
     }
     /**
      * Monitors focus on an element and applies appropriate CSS classes.
@@ -915,12 +917,15 @@ var FocusMonitor = /** @class */ (function () {
         elementInfo.subject.next(null);
     };
     /** Register necessary event listeners on the document and window. */
+    // tslint:disable-line no-empty
     /**
      * Register necessary event listeners on the document and window.
      * @private
      * @return {?}
      */
-    FocusMonitor.prototype._registerGlobalListeners = /**
+    FocusMonitor.prototype._registerGlobalListeners = 
+    // tslint:disable-line no-empty
+    /**
      * Register necessary event listeners on the document and window.
      * @private
      * @return {?}
@@ -1233,7 +1238,7 @@ var FocusMonitor = /** @class */ (function () {
             this._unregisterGlobalListeners = (/**
              * @return {?}
              */
-            function () { });
+            function () { }); // tslint:disable-line no-empty
         }
     };
     FocusMonitor.decorators = [
@@ -1521,7 +1526,7 @@ var AriaDescriber = /** @class */ (function () {
         /** @type {?} */
         var messageElement = this._document.createElement('div');
         messageElement.setAttribute('id', CDK_DESCRIBEDBY_ID_PREFIX + "-" + nextId++);
-        messageElement.appendChild((/** @type {?} */ (this._document.createTextNode(message))));
+        messageElement.appendChild(this._document.createTextNode(message));
         this._createMessagesContainer();
         (/** @type {?} */ (messagesContainer)).appendChild(messageElement);
         messageRegistry.set(message, { messageElement: messageElement, referenceCount: 0 });
@@ -1616,7 +1621,7 @@ var AriaDescriber = /** @class */ (function () {
          * @param {?} id
          * @return {?}
          */
-        function (id) { return id.indexOf(CDK_DESCRIBEDBY_ID_PREFIX) != 0; }));
+        function (id) { return id.indexOf(CDK_DESCRIBEDBY_ID_PREFIX) !== 0; }));
         element.setAttribute('aria-describedby', originalReferenceIds.join(' '));
     };
     /**
@@ -1697,7 +1702,7 @@ var AriaDescriber = /** @class */ (function () {
         var registeredMessage = messageRegistry.get(message);
         /** @type {?} */
         var messageId = registeredMessage && registeredMessage.messageElement.id;
-        return !!messageId && referenceIds.indexOf(messageId) != -1;
+        return !!messageId && referenceIds.indexOf(messageId) !== -1;
     };
     /** Determines whether a message can be described on a particular element. */
     /**

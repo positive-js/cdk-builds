@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Note that we always need to adjust this type import based on the location of the Typescript
  * dependency that will be shipped with `@schematics/angular`.
  */
+// tslint:disable-next-line:blank-lines
 const schematics_1 = require("@angular-devkit/schematics");
 const typescript = require("typescript");
 exports.typescript = typescript;

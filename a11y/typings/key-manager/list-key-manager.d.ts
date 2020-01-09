@@ -26,11 +26,6 @@ export declare class ListKeyManager<T extends ListKeyManagerOption> {
     private _vertical;
     private _horizontal;
     private _scrollSize;
-    /**
-     * Predicate function that can be used to check whether an item should be skipped
-     * by the key manager. By default, disabled items are skipped.
-     */
-    private _skipPredicateFn;
     private _pressedLetters;
     constructor(_items: QueryList<T>);
     withScrollSize(scrollSize: number): this;
@@ -84,6 +79,11 @@ export declare class ListKeyManager<T extends ListKeyManagerOption> {
      * @param item Item to be set as active or index Index of the item to be set as active..
      */
     updateActiveItem(item: number | T): void;
+    /**
+     * Predicate function that can be used to check whether an item should be skipped
+     * by the key manager. By default, disabled items are skipped.
+     */
+    private _skipPredicateFn;
     /**
      * This method sets the active item, given a list of items and the delta between the
      * currently active item and the new active item. It will calculate differently

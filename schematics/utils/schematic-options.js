@@ -32,7 +32,7 @@ exports.getDefaultComponentOptions = getDefaultComponentOptions;
  * CLI workspace configuration.
  */
 function getDefaultComponentOption(project, optionNames, fallbackValue) {
-    for (let optionName of optionNames) {
+    for (const optionName of optionNames) {
         if (project.schematics &&
             project.schematics['@schematics/angular:component'] &&
             project.schematics['@schematics/angular:component'][optionName] != null) {

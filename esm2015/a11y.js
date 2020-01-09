@@ -5,9 +5,9 @@
  * Use of this source code is governed by an MIT-style license.
  */
 import { QueryList, Injectable, NgZone, ɵɵdefineInjectable, ɵɵinject, EventEmitter, Directive, ElementRef, Output, Optional, SkipSelf, Inject, NgModule } from '@angular/core';
+import { A, Z, ZERO, NINE, LEFT_ARROW, RIGHT_ARROW, UP_ARROW, DOWN_ARROW, TAB } from '@ptsecurity/cdk/keycodes';
 import { Subject, Subscription, of } from 'rxjs';
 import { tap, debounceTime, filter, map } from 'rxjs/operators';
-import { A, Z, ZERO, NINE, LEFT_ARROW, RIGHT_ARROW, UP_ARROW, DOWN_ARROW, TAB } from '@ptsecurity/cdk/keycodes';
 import { supportsPassiveEventListeners, Platform, PlatformModule } from '@angular/cdk/platform';
 import { DOCUMENT, CommonModule } from '@angular/common';
 
@@ -43,6 +43,8 @@ class ListKeyManager {
         this._typeaheadSubscription = Subscription.EMPTY;
         this._vertical = true;
         this._scrollSize = 0;
+        // Buffer for the letters that the user has pressed when the typeahead option is turned on.
+        this._pressedLetters = [];
         /**
          * Predicate function that can be used to check whether an item should be skipped
          * by the key manager. By default, disabled items are skipped.
@@ -52,8 +54,6 @@ class ListKeyManager {
          * @return {?}
          */
         (item) => item.disabled);
-        // Buffer for the letters that the user has pressed when the typeahead option is turned on.
-        this._pressedLetters = [];
         if (_items instanceof QueryList) {
             _items.changes.subscribe((/**
              * @param {?} newItems
@@ -395,13 +395,15 @@ class ListKeyManager {
         if (!items[index]) {
             return;
         }
-        while (this._skipPredicateFn(items[index])) {
-            index += fallbackDelta;
-            if (!items[index]) {
+        /** @type {?} */
+        let curIndex = index;
+        while (this._skipPredicateFn(items[curIndex])) {
+            curIndex += fallbackDelta;
+            if (!items[curIndex]) {
                 return;
             }
         }
-        this.setActiveItem(index);
+        this.setActiveItem(curIndex);
     }
     /**
      * Returns the items as an array.
@@ -515,7 +517,7 @@ class FocusMonitor {
         this._unregisterGlobalListeners = (/**
          * @return {?}
          */
-        () => { });
+        () => { }); // tslint:disable-line no-empty
     }
     /**
      * Monitors focus on an element and applies appropriate CSS classes.
@@ -635,6 +637,7 @@ class FocusMonitor {
         this._setClasses(element);
         elementInfo.subject.next(null);
     }
+    // tslint:disable-line no-empty
     /**
      * Register necessary event listeners on the document and window.
      * @private
@@ -880,7 +883,7 @@ class FocusMonitor {
             this._unregisterGlobalListeners = (/**
              * @return {?}
              */
-            () => { });
+            () => { }); // tslint:disable-line no-empty
         }
     }
 }
@@ -1133,7 +1136,7 @@ class AriaDescriber {
         /** @type {?} */
         const messageElement = this._document.createElement('div');
         messageElement.setAttribute('id', `${CDK_DESCRIBEDBY_ID_PREFIX}-${nextId++}`);
-        messageElement.appendChild((/** @type {?} */ (this._document.createTextNode(message))));
+        messageElement.appendChild(this._document.createTextNode(message));
         this._createMessagesContainer();
         (/** @type {?} */ (messagesContainer)).appendChild(messageElement);
         messageRegistry.set(message, { messageElement, referenceCount: 0 });
@@ -1202,7 +1205,7 @@ class AriaDescriber {
          * @param {?} id
          * @return {?}
          */
-        (id) => id.indexOf(CDK_DESCRIBEDBY_ID_PREFIX) != 0));
+        (id) => id.indexOf(CDK_DESCRIBEDBY_ID_PREFIX) !== 0));
         element.setAttribute('aria-describedby', originalReferenceIds.join(' '));
     }
     /**
@@ -1251,7 +1254,7 @@ class AriaDescriber {
         const registeredMessage = messageRegistry.get(message);
         /** @type {?} */
         const messageId = registeredMessage && registeredMessage.messageElement.id;
-        return !!messageId && referenceIds.indexOf(messageId) != -1;
+        return !!messageId && referenceIds.indexOf(messageId) !== -1;
     }
     /**
      * Determines whether a message can be described on a particular element.

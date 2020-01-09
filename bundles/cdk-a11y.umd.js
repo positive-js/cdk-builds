@@ -5,10 +5,10 @@
  * Use of this source code is governed by an MIT-style license.
  */
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs'), require('rxjs/operators'), require('@ptsecurity/cdk/keycodes'), require('@angular/cdk/platform'), require('@angular/common')) :
-    typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/a11y', ['exports', '@angular/core', 'rxjs', 'rxjs/operators', '@ptsecurity/cdk/keycodes', '@angular/cdk/platform', '@angular/common'], factory) :
-    (global = global || self, factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.a11y = {}), global.ng.core, global.rxjs, global.rxjs.operators, global.ng.cdk.keycodes, global.ng.cdk.platform, global.ng.common));
-}(this, (function (exports, core, rxjs, operators, keycodes, platform, common) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@ptsecurity/cdk/keycodes'), require('rxjs'), require('rxjs/operators'), require('@angular/cdk/platform'), require('@angular/common')) :
+    typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/a11y', ['exports', '@angular/core', '@ptsecurity/cdk/keycodes', 'rxjs', 'rxjs/operators', '@angular/cdk/platform', '@angular/common'], factory) :
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.a11y = {}), global.ng.core, global.ng.cdk.keycodes, global.rxjs, global.rxjs.operators, global.ng.cdk.platform, global.ng.common));
+}(this, (function (exports, core, keycodes, rxjs, operators, platform, common) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -75,6 +75,8 @@
             this._typeaheadSubscription = rxjs.Subscription.EMPTY;
             this._vertical = true;
             this._scrollSize = 0;
+            // Buffer for the letters that the user has pressed when the typeahead option is turned on.
+            this._pressedLetters = [];
             /**
              * Predicate function that can be used to check whether an item should be skipped
              * by the key manager. By default, disabled items are skipped.
@@ -84,8 +86,6 @@
              * @return {?}
              */
             function (item) { return item.disabled; });
-            // Buffer for the letters that the user has pressed when the typeahead option is turned on.
-            this._pressedLetters = [];
             if (_items instanceof core.QueryList) {
                 _items.changes.subscribe((/**
                  * @param {?} newItems
@@ -606,13 +606,15 @@
             if (!items[index]) {
                 return;
             }
-            while (this._skipPredicateFn(items[index])) {
-                index += fallbackDelta;
-                if (!items[index]) {
+            /** @type {?} */
+            var curIndex = index;
+            while (this._skipPredicateFn(items[curIndex])) {
+                curIndex += fallbackDelta;
+                if (!items[curIndex]) {
                     return;
                 }
             }
-            this.setActiveItem(index);
+            this.setActiveItem(curIndex);
         };
         /** Returns the items as an array. */
         /**
@@ -770,7 +772,7 @@
             this._unregisterGlobalListeners = (/**
              * @return {?}
              */
-            function () { });
+            function () { }); // tslint:disable-line no-empty
         }
         /**
          * Monitors focus on an element and applies appropriate CSS classes.
@@ -942,12 +944,15 @@
             elementInfo.subject.next(null);
         };
         /** Register necessary event listeners on the document and window. */
+        // tslint:disable-line no-empty
         /**
          * Register necessary event listeners on the document and window.
          * @private
          * @return {?}
          */
-        FocusMonitor.prototype._registerGlobalListeners = /**
+        FocusMonitor.prototype._registerGlobalListeners = 
+        // tslint:disable-line no-empty
+        /**
          * Register necessary event listeners on the document and window.
          * @private
          * @return {?}
@@ -1260,7 +1265,7 @@
                 this._unregisterGlobalListeners = (/**
                  * @return {?}
                  */
-                function () { });
+                function () { }); // tslint:disable-line no-empty
             }
         };
         FocusMonitor.decorators = [
@@ -1548,7 +1553,7 @@
             /** @type {?} */
             var messageElement = this._document.createElement('div');
             messageElement.setAttribute('id', CDK_DESCRIBEDBY_ID_PREFIX + "-" + nextId++);
-            messageElement.appendChild((/** @type {?} */ (this._document.createTextNode(message))));
+            messageElement.appendChild(this._document.createTextNode(message));
             this._createMessagesContainer();
             (/** @type {?} */ (messagesContainer)).appendChild(messageElement);
             messageRegistry.set(message, { messageElement: messageElement, referenceCount: 0 });
@@ -1643,7 +1648,7 @@
              * @param {?} id
              * @return {?}
              */
-            function (id) { return id.indexOf(CDK_DESCRIBEDBY_ID_PREFIX) != 0; }));
+            function (id) { return id.indexOf(CDK_DESCRIBEDBY_ID_PREFIX) !== 0; }));
             element.setAttribute('aria-describedby', originalReferenceIds.join(' '));
         };
         /**
@@ -1724,7 +1729,7 @@
             var registeredMessage = messageRegistry.get(message);
             /** @type {?} */
             var messageId = registeredMessage && registeredMessage.messageElement.id;
-            return !!messageId && referenceIds.indexOf(messageId) != -1;
+            return !!messageId && referenceIds.indexOf(messageId) !== -1;
         };
         /** Determines whether a message can be described on a particular element. */
         /**

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const schematics_1 = require("@angular-devkit/schematics");
 /** Determines the indentation of child elements for the given Parse5 element. */
 function getChildElementIndentation(element) {
+    const spaceAmount = 2;
     const childElement = element.childNodes
         .find((node) => node.tagName);
     if ((childElement && !childElement.sourceCodeLocation) || !element.sourceCodeLocation) {
@@ -15,7 +16,7 @@ function getChildElementIndentation(element) {
         childElement.sourceCodeLocation.startCol :
         // In case there is no child element, we just assume that child elements should be indented
         // by two spaces.
-        element.sourceCodeLocation.startCol + 2;
+        element.sourceCodeLocation.startCol + spaceAmount;
     // Since Parse5 does not set the `startCol` properties as zero-based, we need to subtract
     // one column in order to have a proper zero-based offset for the indentation.
     return startColumns - 1;
