@@ -1276,7 +1276,7 @@
             { type: core.NgZone },
             { type: platform.Platform }
         ]; };
-        /** @nocollapse */ FocusMonitor.ngInjectableDef = core.ɵɵdefineInjectable({ factory: function FocusMonitor_Factory() { return new FocusMonitor(core.ɵɵinject(core.NgZone), core.ɵɵinject(platform.Platform)); }, token: FocusMonitor, providedIn: "root" });
+        /** @nocollapse */ FocusMonitor.ngInjectableDef = core["ɵɵdefineInjectable"]({ factory: function FocusMonitor_Factory() { return new FocusMonitor(core["ɵɵinject"](core.NgZone), core["ɵɵinject"](platform.Platform)); }, token: FocusMonitor, providedIn: "root" });
         return FocusMonitor;
     }());
     /**
@@ -1781,7 +1781,7 @@
         AriaDescriber.ctorParameters = function () { return [
             { type: undefined, decorators: [{ type: core.Inject, args: [common.DOCUMENT,] }] }
         ]; };
-        /** @nocollapse */ AriaDescriber.ngInjectableDef = core.ɵɵdefineInjectable({ factory: function AriaDescriber_Factory() { return new AriaDescriber(core.ɵɵinject(common.DOCUMENT)); }, token: AriaDescriber, providedIn: "root" });
+        /** @nocollapse */ AriaDescriber.ngInjectableDef = core["ɵɵdefineInjectable"]({ factory: function AriaDescriber_Factory() { return new AriaDescriber(core["ɵɵinject"](common.DOCUMENT)); }, token: AriaDescriber, providedIn: "root" });
         return AriaDescriber;
     }());
 
