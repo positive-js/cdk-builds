@@ -11,11 +11,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /** Create a base app used for testing. */
 function createTestApp(runner, appOptions = {}, tree) {
     return __awaiter(this, void 0, void 0, function* () {
-        const workspaceTree = runner.runExternalSchematic('@schematics/angular', 'workspace', {
+        const workspaceTree = yield runner.runExternalSchematicAsync('@schematics/angular', 'workspace', {
             name: 'workspace',
             version: '8.0.0',
             newProjectRoot: 'projects'
-        }, tree);
+        }, tree).toPromise();
         return runner.runExternalSchematicAsync('@schematics/angular', 'application', Object.assign({ name: 'mosaic' }, appOptions), workspaceTree).toPromise();
     });
 }

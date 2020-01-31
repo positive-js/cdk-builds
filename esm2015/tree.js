@@ -991,12 +991,14 @@ class CdkTreeNodePadding {
      */
     paddingIndent() {
         /** @type {?} */
+        const basicPadding = 12;
+        /** @type {?} */
         const nodeLevel = (this.treeNode.data && this.tree.treeControl.getLevel)
             ? this.tree.treeControl.getLevel(this.treeNode.data)
             : null;
         /** @type {?} */
         const level = this._level || nodeLevel;
-        return level ? `${(level * this._indent) + 12}px` : '12px';
+        return `${level ? (level * this._indent) + basicPadding : basicPadding}px`;
     }
     /**
      * @protected

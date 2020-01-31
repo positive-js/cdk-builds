@@ -21,10 +21,12 @@ exports.typescript = typescript;
 let ts;
 exports.ts = ts;
 try {
+    // tslint:disable-next-line:no-var-requires
     exports.ts = ts = require('@schematics/angular/node_modules/typescript');
 }
 catch (_a) {
     try {
+        // tslint:disable-next-line:no-var-requires
         exports.ts = ts = require('typescript');
     }
     catch (_b) {

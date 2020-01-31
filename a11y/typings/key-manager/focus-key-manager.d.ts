@@ -9,7 +9,7 @@ export interface IFocusableOption extends ListKeyManagerOption {
     focus(origin?: FocusOrigin): void;
 }
 export declare class FocusKeyManager<T> extends ListKeyManager<IFocusableOption & T> {
-    private _origin;
+    private origin;
     /**
      * Sets the focus origin that will be passed in to the items for any subsequent `focus` calls.
      * @param origin Focus origin to be used when focusing items.

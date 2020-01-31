@@ -1275,12 +1275,14 @@
          */
         function () {
             /** @type {?} */
+            var basicPadding = 12;
+            /** @type {?} */
             var nodeLevel = (this.treeNode.data && this.tree.treeControl.getLevel)
                 ? this.tree.treeControl.getLevel(this.treeNode.data)
                 : null;
             /** @type {?} */
             var level = this._level || nodeLevel;
-            return level ? (level * this._indent) + 12 + "px" : '12px';
+            return (level ? (level * this._indent) + basicPadding : basicPadding) + "px";
         };
         /**
          * @protected

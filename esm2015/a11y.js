@@ -38,18 +38,18 @@ class ListKeyManager {
         this.change = new Subject();
         this.previousActiveItemIndex = -1;
         this._activeItemIndex = -1;
-        this._wrap = false;
-        this._letterKeyStream = new Subject();
-        this._typeaheadSubscription = Subscription.EMPTY;
-        this._vertical = true;
-        this._scrollSize = 0;
+        this.wrap = false;
+        this.letterKeyStream = new Subject();
+        this.typeaheadSubscription = Subscription.EMPTY;
+        this.vertical = true;
+        this.scrollSize = 0;
         // Buffer for the letters that the user has pressed when the typeahead option is turned on.
-        this._pressedLetters = [];
+        this.pressedLetters = [];
         /**
          * Predicate function that can be used to check whether an item should be skipped
          * by the key manager. By default, disabled items are skipped.
          */
-        this._skipPredicateFn = (/**
+        this.skipPredicateFn = (/**
          * @param {?} item
          * @return {?}
          */
@@ -72,6 +72,20 @@ class ListKeyManager {
             }));
         }
     }
+    // Index of the currently active item.
+    /**
+     * @return {?}
+     */
+    get activeItemIndex() {
+        return this._activeItemIndex;
+    }
+    // The active item.
+    /**
+     * @return {?}
+     */
+    get activeItem() {
+        return this._activeItem;
+    }
     /**
      * @template THIS
      * @this {THIS}
@@ -79,7 +93,7 @@ class ListKeyManager {
      * @return {THIS}
      */
     withScrollSize(scrollSize) {
-        (/** @type {?} */ (this))._scrollSize = scrollSize;
+        (/** @type {?} */ (this)).scrollSize = scrollSize;
         return (/** @type {?} */ (this));
     }
     /**
@@ -90,7 +104,7 @@ class ListKeyManager {
      * @return {THIS}
      */
     withWrap() {
-        (/** @type {?} */ (this))._wrap = true;
+        (/** @type {?} */ (this)).wrap = true;
         return (/** @type {?} */ (this));
     }
     /**
@@ -101,7 +115,7 @@ class ListKeyManager {
      * @return {THIS}
      */
     withVerticalOrientation(enabled = true) {
-        (/** @type {?} */ (this))._vertical = enabled;
+        (/** @type {?} */ (this)).vertical = enabled;
         return (/** @type {?} */ (this));
     }
     /**
@@ -113,7 +127,7 @@ class ListKeyManager {
      * @return {THIS}
      */
     withHorizontalOrientation(direction) {
-        (/** @type {?} */ (this))._horizontal = direction;
+        (/** @type {?} */ (this)).horizontal = direction;
         return (/** @type {?} */ (this));
     }
     /**
@@ -132,26 +146,26 @@ class ListKeyManager {
         (item) => typeof item.getLabel !== 'function'))) {
             throw Error('ListKeyManager items in typeahead mode must implement the `getLabel` method.');
         }
-        (/** @type {?} */ (this))._typeaheadSubscription.unsubscribe();
+        (/** @type {?} */ (this)).typeaheadSubscription.unsubscribe();
         // Debounce the presses of non-navigational keys, collect the ones that correspond to letters and convert those
         // letters back into a string. Afterwards find the first item that starts with that string and select it.
-        (/** @type {?} */ (this))._typeaheadSubscription = (/** @type {?} */ (this))._letterKeyStream.pipe(tap((/**
+        (/** @type {?} */ (this)).typeaheadSubscription = (/** @type {?} */ (this)).letterKeyStream.pipe(tap((/**
          * @param {?} keyCode
          * @return {?}
          */
-        (keyCode) => (/** @type {?} */ (this))._pressedLetters.push(keyCode))), debounceTime(debounceInterval), filter((/**
+        (keyCode) => (/** @type {?} */ (this)).pressedLetters.push(keyCode))), debounceTime(debounceInterval), filter((/**
          * @return {?}
          */
-        () => (/** @type {?} */ (this))._pressedLetters.length > 0)), map((/**
+        () => (/** @type {?} */ (this)).pressedLetters.length > 0)), map((/**
          * @return {?}
          */
-        () => (/** @type {?} */ (this))._pressedLetters.join('')))).subscribe((/**
+        () => (/** @type {?} */ (this)).pressedLetters.join('')))).subscribe((/**
          * @param {?} inputString
          * @return {?}
          */
         (inputString) => {
             if (searchLetterIndex === -1) {
-                (/** @type {?} */ (this))._pressedLetters = [];
+                (/** @type {?} */ (this)).pressedLetters = [];
                 return;
             }
             /** @type {?} */
@@ -169,7 +183,7 @@ class ListKeyManager {
                     break;
                 }
             }
-            (/** @type {?} */ (this))._pressedLetters = [];
+            (/** @type {?} */ (this)).pressedLetters = [];
         }));
         return (/** @type {?} */ (this));
     }
@@ -191,6 +205,7 @@ class ListKeyManager {
      * @return {?}
      */
     onKeydown(event) {
+        // tslint:disable-next-line: deprecation
         /** @type {?} */
         const keyCode = event.keyCode;
         switch (keyCode) {
@@ -198,7 +213,7 @@ class ListKeyManager {
                 this.tabOut.next();
                 return;
             case DOWN_ARROW:
-                if (this._vertical) {
+                if (this.vertical) {
                     this.setNextItemActive();
                     break;
                 }
@@ -206,7 +221,7 @@ class ListKeyManager {
                     return;
                 }
             case UP_ARROW:
-                if (this._vertical) {
+                if (this.vertical) {
                     this.setPreviousItemActive();
                     break;
                 }
@@ -214,11 +229,11 @@ class ListKeyManager {
                     return;
                 }
             case RIGHT_ARROW:
-                if (this._horizontal === 'ltr') {
+                if (this.horizontal === 'ltr') {
                     this.setNextItemActive();
                     break;
                 }
-                else if (this._horizontal === 'rtl') {
+                else if (this.horizontal === 'rtl') {
                     this.setPreviousItemActive();
                     break;
                 }
@@ -226,11 +241,11 @@ class ListKeyManager {
                     return;
                 }
             case LEFT_ARROW:
-                if (this._horizontal === 'ltr') {
+                if (this.horizontal === 'ltr') {
                     this.setPreviousItemActive();
                     break;
                 }
-                else if (this._horizontal === 'rtl') {
+                else if (this.horizontal === 'rtl') {
                     this.setNextItemActive();
                     break;
                 }
@@ -241,87 +256,73 @@ class ListKeyManager {
                 // Attempt to use the `event.key` which also maps it to the user's keyboard language,
                 // otherwise fall back to resolving alphanumeric characters via the keyCode.
                 if (event.key && event.key.length === 1) {
-                    this._letterKeyStream.next(event.key.toLocaleUpperCase());
+                    this.letterKeyStream.next(event.key.toLocaleUpperCase());
                 }
                 else if ((keyCode >= A && keyCode <= Z) || (keyCode >= ZERO && keyCode <= NINE)) {
-                    this._letterKeyStream.next(String.fromCharCode(keyCode));
+                    this.letterKeyStream.next(String.fromCharCode(keyCode));
                 }
                 // Note that we return here, in order to avoid preventing
                 // the default action of non-navigational keys.
                 return;
         }
-        this._pressedLetters = [];
+        this.pressedLetters = [];
         event.preventDefault();
-    }
-    // Index of the currently active item.
-    /**
-     * @return {?}
-     */
-    get activeItemIndex() {
-        return this._activeItemIndex;
-    }
-    // The active item.
-    /**
-     * @return {?}
-     */
-    get activeItem() {
-        return this._activeItem;
     }
     // Sets the active item to the first enabled item in the list.
     /**
      * @return {?}
      */
     setFirstItemActive() {
-        this._setActiveItemByIndex(0, 1);
+        this.setActiveItemByIndex(0, 1);
     }
     // Sets the active item to the last enabled item in the list.
     /**
      * @return {?}
      */
     setLastItemActive() {
-        this._setActiveItemByIndex(this._items.length - 1, -1);
+        this.setActiveItemByIndex(this._items.length - 1, -1);
     }
     // Sets the active item to the next enabled item in the list.
     /**
      * @return {?}
      */
     setNextItemActive() {
-        this._activeItemIndex < 0 ? this.setFirstItemActive() : this._setActiveItemByDelta(1);
+        this._activeItemIndex < 0 ? this.setFirstItemActive() : this.setActiveItemByDelta(1);
     }
     // Sets the active item to a previous enabled item in the list.
     /**
      * @return {?}
      */
     setPreviousItemActive() {
-        this._activeItemIndex < 0 && this._wrap ? this.setLastItemActive()
-            : this._setActiveItemByDelta(-1);
+        this._activeItemIndex < 0 && this.wrap ? this.setLastItemActive()
+            : this.setActiveItemByDelta(-1);
     }
     /**
      * @param {?=} delta
      * @return {?}
      */
-    setNextPageItemActive(delta = this._scrollSize) {
+    setNextPageItemActive(delta = this.scrollSize) {
         /** @type {?} */
         const nextItemIndex = this._activeItemIndex + delta;
         if (nextItemIndex >= this._items.length) {
             this.setLastItemActive();
         }
         else {
-            this._setActiveItemByDelta(delta);
+            this.setActiveItemByDelta(delta);
         }
     }
     /**
      * @param {?=} delta
      * @return {?}
      */
-    setPreviousPageItemActive(delta = this._scrollSize) {
+    setPreviousPageItemActive(delta = this.scrollSize) {
         /** @type {?} */
         const nextItemIndex = this._activeItemIndex - delta;
         if (nextItemIndex <= 0) {
             this.setFirstItemActive();
         }
         else {
-            this._setActiveItemByDelta(-delta);
+            this.setActiveItemByDelta(-delta);
         }
     }
     /**
@@ -344,8 +345,8 @@ class ListKeyManager {
      * @param {?} delta
      * @return {?}
      */
-    _setActiveItemByDelta(delta) {
-        this._wrap ? this._setActiveInWrapMode(delta) : this._setActiveInDefaultMode(delta);
+    setActiveItemByDelta(delta) {
+        this.wrap ? this.setActiveInWrapMode(delta) : this.setActiveInDefaultMode(delta);
     }
     /**
      * Sets the active item properly given "wrap" mode. In other words, it will continue to move
@@ -355,15 +356,15 @@ class ListKeyManager {
      * @param {?} delta
      * @return {?}
      */
-    _setActiveInWrapMode(delta) {
+    setActiveInWrapMode(delta) {
         /** @type {?} */
-        const items = this._getItemsArray();
+        const items = this.getItemsArray();
         for (let i = 1; i <= items.length; i++) {
             /** @type {?} */
             const index = (this._activeItemIndex + (delta * i) + items.length) % items.length;
             /** @type {?} */
             const item = items[index];
-            if (!this._skipPredicateFn(item)) {
+            if (!this.skipPredicateFn(item)) {
                 this.setActiveItem(index);
                 return;
             }
@@ -377,8 +378,8 @@ class ListKeyManager {
      * @param {?} delta
      * @return {?}
      */
-    _setActiveInDefaultMode(delta) {
-        this._setActiveItemByIndex(this._activeItemIndex + delta, delta);
+    setActiveInDefaultMode(delta) {
+        this.setActiveItemByIndex(this._activeItemIndex + delta, delta);
     }
     /**
      * Sets the active item to the first enabled item starting at the index specified. If the
@@ -389,15 +390,15 @@ class ListKeyManager {
      * @param {?} fallbackDelta
      * @return {?}
      */
-    _setActiveItemByIndex(index, fallbackDelta) {
+    setActiveItemByIndex(index, fallbackDelta) {
         /** @type {?} */
-        const items = this._getItemsArray();
+        const items = this.getItemsArray();
         if (!items[index]) {
             return;
         }
         /** @type {?} */
         let curIndex = index;
-        while (this._skipPredicateFn(items[curIndex])) {
+        while (this.skipPredicateFn(items[curIndex])) {
             curIndex += fallbackDelta;
             if (!items[curIndex]) {
                 return;
@@ -410,7 +411,7 @@ class ListKeyManager {
      * @private
      * @return {?}
      */
-    _getItemsArray() {
+    getItemsArray() {
         return this._items instanceof QueryList ? this._items.toArray() : this._items;
     }
 }
@@ -451,7 +452,7 @@ class ActiveDescendantKeyManager extends ListKeyManager {
 class FocusKeyManager extends ListKeyManager {
     constructor() {
         super(...arguments);
-        this._origin = 'program';
+        this.origin = 'program';
     }
     /**
      * Sets the focus origin that will be passed in to the items for any subsequent `focus` calls.
@@ -461,7 +462,7 @@ class FocusKeyManager extends ListKeyManager {
      * @return {THIS}
      */
     setFocusOrigin(origin) {
-        (/** @type {?} */ (this))._origin = origin;
+        (/** @type {?} */ (this)).origin = origin;
         return (/** @type {?} */ (this));
     }
     /**
@@ -471,7 +472,7 @@ class FocusKeyManager extends ListKeyManager {
     setActiveItem(item) {
         super.setActiveItem(item);
         if (this.activeItem) {
-            this.activeItem.focus(this._origin);
+            this.activeItem.focus(this.origin);
         }
     }
 }
