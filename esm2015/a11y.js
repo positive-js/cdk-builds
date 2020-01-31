@@ -498,26 +498,27 @@ class FocusMonitor {
         /**
          * The focus origin that the next focus event is a result of.
          */
-        this._origin = null;
+        this.origin = null;
         /**
          * Whether the window has just been focused.
          */
-        this._windowFocused = false;
+        this.windowFocused = false;
         /**
          * Map of elements being monitored to their info.
          */
-        this._elementInfo = new Map();
+        this.elementInfo = new Map();
         /**
          * The number of elements currently being monitored.
          */
-        this._monitoredElementCount = 0;
+        this.monitoredElementCount = 0;
         /**
          * A map of global objects to lists of current listeners.
          */
-        this._unregisterGlobalListeners = (/**
+        // tslint:disable-next-line no-empty
+        this.unregisterGlobalListeners = (/**
          * @return {?}
          */
-        () => { }); // tslint:disable-line no-empty
+        () => { });
     }
     /**
      * Monitors focus on an element and applies appropriate CSS classes.
@@ -531,9 +532,9 @@ class FocusMonitor {
             return of(null);
         }
         // Check if we're already monitoring this element.
-        if (this._elementInfo.has(element)) {
+        if (this.elementInfo.has(element)) {
             /** @type {?} */
-            const cachedInfo = this._elementInfo.get(element);
+            const cachedInfo = this.elementInfo.get(element);
             (/** @type {?} */ (cachedInfo)).checkChildren = checkChildren;
             return (/** @type {?} */ (cachedInfo)).subject.asObservable();
         }
@@ -547,15 +548,15 @@ class FocusMonitor {
             checkChildren,
             subject: new Subject()
         };
-        this._elementInfo.set(element, info);
-        this._incrementMonitoredElementCount();
+        this.elementInfo.set(element, info);
+        this.incrementMonitoredElementCount();
         // Start listening. We need to listen in capture phase since focus events don't bubble.
         /** @type {?} */
         const focusListener = (/**
          * @param {?} event
          * @return {?}
          */
-        (event) => this._onFocus(event, element));
+        (event) => this.onFocus(event, element));
         /** @type {?} */
         const blurListener = (/**
          * @param {?} event
@@ -586,13 +587,13 @@ class FocusMonitor {
      */
     stopMonitoring(element) {
         /** @type {?} */
-        const elementInfo = this._elementInfo.get(element);
+        const elementInfo = this.elementInfo.get(element);
         if (elementInfo) {
             elementInfo.unlisten();
             elementInfo.subject.complete();
-            this._setClasses(element);
-            this._elementInfo.delete(element);
-            this._decrementMonitoredElementCount();
+            this.setClasses(element);
+            this.elementInfo.delete(element);
+            this.decrementMonitoredElementCount();
         }
     }
     /**
@@ -602,7 +603,7 @@ class FocusMonitor {
      * @return {?}
      */
     focusVia(element, origin) {
-        this._setOriginForCurrentEventQueue(origin);
+        this.setOriginForCurrentEventQueue(origin);
         // `focus` isn't available on the server
         if (typeof element.focus === 'function') {
             element.focus();
@@ -612,7 +613,7 @@ class FocusMonitor {
      * @return {?}
      */
     ngOnDestroy() {
-        this._elementInfo.forEach((/**
+        this.elementInfo.forEach((/**
          * @param {?} _info
          * @param {?} element
          * @return {?}
@@ -625,25 +626,25 @@ class FocusMonitor {
      * @param {?} element The monitored element.
      * @return {?}
      */
+    // tslint:disable-next-line:naming-convention
     _onBlur(event, element) {
         // If we are counting child-element-focus as focused, make sure that we aren't just blurring in
         // order to focus another child of the monitored element.
         /** @type {?} */
-        const elementInfo = this._elementInfo.get(element);
+        const elementInfo = this.elementInfo.get(element);
         if (!elementInfo || (elementInfo.checkChildren && event.relatedTarget instanceof Node &&
             element.contains(event.relatedTarget))) {
             return;
         }
-        this._setClasses(element);
+        this.setClasses(element);
         elementInfo.subject.next(null);
     }
-    // tslint:disable-line no-empty
     /**
      * Register necessary event listeners on the document and window.
      * @private
      * @return {?}
      */
-    _registerGlobalListeners() {
+    registerGlobalListeners() {
         // Do nothing if we're not on the browser platform.
         if (!this._platform.isBrowser) {
             return;
@@ -654,8 +655,8 @@ class FocusMonitor {
          * @return {?}
          */
         () => {
-            this._lastTouchTarget = null;
-            this._setOriginForCurrentEventQueue('keyboard');
+            this.lastTouchTarget = null;
+            this.setOriginForCurrentEventQueue('keyboard');
         });
         // On mousedown record the origin only if there is not touch target, since a mousedown can
         // happen as a result of a touch event.
@@ -664,8 +665,8 @@ class FocusMonitor {
          * @return {?}
          */
         () => {
-            if (!this._lastTouchTarget) {
-                this._setOriginForCurrentEventQueue('mouse');
+            if (!this.lastTouchTarget) {
+                this.setOriginForCurrentEventQueue('mouse');
             }
         });
         // When the touchstart event fires the focus event is not yet in the event queue. This means
@@ -677,14 +678,14 @@ class FocusMonitor {
          * @return {?}
          */
         (event) => {
-            if (this._touchTimeoutId != null) {
-                clearTimeout(this._touchTimeoutId);
+            if (this.touchTimeoutId != null) {
+                clearTimeout(this.touchTimeoutId);
             }
-            this._lastTouchTarget = event.target;
-            this._touchTimeoutId = window.setTimeout((/**
+            this.lastTouchTarget = event.target;
+            this.touchTimeoutId = window.setTimeout((/**
              * @return {?}
              */
-            () => this._lastTouchTarget = null), TOUCH_BUFFER_MS);
+            () => this.lastTouchTarget = null), TOUCH_BUFFER_MS);
         });
         // Make a note of when the window regains focus, so we can restore the origin info for the
         // focused element.
@@ -693,11 +694,11 @@ class FocusMonitor {
          * @return {?}
          */
         () => {
-            this._windowFocused = true;
-            this._windowFocusTimeoutId = window.setTimeout((/**
+            this.windowFocused = true;
+            this.windowFocusTimeoutId = window.setTimeout((/**
              * @return {?}
              */
-            () => this._windowFocused = false), 0);
+            () => this.windowFocused = false), 0);
         });
         // Note: we listen to events in the capture phase so we can detect them even if the user stops
         // propagation.
@@ -710,7 +711,7 @@ class FocusMonitor {
             document.addEventListener('touchstart', documentTouchstartListener, supportsPassiveEventListeners() ? ((/** @type {?} */ ({ passive: true, capture: true }))) : true);
             window.addEventListener('focus', windowFocusListener);
         }));
-        this._unregisterGlobalListeners = (/**
+        this.unregisterGlobalListeners = (/**
          * @return {?}
          */
         () => {
@@ -719,9 +720,9 @@ class FocusMonitor {
             document.removeEventListener('touchstart', documentTouchstartListener, supportsPassiveEventListeners() ? ((/** @type {?} */ ({ passive: true, capture: true }))) : true);
             window.removeEventListener('focus', windowFocusListener);
             // Clear timeouts for all potentially pending timeouts to prevent the leaks.
-            clearTimeout(this._windowFocusTimeoutId);
-            clearTimeout(this._touchTimeoutId);
-            clearTimeout(this._originTimeoutId);
+            clearTimeout(this.windowFocusTimeoutId);
+            clearTimeout(this.touchTimeoutId);
+            clearTimeout(this.originTimeoutId);
         });
     }
     /**
@@ -731,7 +732,7 @@ class FocusMonitor {
      * @param {?} shouldSet
      * @return {?}
      */
-    _toggleClass(element, className, shouldSet) {
+    toggleClass(element, className, shouldSet) {
         if (shouldSet) {
             element.classList.add(className);
         }
@@ -746,15 +747,15 @@ class FocusMonitor {
      * @param {?=} origin The focus origin.
      * @return {?}
      */
-    _setClasses(element, origin) {
+    setClasses(element, origin) {
         /** @type {?} */
-        const elementInfo = this._elementInfo.get(element);
+        const elementInfo = this.elementInfo.get(element);
         if (elementInfo) {
-            this._toggleClass(element, 'cdk-focused', !!origin);
-            this._toggleClass(element, 'cdk-touch-focused', origin === 'touch');
-            this._toggleClass(element, 'cdk-keyboard-focused', origin === 'keyboard');
-            this._toggleClass(element, 'cdk-mouse-focused', origin === 'mouse');
-            this._toggleClass(element, 'cdk-program-focused', origin === 'program');
+            this.toggleClass(element, 'cdk-focused', !!origin);
+            this.toggleClass(element, 'cdk-touch-focused', origin === 'touch');
+            this.toggleClass(element, 'cdk-keyboard-focused', origin === 'keyboard');
+            this.toggleClass(element, 'cdk-mouse-focused', origin === 'mouse');
+            this.toggleClass(element, 'cdk-program-focused', origin === 'program');
         }
     }
     /**
@@ -763,16 +764,16 @@ class FocusMonitor {
      * @param {?} origin The origin to set.
      * @return {?}
      */
-    _setOriginForCurrentEventQueue(origin) {
+    setOriginForCurrentEventQueue(origin) {
         this._ngZone.runOutsideAngular((/**
          * @return {?}
          */
         () => {
-            this._origin = origin;
-            this._originTimeoutId = window.setTimeout((/**
+            this.origin = origin;
+            this.originTimeoutId = window.setTimeout((/**
              * @return {?}
              */
-            () => this._origin = null));
+            () => this.origin = null));
         }));
     }
     /**
@@ -781,7 +782,7 @@ class FocusMonitor {
      * @param {?} event The focus event to check.
      * @return {?} Whether the event was caused by a touch.
      */
-    _wasCausedByTouch(event) {
+    wasCausedByTouch(event) {
         // Note(mmalerba): This implementation is not quite perfect, there is a small edge case.
         // Consider the following dom structure:
         //
@@ -801,8 +802,8 @@ class FocusMonitor {
         // touchstart.
         /** @type {?} */
         const focusTarget = event.target;
-        return this._lastTouchTarget instanceof Node && focusTarget instanceof Node &&
-            (focusTarget === this._lastTouchTarget || focusTarget.contains(this._lastTouchTarget));
+        return this.lastTouchTarget instanceof Node && focusTarget instanceof Node &&
+            (focusTarget === this.lastTouchTarget || focusTarget.contains(this.lastTouchTarget));
     }
     /**
      * Handles focus events on a registered element.
@@ -811,7 +812,7 @@ class FocusMonitor {
      * @param {?} element The monitored element.
      * @return {?}
      */
-    _onFocus(event, element) {
+    onFocus(event, element) {
         // NOTE(mmalerba): We currently set the classes based on the focus origin of the most recent
         // focus event affecting the monitored element. If we want to use the origin of the first event
         // instead we should check for the cdk-focused class here and return if the element already has
@@ -823,7 +824,7 @@ class FocusMonitor {
         // If we are not counting child-element-focus as focused, make sure that the event target is the
         // monitored element itself.
         /** @type {?} */
-        const elementInfo = this._elementInfo.get(element);
+        const elementInfo = this.elementInfo.get(element);
         if (!elementInfo || (!elementInfo.checkChildren && element !== event.target)) {
             return;
         }
@@ -834,21 +835,21 @@ class FocusMonitor {
         // 3) The element was programmatically focused, in which case we should mark the origin as
         //    'program'.
         /** @type {?} */
-        let origin = this._origin;
+        let origin = this.origin;
         if (!origin) {
-            if (this._windowFocused && this._lastFocusOrigin) {
-                origin = this._lastFocusOrigin;
+            if (this.windowFocused && this.lastFocusOrigin) {
+                origin = this.lastFocusOrigin;
             }
-            else if (this._wasCausedByTouch(event)) {
+            else if (this.wasCausedByTouch(event)) {
                 origin = 'touch';
             }
             else {
                 origin = 'program';
             }
         }
-        this._setClasses(element, origin);
-        this._emitOrigin(elementInfo.subject, origin);
-        this._lastFocusOrigin = origin;
+        this.setClasses(element, origin);
+        this.emitOrigin(elementInfo.subject, origin);
+        this.lastFocusOrigin = origin;
     }
     /**
      * @private
@@ -856,7 +857,7 @@ class FocusMonitor {
      * @param {?} origin
      * @return {?}
      */
-    _emitOrigin(subject, origin) {
+    emitOrigin(subject, origin) {
         this._ngZone.run((/**
          * @return {?}
          */
@@ -866,21 +867,21 @@ class FocusMonitor {
      * @private
      * @return {?}
      */
-    _incrementMonitoredElementCount() {
+    incrementMonitoredElementCount() {
         // Register global listeners when first element is monitored.
-        if (++this._monitoredElementCount === 1) {
-            this._registerGlobalListeners();
+        if (++this.monitoredElementCount === 1) {
+            this.registerGlobalListeners();
         }
     }
     /**
      * @private
      * @return {?}
      */
-    _decrementMonitoredElementCount() {
+    decrementMonitoredElementCount() {
         // Unregister global listeners when last element is unmonitored.
-        if (!--this._monitoredElementCount) {
-            this._unregisterGlobalListeners();
-            this._unregisterGlobalListeners = (/**
+        if (!--this.monitoredElementCount) {
+            this.unregisterGlobalListeners();
+            this.unregisterGlobalListeners = (/**
              * @return {?}
              */
             () => { }); // tslint:disable-line no-empty
@@ -914,7 +915,7 @@ class CdkMonitorFocus {
         this._elementRef = _elementRef;
         this._focusMonitor = _focusMonitor;
         this.cdkFocusChange = new EventEmitter();
-        this._monitorSubscription = this._focusMonitor.monitor(this._elementRef.nativeElement, this._elementRef.nativeElement.hasAttribute('cdkMonitorSubtreeFocus'))
+        this.monitorSubscription = this._focusMonitor.monitor(this._elementRef.nativeElement, this._elementRef.nativeElement.hasAttribute('cdkMonitorSubtreeFocus'))
             .subscribe((/**
          * @param {?} origin
          * @return {?}
@@ -926,7 +927,7 @@ class CdkMonitorFocus {
      */
     ngOnDestroy() {
         this._focusMonitor.stopMonitoring(this._elementRef.nativeElement);
-        this._monitorSubscription.unsubscribe();
+        this.monitorSubscription.unsubscribe();
     }
 }
 CdkMonitorFocus.decorators = [
@@ -949,6 +950,7 @@ CdkMonitorFocus.propDecorators = {
  * @param {?} platform
  * @return {?}
  */
+// tslint:disable-next-line:naming-convention
 function FOCUS_MONITOR_PROVIDER_FACTORY(parentDispatcher, ngZone, platform) {
     return parentDispatcher || new FocusMonitor(ngZone, platform);
 }
@@ -960,6 +962,7 @@ const FOCUS_MONITOR_PROVIDER = {
     // If there is already a FocusMonitor available, use that. Otherwise, provide a new one.
     provide: FocusMonitor,
     deps: [[new Optional(), new SkipSelf(), FocusMonitor], NgZone, Platform],
+    // tslint:disable-next-line:deprecation
     useFactory: FOCUS_MONITOR_PROVIDER_FACTORY
 };
 
@@ -1063,10 +1066,10 @@ let messagesContainer = null;
  */
 class AriaDescriber {
     /**
-     * @param {?} _document
+     * @param {?} document
      */
-    constructor(_document) {
-        this._document = _document;
+    constructor(document) {
+        this.document = document;
     }
     /**
      * Adds to the host element an aria-describedby reference to a hidden element that contains
@@ -1077,14 +1080,14 @@ class AriaDescriber {
      * @return {?}
      */
     describe(hostElement, message) {
-        if (!this._canBeDescribed(hostElement, message)) {
+        if (!this.canBeDescribed(hostElement, message)) {
             return;
         }
         if (!messageRegistry.has(message)) {
-            this._createMessageElement(message);
+            this.createMessageElement(message);
         }
-        if (!this._isElementDescribedByMessage(hostElement, message)) {
-            this._addMessageReference(hostElement, message);
+        if (!this.isElementDescribedByMessage(hostElement, message)) {
+            this.addMessageReference(hostElement, message);
         }
     }
     /**
@@ -1094,19 +1097,19 @@ class AriaDescriber {
      * @return {?}
      */
     removeDescription(hostElement, message) {
-        if (!this._isElementNode(hostElement)) {
+        if (!this.isElementNode(hostElement)) {
             return;
         }
-        if (this._isElementDescribedByMessage(hostElement, message)) {
-            this._removeMessageReference(hostElement, message);
+        if (this.isElementDescribedByMessage(hostElement, message)) {
+            this.removeMessageReference(hostElement, message);
         }
         /** @type {?} */
         const registeredMessage = messageRegistry.get(message);
         if (registeredMessage && registeredMessage.referenceCount === 0) {
-            this._deleteMessageElement(message);
+            this.deleteMessageElement(message);
         }
         if (messagesContainer && messagesContainer.childNodes.length === 0) {
-            this._deleteMessagesContainer();
+            this.deleteMessagesContainer();
         }
     }
     /**
@@ -1115,13 +1118,17 @@ class AriaDescriber {
      */
     ngOnDestroy() {
         /** @type {?} */
-        const describedElements = this._document.querySelectorAll(`[${CDK_DESCRIBEDBY_HOST_ATTRIBUTE}]`);
-        for (let i = 0; i < describedElements.length; i++) {
-            this._removeCdkDescribedByReferenceIds(describedElements[i]);
-            describedElements[i].removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
-        }
+        const describedElements = Array.from(this.document.querySelectorAll(`[${CDK_DESCRIBEDBY_HOST_ATTRIBUTE}]`));
+        describedElements.forEach((/**
+         * @param {?} element
+         * @return {?}
+         */
+        (element) => {
+            this.removeCdkDescribedByReferenceIds(element);
+            element.removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
+        }));
         if (messagesContainer) {
-            this._deleteMessagesContainer();
+            this.deleteMessagesContainer();
         }
         messageRegistry.clear();
     }
@@ -1132,12 +1139,12 @@ class AriaDescriber {
      * @param {?} message
      * @return {?}
      */
-    _createMessageElement(message) {
+    createMessageElement(message) {
         /** @type {?} */
-        const messageElement = this._document.createElement('div');
+        const messageElement = this.document.createElement('div');
         messageElement.setAttribute('id', `${CDK_DESCRIBEDBY_ID_PREFIX}-${nextId++}`);
-        messageElement.appendChild(this._document.createTextNode(message));
-        this._createMessagesContainer();
+        messageElement.appendChild(this.document.createTextNode(message));
+        this.createMessagesContainer();
         (/** @type {?} */ (messagesContainer)).appendChild(messageElement);
         messageRegistry.set(message, { messageElement, referenceCount: 0 });
     }
@@ -1147,7 +1154,7 @@ class AriaDescriber {
      * @param {?} message
      * @return {?}
      */
-    _deleteMessageElement(message) {
+    deleteMessageElement(message) {
         /** @type {?} */
         const registeredMessage = messageRegistry.get(message);
         /** @type {?} */
@@ -1162,10 +1169,10 @@ class AriaDescriber {
      * @private
      * @return {?}
      */
-    _createMessagesContainer() {
+    createMessagesContainer() {
         if (!messagesContainer) {
             /** @type {?} */
-            const preExistingContainer = this._document.getElementById(MESSAGES_CONTAINER_ID);
+            const preExistingContainer = this.document.getElementById(MESSAGES_CONTAINER_ID);
             // When going from the server to the client, we may end up in a situation where there's
             // already a container on the page, but we don't have a reference to it. Clear the
             // old container so we don't get duplicates. Doing this, instead of emptying the previous
@@ -1173,11 +1180,11 @@ class AriaDescriber {
             if (preExistingContainer) {
                 (/** @type {?} */ (preExistingContainer.parentNode)).removeChild(preExistingContainer);
             }
-            messagesContainer = this._document.createElement('div');
+            messagesContainer = this.document.createElement('div');
             messagesContainer.id = MESSAGES_CONTAINER_ID;
             messagesContainer.setAttribute('aria-hidden', 'true');
             messagesContainer.style.display = 'none';
-            this._document.body.appendChild(messagesContainer);
+            this.document.body.appendChild(messagesContainer);
         }
     }
     /**
@@ -1185,7 +1192,7 @@ class AriaDescriber {
      * @private
      * @return {?}
      */
-    _deleteMessagesContainer() {
+    deleteMessagesContainer() {
         if (messagesContainer && messagesContainer.parentNode) {
             messagesContainer.parentNode.removeChild(messagesContainer);
             messagesContainer = null;
@@ -1197,7 +1204,7 @@ class AriaDescriber {
      * @param {?} element
      * @return {?}
      */
-    _removeCdkDescribedByReferenceIds(element) {
+    removeCdkDescribedByReferenceIds(element) {
         // Remove all aria-describedby reference IDs that are prefixed by CDK_DESCRIBEDBY_ID_PREFIX
         /** @type {?} */
         const originalReferenceIds = getAriaReferenceIds(element, 'aria-describedby')
@@ -1216,7 +1223,7 @@ class AriaDescriber {
      * @param {?} message
      * @return {?}
      */
-    _addMessageReference(element, message) {
+    addMessageReference(element, message) {
         /** @type {?} */
         const registeredMessage = (/** @type {?} */ (messageRegistry.get(message)));
         // Add the aria-describedby reference and set the
@@ -1233,7 +1240,7 @@ class AriaDescriber {
      * @param {?} message
      * @return {?}
      */
-    _removeMessageReference(element, message) {
+    removeMessageReference(element, message) {
         /** @type {?} */
         const registeredMessage = (/** @type {?} */ (messageRegistry.get(message)));
         registeredMessage.referenceCount--;
@@ -1247,7 +1254,7 @@ class AriaDescriber {
      * @param {?} message
      * @return {?}
      */
-    _isElementDescribedByMessage(element, message) {
+    isElementDescribedByMessage(element, message) {
         /** @type {?} */
         const referenceIds = getAriaReferenceIds(element, 'aria-describedby');
         /** @type {?} */
@@ -1263,8 +1270,8 @@ class AriaDescriber {
      * @param {?} message
      * @return {?}
      */
-    _canBeDescribed(element, message) {
-        if (!this._isElementNode(element)) {
+    canBeDescribed(element, message) {
+        if (!this.isElementNode(element)) {
             return false;
         }
         /** @type {?} */
@@ -1281,8 +1288,8 @@ class AriaDescriber {
      * @param {?} element
      * @return {?}
      */
-    _isElementNode(element) {
-        return element.nodeType === this._document.ELEMENT_NODE;
+    isElementNode(element) {
+        return element.nodeType === this.document.ELEMENT_NODE;
     }
 }
 AriaDescriber.decorators = [

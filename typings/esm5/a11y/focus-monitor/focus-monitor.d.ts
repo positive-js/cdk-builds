@@ -8,23 +8,23 @@ export declare class FocusMonitor implements OnDestroy {
     private _ngZone;
     private _platform;
     /** The focus origin that the next focus event is a result of. */
-    private _origin;
+    private origin;
     /** The FocusOrigin of the last focus event tracked by the FocusMonitor. */
-    private _lastFocusOrigin;
+    private lastFocusOrigin;
     /** Whether the window has just been focused. */
-    private _windowFocused;
+    private windowFocused;
     /** The target of the last touch event. */
-    private _lastTouchTarget;
+    private lastTouchTarget;
     /** The timeout id of the touch timeout, used to cancel timeout later. */
-    private _touchTimeoutId;
+    private touchTimeoutId;
     /** The timeout id of the window focus timeout. */
-    private _windowFocusTimeoutId;
+    private windowFocusTimeoutId;
     /** The timeout id of the origin clearing timeout. */
-    private _originTimeoutId;
+    private originTimeoutId;
     /** Map of elements being monitored to their info. */
-    private _elementInfo;
+    private elementInfo;
     /** The number of elements currently being monitored. */
-    private _monitoredElementCount;
+    private monitoredElementCount;
     constructor(_ngZone: NgZone, _platform: Platform);
     /**
      * Monitors focus on an element and applies appropriate CSS classes.
@@ -53,36 +53,36 @@ export declare class FocusMonitor implements OnDestroy {
      */
     _onBlur(event: FocusEvent, element: HTMLElement): void;
     /** A map of global objects to lists of current listeners. */
-    private _unregisterGlobalListeners;
+    private unregisterGlobalListeners;
     /** Register necessary event listeners on the document and window. */
-    private _registerGlobalListeners;
-    private _toggleClass;
+    private registerGlobalListeners;
+    private toggleClass;
     /**
      * Sets the focus classes on the element based on the given focus origin.
      * @param element The element to update the classes on.
      * @param origin The focus origin.
      */
-    private _setClasses;
+    private setClasses;
     /**
      * Sets the origin and schedules an async function to clear it at the end of the event queue.
      * @param origin The origin to set.
      */
-    private _setOriginForCurrentEventQueue;
+    private setOriginForCurrentEventQueue;
     /**
      * Checks whether the given focus event was caused by a touchstart event.
      * @param event The focus event to check.
      * @returns Whether the event was caused by a touch.
      */
-    private _wasCausedByTouch;
+    private wasCausedByTouch;
     /**
      * Handles focus events on a registered element.
      * @param event The focus event.
      * @param element The monitored element.
      */
-    private _onFocus;
-    private _emitOrigin;
-    private _incrementMonitoredElementCount;
-    private _decrementMonitoredElementCount;
+    private onFocus;
+    private emitOrigin;
+    private incrementMonitoredElementCount;
+    private decrementMonitoredElementCount;
 }
 /**
  * Directive that determines how a particular element was focused (via keyboard, mouse, touch, or
@@ -97,7 +97,7 @@ export declare class CdkMonitorFocus implements OnDestroy {
     private _elementRef;
     private _focusMonitor;
     cdkFocusChange: EventEmitter<FocusOrigin>;
-    private _monitorSubscription;
+    private monitorSubscription;
     constructor(_elementRef: ElementRef, _focusMonitor: FocusMonitor);
     ngOnDestroy(): void;
 }

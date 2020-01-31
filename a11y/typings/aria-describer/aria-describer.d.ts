@@ -22,8 +22,8 @@ export declare const CDK_DESCRIBEDBY_HOST_ATTRIBUTE = "cdk-describedby-host";
  * @docs-private
  */
 export declare class AriaDescriber implements OnDestroy {
-    private _document;
-    constructor(_document: any);
+    private document;
+    constructor(document: any);
     /**
      * Adds to the host element an aria-describedby reference to a hidden element that contains
      * the message. If the same message has already been registered, then it will reuse the created
@@ -38,29 +38,29 @@ export declare class AriaDescriber implements OnDestroy {
      * Creates a new element in the visually hidden message container element with the message
      * as its content and adds it to the message registry.
      */
-    private _createMessageElement;
+    private createMessageElement;
     /** Deletes the message element from the global messages container. */
-    private _deleteMessageElement;
+    private deleteMessageElement;
     /** Creates the global container for all aria-describedby messages. */
-    private _createMessagesContainer;
+    private createMessagesContainer;
     /** Deletes the global messages container. */
-    private _deleteMessagesContainer;
+    private deleteMessagesContainer;
     /** Removes all cdk-describedby messages that are hosted through the element. */
-    private _removeCdkDescribedByReferenceIds;
+    private removeCdkDescribedByReferenceIds;
     /**
      * Adds a message reference to the element using aria-describedby and increments the registered
      * message's reference count.
      */
-    private _addMessageReference;
+    private addMessageReference;
     /**
      * Removes a message reference from the element using aria-describedby
      * and decrements the registered message's reference count.
      */
-    private _removeMessageReference;
+    private removeMessageReference;
     /** Returns true if the element has been described by the provided message ID. */
-    private _isElementDescribedByMessage;
+    private isElementDescribedByMessage;
     /** Determines whether a message can be described on a particular element. */
-    private _canBeDescribed;
+    private canBeDescribed;
     /** Checks whether a node is an Element node. */
-    private _isElementNode;
+    private isElementNode;
 }

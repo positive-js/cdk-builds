@@ -726,26 +726,27 @@ var FocusMonitor = /** @class */ (function () {
         /**
          * The focus origin that the next focus event is a result of.
          */
-        this._origin = null;
+        this.origin = null;
         /**
          * Whether the window has just been focused.
          */
-        this._windowFocused = false;
+        this.windowFocused = false;
         /**
          * Map of elements being monitored to their info.
          */
-        this._elementInfo = new Map();
+        this.elementInfo = new Map();
         /**
          * The number of elements currently being monitored.
          */
-        this._monitoredElementCount = 0;
+        this.monitoredElementCount = 0;
         /**
          * A map of global objects to lists of current listeners.
          */
-        this._unregisterGlobalListeners = (/**
+        // tslint:disable-next-line no-empty
+        this.unregisterGlobalListeners = (/**
          * @return {?}
          */
-        function () { }); // tslint:disable-line no-empty
+        function () { });
     }
     /**
      * Monitors focus on an element and applies appropriate CSS classes.
@@ -775,9 +776,9 @@ var FocusMonitor = /** @class */ (function () {
             return of(null);
         }
         // Check if we're already monitoring this element.
-        if (this._elementInfo.has(element)) {
+        if (this.elementInfo.has(element)) {
             /** @type {?} */
-            var cachedInfo = this._elementInfo.get(element);
+            var cachedInfo = this.elementInfo.get(element);
             (/** @type {?} */ (cachedInfo)).checkChildren = checkChildren;
             return (/** @type {?} */ (cachedInfo)).subject.asObservable();
         }
@@ -791,15 +792,15 @@ var FocusMonitor = /** @class */ (function () {
             checkChildren: checkChildren,
             subject: new Subject()
         };
-        this._elementInfo.set(element, info);
-        this._incrementMonitoredElementCount();
+        this.elementInfo.set(element, info);
+        this.incrementMonitoredElementCount();
         // Start listening. We need to listen in capture phase since focus events don't bubble.
         /** @type {?} */
         var focusListener = (/**
          * @param {?} event
          * @return {?}
          */
-        function (event) { return _this._onFocus(event, element); });
+        function (event) { return _this.onFocus(event, element); });
         /** @type {?} */
         var blurListener = (/**
          * @param {?} event
@@ -839,13 +840,13 @@ var FocusMonitor = /** @class */ (function () {
      */
     function (element) {
         /** @type {?} */
-        var elementInfo = this._elementInfo.get(element);
+        var elementInfo = this.elementInfo.get(element);
         if (elementInfo) {
             elementInfo.unlisten();
             elementInfo.subject.complete();
-            this._setClasses(element);
-            this._elementInfo.delete(element);
-            this._decrementMonitoredElementCount();
+            this.setClasses(element);
+            this.elementInfo.delete(element);
+            this.decrementMonitoredElementCount();
         }
     };
     /**
@@ -866,7 +867,7 @@ var FocusMonitor = /** @class */ (function () {
      * @return {?}
      */
     function (element, origin) {
-        this._setOriginForCurrentEventQueue(origin);
+        this.setOriginForCurrentEventQueue(origin);
         // `focus` isn't available on the server
         if (typeof element.focus === 'function') {
             element.focus();
@@ -880,7 +881,7 @@ var FocusMonitor = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        this._elementInfo.forEach((/**
+        this.elementInfo.forEach((/**
          * @param {?} _info
          * @param {?} element
          * @return {?}
@@ -892,40 +893,40 @@ var FocusMonitor = /** @class */ (function () {
      * @param event The blur event.
      * @param element The monitored element.
      */
+    // tslint:disable-next-line:naming-convention
     /**
      * Handles blur events on a registered element.
      * @param {?} event The blur event.
      * @param {?} element The monitored element.
      * @return {?}
      */
+    // tslint:disable-next-line:naming-convention
     FocusMonitor.prototype._onBlur = /**
      * Handles blur events on a registered element.
      * @param {?} event The blur event.
      * @param {?} element The monitored element.
      * @return {?}
      */
+    // tslint:disable-next-line:naming-convention
     function (event, element) {
         // If we are counting child-element-focus as focused, make sure that we aren't just blurring in
         // order to focus another child of the monitored element.
         /** @type {?} */
-        var elementInfo = this._elementInfo.get(element);
+        var elementInfo = this.elementInfo.get(element);
         if (!elementInfo || (elementInfo.checkChildren && event.relatedTarget instanceof Node &&
             element.contains(event.relatedTarget))) {
             return;
         }
-        this._setClasses(element);
+        this.setClasses(element);
         elementInfo.subject.next(null);
     };
     /** Register necessary event listeners on the document and window. */
-    // tslint:disable-line no-empty
     /**
      * Register necessary event listeners on the document and window.
      * @private
      * @return {?}
      */
-    FocusMonitor.prototype._registerGlobalListeners = 
-    // tslint:disable-line no-empty
-    /**
+    FocusMonitor.prototype.registerGlobalListeners = /**
      * Register necessary event listeners on the document and window.
      * @private
      * @return {?}
@@ -942,8 +943,8 @@ var FocusMonitor = /** @class */ (function () {
          * @return {?}
          */
         function () {
-            _this._lastTouchTarget = null;
-            _this._setOriginForCurrentEventQueue('keyboard');
+            _this.lastTouchTarget = null;
+            _this.setOriginForCurrentEventQueue('keyboard');
         });
         // On mousedown record the origin only if there is not touch target, since a mousedown can
         // happen as a result of a touch event.
@@ -952,8 +953,8 @@ var FocusMonitor = /** @class */ (function () {
          * @return {?}
          */
         function () {
-            if (!_this._lastTouchTarget) {
-                _this._setOriginForCurrentEventQueue('mouse');
+            if (!_this.lastTouchTarget) {
+                _this.setOriginForCurrentEventQueue('mouse');
             }
         });
         // When the touchstart event fires the focus event is not yet in the event queue. This means
@@ -965,14 +966,14 @@ var FocusMonitor = /** @class */ (function () {
          * @return {?}
          */
         function (event) {
-            if (_this._touchTimeoutId != null) {
-                clearTimeout(_this._touchTimeoutId);
+            if (_this.touchTimeoutId != null) {
+                clearTimeout(_this.touchTimeoutId);
             }
-            _this._lastTouchTarget = event.target;
-            _this._touchTimeoutId = window.setTimeout((/**
+            _this.lastTouchTarget = event.target;
+            _this.touchTimeoutId = window.setTimeout((/**
              * @return {?}
              */
-            function () { return _this._lastTouchTarget = null; }), TOUCH_BUFFER_MS);
+            function () { return _this.lastTouchTarget = null; }), TOUCH_BUFFER_MS);
         });
         // Make a note of when the window regains focus, so we can restore the origin info for the
         // focused element.
@@ -981,11 +982,11 @@ var FocusMonitor = /** @class */ (function () {
          * @return {?}
          */
         function () {
-            _this._windowFocused = true;
-            _this._windowFocusTimeoutId = window.setTimeout((/**
+            _this.windowFocused = true;
+            _this.windowFocusTimeoutId = window.setTimeout((/**
              * @return {?}
              */
-            function () { return _this._windowFocused = false; }), 0);
+            function () { return _this.windowFocused = false; }), 0);
         });
         // Note: we listen to events in the capture phase so we can detect them even if the user stops
         // propagation.
@@ -998,7 +999,7 @@ var FocusMonitor = /** @class */ (function () {
             document.addEventListener('touchstart', documentTouchstartListener, supportsPassiveEventListeners() ? ((/** @type {?} */ ({ passive: true, capture: true }))) : true);
             window.addEventListener('focus', windowFocusListener);
         }));
-        this._unregisterGlobalListeners = (/**
+        this.unregisterGlobalListeners = (/**
          * @return {?}
          */
         function () {
@@ -1007,9 +1008,9 @@ var FocusMonitor = /** @class */ (function () {
             document.removeEventListener('touchstart', documentTouchstartListener, supportsPassiveEventListeners() ? ((/** @type {?} */ ({ passive: true, capture: true }))) : true);
             window.removeEventListener('focus', windowFocusListener);
             // Clear timeouts for all potentially pending timeouts to prevent the leaks.
-            clearTimeout(_this._windowFocusTimeoutId);
-            clearTimeout(_this._touchTimeoutId);
-            clearTimeout(_this._originTimeoutId);
+            clearTimeout(_this.windowFocusTimeoutId);
+            clearTimeout(_this.touchTimeoutId);
+            clearTimeout(_this.originTimeoutId);
         });
     };
     /**
@@ -1019,7 +1020,7 @@ var FocusMonitor = /** @class */ (function () {
      * @param {?} shouldSet
      * @return {?}
      */
-    FocusMonitor.prototype._toggleClass = /**
+    FocusMonitor.prototype.toggleClass = /**
      * @private
      * @param {?} element
      * @param {?} className
@@ -1046,7 +1047,7 @@ var FocusMonitor = /** @class */ (function () {
      * @param {?=} origin The focus origin.
      * @return {?}
      */
-    FocusMonitor.prototype._setClasses = /**
+    FocusMonitor.prototype.setClasses = /**
      * Sets the focus classes on the element based on the given focus origin.
      * @private
      * @param {?} element The element to update the classes on.
@@ -1055,13 +1056,13 @@ var FocusMonitor = /** @class */ (function () {
      */
     function (element, origin) {
         /** @type {?} */
-        var elementInfo = this._elementInfo.get(element);
+        var elementInfo = this.elementInfo.get(element);
         if (elementInfo) {
-            this._toggleClass(element, 'cdk-focused', !!origin);
-            this._toggleClass(element, 'cdk-touch-focused', origin === 'touch');
-            this._toggleClass(element, 'cdk-keyboard-focused', origin === 'keyboard');
-            this._toggleClass(element, 'cdk-mouse-focused', origin === 'mouse');
-            this._toggleClass(element, 'cdk-program-focused', origin === 'program');
+            this.toggleClass(element, 'cdk-focused', !!origin);
+            this.toggleClass(element, 'cdk-touch-focused', origin === 'touch');
+            this.toggleClass(element, 'cdk-keyboard-focused', origin === 'keyboard');
+            this.toggleClass(element, 'cdk-mouse-focused', origin === 'mouse');
+            this.toggleClass(element, 'cdk-program-focused', origin === 'program');
         }
     };
     /**
@@ -1074,7 +1075,7 @@ var FocusMonitor = /** @class */ (function () {
      * @param {?} origin The origin to set.
      * @return {?}
      */
-    FocusMonitor.prototype._setOriginForCurrentEventQueue = /**
+    FocusMonitor.prototype.setOriginForCurrentEventQueue = /**
      * Sets the origin and schedules an async function to clear it at the end of the event queue.
      * @private
      * @param {?} origin The origin to set.
@@ -1086,11 +1087,11 @@ var FocusMonitor = /** @class */ (function () {
          * @return {?}
          */
         function () {
-            _this._origin = origin;
-            _this._originTimeoutId = window.setTimeout((/**
+            _this.origin = origin;
+            _this.originTimeoutId = window.setTimeout((/**
              * @return {?}
              */
-            function () { return _this._origin = null; }));
+            function () { return _this.origin = null; }));
         }));
     };
     /**
@@ -1104,7 +1105,7 @@ var FocusMonitor = /** @class */ (function () {
      * @param {?} event The focus event to check.
      * @return {?} Whether the event was caused by a touch.
      */
-    FocusMonitor.prototype._wasCausedByTouch = /**
+    FocusMonitor.prototype.wasCausedByTouch = /**
      * Checks whether the given focus event was caused by a touchstart event.
      * @private
      * @param {?} event The focus event to check.
@@ -1130,8 +1131,8 @@ var FocusMonitor = /** @class */ (function () {
         // touchstart.
         /** @type {?} */
         var focusTarget = event.target;
-        return this._lastTouchTarget instanceof Node && focusTarget instanceof Node &&
-            (focusTarget === this._lastTouchTarget || focusTarget.contains(this._lastTouchTarget));
+        return this.lastTouchTarget instanceof Node && focusTarget instanceof Node &&
+            (focusTarget === this.lastTouchTarget || focusTarget.contains(this.lastTouchTarget));
     };
     /**
      * Handles focus events on a registered element.
@@ -1145,7 +1146,7 @@ var FocusMonitor = /** @class */ (function () {
      * @param {?} element The monitored element.
      * @return {?}
      */
-    FocusMonitor.prototype._onFocus = /**
+    FocusMonitor.prototype.onFocus = /**
      * Handles focus events on a registered element.
      * @private
      * @param {?} event The focus event.
@@ -1164,7 +1165,7 @@ var FocusMonitor = /** @class */ (function () {
         // If we are not counting child-element-focus as focused, make sure that the event target is the
         // monitored element itself.
         /** @type {?} */
-        var elementInfo = this._elementInfo.get(element);
+        var elementInfo = this.elementInfo.get(element);
         if (!elementInfo || (!elementInfo.checkChildren && element !== event.target)) {
             return;
         }
@@ -1175,21 +1176,21 @@ var FocusMonitor = /** @class */ (function () {
         // 3) The element was programmatically focused, in which case we should mark the origin as
         //    'program'.
         /** @type {?} */
-        var origin = this._origin;
+        var origin = this.origin;
         if (!origin) {
-            if (this._windowFocused && this._lastFocusOrigin) {
-                origin = this._lastFocusOrigin;
+            if (this.windowFocused && this.lastFocusOrigin) {
+                origin = this.lastFocusOrigin;
             }
-            else if (this._wasCausedByTouch(event)) {
+            else if (this.wasCausedByTouch(event)) {
                 origin = 'touch';
             }
             else {
                 origin = 'program';
             }
         }
-        this._setClasses(element, origin);
-        this._emitOrigin(elementInfo.subject, origin);
-        this._lastFocusOrigin = origin;
+        this.setClasses(element, origin);
+        this.emitOrigin(elementInfo.subject, origin);
+        this.lastFocusOrigin = origin;
     };
     /**
      * @private
@@ -1197,7 +1198,7 @@ var FocusMonitor = /** @class */ (function () {
      * @param {?} origin
      * @return {?}
      */
-    FocusMonitor.prototype._emitOrigin = /**
+    FocusMonitor.prototype.emitOrigin = /**
      * @private
      * @param {?} subject
      * @param {?} origin
@@ -1213,29 +1214,29 @@ var FocusMonitor = /** @class */ (function () {
      * @private
      * @return {?}
      */
-    FocusMonitor.prototype._incrementMonitoredElementCount = /**
+    FocusMonitor.prototype.incrementMonitoredElementCount = /**
      * @private
      * @return {?}
      */
     function () {
         // Register global listeners when first element is monitored.
-        if (++this._monitoredElementCount === 1) {
-            this._registerGlobalListeners();
+        if (++this.monitoredElementCount === 1) {
+            this.registerGlobalListeners();
         }
     };
     /**
      * @private
      * @return {?}
      */
-    FocusMonitor.prototype._decrementMonitoredElementCount = /**
+    FocusMonitor.prototype.decrementMonitoredElementCount = /**
      * @private
      * @return {?}
      */
     function () {
         // Unregister global listeners when last element is unmonitored.
-        if (!--this._monitoredElementCount) {
-            this._unregisterGlobalListeners();
-            this._unregisterGlobalListeners = (/**
+        if (!--this.monitoredElementCount) {
+            this.unregisterGlobalListeners();
+            this.unregisterGlobalListeners = (/**
              * @return {?}
              */
             function () { }); // tslint:disable-line no-empty
@@ -1267,7 +1268,7 @@ var CdkMonitorFocus = /** @class */ (function () {
         this._elementRef = _elementRef;
         this._focusMonitor = _focusMonitor;
         this.cdkFocusChange = new EventEmitter();
-        this._monitorSubscription = this._focusMonitor.monitor(this._elementRef.nativeElement, this._elementRef.nativeElement.hasAttribute('cdkMonitorSubtreeFocus'))
+        this.monitorSubscription = this._focusMonitor.monitor(this._elementRef.nativeElement, this._elementRef.nativeElement.hasAttribute('cdkMonitorSubtreeFocus'))
             .subscribe((/**
          * @param {?} origin
          * @return {?}
@@ -1282,7 +1283,7 @@ var CdkMonitorFocus = /** @class */ (function () {
      */
     function () {
         this._focusMonitor.stopMonitoring(this._elementRef.nativeElement);
-        this._monitorSubscription.unsubscribe();
+        this.monitorSubscription.unsubscribe();
     };
     CdkMonitorFocus.decorators = [
         { type: Directive, args: [{
@@ -1306,6 +1307,7 @@ var CdkMonitorFocus = /** @class */ (function () {
  * @param {?} platform
  * @return {?}
  */
+// tslint:disable-next-line:naming-convention
 function FOCUS_MONITOR_PROVIDER_FACTORY(parentDispatcher, ngZone, platform) {
     return parentDispatcher || new FocusMonitor(ngZone, platform);
 }
@@ -1317,6 +1319,7 @@ var FOCUS_MONITOR_PROVIDER = {
     // If there is already a FocusMonitor available, use that. Otherwise, provide a new one.
     provide: FocusMonitor,
     deps: [[new Optional(), new SkipSelf(), FocusMonitor], NgZone, Platform],
+    // tslint:disable-next-line:deprecation
     useFactory: FOCUS_MONITOR_PROVIDER_FACTORY
 };
 
@@ -1419,8 +1422,8 @@ var messagesContainer = null;
  * \@docs-private
  */
 var AriaDescriber = /** @class */ (function () {
-    function AriaDescriber(_document) {
-        this._document = _document;
+    function AriaDescriber(document) {
+        this.document = document;
     }
     /**
      * Adds to the host element an aria-describedby reference to a hidden element that contains
@@ -1444,14 +1447,14 @@ var AriaDescriber = /** @class */ (function () {
      * @return {?}
      */
     function (hostElement, message) {
-        if (!this._canBeDescribed(hostElement, message)) {
+        if (!this.canBeDescribed(hostElement, message)) {
             return;
         }
         if (!messageRegistry.has(message)) {
-            this._createMessageElement(message);
+            this.createMessageElement(message);
         }
-        if (!this._isElementDescribedByMessage(hostElement, message)) {
-            this._addMessageReference(hostElement, message);
+        if (!this.isElementDescribedByMessage(hostElement, message)) {
+            this.addMessageReference(hostElement, message);
         }
     };
     /** Removes the host element's aria-describedby reference to the message element. */
@@ -1468,19 +1471,19 @@ var AriaDescriber = /** @class */ (function () {
      * @return {?}
      */
     function (hostElement, message) {
-        if (!this._isElementNode(hostElement)) {
+        if (!this.isElementNode(hostElement)) {
             return;
         }
-        if (this._isElementDescribedByMessage(hostElement, message)) {
-            this._removeMessageReference(hostElement, message);
+        if (this.isElementDescribedByMessage(hostElement, message)) {
+            this.removeMessageReference(hostElement, message);
         }
         /** @type {?} */
         var registeredMessage = messageRegistry.get(message);
         if (registeredMessage && registeredMessage.referenceCount === 0) {
-            this._deleteMessageElement(message);
+            this.deleteMessageElement(message);
         }
         if (messagesContainer && messagesContainer.childNodes.length === 0) {
-            this._deleteMessagesContainer();
+            this.deleteMessagesContainer();
         }
     };
     /** Unregisters all created message elements and removes the message container. */
@@ -1493,14 +1496,19 @@ var AriaDescriber = /** @class */ (function () {
      * @return {?}
      */
     function () {
+        var _this = this;
         /** @type {?} */
-        var describedElements = this._document.querySelectorAll("[" + CDK_DESCRIBEDBY_HOST_ATTRIBUTE + "]");
-        for (var i = 0; i < describedElements.length; i++) {
-            this._removeCdkDescribedByReferenceIds(describedElements[i]);
-            describedElements[i].removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
-        }
+        var describedElements = Array.from(this.document.querySelectorAll("[" + CDK_DESCRIBEDBY_HOST_ATTRIBUTE + "]"));
+        describedElements.forEach((/**
+         * @param {?} element
+         * @return {?}
+         */
+        function (element) {
+            _this.removeCdkDescribedByReferenceIds(element);
+            element.removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
+        }));
         if (messagesContainer) {
-            this._deleteMessagesContainer();
+            this.deleteMessagesContainer();
         }
         messageRegistry.clear();
     };
@@ -1515,7 +1523,7 @@ var AriaDescriber = /** @class */ (function () {
      * @param {?} message
      * @return {?}
      */
-    AriaDescriber.prototype._createMessageElement = /**
+    AriaDescriber.prototype.createMessageElement = /**
      * Creates a new element in the visually hidden message container element with the message
      * as its content and adds it to the message registry.
      * @private
@@ -1524,10 +1532,10 @@ var AriaDescriber = /** @class */ (function () {
      */
     function (message) {
         /** @type {?} */
-        var messageElement = this._document.createElement('div');
+        var messageElement = this.document.createElement('div');
         messageElement.setAttribute('id', CDK_DESCRIBEDBY_ID_PREFIX + "-" + nextId++);
-        messageElement.appendChild(this._document.createTextNode(message));
-        this._createMessagesContainer();
+        messageElement.appendChild(this.document.createTextNode(message));
+        this.createMessagesContainer();
         (/** @type {?} */ (messagesContainer)).appendChild(messageElement);
         messageRegistry.set(message, { messageElement: messageElement, referenceCount: 0 });
     };
@@ -1538,7 +1546,7 @@ var AriaDescriber = /** @class */ (function () {
      * @param {?} message
      * @return {?}
      */
-    AriaDescriber.prototype._deleteMessageElement = /**
+    AriaDescriber.prototype.deleteMessageElement = /**
      * Deletes the message element from the global messages container.
      * @private
      * @param {?} message
@@ -1560,7 +1568,7 @@ var AriaDescriber = /** @class */ (function () {
      * @private
      * @return {?}
      */
-    AriaDescriber.prototype._createMessagesContainer = /**
+    AriaDescriber.prototype.createMessagesContainer = /**
      * Creates the global container for all aria-describedby messages.
      * @private
      * @return {?}
@@ -1568,7 +1576,7 @@ var AriaDescriber = /** @class */ (function () {
     function () {
         if (!messagesContainer) {
             /** @type {?} */
-            var preExistingContainer = this._document.getElementById(MESSAGES_CONTAINER_ID);
+            var preExistingContainer = this.document.getElementById(MESSAGES_CONTAINER_ID);
             // When going from the server to the client, we may end up in a situation where there's
             // already a container on the page, but we don't have a reference to it. Clear the
             // old container so we don't get duplicates. Doing this, instead of emptying the previous
@@ -1576,11 +1584,11 @@ var AriaDescriber = /** @class */ (function () {
             if (preExistingContainer) {
                 (/** @type {?} */ (preExistingContainer.parentNode)).removeChild(preExistingContainer);
             }
-            messagesContainer = this._document.createElement('div');
+            messagesContainer = this.document.createElement('div');
             messagesContainer.id = MESSAGES_CONTAINER_ID;
             messagesContainer.setAttribute('aria-hidden', 'true');
             messagesContainer.style.display = 'none';
-            this._document.body.appendChild(messagesContainer);
+            this.document.body.appendChild(messagesContainer);
         }
     };
     /** Deletes the global messages container. */
@@ -1589,7 +1597,7 @@ var AriaDescriber = /** @class */ (function () {
      * @private
      * @return {?}
      */
-    AriaDescriber.prototype._deleteMessagesContainer = /**
+    AriaDescriber.prototype.deleteMessagesContainer = /**
      * Deletes the global messages container.
      * @private
      * @return {?}
@@ -1607,7 +1615,7 @@ var AriaDescriber = /** @class */ (function () {
      * @param {?} element
      * @return {?}
      */
-    AriaDescriber.prototype._removeCdkDescribedByReferenceIds = /**
+    AriaDescriber.prototype.removeCdkDescribedByReferenceIds = /**
      * Removes all cdk-describedby messages that are hosted through the element.
      * @private
      * @param {?} element
@@ -1636,7 +1644,7 @@ var AriaDescriber = /** @class */ (function () {
      * @param {?} message
      * @return {?}
      */
-    AriaDescriber.prototype._addMessageReference = /**
+    AriaDescriber.prototype.addMessageReference = /**
      * Adds a message reference to the element using aria-describedby and increments the registered
      * message's reference count.
      * @private
@@ -1665,7 +1673,7 @@ var AriaDescriber = /** @class */ (function () {
      * @param {?} message
      * @return {?}
      */
-    AriaDescriber.prototype._removeMessageReference = /**
+    AriaDescriber.prototype.removeMessageReference = /**
      * Removes a message reference from the element using aria-describedby
      * and decrements the registered message's reference count.
      * @private
@@ -1688,7 +1696,7 @@ var AriaDescriber = /** @class */ (function () {
      * @param {?} message
      * @return {?}
      */
-    AriaDescriber.prototype._isElementDescribedByMessage = /**
+    AriaDescriber.prototype.isElementDescribedByMessage = /**
      * Returns true if the element has been described by the provided message ID.
      * @private
      * @param {?} element
@@ -1712,7 +1720,7 @@ var AriaDescriber = /** @class */ (function () {
      * @param {?} message
      * @return {?}
      */
-    AriaDescriber.prototype._canBeDescribed = /**
+    AriaDescriber.prototype.canBeDescribed = /**
      * Determines whether a message can be described on a particular element.
      * @private
      * @param {?} element
@@ -1720,7 +1728,7 @@ var AriaDescriber = /** @class */ (function () {
      * @return {?}
      */
     function (element, message) {
-        if (!this._isElementNode(element)) {
+        if (!this.isElementNode(element)) {
             return false;
         }
         /** @type {?} */
@@ -1738,14 +1746,14 @@ var AriaDescriber = /** @class */ (function () {
      * @param {?} element
      * @return {?}
      */
-    AriaDescriber.prototype._isElementNode = /**
+    AriaDescriber.prototype.isElementNode = /**
      * Checks whether a node is an Element node.
      * @private
      * @param {?} element
      * @return {?}
      */
     function (element) {
-        return element.nodeType === this._document.ELEMENT_NODE;
+        return element.nodeType === this.document.ELEMENT_NODE;
     };
     AriaDescriber.decorators = [
         { type: Injectable, args: [{ providedIn: 'root' },] },
