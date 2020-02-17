@@ -14,7 +14,7 @@ import { Version } from '@angular/core';
  * Current version of the Component Development Kit.
  * @type {?}
  */
-const VERSION = new Version('8.3.2');
+const VERSION = new Version('8.3.2-beta.1');
 
 export { VERSION };
 //# sourceMappingURL=cdk.js.map
