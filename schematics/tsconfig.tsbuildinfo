@@ -791,7 +791,7 @@
       },
       "/home/circleci/mosaic/packages/cdk/schematics/utils/project-main-file.ts": {
         "version": "3e5a6c873af3a109ee4b436ca498fefe1fd99c1426468decf59d86fe77eb7180",
-        "signature": "516974f08e762f48.4.0-ea0130098f4260671d0b4f91f7003b67ddb1ffc99071e2bbec98"
+        "signature": "516974f08e762f48.4.0-b749becd8f4260671d0b4f91f7003b67ddb1ffc99071e2bbec98"
       },
       "/home/circleci/mosaic/node_modules/typescript/lib/typescript.d.ts": {
         "version": "017fad67b8495819f5e4a02132273d9bc42960ae64fc28ff10401c88bcdbda39",
@@ -862,7 +862,7 @@
         "signature": "cee54d8dec0e0264044414ac24a8f6c7233ffaddbcfc5abbaad3ddb5a3c44763"
       },
       "/home/circleci/mosaic/packages/cdk/schematics/utils/get-project.ts": {
-        "version": "6eb3684b174b0c53c41649a360d18.4.0-ea0130098462a55ed373887d96e0b546ec80bd2",
+        "version": "6eb3684b174b0c53c41649a360d18.4.0-b749becd8462a55ed373887d96e0b546ec80bd2",
         "signature": "3047663ea0715031d899b82814fb9ba30d80aac91193fc7445ed1356b1f60ddf"
       },
       "/home/circleci/mosaic/packages/cdk/schematics/utils/schematic-options.ts": {
@@ -915,7 +915,7 @@
       },
       "/home/circleci/mosaic/packages/cdk/schematics/ng-add/schema.ts": {
         "version": "9a635500735cc64a226bccaf62b2a7c66cb27e0d0e3e7b62b4594777a7768ca1",
-        "signature": "c6ef4b372d0de7bb178.4.0-ea0130095e017f196d53205d7008aee8cde0e5b253833460f"
+        "signature": "c6ef4b372d0de7bb178.4.0-b749becd5e017f196d53205d7008aee8cde0e5b253833460f"
       },
       "/home/circleci/mosaic/node_modules/@types/jasmine/ts3.1/index.d.ts": {
         "version": "ea1c4d934e02567be99f0ed846ed90b18febe0e56bfae8925bbbd5c35d9d8641",
