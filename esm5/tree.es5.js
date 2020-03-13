@@ -10,8 +10,8 @@ import { __extends } from 'tslib';
 import { take, takeUntil } from 'rxjs/operators';
 import { Directive, ViewContainerRef, ChangeDetectorRef, TemplateRef, Component, ViewEncapsulation, ChangeDetectionStrategy, IterableDiffers, Input, ViewChild, ContentChildren, ElementRef, Inject, forwardRef, Renderer2, Optional, NgModule } from '@angular/core';
 import { Directionality } from '@angular/cdk/bidi';
+import { FocusMonitor } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
-import { FocusMonitor } from '@ptsecurity/cdk/a11y';
 
 /**
  * @fileoverview added by tsickle

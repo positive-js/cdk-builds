@@ -5,10 +5,10 @@
  * Use of this source code is governed by an MIT-style license.
  */
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/cdk/collections'), require('rxjs'), require('rxjs/operators'), require('@angular/core'), require('@angular/cdk/bidi'), require('@angular/common'), require('@ptsecurity/cdk/a11y')) :
-    typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/tree', ['exports', '@angular/cdk/collections', 'rxjs', 'rxjs/operators', '@angular/core', '@angular/cdk/bidi', '@angular/common', '@ptsecurity/cdk/a11y'], factory) :
-    (global = global || self, factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.tree = {}), global.ng.cdk.collections, global.rxjs, global.rxjs.operators, global.ng.core, global.ng.cdk.bidi, global.ng.common, global.ng.cdk.a11y));
-}(this, (function (exports, collections, rxjs, operators, core, bidi, common, a11y) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/cdk/collections'), require('rxjs'), require('rxjs/operators'), require('@angular/core'), require('@angular/cdk/bidi'), require('@angular/cdk/a11y'), require('@angular/common')) :
+    typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/tree', ['exports', '@angular/cdk/collections', 'rxjs', 'rxjs/operators', '@angular/core', '@angular/cdk/bidi', '@angular/cdk/a11y', '@angular/common'], factory) :
+    (global = global || self, factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.tree = {}), global.ng.cdk.collections, global.rxjs, global.rxjs.operators, global.ng.core, global.ng.cdk.bidi, global.ng.cdk.a11y, global.ng.common));
+}(this, (function (exports, collections, rxjs, operators, core, bidi, a11y, common) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
