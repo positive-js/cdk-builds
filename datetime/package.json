@@ -1,8 +1,13 @@
 {
-    "name": "@ptsecurity/cdk/datetime",
-    "typings": "../datetime.d.ts",
-    "main": "../bundles/cdk-datetime.umd.js",
-    "module": "../esm5/datetime.es5.js",
-    "es2015": "../esm2015/datetime.js",
-    "sideEffects": false
+  "main": "../bundles/ptsecurity-cdk-datetime.umd.js",
+  "module": "../fesm5/ptsecurity-cdk-datetime.js",
+  "es2015": "../fesm2015/ptsecurity-cdk-datetime.js",
+  "esm5": "../esm5/datetime/ptsecurity-cdk-datetime.js",
+  "esm2015": "../esm2015/datetime/ptsecurity-cdk-datetime.js",
+  "fesm5": "../fesm5/ptsecurity-cdk-datetime.js",
+  "fesm2015": "../fesm2015/ptsecurity-cdk-datetime.js",
+  "typings": "ptsecurity-cdk-datetime.d.ts",
+  "metadata": "ptsecurity-cdk-datetime.metadata.json",
+  "sideEffects": false,
+  "name": "@ptsecurity/cdk/datetime"
 }

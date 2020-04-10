@@ -1,8 +1,13 @@
 {
-    "name": "@ptsecurity/cdk/a11y",
-    "typings": "../a11y.d.ts",
-    "main": "../bundles/cdk-a11y.umd.js",
-    "module": "../esm5/a11y.es5.js",
-    "es2015": "../esm2015/a11y.js",
-    "sideEffects": false
+  "main": "../bundles/ptsecurity-cdk-a11y.umd.js",
+  "module": "../fesm5/ptsecurity-cdk-a11y.js",
+  "es2015": "../fesm2015/ptsecurity-cdk-a11y.js",
+  "esm5": "../esm5/a11y/ptsecurity-cdk-a11y.js",
+  "esm2015": "../esm2015/a11y/ptsecurity-cdk-a11y.js",
+  "fesm5": "../fesm5/ptsecurity-cdk-a11y.js",
+  "fesm2015": "../fesm2015/ptsecurity-cdk-a11y.js",
+  "typings": "ptsecurity-cdk-a11y.d.ts",
+  "metadata": "ptsecurity-cdk-a11y.metadata.json",
+  "sideEffects": false,
+  "name": "@ptsecurity/cdk/a11y"
 }

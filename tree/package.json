@@ -1,8 +1,13 @@
 {
-    "name": "@ptsecurity/cdk/tree",
-    "typings": "../tree.d.ts",
-    "main": "../bundles/cdk-tree.umd.js",
-    "module": "../esm5/tree.es5.js",
-    "es2015": "../esm2015/tree.js",
-    "sideEffects": false
+  "main": "../bundles/ptsecurity-cdk-tree.umd.js",
+  "module": "../fesm5/ptsecurity-cdk-tree.js",
+  "es2015": "../fesm2015/ptsecurity-cdk-tree.js",
+  "esm5": "../esm5/tree/ptsecurity-cdk-tree.js",
+  "esm2015": "../esm2015/tree/ptsecurity-cdk-tree.js",
+  "fesm5": "../fesm5/ptsecurity-cdk-tree.js",
+  "fesm2015": "../fesm2015/ptsecurity-cdk-tree.js",
+  "typings": "ptsecurity-cdk-tree.d.ts",
+  "metadata": "ptsecurity-cdk-tree.metadata.json",
+  "sideEffects": false,
+  "name": "@ptsecurity/cdk/tree"
 }

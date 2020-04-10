@@ -1,0 +1,13 @@
+{
+  "main": "../bundles/ptsecurity-cdk-testing.umd.js",
+  "module": "../fesm5/ptsecurity-cdk-testing.js",
+  "es2015": "../fesm2015/ptsecurity-cdk-testing.js",
+  "esm5": "../esm5/testing/ptsecurity-cdk-testing.js",
+  "esm2015": "../esm2015/testing/ptsecurity-cdk-testing.js",
+  "fesm5": "../fesm5/ptsecurity-cdk-testing.js",
+  "fesm2015": "../fesm2015/ptsecurity-cdk-testing.js",
+  "typings": "ptsecurity-cdk-testing.d.ts",
+  "metadata": "ptsecurity-cdk-testing.metadata.json",
+  "sideEffects": false,
+  "name": "@ptsecurity/cdk/testing"
+}

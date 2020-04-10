@@ -1,11 +1,7 @@
 {
     "name": "@ptsecurity/cdk",
-    "version": "8.4.4-42e7e9b",
+    "version": "8.4.3-19c4bc35",
     "description": "Mosaic Component Development Kit",
-    "main": "./bundles/cdk.umd.js",
-    "module": "./esm5/cdk.es5.js",
-    "es2015": "./esm2015/cdk.js",
-    "typings": "./cdk.d.ts",
     "repository": {
         "type": "git",
         "url": "https://github.com/positive-js/mosaic.git"
@@ -14,7 +10,8 @@
         "cdk",
         "component",
         "development",
-        "kit"
+        "kit",
+        "mosaic"
     ],
     "license": "MIT",
     "bugs": {
@@ -22,15 +19,18 @@
     },
     "homepage": "https://github.com/positive-js/mosaic#readme",
     "peerDependencies": {
-        "@angular/core": ">=8.0.0",
-        "@angular/common": ">=8.0.0"
-    },
-    "dependencies": {
+        "@angular/core": "^9.1.0",
+        "@angular/common": "^9.1.0",
         "tslib": "^1.7.1"
     },
-    "schematics": "./schematics/collection.json",
-    "ng-update": {
-        "migrations": "./schematics/migration.json"
-    },
+    "main": "bundles/ptsecurity-cdk.umd.js",
+    "module": "fesm5/ptsecurity-cdk.js",
+    "es2015": "fesm2015/ptsecurity-cdk.js",
+    "esm5": "esm5/ptsecurity-cdk.js",
+    "esm2015": "esm2015/ptsecurity-cdk.js",
+    "fesm5": "fesm5/ptsecurity-cdk.js",
+    "fesm2015": "fesm2015/ptsecurity-cdk.js",
+    "typings": "ptsecurity-cdk.d.ts",
+    "metadata": "ptsecurity-cdk.metadata.json",
     "sideEffects": false
 }
