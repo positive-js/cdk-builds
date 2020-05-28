@@ -1,6 +1,6 @@
 {
     "name": "@ptsecurity/cdk",
-    "version": "9.0.0-a6cf650",
+    "version": "9.0.0-55793aa",
     "description": "Mosaic Component Development Kit",
     "repository": {
         "type": "git",
@@ -20,8 +20,7 @@
     "homepage": "https://github.com/positive-js/mosaic#readme",
     "peerDependencies": {
         "@angular/core": "^9.1.0",
-        "@angular/common": "^9.1.0",
-        "tslib": "^1.7.1"
+        "@angular/common": "^9.1.0"
     },
     "main": "bundles/ptsecurity-cdk.umd.js",
     "module": "fesm5/ptsecurity-cdk.js",
@@ -32,5 +31,8 @@
     "fesm2015": "fesm2015/ptsecurity-cdk.js",
     "typings": "ptsecurity-cdk.d.ts",
     "metadata": "ptsecurity-cdk.metadata.json",
-    "sideEffects": false
+    "sideEffects": false,
+    "dependencies": {
+        "tslib": "^1.7.1"
+    }
 }
