@@ -1,10 +1,8 @@
 {
   "main": "../bundles/ptsecurity-cdk-keycodes.umd.js",
-  "module": "../fesm5/ptsecurity-cdk-keycodes.js",
+  "module": "../fesm2015/ptsecurity-cdk-keycodes.js",
   "es2015": "../fesm2015/ptsecurity-cdk-keycodes.js",
-  "esm5": "../esm5/keycodes/ptsecurity-cdk-keycodes.js",
   "esm2015": "../esm2015/keycodes/ptsecurity-cdk-keycodes.js",
-  "fesm5": "../fesm5/ptsecurity-cdk-keycodes.js",
   "fesm2015": "../fesm2015/ptsecurity-cdk-keycodes.js",
   "typings": "ptsecurity-cdk-keycodes.d.ts",
   "metadata": "ptsecurity-cdk-keycodes.metadata.json",

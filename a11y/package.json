@@ -1,10 +1,8 @@
 {
   "main": "../bundles/ptsecurity-cdk-a11y.umd.js",
-  "module": "../fesm5/ptsecurity-cdk-a11y.js",
+  "module": "../fesm2015/ptsecurity-cdk-a11y.js",
   "es2015": "../fesm2015/ptsecurity-cdk-a11y.js",
-  "esm5": "../esm5/a11y/ptsecurity-cdk-a11y.js",
   "esm2015": "../esm2015/a11y/ptsecurity-cdk-a11y.js",
-  "fesm5": "../fesm5/ptsecurity-cdk-a11y.js",
   "fesm2015": "../fesm2015/ptsecurity-cdk-a11y.js",
   "typings": "ptsecurity-cdk-a11y.d.ts",
   "metadata": "ptsecurity-cdk-a11y.metadata.json",

@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/cdk/collections'), require('rxjs'), require('rxjs/operators'), require('@angular/core'), require('@angular/cdk/bidi'), require('@angular/cdk/a11y'), require('@angular/common')) :
     typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/tree', ['exports', '@angular/cdk/collections', 'rxjs', 'rxjs/operators', '@angular/core', '@angular/cdk/bidi', '@angular/cdk/a11y', '@angular/common'], factory) :
-    (global = global || self, factory((global.ptsecurity = global.ptsecurity || {}, global.ptsecurity.cdk = global.ptsecurity.cdk || {}, global.ptsecurity.cdk.tree = {}), global.ng.cdk.collections, global.rxjs, global.rxjs.operators, global.ng.core, global.ng.cdk.bidi, global.ng.cdk.a11y, global.ng.common));
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.ptsecurity = global.ptsecurity || {}, global.ptsecurity.cdk = global.ptsecurity.cdk || {}, global.ptsecurity.cdk.tree = {}), global.ng.cdk.collections, global.rxjs, global.rxjs.operators, global.ng.core, global.ng.cdk.bidi, global.ng.cdk.a11y, global.ng.common));
 }(this, (function (exports, collections, rxjs, operators, core, bidi, a11y, common) { 'use strict';
 
     /*! *****************************************************************************
@@ -19,35 +19,36 @@
     PERFORMANCE OF THIS SOFTWARE.
     ***************************************************************************** */
     /* global Reflect, Promise */
-
-    var extendStatics = function(d, b) {
+    var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b)
+                if (Object.prototype.hasOwnProperty.call(b, p))
+                    d[p] = b[p]; };
         return extendStatics(d, b);
     };
-
     function __extends(d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     }
-
-    var __assign = function() {
+    var __assign = function () {
         __assign = Object.assign || function __assign(t) {
             for (var s, i = 1, n = arguments.length; i < n; i++) {
                 s = arguments[i];
-                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+                for (var p in s)
+                    if (Object.prototype.hasOwnProperty.call(s, p))
+                        t[p] = s[p];
             }
             return t;
         };
         return __assign.apply(this, arguments);
     };
-
     function __rest(s, e) {
         var t = {};
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-            t[p] = s[p];
+        for (var p in s)
+            if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+                t[p] = s[p];
         if (s != null && typeof Object.getOwnPropertySymbols === "function")
             for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
                 if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
@@ -55,166 +56,247 @@
             }
         return t;
     }
-
     function __decorate(decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+        if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+            r = Reflect.decorate(decorators, target, key, desc);
+        else
+            for (var i = decorators.length - 1; i >= 0; i--)
+                if (d = decorators[i])
+                    r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     }
-
     function __param(paramIndex, decorator) {
-        return function (target, key) { decorator(target, key, paramIndex); }
+        return function (target, key) { decorator(target, key, paramIndex); };
     }
-
     function __metadata(metadataKey, metadataValue) {
-        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+        if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+            return Reflect.metadata(metadataKey, metadataValue);
     }
-
     function __awaiter(thisArg, _arguments, P, generator) {
         function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
         return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+            function fulfilled(value) { try {
+                step(generator.next(value));
+            }
+            catch (e) {
+                reject(e);
+            } }
+            function rejected(value) { try {
+                step(generator["throw"](value));
+            }
+            catch (e) {
+                reject(e);
+            } }
             function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
     }
-
     function __generator(thisArg, body) {
-        var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-        return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+        var _ = { label: 0, sent: function () { if (t[0] & 1)
+                throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+        return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () { return this; }), g;
         function verb(n) { return function (v) { return step([n, v]); }; }
         function step(op) {
-            if (f) throw new TypeError("Generator is already executing.");
-            while (_) try {
-                if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-                if (y = 0, t) op = [op[0] & 2, t.value];
-                switch (op[0]) {
-                    case 0: case 1: t = op; break;
-                    case 4: _.label++; return { value: op[1], done: false };
-                    case 5: _.label++; y = op[1]; op = [0]; continue;
-                    case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                    default:
-                        if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                        if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                        if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                        if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                        if (t[2]) _.ops.pop();
-                        _.trys.pop(); continue;
+            if (f)
+                throw new TypeError("Generator is already executing.");
+            while (_)
+                try {
+                    if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done)
+                        return t;
+                    if (y = 0, t)
+                        op = [op[0] & 2, t.value];
+                    switch (op[0]) {
+                        case 0:
+                        case 1:
+                            t = op;
+                            break;
+                        case 4:
+                            _.label++;
+                            return { value: op[1], done: false };
+                        case 5:
+                            _.label++;
+                            y = op[1];
+                            op = [0];
+                            continue;
+                        case 7:
+                            op = _.ops.pop();
+                            _.trys.pop();
+                            continue;
+                        default:
+                            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+                                _ = 0;
+                                continue;
+                            }
+                            if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) {
+                                _.label = op[1];
+                                break;
+                            }
+                            if (op[0] === 6 && _.label < t[1]) {
+                                _.label = t[1];
+                                t = op;
+                                break;
+                            }
+                            if (t && _.label < t[2]) {
+                                _.label = t[2];
+                                _.ops.push(op);
+                                break;
+                            }
+                            if (t[2])
+                                _.ops.pop();
+                            _.trys.pop();
+                            continue;
+                    }
+                    op = body.call(thisArg, _);
                 }
-                op = body.call(thisArg, _);
-            } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-            if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+                catch (e) {
+                    op = [6, e];
+                    y = 0;
+                }
+                finally {
+                    f = t = 0;
+                }
+            if (op[0] & 5)
+                throw op[1];
+            return { value: op[0] ? op[1] : void 0, done: true };
         }
     }
-
-    function __createBinding(o, m, k, k2) {
-        if (k2 === undefined) k2 = k;
+    var __createBinding = Object.create ? (function (o, m, k, k2) {
+        if (k2 === undefined)
+            k2 = k;
+        Object.defineProperty(o, k2, { enumerable: true, get: function () { return m[k]; } });
+    }) : (function (o, m, k, k2) {
+        if (k2 === undefined)
+            k2 = k;
         o[k2] = m[k];
+    });
+    function __exportStar(m, o) {
+        for (var p in m)
+            if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p))
+                __createBinding(o, m, p);
     }
-
-    function __exportStar(m, exports) {
-        for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
-    }
-
     function __values(o) {
         var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-        if (m) return m.call(o);
-        if (o && typeof o.length === "number") return {
-            next: function () {
-                if (o && i >= o.length) o = void 0;
-                return { value: o && o[i++], done: !o };
-            }
-        };
+        if (m)
+            return m.call(o);
+        if (o && typeof o.length === "number")
+            return {
+                next: function () {
+                    if (o && i >= o.length)
+                        o = void 0;
+                    return { value: o && o[i++], done: !o };
+                }
+            };
         throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
     }
-
     function __read(o, n) {
         var m = typeof Symbol === "function" && o[Symbol.iterator];
-        if (!m) return o;
+        if (!m)
+            return o;
         var i = m.call(o), r, ar = [], e;
         try {
-            while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+            while ((n === void 0 || n-- > 0) && !(r = i.next()).done)
+                ar.push(r.value);
         }
-        catch (error) { e = { error: error }; }
+        catch (error) {
+            e = { error: error };
+        }
         finally {
             try {
-                if (r && !r.done && (m = i["return"])) m.call(i);
+                if (r && !r.done && (m = i["return"]))
+                    m.call(i);
             }
-            finally { if (e) throw e.error; }
+            finally {
+                if (e)
+                    throw e.error;
+            }
         }
         return ar;
     }
-
     function __spread() {
         for (var ar = [], i = 0; i < arguments.length; i++)
             ar = ar.concat(__read(arguments[i]));
         return ar;
     }
-
     function __spreadArrays() {
-        for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+        for (var s = 0, i = 0, il = arguments.length; i < il; i++)
+            s += arguments[i].length;
         for (var r = Array(s), k = 0, i = 0; i < il; i++)
             for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
                 r[k] = a[j];
         return r;
-    };
-
+    }
+    ;
     function __await(v) {
         return this instanceof __await ? (this.v = v, this) : new __await(v);
     }
-
     function __asyncGenerator(thisArg, _arguments, generator) {
-        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+        if (!Symbol.asyncIterator)
+            throw new TypeError("Symbol.asyncIterator is not defined.");
         var g = generator.apply(thisArg, _arguments || []), i, q = [];
         return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-        function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-        function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+        function verb(n) { if (g[n])
+            i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+        function resume(n, v) { try {
+            step(g[n](v));
+        }
+        catch (e) {
+            settle(q[0][3], e);
+        } }
         function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
         function fulfill(value) { resume("next", value); }
         function reject(value) { resume("throw", value); }
-        function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+        function settle(f, v) { if (f(v), q.shift(), q.length)
+            resume(q[0][0], q[0][1]); }
     }
-
     function __asyncDelegator(o) {
         var i, p;
         return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
         function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
     }
-
     function __asyncValues(o) {
-        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+        if (!Symbol.asyncIterator)
+            throw new TypeError("Symbol.asyncIterator is not defined.");
         var m = o[Symbol.asyncIterator], i;
         return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
         function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-        function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+        function settle(resolve, reject, d, v) { Promise.resolve(v).then(function (v) { resolve({ value: v, done: d }); }, reject); }
     }
-
     function __makeTemplateObject(cooked, raw) {
-        if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+        if (Object.defineProperty) {
+            Object.defineProperty(cooked, "raw", { value: raw });
+        }
+        else {
+            cooked.raw = raw;
+        }
         return cooked;
+    }
+    ;
+    var __setModuleDefault = Object.create ? (function (o, v) {
+        Object.defineProperty(o, "default", { enumerable: true, value: v });
+    }) : function (o, v) {
+        o["default"] = v;
     };
-
     function __importStar(mod) {
-        if (mod && mod.__esModule) return mod;
+        if (mod && mod.__esModule)
+            return mod;
         var result = {};
-        if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-        result.default = mod;
+        if (mod != null)
+            for (var k in mod)
+                if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k))
+                    __createBinding(result, mod, k);
+        __setModuleDefault(result, mod);
         return result;
     }
-
     function __importDefault(mod) {
         return (mod && mod.__esModule) ? mod : { default: mod };
     }
-
     function __classPrivateFieldGet(receiver, privateMap) {
         if (!privateMap.has(receiver)) {
             throw new TypeError("attempted to get private field on non-instance");
         }
         return privateMap.get(receiver);
     }
-
     function __classPrivateFieldSet(receiver, privateMap, value) {
         if (!privateMap.has(receiver)) {
             throw new TypeError("attempted to set private field on non-instance");
@@ -224,23 +306,12 @@
     }
 
     /**
-     * @fileoverview added by tsickle
-     * Generated from: control/base-tree-control.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
      * Base tree control. It has basic toggle/expand/collapse operations on a single data node.
      * @abstract
      * @template T
      */
     /* tslint:disable-next-line:naming-convention */
-    var   /**
-     * Base tree control. It has basic toggle/expand/collapse operations on a single data node.
-     * @abstract
-     * @template T
-     */
-    /* tslint:disable-next-line:naming-convention */
-    BaseTreeControl = /** @class */ (function () {
+    var BaseTreeControl = /** @class */ (function () {
         function BaseTreeControl() {
             /**
              * A selection model with multi-selection to track expansion status.
@@ -249,129 +320,82 @@
             this.filterModel = new collections.SelectionModel(true);
             this.filterValue = new rxjs.BehaviorSubject('');
         }
-        /** Toggles one single data node's expanded/collapsed state. */
         /**
          * Toggles one single data node's expanded/collapsed state.
          * @param {?} dataNode
          * @return {?}
          */
-        BaseTreeControl.prototype.toggle = /**
-         * Toggles one single data node's expanded/collapsed state.
-         * @param {?} dataNode
-         * @return {?}
-         */
-        function (dataNode) {
+        BaseTreeControl.prototype.toggle = function (dataNode) {
             if (this.filterValue.value) {
                 return;
             }
             this.expansionModel.toggle(dataNode);
         };
-        /** Expands one single data node. */
         /**
          * Expands one single data node.
          * @param {?} dataNode
          * @return {?}
          */
-        BaseTreeControl.prototype.expand = /**
-         * Expands one single data node.
-         * @param {?} dataNode
-         * @return {?}
-         */
-        function (dataNode) {
+        BaseTreeControl.prototype.expand = function (dataNode) {
             if (this.filterValue.value) {
                 return;
             }
             this.expansionModel.select(dataNode);
         };
-        /** Collapses one single data node. */
         /**
          * Collapses one single data node.
          * @param {?} dataNode
          * @return {?}
          */
-        BaseTreeControl.prototype.collapse = /**
-         * Collapses one single data node.
-         * @param {?} dataNode
-         * @return {?}
-         */
-        function (dataNode) {
+        BaseTreeControl.prototype.collapse = function (dataNode) {
             if (this.filterValue.value) {
                 return;
             }
             this.expansionModel.deselect(dataNode);
         };
-        /** Whether a given data node is expanded or not. Returns true if the data node is expanded. */
         /**
          * Whether a given data node is expanded or not. Returns true if the data node is expanded.
          * @param {?} dataNode
          * @return {?}
          */
-        BaseTreeControl.prototype.isExpanded = /**
-         * Whether a given data node is expanded or not. Returns true if the data node is expanded.
-         * @param {?} dataNode
-         * @return {?}
-         */
-        function (dataNode) {
+        BaseTreeControl.prototype.isExpanded = function (dataNode) {
             return this.expansionModel.isSelected(dataNode);
         };
-        /** Toggles a subtree rooted at `node` recursively. */
         /**
          * Toggles a subtree rooted at `node` recursively.
          * @param {?} dataNode
          * @return {?}
          */
-        BaseTreeControl.prototype.toggleDescendants = /**
-         * Toggles a subtree rooted at `node` recursively.
-         * @param {?} dataNode
-         * @return {?}
-         */
-        function (dataNode) {
+        BaseTreeControl.prototype.toggleDescendants = function (dataNode) {
             this.expansionModel.isSelected(dataNode)
                 ? this.collapseDescendants(dataNode)
                 : this.expandDescendants(dataNode);
         };
-        /** Collapse all dataNodes in the tree. */
         /**
          * Collapse all dataNodes in the tree.
          * @return {?}
          */
-        BaseTreeControl.prototype.collapseAll = /**
-         * Collapse all dataNodes in the tree.
-         * @return {?}
-         */
-        function () {
+        BaseTreeControl.prototype.collapseAll = function () {
             this.expansionModel.clear();
         };
-        /** Expands a subtree rooted at given data node recursively. */
         /**
          * Expands a subtree rooted at given data node recursively.
          * @param {?} dataNode
          * @return {?}
          */
-        BaseTreeControl.prototype.expandDescendants = /**
-         * Expands a subtree rooted at given data node recursively.
-         * @param {?} dataNode
-         * @return {?}
-         */
-        function (dataNode) {
+        BaseTreeControl.prototype.expandDescendants = function (dataNode) {
             var _a;
             /** @type {?} */
             var toBeProcessed = [dataNode];
             toBeProcessed.push.apply(toBeProcessed, __spread(this.getDescendants(dataNode)));
             (_a = this.expansionModel).select.apply(_a, __spread(toBeProcessed));
         };
-        /** Collapses a subtree rooted at given data node recursively. */
         /**
          * Collapses a subtree rooted at given data node recursively.
          * @param {?} dataNode
          * @return {?}
          */
-        BaseTreeControl.prototype.collapseDescendants = /**
-         * Collapses a subtree rooted at given data node recursively.
-         * @param {?} dataNode
-         * @return {?}
-         */
-        function (dataNode) {
+        BaseTreeControl.prototype.collapseDescendants = function (dataNode) {
             var _a;
             /** @type {?} */
             var toBeProcessed = [dataNode];
@@ -424,11 +448,6 @@
     }
 
     /**
-     * @fileoverview added by tsickle
-     * Generated from: control/flat-tree-control.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
      * @param {?} firstValue
      * @param {?} secondValue
      * @return {?}
@@ -448,13 +467,17 @@
      * Flat tree control. Able to expand/collapse a subtree recursively for flattened tree.
      * @template T
      */
-    var   /**
-     * Flat tree control. Able to expand/collapse a subtree recursively for flattened tree.
-     * @template T
-     */
-    FlatTreeControl = /** @class */ (function (_super) {
+    var FlatTreeControl = /** @class */ (function (_super) {
         __extends(FlatTreeControl, _super);
-        /** Construct with flat tree data node functions getLevel, isExpandable, getValue and getViewValue. */
+        /**
+         * Construct with flat tree data node functions getLevel, isExpandable, getValue and getViewValue.
+         * @param {?} getLevel
+         * @param {?} isExpandable
+         * @param {?} getValue
+         * @param {?} getViewValue
+         * @param {?=} compareValues
+         * @param {?=} compareViewValues
+         */
         function FlatTreeControl(getLevel, isExpandable, getValue, getViewValue, compareValues, compareViewValues) {
             if (compareValues === void 0) { compareValues = defaultCompareValues; }
             if (compareViewValues === void 0) { compareViewValues = defaultCompareViewValues; }
@@ -472,24 +495,10 @@
          *
          * To make this working, the `dataNodes` of the TreeControl must be flattened tree nodes
          * with correct levels.
-         */
-        /**
-         * Gets a list of the data node's subtree of descendent data nodes.
-         *
-         * To make this working, the `dataNodes` of the TreeControl must be flattened tree nodes
-         * with correct levels.
          * @param {?} dataNode
          * @return {?}
          */
-        FlatTreeControl.prototype.getDescendants = /**
-         * Gets a list of the data node's subtree of descendent data nodes.
-         *
-         * To make this working, the `dataNodes` of the TreeControl must be flattened tree nodes
-         * with correct levels.
-         * @param {?} dataNode
-         * @return {?}
-         */
-        function (dataNode) {
+        FlatTreeControl.prototype.getDescendants = function (dataNode) {
             /** @type {?} */
             var startIndex = this.dataNodes.indexOf(dataNode);
             /** @type {?} */
@@ -510,22 +519,9 @@
          *
          * To make this working, the `dataNodes` variable of the TreeControl must be set to all flattened
          * data nodes of the tree.
-         */
-        /**
-         * Expands all data nodes in the tree.
-         *
-         * To make this working, the `dataNodes` variable of the TreeControl must be set to all flattened
-         * data nodes of the tree.
          * @return {?}
          */
-        FlatTreeControl.prototype.expandAll = /**
-         * Expands all data nodes in the tree.
-         *
-         * To make this working, the `dataNodes` variable of the TreeControl must be set to all flattened
-         * data nodes of the tree.
-         * @return {?}
-         */
-        function () {
+        FlatTreeControl.prototype.expandAll = function () {
             var _a;
             (_a = this.expansionModel).select.apply(_a, __spread(this.dataNodes));
         };
@@ -534,12 +530,7 @@
          * @param {?} result
          * @return {?}
          */
-        FlatTreeControl.prototype.getParents = /**
-         * @param {?} node
-         * @param {?} result
-         * @return {?}
-         */
-        function (node, result) {
+        FlatTreeControl.prototype.getParents = function (node, result) {
             if (node.parent) {
                 result.unshift(node.parent);
                 return this.getParents(node.parent, result);
@@ -552,51 +543,39 @@
          * @param {?} value
          * @return {?}
          */
-        FlatTreeControl.prototype.hasValue = /**
-         * @param {?} value
-         * @return {?}
-         */
-        function (value) {
+        FlatTreeControl.prototype.hasValue = function (value) {
             var _this = this;
-            return this.dataNodes.find((/**
+            return this.dataNodes.find(( /**
              * @param {?} node
              * @return {?}
-             */
-            function (node) { return _this.compareValues(_this.getValue(node), value); }));
+             */function (node) { return _this.compareValues(_this.getValue(node), value); }));
         };
         /**
          * @param {?} value
          * @return {?}
          */
-        FlatTreeControl.prototype.filterNodes = /**
-         * @param {?} value
-         * @return {?}
-         */
-        function (value) {
+        FlatTreeControl.prototype.filterNodes = function (value) {
             var _a;
             var _this = this;
             this.filterModel.clear();
             /** @type {?} */
-            var filteredNodes = this.dataNodes.filter((/**
+            var filteredNodes = this.dataNodes.filter(( /**
              * @param {?} node
              * @return {?}
-             */
-            function (node) { return _this.compareViewValues(_this.getViewValue(node), value); }));
+             */function (node) { return _this.compareViewValues(_this.getViewValue(node), value); }));
             /** @type {?} */
             var filteredNodesWithTheirParents = new Set();
-            filteredNodes.forEach((/**
+            filteredNodes.forEach(( /**
              * @param {?} filteredNode
              * @return {?}
-             */
-            function (filteredNode) {
-                _this.getParents(filteredNode, []).forEach((/**
+             */function (filteredNode) {
+                _this.getParents(filteredNode, []).forEach(( /**
                  * @param {?} node
                  * @return {?}
-                 */
-                function (node) { return filteredNodesWithTheirParents.add(node); }));
+                 */function (node) { return filteredNodesWithTheirParents.add(node); }));
                 filteredNodesWithTheirParents.add(filteredNode);
             }));
-            (_a = this.filterModel).select.apply(_a, __spread((/** @type {?} */ (Array.from(filteredNodesWithTheirParents)))));
+            (_a = this.filterModel).select.apply(_a, __spread(( /** @type {?} */(Array.from(filteredNodesWithTheirParents)))));
             this.filterValue.next(value);
         };
         return FlatTreeControl;
@@ -629,21 +608,15 @@
     }
 
     /**
-     * @fileoverview added by tsickle
-     * Generated from: control/nested-tree-control.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
      * Nested tree control. Able to expand/collapse a subtree recursively for NestedNode type.
      * @template T
      */
-    var   /**
-     * Nested tree control. Able to expand/collapse a subtree recursively for NestedNode type.
-     * @template T
-     */
-    NestedTreeControl = /** @class */ (function (_super) {
+    var NestedTreeControl = /** @class */ (function (_super) {
         __extends(NestedTreeControl, _super);
-        /** Construct with nested tree function getChildren. */
+        /**
+         * Construct with nested tree function getChildren.
+         * @param {?} getChildren
+         */
         function NestedTreeControl(getChildren) {
             var _this = _super.call(this) || this;
             _this.getChildren = getChildren;
@@ -654,56 +627,31 @@
          *
          * To make this working, the `dataNodes` variable of the TreeControl must be set to all root level
          * data nodes of the tree.
-         */
-        /**
-         * Expands all dataNodes in the tree.
-         *
-         * To make this working, the `dataNodes` variable of the TreeControl must be set to all root level
-         * data nodes of the tree.
          * @return {?}
          */
-        NestedTreeControl.prototype.expandAll = /**
-         * Expands all dataNodes in the tree.
-         *
-         * To make this working, the `dataNodes` variable of the TreeControl must be set to all root level
-         * data nodes of the tree.
-         * @return {?}
-         */
-        function () {
+        NestedTreeControl.prototype.expandAll = function () {
             var _a;
             var _this = this;
             this.expansionModel.clear();
             /** @type {?} */
-            var allNodes = this.dataNodes.reduce((/**
+            var allNodes = this.dataNodes.reduce(( /**
              * @param {?} accumulator
              * @param {?} dataNode
              * @return {?}
-             */
-            function (accumulator, dataNode) {
-                return __spread(accumulator, _this.getDescendants(dataNode), [dataNode]);
-            }), []);
+             */function (accumulator, dataNode) { return __spread(accumulator, _this.getDescendants(dataNode), [dataNode]); }), []);
             (_a = this.expansionModel).select.apply(_a, __spread(allNodes));
         };
-        /** Gets a list of descendant dataNodes of a subtree rooted at given data node recursively. */
         /**
          * Gets a list of descendant dataNodes of a subtree rooted at given data node recursively.
          * @param {?} dataNode
          * @return {?}
          */
-        NestedTreeControl.prototype.getDescendants = /**
-         * Gets a list of descendant dataNodes of a subtree rooted at given data node recursively.
-         * @param {?} dataNode
-         * @return {?}
-         */
-        function (dataNode) {
+        NestedTreeControl.prototype.getDescendants = function (dataNode) {
             /** @type {?} */
             var descendants = [];
             this._getDescendants(descendants, dataNode);
             return descendants.splice(1);
         };
-        /** A helper function to get descendants recursively. */
-        // todo нужно придумать другое название и понять в чем отличие между getDescendants и _getDescendants
-        /* tslint:disable-next-line:naming-convention */
         /**
          * A helper function to get descendants recursively.
          * @private
@@ -713,31 +661,20 @@
          */
         // todo нужно придумать другое название и понять в чем отличие между getDescendants и _getDescendants
         /* tslint:disable-next-line:naming-convention */
-        NestedTreeControl.prototype._getDescendants = /**
-         * A helper function to get descendants recursively.
-         * @private
-         * @param {?} descendants
-         * @param {?} dataNode
-         * @return {?}
-         */
-        // todo нужно придумать другое название и понять в чем отличие между getDescendants и _getDescendants
-        /* tslint:disable-next-line:naming-convention */
-        function (descendants, dataNode) {
+        NestedTreeControl.prototype._getDescendants = function (descendants, dataNode) {
             var _this = this;
             descendants.push(dataNode);
             this.getChildren(dataNode)
                 .pipe(operators.take(1))
-                .subscribe((/**
-             * @param {?} children
-             * @return {?}
-             */
-            function (children) {
+                .subscribe(( /**
+         * @param {?} children
+         * @return {?}
+         */function (children) {
                 if (children && children.length > 0) {
-                    children.forEach((/**
+                    children.forEach(( /**
                      * @param {?} child
                      * @return {?}
-                     */
-                    function (child) { return _this._getDescendants(descendants, child); }));
+                     */function (child) { return _this._getDescendants(descendants, child); }));
                 }
             }));
         };
@@ -750,135 +687,32 @@
 
     /**
      * @fileoverview added by tsickle
-     * Generated from: control/tree-control.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
-     * Tree control interface. User can implement TreeControl to expand/collapse dataNodes in the tree.
-     * The CDKTree will use this TreeControl to expand/collapse a node.
-     * User can also use it outside the `<cdk-tree>` to control the expansion status of the tree.
-     * @record
-     * @template T
-     */
-    function TreeControl() { }
-    if (false) {
-        /**
-         * The saved tree nodes data for `expandAll` action.
-         * @type {?}
-         */
-        TreeControl.prototype.dataNodes;
-        /**
-         * The expansion model
-         * @type {?}
-         */
-        TreeControl.prototype.expansionModel;
-        /** @type {?} */
-        TreeControl.prototype.filterModel;
-        /** @type {?} */
-        TreeControl.prototype.filterValue;
-        /**
-         * Get depth of a given data node, return the level number. This is for flat tree node.
-         * @param {?} dataNode
-         * @return {?}
-         */
-        TreeControl.prototype.getLevel = function (dataNode) { };
-        /**
-         * Whether the data node is expandable. Returns true if expandable.
-         * This is for flat tree node.
-         * @param {?} dataNode
-         * @return {?}
-         */
-        TreeControl.prototype.isExpandable = function (dataNode) { };
-        /**
-         * Gets a stream that emits whenever the given data node's children change.
-         * @param {?} dataNode
-         * @return {?}
-         */
-        TreeControl.prototype.getChildren = function (dataNode) { };
-        /**
-         * Whether the data node is expanded or collapsed. Return true if it's expanded.
-         * @param {?} dataNode
-         * @return {?}
-         */
-        TreeControl.prototype.isExpanded = function (dataNode) { };
-        /**
-         * Get all descendants of a data node
-         * @param {?} dataNode
-         * @return {?}
-         */
-        TreeControl.prototype.getDescendants = function (dataNode) { };
-        /**
-         * Expand or collapse data node
-         * @param {?} dataNode
-         * @return {?}
-         */
-        TreeControl.prototype.toggle = function (dataNode) { };
-        /**
-         * Expand one data node
-         * @param {?} dataNode
-         * @return {?}
-         */
-        TreeControl.prototype.expand = function (dataNode) { };
-        /**
-         * Collapse one data node
-         * @param {?} dataNode
-         * @return {?}
-         */
-        TreeControl.prototype.collapse = function (dataNode) { };
-        /**
-         * Expand all the dataNodes in the tree
-         * @return {?}
-         */
-        TreeControl.prototype.expandAll = function () { };
-        /**
-         * Collapse all the dataNodes in the tree
-         * @return {?}
-         */
-        TreeControl.prototype.collapseAll = function () { };
-        /**
-         * Toggle a data node by expand/collapse it and all its descendants
-         * @param {?} dataNode
-         * @return {?}
-         */
-        TreeControl.prototype.toggleDescendants = function (dataNode) { };
-        /**
-         * Expand a data node and all its descendants
-         * @param {?} dataNode
-         * @return {?}
-         */
-        TreeControl.prototype.expandDescendants = function (dataNode) { };
-        /**
-         * Collapse a data node and all its descendants
-         * @param {?} dataNode
-         * @return {?}
-         */
-        TreeControl.prototype.collapseDescendants = function (dataNode) { };
-    }
-
-    /**
-     * @fileoverview added by tsickle
      * Generated from: outlet.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /**
      * Outlet for nested CdkNode. Put `[cdkTreeNodeOutlet]` on a tag to place children dataNodes
      * inside the outlet.
      */
     var CdkTreeNodeOutlet = /** @class */ (function () {
+        /**
+         * @param {?} viewContainer
+         * @param {?} changeDetectorRef
+         */
         function CdkTreeNodeOutlet(viewContainer, changeDetectorRef) {
             this.viewContainer = viewContainer;
             this.changeDetectorRef = changeDetectorRef;
         }
-        CdkTreeNodeOutlet.decorators = [
-            { type: core.Directive, args: [{ selector: '[cdkTreeNodeOutlet]' },] }
-        ];
-        /** @nocollapse */
-        CdkTreeNodeOutlet.ctorParameters = function () { return [
-            { type: core.ViewContainerRef },
-            { type: core.ChangeDetectorRef }
-        ]; };
         return CdkTreeNodeOutlet;
     }());
+    CdkTreeNodeOutlet.decorators = [
+        { type: core.Directive, args: [{ selector: '[cdkTreeNodeOutlet]' },] }
+    ];
+    /** @nocollapse */
+    CdkTreeNodeOutlet.ctorParameters = function () { return [
+        { type: core.ViewContainerRef },
+        { type: core.ChangeDetectorRef }
+    ]; };
     if (false) {
         /** @type {?} */
         CdkTreeNodeOutlet.prototype.viewContainer;
@@ -889,17 +723,16 @@
     /**
      * @fileoverview added by tsickle
      * Generated from: node.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /**
      * Context provided to the tree node component.
      * @template T
      */
-    var   /**
-     * Context provided to the tree node component.
-     * @template T
-     */
-    CdkTreeNodeOutletContext = /** @class */ (function () {
+    var CdkTreeNodeOutletContext = /** @class */ (function () {
+        /**
+         * @param {?} data
+         */
         function CdkTreeNodeOutletContext(data) {
             this.$implicit = data;
         }
@@ -933,24 +766,27 @@
      * @template T
      */
     var CdkTreeNodeDef = /** @class */ (function () {
-        /** @docs-private */
+        /**
+         * \@docs-private
+         * @param {?} template
+         */
         function CdkTreeNodeDef(template) {
             this.template = template;
         }
-        CdkTreeNodeDef.decorators = [
-            { type: core.Directive, args: [{
-                        selector: '[cdkTreeNodeDef]',
-                        inputs: [
-                            'when: cdkTreeNodeDefWhen'
-                        ]
-                    },] }
-        ];
-        /** @nocollapse */
-        CdkTreeNodeDef.ctorParameters = function () { return [
-            { type: core.TemplateRef }
-        ]; };
         return CdkTreeNodeDef;
     }());
+    CdkTreeNodeDef.decorators = [
+        { type: core.Directive, args: [{
+                    selector: '[cdkTreeNodeDef]',
+                    inputs: [
+                        'when: cdkTreeNodeDefWhen'
+                    ]
+                },] }
+    ];
+    /** @nocollapse */
+    CdkTreeNodeDef.ctorParameters = function () { return [
+        { type: core.TemplateRef }
+    ]; };
     if (false) {
         /**
          * Function that should return true if this node template should be used for the provided node
@@ -968,7 +804,7 @@
     /**
      * @fileoverview added by tsickle
      * Generated from: tree-errors.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /**
      * Returns an error to be thrown when there is no usable data.
@@ -1014,7 +850,7 @@
     /**
      * @fileoverview added by tsickle
      * Generated from: tree.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /**
      * CDK tree component that connects with a data source to retrieve data of type `T` and renders
@@ -1022,6 +858,10 @@
      * @template T
      */
     var CdkTree = /** @class */ (function () {
+        /**
+         * @param {?} differs
+         * @param {?} changeDetectorRef
+         */
         function CdkTree(differs, changeDetectorRef) {
             this.differs = differs;
             this.changeDetectorRef = changeDetectorRef;
@@ -1046,35 +886,27 @@
              * Provides a stream containing the latest data array to render. Influenced by the tree's
              * stream of view window (what dataNodes are currently on screen).
              * Data source can be an observable of data array, or a dara array to render.
-             */
-            get: /**
-             * Provides a stream containing the latest data array to render. Influenced by the tree's
-             * stream of view window (what dataNodes are currently on screen).
-             * Data source can be an observable of data array, or a dara array to render.
              * @return {?}
              */
-            function () {
+            get: function () {
                 return this._dataSource;
             },
-            set: /**
+            /**
              * @param {?} dataSource
              * @return {?}
              */
-            function (dataSource) {
+            set: function (dataSource) {
                 if (this._dataSource !== dataSource) {
                     this.switchDataSource(dataSource);
                 }
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
          * @return {?}
          */
-        CdkTree.prototype.ngOnInit = /**
-         * @return {?}
-         */
-        function () {
+        CdkTree.prototype.ngOnInit = function () {
             this.dataDiffer = this.differs.find([]).create(this.trackBy);
             if (!this.treeControl) {
                 throw getTreeControlMissingError();
@@ -1083,16 +915,13 @@
         /**
          * @return {?}
          */
-        CdkTree.prototype.ngOnDestroy = /**
-         * @return {?}
-         */
-        function () {
+        CdkTree.prototype.ngOnDestroy = function () {
             this.nodeOutlet.viewContainer.clear();
             this.onDestroy.next();
             this.onDestroy.complete();
             // tslint:disable-next-line:no-unbound-method
-            if (this._dataSource && typeof ((/** @type {?} */ (this.dataSource))).disconnect === 'function') {
-                ((/** @type {?} */ (this.dataSource))).disconnect(this);
+            if (this._dataSource && typeof (( /** @type {?} */(this.dataSource))).disconnect === 'function') {
+                (( /** @type {?} */(this.dataSource))).disconnect(this);
             }
             if (this.dataSubscription) {
                 this.dataSubscription.unsubscribe();
@@ -1102,16 +931,12 @@
         /**
          * @return {?}
          */
-        CdkTree.prototype.ngAfterContentChecked = /**
-         * @return {?}
-         */
-        function () {
+        CdkTree.prototype.ngAfterContentChecked = function () {
             /** @type {?} */
-            var defaultNodeDefs = this.nodeDefs.filter((/**
+            var defaultNodeDefs = this.nodeDefs.filter(( /**
              * @param {?} def
              * @return {?}
-             */
-            function (def) { return !def.when; }));
+             */function (def) { return !def.when; }));
             if (defaultNodeDefs.length > 1) {
                 throw getTreeMultipleDefaultNodeDefsError();
             }
@@ -1120,7 +945,6 @@
                 this.observeRenderChanges();
             }
         };
-        /** Check for changes made in the data and render each change (node added/removed/moved). */
         /**
          * Check for changes made in the data and render each change (node added/removed/moved).
          * @param {?} data
@@ -1129,15 +953,7 @@
          * @param {?=} parentData
          * @return {?}
          */
-        CdkTree.prototype.renderNodeChanges = /**
-         * Check for changes made in the data and render each change (node added/removed/moved).
-         * @param {?} data
-         * @param {?=} dataDiffer
-         * @param {?=} viewContainer
-         * @param {?=} parentData
-         * @return {?}
-         */
-        function (data, dataDiffer, viewContainer, parentData) {
+        CdkTree.prototype.renderNodeChanges = function (data, dataDiffer, viewContainer, parentData) {
             var _this = this;
             if (dataDiffer === void 0) { dataDiffer = this.dataDiffer; }
             if (viewContainer === void 0) { viewContainer = this.nodeOutlet.viewContainer; }
@@ -1146,24 +962,23 @@
             if (!changes) {
                 return;
             }
-            changes.forEachOperation((/**
+            changes.forEachOperation(( /**
              * @param {?} item
              * @param {?} adjustedPreviousIndex
              * @param {?} currentIndex
              * @return {?}
-             */
-            function (item, adjustedPreviousIndex, currentIndex) {
+             */function (item, adjustedPreviousIndex, currentIndex) {
                 if (item.previousIndex == null) {
-                    _this.insertNode(data[(/** @type {?} */ (currentIndex))], (/** @type {?} */ (currentIndex)), viewContainer, parentData);
+                    _this.insertNode(data[( /** @type {?} */(currentIndex))], ( /** @type {?} */(currentIndex)), viewContainer, parentData);
                 }
                 else if (currentIndex == null) {
-                    viewContainer.remove((/** @type {?} */ (adjustedPreviousIndex)));
+                    viewContainer.remove(( /** @type {?} */(adjustedPreviousIndex)));
                     _this.levels.delete(item.item);
                 }
                 else {
                     /** @type {?} */
-                    var view = viewContainer.get((/** @type {?} */ (adjustedPreviousIndex)));
-                    viewContainer.move((/** @type {?} */ (view)), currentIndex);
+                    var view = viewContainer.get(( /** @type {?} */(adjustedPreviousIndex)));
+                    viewContainer.move(( /** @type {?} */(view)), currentIndex);
                 }
             }));
             this.changeDetectorRef.detectChanges();
@@ -1173,35 +988,19 @@
          * one node definition, it is returned. Otherwise, find the node definition that has a when
          * predicate that returns true with the data. If none return true, return the default node
          * definition.
-         */
-        /**
-         * Finds the matching node definition that should be used for this node data. If there is only
-         * one node definition, it is returned. Otherwise, find the node definition that has a when
-         * predicate that returns true with the data. If none return true, return the default node
-         * definition.
          * @param {?} data
          * @param {?} i
          * @return {?}
          */
-        CdkTree.prototype.getNodeDef = /**
-         * Finds the matching node definition that should be used for this node data. If there is only
-         * one node definition, it is returned. Otherwise, find the node definition that has a when
-         * predicate that returns true with the data. If none return true, return the default node
-         * definition.
-         * @param {?} data
-         * @param {?} i
-         * @return {?}
-         */
-        function (data, i) {
+        CdkTree.prototype.getNodeDef = function (data, i) {
             if (this.nodeDefs.length === 1) {
                 return this.nodeDefs.first;
             }
             /** @type {?} */
-            var nodeDef = this.nodeDefs.find((/**
+            var nodeDef = this.nodeDefs.find(( /**
              * @param {?} def
              * @return {?}
-             */
-            function (def) { return def.when && def.when(i, data); })) || this.defaultNodeDef;
+             */function (def) { return def.when && def.when(i, data); })) || this.defaultNodeDef;
             if (!nodeDef) {
                 throw getTreeMissingMatchingNodeDefError();
             }
@@ -1210,26 +1009,13 @@
         /**
          * Create the embedded view for the data node template and place it in the correct index location
          * within the data node view container.
-         */
-        /**
-         * Create the embedded view for the data node template and place it in the correct index location
-         * within the data node view container.
          * @param {?} nodeData
          * @param {?} index
          * @param {?=} viewContainer
          * @param {?=} parentData
          * @return {?}
          */
-        CdkTree.prototype.insertNode = /**
-         * Create the embedded view for the data node template and place it in the correct index location
-         * within the data node view container.
-         * @param {?} nodeData
-         * @param {?} index
-         * @param {?=} viewContainer
-         * @param {?=} parentData
-         * @return {?}
-         */
-        function (nodeData, index, viewContainer, parentData) {
+        CdkTree.prototype.insertNode = function (nodeData, index, viewContainer, parentData) {
             /** @type {?} */
             var node = this.getNodeDef(nodeData, index);
             // Node context that will be provided to created embedded view
@@ -1242,7 +1028,7 @@
                 /* tslint:disable-next-line:no-typeof-undefined */
             }
             else if (typeof parentData !== 'undefined' && this.levels.has(parentData)) {
-                context.level = (/** @type {?} */ (this.levels.get(parentData))) + 1;
+                context.level = ( /** @type {?} */(this.levels.get(parentData))) + 1;
             }
             else {
                 context.level = 0;
@@ -1259,26 +1045,20 @@
                 CdkTreeNode.mostRecentTreeNode.data = nodeData;
             }
         };
-        /** Set up a subscription for the data provided by the data source. */
         /**
          * Set up a subscription for the data provided by the data source.
          * @private
          * @return {?}
          */
-        CdkTree.prototype.observeRenderChanges = /**
-         * Set up a subscription for the data provided by the data source.
-         * @private
-         * @return {?}
-         */
-        function () {
+        CdkTree.prototype.observeRenderChanges = function () {
             var _this = this;
             /** @type {?} */
             var dataStream;
             // Cannot use `instanceof DataSource` since the data source could be a literal with
             // `connect` function and may not extends DataSource.
             // tslint:disable-next-line:no-unbound-method
-            if (typeof ((/** @type {?} */ (this._dataSource))).connect === 'function') {
-                dataStream = ((/** @type {?} */ (this._dataSource))).connect(this);
+            if (typeof (( /** @type {?} */(this._dataSource))).connect === 'function') {
+                dataStream = (( /** @type {?} */(this._dataSource))).connect(this);
             }
             else if (this._dataSource instanceof rxjs.Observable) {
                 dataStream = this._dataSource;
@@ -1289,11 +1069,10 @@
             if (dataStream) {
                 this.dataSubscription = dataStream
                     .pipe(operators.takeUntil(this.onDestroy))
-                    .subscribe((/**
-                 * @param {?} data
-                 * @return {?}
-                 */
-                function (data) { return _this.renderNodeChanges(data); }));
+                    .subscribe(( /**
+             * @param {?} data
+             * @return {?}
+             */function (data) { return _this.renderNodeChanges(data); }));
             }
             else {
                 throw getTreeNoValidDataSourceError();
@@ -1303,27 +1082,14 @@
          * Switch to the provided data source by resetting the data and unsubscribing from the current
          * render change subscription if one exists. If the data source is null, interpret this by
          * clearing the node outlet. Otherwise start listening for new data.
-         */
-        /**
-         * Switch to the provided data source by resetting the data and unsubscribing from the current
-         * render change subscription if one exists. If the data source is null, interpret this by
-         * clearing the node outlet. Otherwise start listening for new data.
          * @private
          * @param {?} dataSource
          * @return {?}
          */
-        CdkTree.prototype.switchDataSource = /**
-         * Switch to the provided data source by resetting the data and unsubscribing from the current
-         * render change subscription if one exists. If the data source is null, interpret this by
-         * clearing the node outlet. Otherwise start listening for new data.
-         * @private
-         * @param {?} dataSource
-         * @return {?}
-         */
-        function (dataSource) {
+        CdkTree.prototype.switchDataSource = function (dataSource) {
             // tslint:disable-next-line:no-unbound-method
-            if (this._dataSource && typeof ((/** @type {?} */ (this._dataSource))).disconnect === 'function') {
-                ((/** @type {?} */ (this.dataSource))).disconnect(this);
+            if (this._dataSource && typeof (( /** @type {?} */(this._dataSource))).disconnect === 'function') {
+                (( /** @type {?} */(this.dataSource))).disconnect(this);
             }
             if (this.dataSubscription) {
                 this.dataSubscription.unsubscribe();
@@ -1338,33 +1104,33 @@
                 this.observeRenderChanges();
             }
         };
-        CdkTree.decorators = [
-            { type: core.Component, args: [{
-                        selector: 'cdk-tree',
-                        exportAs: 'cdkTree',
-                        template: "<ng-container cdkTreeNodeOutlet></ng-container>",
-                        host: {
-                            class: 'cdk-tree',
-                            role: 'tree'
-                        },
-                        encapsulation: core.ViewEncapsulation.None,
-                        changeDetection: core.ChangeDetectionStrategy.OnPush
-                    }] }
-        ];
-        /** @nocollapse */
-        CdkTree.ctorParameters = function () { return [
-            { type: core.IterableDiffers },
-            { type: core.ChangeDetectorRef }
-        ]; };
-        CdkTree.propDecorators = {
-            treeControl: [{ type: core.Input }],
-            trackBy: [{ type: core.Input }],
-            nodeOutlet: [{ type: core.ViewChild, args: [CdkTreeNodeOutlet, { static: true },] }],
-            nodeDefs: [{ type: core.ContentChildren, args: [CdkTreeNodeDef,] }],
-            dataSource: [{ type: core.Input }]
-        };
         return CdkTree;
     }());
+    CdkTree.decorators = [
+        { type: core.Component, args: [{
+                    selector: 'cdk-tree',
+                    exportAs: 'cdkTree',
+                    template: "<ng-container cdkTreeNodeOutlet></ng-container>",
+                    host: {
+                        class: 'cdk-tree',
+                        role: 'tree'
+                    },
+                    encapsulation: core.ViewEncapsulation.None,
+                    changeDetection: core.ChangeDetectionStrategy.OnPush
+                }] }
+    ];
+    /** @nocollapse */
+    CdkTree.ctorParameters = function () { return [
+        { type: core.IterableDiffers },
+        { type: core.ChangeDetectorRef }
+    ]; };
+    CdkTree.propDecorators = {
+        treeControl: [{ type: core.Input }],
+        trackBy: [{ type: core.Input }],
+        nodeOutlet: [{ type: core.ViewChild, args: [CdkTreeNodeOutlet, { static: true },] }],
+        nodeDefs: [{ type: core.ContentChildren, args: [CdkTreeNodeDef,] }],
+        dataSource: [{ type: core.Input }]
+    };
     if (false) {
         /**
          * The tree controller
@@ -1443,6 +1209,10 @@
      * @template T
      */
     var CdkTreeNode = /** @class */ (function () {
+        /**
+         * @param {?} elementRef
+         * @param {?} tree
+         */
         function CdkTreeNode(elementRef, tree) {
             this.elementRef = elementRef;
             this.tree = tree;
@@ -1451,91 +1221,84 @@
             CdkTreeNode.mostRecentTreeNode = this;
         }
         Object.defineProperty(CdkTreeNode.prototype, "data", {
-            get: /**
+            /**
              * @return {?}
              */
-            function () {
+            get: function () {
                 return this._data;
             },
-            set: /**
+            /**
              * @param {?} value
              * @return {?}
              */
-            function (value) {
+            set: function (value) {
                 this._data = value;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(CdkTreeNode.prototype, "isExpanded", {
-            get: /**
+            /**
              * @return {?}
              */
-            function () {
+            get: function () {
                 return this.tree.treeControl.isExpanded(this._data);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(CdkTreeNode.prototype, "level", {
-            get: /**
+            /**
              * @return {?}
              */
-            function () {
+            get: function () {
                 return this.tree.treeControl.getLevel ? this.tree.treeControl.getLevel(this._data) : 0;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
          * @return {?}
          */
-        CdkTreeNode.prototype.ngOnDestroy = /**
-         * @return {?}
-         */
-        function () {
+        CdkTreeNode.prototype.ngOnDestroy = function () {
             this.destroyed.next();
             this.destroyed.complete();
         };
         /**
          * @return {?}
          */
-        CdkTreeNode.prototype.focus = /**
-         * @return {?}
-         */
-        function () {
+        CdkTreeNode.prototype.focus = function () {
             this.elementRef.nativeElement.focus();
-        };
-        /**
-         * The most recently created `CdkTreeNode`. We save it in static variable so we can retrieve it
-         * in `CdkTree` and set the data to it.
-         */
-        CdkTreeNode.mostRecentTreeNode = null;
-        CdkTreeNode.decorators = [
-            { type: core.Directive, args: [{
-                        selector: 'cdk-tree-node',
-                        exportAs: 'cdkTreeNode',
-                        host: {
-                            class: 'cdk-tree-node',
-                            '[attr.aria-expanded]': 'isExpanded',
-                            '[attr.aria-level]': 'role === "treeitem" ? level : null',
-                            '[attr.role]': 'role'
-                        }
-                    },] }
-        ];
-        /** @nocollapse */
-        CdkTreeNode.ctorParameters = function () { return [
-            { type: core.ElementRef },
-            { type: CdkTree, decorators: [{ type: core.Inject, args: [core.forwardRef((/**
-                             * @return {?}
-                             */
-                            function () { return CdkTree; })),] }] }
-        ]; };
-        CdkTreeNode.propDecorators = {
-            role: [{ type: core.Input }]
         };
         return CdkTreeNode;
     }());
+    /**
+     * The most recently created `CdkTreeNode`. We save it in static variable so we can retrieve it
+     * in `CdkTree` and set the data to it.
+     */
+    CdkTreeNode.mostRecentTreeNode = null;
+    CdkTreeNode.decorators = [
+        { type: core.Directive, args: [{
+                    selector: 'cdk-tree-node',
+                    exportAs: 'cdkTreeNode',
+                    host: {
+                        class: 'cdk-tree-node',
+                        '[attr.aria-expanded]': 'isExpanded',
+                        '[attr.aria-level]': 'role === "treeitem" ? level : null',
+                        '[attr.role]': 'role'
+                    }
+                },] }
+    ];
+    /** @nocollapse */
+    CdkTreeNode.ctorParameters = function () { return [
+        { type: core.ElementRef },
+        { type: CdkTree, decorators: [{ type: core.Inject, args: [core.forwardRef(( /**
+                                         * @return {?}
+                                         */function () { return CdkTree; })),] }] }
+    ]; };
+    CdkTreeNode.propDecorators = {
+        role: [{ type: core.Input }]
+    };
     if (false) {
         /**
          * The most recently created `CdkTreeNode`. We save it in static variable so we can retrieve it
@@ -1565,11 +1328,6 @@
     }
 
     /**
-     * @fileoverview added by tsickle
-     * Generated from: nested-node.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
      * Nested node is a child of `<cdk-tree>`. It works with nested tree.
      * By using `cdk-nested-tree-node` component in tree node template, children of the parent node will
      * be added in the `cdkTreeNodeOutlet` in tree node template.
@@ -1593,6 +1351,11 @@
      */
     var CdkNestedTreeNode = /** @class */ (function (_super) {
         __extends(CdkNestedTreeNode, _super);
+        /**
+         * @param {?} elementRef
+         * @param {?} tree
+         * @param {?} differs
+         */
         function CdkNestedTreeNode(elementRef, tree, differs) {
             var _this = _super.call(this, elementRef, tree) || this;
             _this.elementRef = elementRef;
@@ -1602,10 +1365,7 @@
         /**
          * @return {?}
          */
-        CdkNestedTreeNode.prototype.ngAfterContentInit = /**
-         * @return {?}
-         */
-        function () {
+        CdkNestedTreeNode.prototype.ngAfterContentInit = function () {
             var _this = this;
             this.dataDiffer = this.differs.find([]).create(this.tree.trackBy);
             if (!this.tree.treeControl.getChildren) {
@@ -1613,43 +1373,32 @@
             }
             this.tree.treeControl.getChildren(this.data)
                 .pipe(operators.takeUntil(this.destroyed))
-                .subscribe((/**
-             * @param {?} result
-             * @return {?}
-             */
-            function (result) {
+                .subscribe(( /**
+         * @param {?} result
+         * @return {?}
+         */function (result) {
                 _this.children = result;
                 _this.updateChildrenNodes();
             }));
             this.nodeOutlet.changes
                 .pipe(operators.takeUntil(this.destroyed))
-                .subscribe((/**
-             * @return {?}
-             */
-            function () { return _this.updateChildrenNodes(); }));
+                .subscribe(( /**
+         * @return {?}
+         */function () { return _this.updateChildrenNodes(); }));
         };
         /**
          * @return {?}
          */
-        CdkNestedTreeNode.prototype.ngOnDestroy = /**
-         * @return {?}
-         */
-        function () {
+        CdkNestedTreeNode.prototype.ngOnDestroy = function () {
             this.clear();
             _super.prototype.ngOnDestroy.call(this);
         };
-        /** Add children dataNodes to the NodeOutlet */
         /**
          * Add children dataNodes to the NodeOutlet
          * @protected
          * @return {?}
          */
-        CdkNestedTreeNode.prototype.updateChildrenNodes = /**
-         * Add children dataNodes to the NodeOutlet
-         * @protected
-         * @return {?}
-         */
-        function () {
+        CdkNestedTreeNode.prototype.updateChildrenNodes = function () {
             if (this.nodeOutlet.length && this.children) {
                 this.tree.renderNodeChanges(this.children, this.dataDiffer, this.nodeOutlet.first.viewContainer, this.data);
             }
@@ -1658,46 +1407,40 @@
                 this.dataDiffer.diff([]);
             }
         };
-        /** Clear the children dataNodes. */
         /**
          * Clear the children dataNodes.
          * @protected
          * @return {?}
          */
-        CdkNestedTreeNode.prototype.clear = /**
-         * Clear the children dataNodes.
-         * @protected
-         * @return {?}
-         */
-        function () {
+        CdkNestedTreeNode.prototype.clear = function () {
             if (this.nodeOutlet && this.nodeOutlet.first) {
                 this.nodeOutlet.first.viewContainer.clear();
                 this.dataDiffer.diff([]);
             }
         };
-        CdkNestedTreeNode.decorators = [
-            { type: core.Directive, args: [{
-                        selector: 'cdk-nested-tree-node',
-                        exportAs: 'cdkNestedTreeNode',
-                        host: {
-                            '[attr.aria-expanded]': 'isExpanded',
-                            '[attr.role]': 'role',
-                            class: 'cdk-tree-node cdk-nested-tree-node'
-                        },
-                        providers: [{ provide: CdkTreeNode, useExisting: CdkNestedTreeNode }]
-                    },] }
-        ];
-        /** @nocollapse */
-        CdkNestedTreeNode.ctorParameters = function () { return [
-            { type: core.ElementRef },
-            { type: CdkTree },
-            { type: core.IterableDiffers }
-        ]; };
-        CdkNestedTreeNode.propDecorators = {
-            nodeOutlet: [{ type: core.ContentChildren, args: [CdkTreeNodeOutlet,] }]
-        };
         return CdkNestedTreeNode;
     }(CdkTreeNode));
+    CdkNestedTreeNode.decorators = [
+        { type: core.Directive, args: [{
+                    selector: 'cdk-nested-tree-node',
+                    exportAs: 'cdkNestedTreeNode',
+                    host: {
+                        '[attr.aria-expanded]': 'isExpanded',
+                        '[attr.role]': 'role',
+                        class: 'cdk-tree-node cdk-nested-tree-node'
+                    },
+                    providers: [{ provide: CdkTreeNode, useExisting: CdkNestedTreeNode }]
+                },] }
+    ];
+    /** @nocollapse */
+    CdkNestedTreeNode.ctorParameters = function () { return [
+        { type: core.ElementRef },
+        { type: CdkTree },
+        { type: core.IterableDiffers }
+    ]; };
+    CdkNestedTreeNode.propDecorators = {
+        nodeOutlet: [{ type: core.ContentChildren, args: [CdkTreeNodeOutlet,] }]
+    };
     if (false) {
         /**
          * The children node placeholder.
@@ -1731,7 +1474,7 @@
     /**
      * @fileoverview added by tsickle
      * Generated from: padding.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /**
      * Indent for the children tree dataNodes.
@@ -1739,6 +1482,13 @@
      * @template T
      */
     var CdkTreeNodePadding = /** @class */ (function () {
+        /**
+         * @param {?} treeNode
+         * @param {?} tree
+         * @param {?} renderer
+         * @param {?} element
+         * @param {?} dir
+         */
         function CdkTreeNodePadding(treeNode, tree, renderer, element, dir) {
             var _this = this;
             this.treeNode = treeNode;
@@ -1750,72 +1500,61 @@
             if (this.dir && this.dir.change) {
                 this.dir.change
                     .pipe(operators.takeUntil(this.destroyed))
-                    .subscribe((/**
-                 * @return {?}
-                 */
-                function () { return _this.setPadding(); }));
+                    .subscribe(( /**
+             * @return {?}
+             */function () { return _this.setPadding(); }));
             }
         }
         Object.defineProperty(CdkTreeNodePadding.prototype, "level", {
-            /** The level of depth of the tree node. The padding will be `level * indent` pixels. */
-            get: /**
+            /**
              * The level of depth of the tree node. The padding will be `level * indent` pixels.
              * @return {?}
              */
-            function () {
+            get: function () {
                 return this._level;
             },
-            set: /**
+            /**
              * @param {?} value
              * @return {?}
              */
-            function (value) {
+            set: function (value) {
                 this._level = value;
                 this.setPadding();
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(CdkTreeNodePadding.prototype, "indent", {
-            get: /**
+            /**
              * @return {?}
              */
-            function () {
+            get: function () {
                 return this._indent;
             },
-            set: /**
+            /**
              * @param {?} value
              * @return {?}
              */
-            function (value) {
+            set: function (value) {
                 this._indent = value;
                 this.setPadding();
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
          * @return {?}
          */
-        CdkTreeNodePadding.prototype.ngOnDestroy = /**
-         * @return {?}
-         */
-        function () {
+        CdkTreeNodePadding.prototype.ngOnDestroy = function () {
             this.destroyed.next();
             this.destroyed.complete();
         };
-        /** The padding indent value for the tree node. Returns a string with px numbers if not null. */
         /**
          * The padding indent value for the tree node. Returns a string with px numbers if not null.
          * @protected
          * @return {?}
          */
-        CdkTreeNodePadding.prototype.paddingIndent = /**
-         * The padding indent value for the tree node. Returns a string with px numbers if not null.
-         * @protected
-         * @return {?}
-         */
-        function () {
+        CdkTreeNodePadding.prototype.paddingIndent = function () {
             /** @type {?} */
             var basicPadding = 12;
             /** @type {?} */
@@ -1830,36 +1569,32 @@
          * @protected
          * @return {?}
          */
-        CdkTreeNodePadding.prototype.setPadding = /**
-         * @protected
-         * @return {?}
-         */
-        function () {
+        CdkTreeNodePadding.prototype.setPadding = function () {
             /** @type {?} */
             var padding = this.paddingIndent();
             /** @type {?} */
             var paddingProp = this.dir && this.dir.value === 'rtl' ? 'paddingRight' : 'paddingLeft';
             this.renderer.setStyle(this.element.nativeElement, paddingProp, padding);
         };
-        CdkTreeNodePadding.decorators = [
-            { type: core.Directive, args: [{
-                        selector: '[cdkTreeNodePadding]'
-                    },] }
-        ];
-        /** @nocollapse */
-        CdkTreeNodePadding.ctorParameters = function () { return [
-            { type: CdkTreeNode },
-            { type: CdkTree },
-            { type: core.Renderer2 },
-            { type: core.ElementRef },
-            { type: bidi.Directionality, decorators: [{ type: core.Optional }] }
-        ]; };
-        CdkTreeNodePadding.propDecorators = {
-            level: [{ type: core.Input, args: ['cdkTreeNodePadding',] }],
-            indent: [{ type: core.Input, args: ['cdkTreeNodePaddingIndent',] }]
-        };
         return CdkTreeNodePadding;
     }());
+    CdkTreeNodePadding.decorators = [
+        { type: core.Directive, args: [{
+                    selector: '[cdkTreeNodePadding]'
+                },] }
+    ];
+    /** @nocollapse */
+    CdkTreeNodePadding.ctorParameters = function () { return [
+        { type: CdkTreeNode },
+        { type: CdkTree },
+        { type: core.Renderer2 },
+        { type: core.ElementRef },
+        { type: bidi.Directionality, decorators: [{ type: core.Optional }] }
+    ]; };
+    CdkTreeNodePadding.propDecorators = {
+        level: [{ type: core.Input, args: ['cdkTreeNodePadding',] }],
+        indent: [{ type: core.Input, args: ['cdkTreeNodePaddingIndent',] }]
+    };
     if (false) {
         /**
          * @type {?}
@@ -1906,66 +1641,66 @@
     /**
      * @fileoverview added by tsickle
      * Generated from: toggle.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /**
      * @template T
      */
     var CdkTreeNodeToggle = /** @class */ (function () {
+        /**
+         * @param {?} tree
+         * @param {?} treeNode
+         */
         function CdkTreeNodeToggle(tree, treeNode) {
             this.tree = tree;
             this.treeNode = treeNode;
             this._recursive = false;
         }
         Object.defineProperty(CdkTreeNodeToggle.prototype, "recursive", {
-            get: /**
+            /**
              * @return {?}
              */
-            function () {
+            get: function () {
                 return this._recursive;
             },
-            set: /**
+            /**
              * @param {?} value
              * @return {?}
              */
-            function (value) {
+            set: function (value) {
                 this._recursive = value;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
          * @param {?} event
          * @return {?}
          */
-        CdkTreeNodeToggle.prototype.toggle = /**
-         * @param {?} event
-         * @return {?}
-         */
-        function (event) {
+        CdkTreeNodeToggle.prototype.toggle = function (event) {
             this.recursive
                 ? this.tree.treeControl.toggleDescendants(this.treeNode.data)
                 : this.tree.treeControl.toggle(this.treeNode.data);
             event.stopPropagation();
         };
-        CdkTreeNodeToggle.decorators = [
-            { type: core.Directive, args: [{
-                        selector: '[cdkTreeNodeToggle]',
-                        host: {
-                            '(click)': 'toggle($event)'
-                        }
-                    },] }
-        ];
-        /** @nocollapse */
-        CdkTreeNodeToggle.ctorParameters = function () { return [
-            { type: CdkTree },
-            { type: CdkTreeNode }
-        ]; };
-        CdkTreeNodeToggle.propDecorators = {
-            recursive: [{ type: core.Input, args: ['cdkTreeNodeToggleRecursive',] }]
-        };
         return CdkTreeNodeToggle;
     }());
+    CdkTreeNodeToggle.decorators = [
+        { type: core.Directive, args: [{
+                    selector: '[cdkTreeNodeToggle]',
+                    host: {
+                        '(click)': 'toggle($event)'
+                    }
+                },] }
+    ];
+    /** @nocollapse */
+    CdkTreeNodeToggle.ctorParameters = function () { return [
+        { type: CdkTree },
+        { type: CdkTreeNode }
+    ]; };
+    CdkTreeNodeToggle.propDecorators = {
+        recursive: [{ type: core.Input, args: ['cdkTreeNodeToggleRecursive',] }]
+    };
     if (false) {
         /**
          * @type {?}
@@ -1987,7 +1722,7 @@
     /**
      * @fileoverview added by tsickle
      * Generated from: tree.module.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /** @type {?} */
     var EXPORTED_DECLARATIONS = [
@@ -2002,16 +1737,34 @@
     var CdkTreeModule = /** @class */ (function () {
         function CdkTreeModule() {
         }
-        CdkTreeModule.decorators = [
-            { type: core.NgModule, args: [{
-                        imports: [common.CommonModule],
-                        exports: EXPORTED_DECLARATIONS,
-                        declarations: EXPORTED_DECLARATIONS,
-                        providers: [a11y.FocusMonitor]
-                    },] }
-        ];
         return CdkTreeModule;
     }());
+    CdkTreeModule.decorators = [
+        { type: core.NgModule, args: [{
+                    imports: [common.CommonModule],
+                    exports: EXPORTED_DECLARATIONS,
+                    declarations: EXPORTED_DECLARATIONS,
+                    providers: [a11y.FocusMonitor]
+                },] }
+    ];
+
+    /**
+     * @fileoverview added by tsickle
+     * Generated from: public-api.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+
+    /**
+     * @fileoverview added by tsickle
+     * Generated from: index.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+
+    /**
+     * @fileoverview added by tsickle
+     * Generated from: ptsecurity-cdk-tree.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
 
     exports.BaseTreeControl = BaseTreeControl;
     exports.CdkNestedTreeNode = CdkNestedTreeNode;

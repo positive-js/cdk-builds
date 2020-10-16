@@ -1,13 +1,13 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/keycodes', ['exports'], factory) :
-    (global = global || self, factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.keycodes = {})));
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.keycodes = {})));
 }(this, (function (exports) { 'use strict';
 
     /**
      * @fileoverview added by tsickle
      * Generated from: keycodes.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /* tslint:disable:no-magic-numbers no-bitwise */
     /** @type {?} */
@@ -268,11 +268,10 @@
             modifiers[_i - 1] = arguments[_i];
         }
         if (modifiers.length) {
-            return modifiers.some((/**
+            return modifiers.some(( /**
              * @param {?} modifier
              * @return {?}
-             */
-            function (modifier) { return event[modifier]; }));
+             */function (modifier) { return event[modifier]; }));
         }
         return event.altKey || event.shiftKey || event.ctrlKey || event.metaKey;
     }
@@ -375,6 +374,24 @@
     function isDigit(event) {
         return [48, 49, 50, 51, 52, 53, 54, 55, 56, 57].indexOf(event.which) !== -1;
     }
+
+    /**
+     * @fileoverview added by tsickle
+     * Generated from: public-api.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+
+    /**
+     * @fileoverview added by tsickle
+     * Generated from: index.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+
+    /**
+     * @fileoverview added by tsickle
+     * Generated from: ptsecurity-cdk-keycodes.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
 
     exports.A = A;
     exports.ALT = ALT;
