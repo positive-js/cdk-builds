@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/cdk/collections'), require('rxjs'), require('rxjs/operators'), require('@angular/core'), require('@angular/cdk/bidi'), require('@angular/cdk/a11y'), require('@angular/common')) :
-    typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/tree', ['exports', '@angular/cdk/collections', 'rxjs', 'rxjs/operators', '@angular/core', '@angular/cdk/bidi', '@angular/cdk/a11y', '@angular/common'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.ptsecurity = global.ptsecurity || {}, global.ptsecurity.cdk = global.ptsecurity.cdk || {}, global.ptsecurity.cdk.tree = {}), global.ng.cdk.collections, global.rxjs, global.rxjs.operators, global.ng.core, global.ng.cdk.bidi, global.ng.cdk.a11y, global.ng.common));
-}(this, (function (exports, collections, rxjs, operators, core, bidi, a11y, common) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/cdk/collections'), require('rxjs'), require('rxjs/operators'), require('@angular/core'), require('@angular/cdk/bidi'), require('@angular/cdk/coercion'), require('@angular/cdk/a11y'), require('@angular/common')) :
+    typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/tree', ['exports', '@angular/cdk/collections', 'rxjs', 'rxjs/operators', '@angular/core', '@angular/cdk/bidi', '@angular/cdk/coercion', '@angular/cdk/a11y', '@angular/common'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.ptsecurity = global.ptsecurity || {}, global.ptsecurity.cdk = global.ptsecurity.cdk || {}, global.ptsecurity.cdk.tree = {}), global.ng.cdk.collections, global.rxjs, global.rxjs.operators, global.ng.core, global.ng.cdk.bidi, global.ng.cdk.coercion, global.ng.cdk.a11y, global.ng.common));
+}(this, (function (exports, collections, rxjs, operators, core, bidi, coercion, a11y, common) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
@@ -1477,6 +1477,11 @@
      * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /**
+     * Regex used to split a string on its CSS units.
+     * @type {?}
+     */
+    var cssUnitPattern = /([A-Za-z%]+)$/;
+    /**
      * Indent for the children tree dataNodes.
      * This directive will add left-padding to the node to show hierarchy.
      * @template T
@@ -1496,6 +1501,12 @@
             this.renderer = renderer;
             this.element = element;
             this.dir = dir;
+            /* tslint:disable-next-line:naming-convention orthodox-getter-and-setter */
+            this._indent = 20;
+            /**
+             * CSS units used for the indentation value.
+             */
+            this.indentUnits = 'px';
             this.destroyed = new rxjs.Subject();
             if (this.dir && this.dir.change) {
                 this.dir.change
@@ -1510,17 +1521,12 @@
              * The level of depth of the tree node. The padding will be `level * indent` pixels.
              * @return {?}
              */
-            get: function () {
-                return this._level;
-            },
+            get: function () { return this._level; },
             /**
              * @param {?} value
              * @return {?}
              */
-            set: function (value) {
-                this._level = value;
-                this.setPadding();
-            },
+            set: function (value) { this.setLevelInput(value); },
             enumerable: false,
             configurable: true
         });
@@ -1528,17 +1534,12 @@
             /**
              * @return {?}
              */
-            get: function () {
-                return this._indent;
-            },
+            get: function () { return this._indent; },
             /**
-             * @param {?} value
+             * @param {?} indent
              * @return {?}
              */
-            set: function (value) {
-                this._indent = value;
-                this.setPadding();
-            },
+            set: function (indent) { this.setIndentInput(indent); },
             enumerable: false,
             configurable: true
         });
@@ -1548,6 +1549,47 @@
         CdkTreeNodePadding.prototype.ngOnDestroy = function () {
             this.destroyed.next();
             this.destroyed.complete();
+        };
+        /**
+         * This has been extracted to a util because of TS 4 and VE.
+         * View Engine doesn't support property rename inheritance.
+         * TS 4.0 doesn't allow properties to override accessors or vice-versa.
+         * \@docs-private
+         * @protected
+         * @param {?} value
+         * @return {?}
+         */
+        // tslint:disable-next-line:naming-convention
+        CdkTreeNodePadding.prototype.setLevelInput = function (value) {
+            // Set to null as the fallback value so that _setPadding can fall back to the node level if the
+            // consumer set the directive as `cdkTreeNodePadding=""`. We still want to take this value if
+            // they set 0 explicitly.
+            this._level = ( /** @type {?} */(coercion.coerceNumberProperty(value, null)));
+            this.setPadding();
+        };
+        /**
+         * This has been extracted to a util because of TS 4 and VE.
+         * View Engine doesn't support property rename inheritance.
+         * TS 4.0 doesn't allow properties to override accessors or vice-versa.
+         * \@docs-private
+         * @protected
+         * @param {?} indent
+         * @return {?}
+         */
+        CdkTreeNodePadding.prototype.setIndentInput = function (indent) {
+            /** @type {?} */
+            var value = indent;
+            /** @type {?} */
+            var units = 'px';
+            if (typeof indent === 'string') {
+                /** @type {?} */
+                var parts = indent.split(cssUnitPattern);
+                value = parts[0];
+                units = parts[1] || units;
+            }
+            this.indentUnits = units;
+            this._indent = coercion.coerceNumberProperty(value);
+            this.setPadding();
         };
         /**
          * The padding indent value for the tree node. Returns a string with px numbers if not null.
@@ -1596,16 +1638,15 @@
         indent: [{ type: core.Input, args: ['cdkTreeNodePaddingIndent',] }]
     };
     if (false) {
-        /**
-         * @type {?}
-         * @protected
-         */
+        /** @type {?} */
         CdkTreeNodePadding.prototype._level;
-        /**
-         * @type {?}
-         * @protected
-         */
+        /** @type {?} */
         CdkTreeNodePadding.prototype._indent;
+        /**
+         * CSS units used for the indentation value.
+         * @type {?}
+         */
+        CdkTreeNodePadding.prototype.indentUnits;
         /**
          * @type {?}
          * @private

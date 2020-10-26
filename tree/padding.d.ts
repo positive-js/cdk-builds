@@ -14,13 +14,29 @@ export declare class CdkTreeNodePadding<T> implements OnDestroy {
     /** The level of depth of the tree node. The padding will be `level * indent` pixels. */
     get level(): number;
     set level(value: number);
-    protected _level: number;
-    get indent(): number;
-    set indent(value: number);
-    protected _indent: number;
+    _level: number;
+    get indent(): number | string;
+    set indent(indent: number | string);
+    _indent: number;
+    /** CSS units used for the indentation value. */
+    indentUnits: string;
     private destroyed;
     constructor(treeNode: CdkTreeNode<T>, tree: CdkTree<T>, renderer: Renderer2, element: ElementRef<HTMLElement>, dir: Directionality);
     ngOnDestroy(): void;
+    /**
+     * This has been extracted to a util because of TS 4 and VE.
+     * View Engine doesn't support property rename inheritance.
+     * TS 4.0 doesn't allow properties to override accessors or vice-versa.
+     * @docs-private
+     */
+    protected setLevelInput(value: number): void;
+    /**
+     * This has been extracted to a util because of TS 4 and VE.
+     * View Engine doesn't support property rename inheritance.
+     * TS 4.0 doesn't allow properties to override accessors or vice-versa.
+     * @docs-private
+     */
+    protected setIndentInput(indent: number | string): void;
     /** The padding indent value for the tree node. Returns a string with px numbers if not null. */
     protected paddingIndent(): string | null;
     protected setPadding(): void;
