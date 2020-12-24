@@ -42,6 +42,10 @@ export interface IFormatterRelativeTemplate {
     YESTERDAY: string;
     BEFORE_YESTERDAY: string;
 }
+export interface IAbsoluteDateTimeOptions {
+    milliseconds?: boolean;
+    microseconds?: boolean;
+}
 /** Adapts type `D` to be usable as a date by cdk-based components that work with dates. */
 export declare abstract class DateAdapter<D> {
     /** The locale to use for all dates. */
@@ -256,9 +260,11 @@ export declare abstract class DateAdapter<D> {
      * @param date - date
      * @param params - parameters
      * @param datetime - should time be shown as well
+     * @param milliseconds - should time with milliseconds be shown as well
+     * @param microseconds - should time with microseconds be shown as well
      * @returns absolute date in common format
      */
-    abstract absoluteDate(date: Moment, params: IFormatterAbsoluteTemplate, datetime: boolean): string;
+    abstract absoluteDate(date: Moment, params: IFormatterAbsoluteTemplate, datetime: boolean, milliseconds: boolean, microseconds: boolean): string;
     /**
      * @param date - date
      * @returns absolute date in short format
@@ -266,9 +272,10 @@ export declare abstract class DateAdapter<D> {
     abstract absoluteShortDate(date: Moment): string;
     /**
      * @param date - date
+     * @param options - AbsoluteDateTimeOptions
      * @returns absolute date in short format with time
      */
-    abstract absoluteShortDateTime(date: Moment): string;
+    abstract absoluteShortDateTime(date: Moment, options?: IAbsoluteDateTimeOptions): string;
     /**
      * @param date - date
      * @returns absolute date in long format
@@ -290,9 +297,10 @@ export declare abstract class DateAdapter<D> {
     abstract openedRangeDateTime(startDate: Moment, endDate: Moment, template: IFormatterRangeTemplate): string;
     /**
      * @param date - date
+     * @param options - AbsoluteDateTimeOptions
      * @returns absolute date in long format with time
      */
-    abstract absoluteLongDateTime(date: Moment): string;
+    abstract absoluteLongDateTime(date: Moment, options?: IAbsoluteDateTimeOptions): string;
     /**
      * @param startDate - start date
      * @param endDate - end date

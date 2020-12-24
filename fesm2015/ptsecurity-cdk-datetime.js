@@ -94,6 +94,16 @@ if (false) {
     IFormatterRelativeTemplate.prototype.BEFORE_YESTERDAY;
 }
 /**
+ * @record
+ */
+function IAbsoluteDateTimeOptions() { }
+if (false) {
+    /** @type {?|undefined} */
+    IAbsoluteDateTimeOptions.prototype.milliseconds;
+    /** @type {?|undefined} */
+    IAbsoluteDateTimeOptions.prototype.microseconds;
+}
+/**
  * Adapts type `D` to be usable as a date by cdk-based components that work with dates.
  * @abstract
  * @template D
@@ -454,9 +464,11 @@ if (false) {
      * @param {?} date - date
      * @param {?} params - parameters
      * @param {?} datetime - should time be shown as well
+     * @param {?} milliseconds - should time with milliseconds be shown as well
+     * @param {?} microseconds - should time with microseconds be shown as well
      * @return {?} absolute date in common format
      */
-    DateAdapter.prototype.absoluteDate = function (date, params, datetime) { };
+    DateAdapter.prototype.absoluteDate = function (date, params, datetime, milliseconds, microseconds) { };
     /**
      * @abstract
      * @param {?} date - date
@@ -466,9 +478,10 @@ if (false) {
     /**
      * @abstract
      * @param {?} date - date
+     * @param {?=} options - AbsoluteDateTimeOptions
      * @return {?} absolute date in short format with time
      */
-    DateAdapter.prototype.absoluteShortDateTime = function (date) { };
+    DateAdapter.prototype.absoluteShortDateTime = function (date, options) { };
     /**
      * @abstract
      * @param {?} date - date
@@ -494,9 +507,10 @@ if (false) {
     /**
      * @abstract
      * @param {?} date - date
+     * @param {?=} options - AbsoluteDateTimeOptions
      * @return {?} absolute date in long format with time
      */
-    DateAdapter.prototype.absoluteLongDateTime = function (date) { };
+    DateAdapter.prototype.absoluteLongDateTime = function (date, options) { };
     /**
      * @abstract
      * @param {?} startDate - start date
