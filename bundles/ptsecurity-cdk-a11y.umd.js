@@ -305,33 +305,12 @@
         return value;
     }
 
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: key-manager/list-key-manager.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
-     * @record
-     */
-    function ListKeyManagerOption() { }
-    if (false) {
-        /** @type {?|undefined} */
-        ListKeyManagerOption.prototype.disabled;
-        /**
-         * @return {?}
-         */
-        ListKeyManagerOption.prototype.getLabel = function () { };
-    }
     /* tslint:disable:member-ordering */
     /**
      * This class manages keyboard events for selectable lists. If you pass it a query list
      * of items, it will set the active item correctly when arrow events occur.
-     * @template T
      */
     var ListKeyManager = /** @class */ (function () {
-        /**
-         * @param {?} _items
-         */
         function ListKeyManager(_items) {
             var _this = this;
             this._items = _items;
@@ -340,9 +319,7 @@
              * when focus is shifted off of the list.
              */
             this.tabOut = new rxjs.Subject();
-            /**
-             * Stream that emits whenever the active item of the list manager changes.
-             */
+            /** Stream that emits whenever the active item of the list manager changes. */
             this.change = new rxjs.Subject();
             this.previousActiveItemIndex = -1;
             this._activeItemIndex = -1;
@@ -357,32 +334,21 @@
              * Predicate function that can be used to check whether an item should be skipped
              * by the key manager. By default, disabled items are skipped.
              */
-            this.skipPredicateFn = ( /**
-             * @param {?} item
-             * @return {?}
-             */function (item) { return item.disabled; });
+            this.skipPredicateFn = function (item) { return item.disabled; };
             if (_items instanceof core.QueryList) {
-                _items.changes.subscribe(( /**
-                 * @param {?} newItems
-                 * @return {?}
-                 */function (newItems) {
+                _items.changes.subscribe(function (newItems) {
                     if (_this._activeItem) {
-                        /** @type {?} */
                         var itemArray = newItems.toArray();
-                        /** @type {?} */
                         var newIndex = itemArray.indexOf(_this._activeItem);
                         if (newIndex > -1 && newIndex !== _this._activeItemIndex) {
                             _this._activeItemIndex = newIndex;
                         }
                     }
-                }));
+                });
             }
         }
         Object.defineProperty(ListKeyManager.prototype, "activeItemIndex", {
             // Index of the currently active item.
-            /**
-             * @return {?}
-             */
             get: function () {
                 return this._activeItemIndex;
             },
@@ -391,119 +357,81 @@
         });
         Object.defineProperty(ListKeyManager.prototype, "activeItem", {
             // The active item.
-            /**
-             * @return {?}
-             */
             get: function () {
                 return this._activeItem;
             },
             enumerable: false,
             configurable: true
         });
-        /**
-         * @template THIS
-         * @this {THIS}
-         * @param {?} scrollSize
-         * @return {THIS}
-         */
         ListKeyManager.prototype.withScrollSize = function (scrollSize) {
-            ( /** @type {?} */(this)).scrollSize = scrollSize;
-            return ( /** @type {?} */(this));
+            this.scrollSize = scrollSize;
+            return this;
         };
         /**
          * Turns on wrapping mode, which ensures that the active item will wrap to
          * the other end of list when there are no more items in the given direction.
-         * @template THIS
-         * @this {THIS}
-         * @return {THIS}
          */
         ListKeyManager.prototype.withWrap = function () {
-            ( /** @type {?} */(this)).wrap = true;
-            return ( /** @type {?} */(this));
+            this.wrap = true;
+            return this;
         };
         /**
          * Configures whether the key manager should be able to move the selection vertically.
-         * @template THIS
-         * @this {THIS}
-         * @param {?=} enabled Whether vertical selection should be enabled.
-         * @return {THIS}
+         * @param enabled Whether vertical selection should be enabled.
          */
         ListKeyManager.prototype.withVerticalOrientation = function (enabled) {
             if (enabled === void 0) { enabled = true; }
-            ( /** @type {?} */(this)).vertical = enabled;
-            return ( /** @type {?} */(this));
+            this.vertical = enabled;
+            return this;
         };
         /**
          * Configures the key manager to move the selection horizontally.
          * Passing in `null` will disable horizontal movement.
-         * @template THIS
-         * @this {THIS}
-         * @param {?} direction Direction in which the selection can be moved.
-         * @return {THIS}
+         * @param direction Direction in which the selection can be moved.
          */
         ListKeyManager.prototype.withHorizontalOrientation = function (direction) {
-            ( /** @type {?} */(this)).horizontal = direction;
-            return ( /** @type {?} */(this));
+            this.horizontal = direction;
+            return this;
         };
         /**
          * Turns on typeahead mode which allows users to set the active item by typing.
-         * @template THIS
-         * @this {THIS}
-         * @param {?=} debounceInterval Time to wait after the last keystroke before setting the active item.
-         * @param {?=} searchLetterIndex letter index for incremental search, if is -1 search is disabled
-         * @return {THIS}
+         * @param searchLetterIndex letter index for incremental search, if is -1 search is disabled
+         * @param debounceInterval Time to wait after the last keystroke before setting the active item.
          */
         ListKeyManager.prototype.withTypeAhead = function (debounceInterval, searchLetterIndex) {
             var _this = this;
             if (debounceInterval === void 0) { debounceInterval = 200; }
             if (searchLetterIndex === void 0) { searchLetterIndex = 0; }
-            if (( /** @type {?} */(this))._items.length && ( /** @type {?} */(this))._items.some(( /**
-             * @param {?} item
-             * @return {?}
-             */function (item) { return typeof item.getLabel !== 'function'; }))) {
+            if (this._items.length && this._items.some(function (item) { return typeof item.getLabel !== 'function'; })) {
                 throw Error('ListKeyManager items in typeahead mode must implement the `getLabel` method.');
             }
-            ( /** @type {?} */(this)).typeaheadSubscription.unsubscribe();
+            this.typeaheadSubscription.unsubscribe();
             // Debounce the presses of non-navigational keys, collect the ones that correspond to letters and convert those
             // letters back into a string. Afterwards find the first item that starts with that string and select it.
-            ( /** @type {?} */(this)).typeaheadSubscription = ( /** @type {?} */(this)).letterKeyStream.pipe(operators.tap(( /**
-             * @param {?} keyCode
-             * @return {?}
-             */function (keyCode) { return ( /** @type {?} */(_this)).pressedLetters.push(keyCode); })), operators.debounceTime(debounceInterval), operators.filter(( /**
-             * @return {?}
-             */function () { return ( /** @type {?} */(_this)).pressedLetters.length > 0; })), operators.map(( /**
-             * @return {?}
-             */function () { return ( /** @type {?} */(_this)).pressedLetters.join(''); }))).subscribe(( /**
-             * @param {?} inputString
-             * @return {?}
-             */function (inputString) {
+            this.typeaheadSubscription = this.letterKeyStream.pipe(operators.tap(function (keyCode) { return _this.pressedLetters.push(keyCode); }), operators.debounceTime(debounceInterval), operators.filter(function () { return _this.pressedLetters.length > 0; }), operators.map(function () { return _this.pressedLetters.join(''); })).subscribe(function (inputString) {
                 if (searchLetterIndex === -1) {
-                    ( /** @type {?} */(_this)).pressedLetters = [];
+                    _this.pressedLetters = [];
                     return;
                 }
-                /** @type {?} */
-                var items = ( /** @type {?} */(_this))._items.toArray();
+                var items = _this._items.toArray();
                 // Start at 1 because we want to start searching at the item immediately
                 // following the current active item.
                 for (var i = 1; i < items.length + 1; i++) {
-                    /** @type {?} */
-                    var index = (( /** @type {?} */(_this))._activeItemIndex + i) % items.length;
-                    /** @type {?} */
+                    var index = (_this._activeItemIndex + i) % items.length;
                     var item = items[index];
                     if (!item.disabled &&
-                        ( /** @type {?} */(item.getLabel))().toUpperCase().trim().indexOf(inputString) === searchLetterIndex) {
-                        ( /** @type {?} */(_this)).setActiveItem(index);
+                        item.getLabel().toUpperCase().trim().indexOf(inputString) === searchLetterIndex) {
+                        _this.setActiveItem(index);
                         break;
                     }
                 }
-                ( /** @type {?} */(_this)).pressedLetters = [];
-            }));
-            return ( /** @type {?} */(this));
+                _this.pressedLetters = [];
+            });
+            return this;
         };
         /**
          * Sets the active item to the item at the index specified.
-         * @param {?} item The index of the item to be set as active.
-         * @return {?}
+         * @param item The index of the item to be set as active.
          */
         ListKeyManager.prototype.setActiveItem = function (item) {
             this.previousActiveItemIndex = this._activeItemIndex;
@@ -514,12 +442,10 @@
         };
         /**
          * Sets the active item depending on the key event passed in.
-         * @param {?} event Keyboard event to be used for determining which element should be active.
-         * @return {?}
+         * @param event Keyboard event to be used for determining which element should be active.
          */
         ListKeyManager.prototype.onKeydown = function (event) {
             // tslint:disable-next-line: deprecation
-            /** @type {?} */
             var keyCode = event.keyCode;
             switch (keyCode) {
                 case keycodes.TAB:
@@ -582,41 +508,24 @@
             event.preventDefault();
         };
         // Sets the active item to the first enabled item in the list.
-        /**
-         * @return {?}
-         */
         ListKeyManager.prototype.setFirstItemActive = function () {
             this.setActiveItemByIndex(0, 1);
         };
         // Sets the active item to the last enabled item in the list.
-        /**
-         * @return {?}
-         */
         ListKeyManager.prototype.setLastItemActive = function () {
             this.setActiveItemByIndex(this._items.length - 1, -1);
         };
         // Sets the active item to the next enabled item in the list.
-        /**
-         * @return {?}
-         */
         ListKeyManager.prototype.setNextItemActive = function () {
             this._activeItemIndex < 0 ? this.setFirstItemActive() : this.setActiveItemByDelta(1);
         };
         // Sets the active item to a previous enabled item in the list.
-        /**
-         * @return {?}
-         */
         ListKeyManager.prototype.setPreviousItemActive = function () {
             this._activeItemIndex < 0 && this.wrap ? this.setLastItemActive()
                 : this.setActiveItemByDelta(-1);
         };
-        /**
-         * @param {?=} delta
-         * @return {?}
-         */
         ListKeyManager.prototype.setNextPageItemActive = function (delta) {
             if (delta === void 0) { delta = this.scrollSize; }
-            /** @type {?} */
             var nextItemIndex = this._activeItemIndex + delta;
             if (nextItemIndex >= this._items.length) {
                 this.setLastItemActive();
@@ -625,13 +534,8 @@
                 this.setActiveItemByDelta(delta);
             }
         };
-        /**
-         * @param {?=} delta
-         * @return {?}
-         */
         ListKeyManager.prototype.setPreviousPageItemActive = function (delta) {
             if (delta === void 0) { delta = this.scrollSize; }
-            /** @type {?} */
             var nextItemIndex = this._activeItemIndex - delta;
             if (nextItemIndex <= 0) {
                 this.setFirstItemActive();
@@ -640,14 +544,8 @@
                 this.setActiveItemByDelta(-delta);
             }
         };
-        /**
-         * @param {?} item
-         * @return {?}
-         */
         ListKeyManager.prototype.updateActiveItem = function (item) {
-            /** @type {?} */
             var itemArray = this._items.toArray();
-            /** @type {?} */
             var index = typeof item === 'number' ? item : itemArray.indexOf(item);
             this._activeItemIndex = index;
             this._activeItem = itemArray[index];
@@ -656,9 +554,6 @@
          * This method sets the active item, given a list of items and the delta between the
          * currently active item and the new active item. It will calculate differently
          * depending on whether wrap mode is turned on.
-         * @private
-         * @param {?} delta
-         * @return {?}
          */
         ListKeyManager.prototype.setActiveItemByDelta = function (delta) {
             this.wrap ? this.setActiveInWrapMode(delta) : this.setActiveInDefaultMode(delta);
@@ -667,17 +562,11 @@
          * Sets the active item properly given "wrap" mode. In other words, it will continue to move
          * down the list until it finds an item that is not disabled, and it will wrap if it
          * encounters either end of the list.
-         * @private
-         * @param {?} delta
-         * @return {?}
          */
         ListKeyManager.prototype.setActiveInWrapMode = function (delta) {
-            /** @type {?} */
             var items = this.getItemsArray();
             for (var i = 1; i <= items.length; i++) {
-                /** @type {?} */
                 var index = (this._activeItemIndex + (delta * i) + items.length) % items.length;
-                /** @type {?} */
                 var item = items[index];
                 if (!this.skipPredicateFn(item)) {
                     this.setActiveItem(index);
@@ -689,9 +578,6 @@
          * Sets the active item properly given the default mode. In other words, it will
          * continue to move down the list until it finds an item that is not disabled. If
          * it encounters either end of the list, it will stop and not wrap.
-         * @private
-         * @param {?} delta
-         * @return {?}
          */
         ListKeyManager.prototype.setActiveInDefaultMode = function (delta) {
             this.setActiveItemByIndex(this._activeItemIndex + delta, delta);
@@ -700,18 +586,12 @@
          * Sets the active item to the first enabled item starting at the index specified. If the
          * item is disabled, it will move in the fallbackDelta direction until it either
          * finds an enabled item or encounters the end of the list.
-         * @private
-         * @param {?} index
-         * @param {?} fallbackDelta
-         * @return {?}
          */
         ListKeyManager.prototype.setActiveItemByIndex = function (index, fallbackDelta) {
-            /** @type {?} */
             var items = this.getItemsArray();
             if (!items[index]) {
                 return;
             }
-            /** @type {?} */
             var curIndex = index;
             while (this.skipPredicateFn(items[curIndex])) {
                 curIndex += fallbackDelta;
@@ -721,109 +601,14 @@
             }
             this.setActiveItem(curIndex);
         };
-        /**
-         * Returns the items as an array.
-         * @private
-         * @return {?}
-         */
+        /** Returns the items as an array. */
         ListKeyManager.prototype.getItemsArray = function () {
             return this._items instanceof core.QueryList ? this._items.toArray() : this._items;
         };
         return ListKeyManager;
     }());
-    if (false) {
-        /**
-         * Stream that emits any time the TAB key is pressed, so components can react
-         * when focus is shifted off of the list.
-         * @type {?}
-         */
-        ListKeyManager.prototype.tabOut;
-        /**
-         * Stream that emits whenever the active item of the list manager changes.
-         * @type {?}
-         */
-        ListKeyManager.prototype.change;
-        /** @type {?} */
-        ListKeyManager.prototype.previousActiveItemIndex;
-        /**
-         * @type {?}
-         * @private
-         */
-        ListKeyManager.prototype._activeItemIndex;
-        /**
-         * @type {?}
-         * @private
-         */
-        ListKeyManager.prototype._activeItem;
-        /**
-         * @type {?}
-         * @private
-         */
-        ListKeyManager.prototype.wrap;
-        /**
-         * @type {?}
-         * @private
-         */
-        ListKeyManager.prototype.letterKeyStream;
-        /**
-         * @type {?}
-         * @private
-         */
-        ListKeyManager.prototype.typeaheadSubscription;
-        /**
-         * @type {?}
-         * @private
-         */
-        ListKeyManager.prototype.vertical;
-        /**
-         * @type {?}
-         * @private
-         */
-        ListKeyManager.prototype.horizontal;
-        /**
-         * @type {?}
-         * @private
-         */
-        ListKeyManager.prototype.scrollSize;
-        /**
-         * @type {?}
-         * @private
-         */
-        ListKeyManager.prototype.pressedLetters;
-        /**
-         * Predicate function that can be used to check whether an item should be skipped
-         * by the key manager. By default, disabled items are skipped.
-         * @type {?}
-         * @private
-         */
-        ListKeyManager.prototype.skipPredicateFn;
-        /**
-         * @type {?}
-         * @private
-         */
-        ListKeyManager.prototype._items;
-    }
+    /* tslint:enable:member-ordering */
 
-    /**
-     * This is the interface for highlightable items (used by the ActiveDescendantKeyManager).
-     * Each item must know how to style itself as active or inactive and whether or not it is
-     * currently disabled.
-     * @record
-     */
-    function Highlightable() { }
-    if (false) {
-        /**
-         * @return {?}
-         */
-        Highlightable.prototype.setActiveStyles = function () { };
-        /**
-         * @return {?}
-         */
-        Highlightable.prototype.setInactiveStyles = function () { };
-    }
-    /**
-     * @template T
-     */
     var ActiveDescendantKeyManager = /** @class */ (function (_super) {
         __extends(ActiveDescendantKeyManager, _super);
         function ActiveDescendantKeyManager() {
@@ -833,8 +618,6 @@
          * This method sets the active item to the item at the specified index.
          * It also adds active styles to the newly active item and removes active
          * styles from the previously active item.
-         * @param {?} index
-         * @return {?}
          */
         ActiveDescendantKeyManager.prototype.setActiveItem = function (index) {
             if (this.activeItem) {
@@ -848,23 +631,6 @@
         return ActiveDescendantKeyManager;
     }(ListKeyManager));
 
-    /**
-     * This is the interface for focusable items (used by the FocusKeyManager).
-     * Each item must know how to focus itself, whether or not it is currently disabled
-     * and be able to supply it's label.
-     * @record
-     */
-    function IFocusableOption() { }
-    if (false) {
-        /**
-         * @param {?=} origin
-         * @return {?}
-         */
-        IFocusableOption.prototype.focus = function (origin) { };
-    }
-    /**
-     * @template T
-     */
     var FocusKeyManager = /** @class */ (function (_super) {
         __extends(FocusKeyManager, _super);
         function FocusKeyManager() {
@@ -874,19 +640,12 @@
         }
         /**
          * Sets the focus origin that will be passed in to the items for any subsequent `focus` calls.
-         * @template THIS
-         * @this {THIS}
-         * @param {?} origin Focus origin to be used when focusing items.
-         * @return {THIS}
+         * @param origin Focus origin to be used when focusing items.
          */
         FocusKeyManager.prototype.setFocusOrigin = function (origin) {
-            ( /** @type {?} */(this)).origin = origin;
-            return ( /** @type {?} */(this));
+            this.origin = origin;
+            return this;
         };
-        /**
-         * @param {?} item
-         * @return {?}
-         */
         FocusKeyManager.prototype.setActiveItem = function (item) {
             _super.prototype.setActiveItem.call(this, item);
             if (this.activeItem) {
@@ -895,30 +654,9 @@
         };
         return FocusKeyManager;
     }(ListKeyManager));
-    if (false) {
-        /**
-         * @type {?}
-         * @private
-         */
-        FocusKeyManager.prototype.origin;
-    }
 
     /**
-     * @fileoverview added by tsickle
-     * Generated from: public-api.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: index.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: ptsecurity-cdk-a11y.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * Generated bundle index. Do not edit.
      */
 
     exports.ActiveDescendantKeyManager = ActiveDescendantKeyManager;

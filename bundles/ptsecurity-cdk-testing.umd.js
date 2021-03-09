@@ -4,47 +4,26 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.ptsecurity = global.ptsecurity || {}, global.ptsecurity.cdk = global.ptsecurity.cdk || {}, global.ptsecurity.cdk.testing = {}), global.ng.core));
 }(this, (function (exports, core) { 'use strict';
 
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: event-objects.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
-     * Creates a browser MouseEvent with the specified options.
-     * @param {?} type
-     * @param {?=} x
-     * @param {?=} y
-     * @param {?=} button
-     * @return {?}
-     */
+    /** Creates a browser MouseEvent with the specified options. */
     // tslint:disable-next-line:no-reserved-keywords
     function createMouseEvent(type, x, y, button) {
         if (x === void 0) { x = 0; }
         if (y === void 0) { y = 0; }
         if (button === void 0) { button = 0; }
-        /** @type {?} */
         var event = document.createEvent('MouseEvent');
-        event.initMouseEvent(type, false, /* canBubble */ false, /* cancelable */ window, /* view */ 0, /* detail */ x, /* screenX */ y, /* screenY */ x, /* clientX */ y, /* clientY */ false, /* ctrlKey */ false, /* altKey */ false, /* shiftKey */ false, /* metaKey */ button, /* button */ null /* relatedTarget */);
+        event.initMouseEvent(type, false, false, window, /* view */ 0, x, /* screenX */ y, /* screenY */ x, /* clientX */ y, /* clientY */ false, false, false, false, button, /* button */ null);
         return event;
     }
-    /**
-     * Creates a browser TouchEvent with the specified pointer coordinates.
-     * @param {?} type
-     * @param {?=} pageX
-     * @param {?=} pageY
-     * @return {?}
-     */
+    /** Creates a browser TouchEvent with the specified pointer coordinates. */
     // tslint:disable-next-line:no-reserved-keywords
     function createTouchEvent(type, pageX, pageY) {
         if (pageX === void 0) { pageX = 0; }
         if (pageY === void 0) { pageY = 0; }
         // In favor of creating events that work for most of the browsers, the event is created
         // as a basic UI Event. The necessary details for the event will be set manually.
-        /** @type {?} */
         var event = document.createEvent('UIEvent');
-        /** @type {?} */
         var touchDetails = { pageX: pageX, pageY: pageY };
-        (( /** @type {?} */(event))).initUIEvent(type, true, true, window, 0);
+        event.initUIEvent(type, true, true, window, 0);
         // Most of the browsers don't have a "initTouchEvent" method that can be used to define
         // the touch details.
         Object.defineProperties(event, {
@@ -52,20 +31,10 @@
         });
         return event;
     }
-    /**
-     * Dispatches a keydown event from an element.
-     * @param {?} type
-     * @param {?} keyCode
-     * @param {?=} target
-     * @param {?=} key
-     * @return {?}
-     */
+    /** Dispatches a keydown event from an element. */
     // tslint:disable-next-line:no-reserved-keywords
     function createKeyboardEvent(type, keyCode, target, key) {
-        /** @type {?} */
-        var event = ( /** @type {?} */(document.createEvent('KeyboardEvent')));
-        /** @type {?} */
-        var originalPreventDefault = event.preventDefault;
+        var event = document.createEvent('KeyboardEvent');
         // Firefox does not support `initKeyboardEvent`, but supports `initKeyEvent`.
         if (event.initKeyEvent) {
             event.initKeyEvent(type, true, true, window, 0, 0, 0, 0, 0, keyCode);
@@ -76,104 +45,45 @@
         // Webkit Browsers don't set the keyCode when calling the init function.
         // See related bug https://bugs.webkit.org/show_bug.cgi?id=16735
         Object.defineProperties(event, {
-            keyCode: { get: ( /**
-                     * @return {?}
-                     */function () { return keyCode; }) },
-            key: { get: ( /**
-                     * @return {?}
-                     */function () { return key; }) },
-            target: { get: ( /**
-                     * @return {?}
-                     */function () { return target; }) }
-        });
-        // IE won't set `defaultPrevented` on synthetic events so we need to do it manually.
-        event.preventDefault = ( /**
-         * @return {?}
-         */function () {
-            Object.defineProperty(event, 'defaultPrevented', { get: ( /**
-                     * @return {?}
-                     */function () { return true; }) });
-            return originalPreventDefault.apply(this, arguments);
+            keyCode: { get: function () { return keyCode; } },
+            key: { get: function () { return key; } },
+            target: { get: function () { return target; } }
         });
         return event;
     }
-    /**
-     * Creates a fake event object with any desired event type.
-     * @param {?} type
-     * @param {?=} canBubble
-     * @param {?=} cancelable
-     * @return {?}
-     */
+    /** Creates a fake event object with any desired event type. */
     // tslint:disable-next-line:no-reserved-keywords
     function createFakeEvent(type, canBubble, cancelable) {
         if (canBubble === void 0) { canBubble = false; }
         if (cancelable === void 0) { cancelable = true; }
-        /** @type {?} */
         var event = document.createEvent('Event');
         event.initEvent(type, canBubble, cancelable);
         return event;
     }
 
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: dispatch-events.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
-     * Utility to dispatch any event on a Node.
-     * @param {?} node
-     * @param {?} event
-     * @return {?}
-     */
+    // tslint:disable:no-reserved-keywords
+    /** Utility to dispatch any event on a Node. */
     function dispatchEvent(node, event) {
         node.dispatchEvent(event);
         return event;
     }
-    /**
-     * Shorthand to dispatch a fake event on a specified node.
-     * @param {?} node
-     * @param {?} type
-     * @param {?=} canBubble
-     * @return {?}
-     */
+    /** Shorthand to dispatch a fake event on a specified node. */
     // tslint:disable-next-line:no-reserved-keywords
     function dispatchFakeEvent(node, type, canBubble) {
         return dispatchEvent(node, createFakeEvent(type, canBubble));
     }
-    /**
-     * Shorthand to dispatch a keyboard event with a specified key code.
-     * @param {?} node
-     * @param {?} type
-     * @param {?} keyCode
-     * @param {?=} target
-     * @return {?}
-     */
+    /** Shorthand to dispatch a keyboard event with a specified key code. */
     function dispatchKeyboardEvent(node, type, keyCode, target) {
-        return ( /** @type {?} */(dispatchEvent(node, createKeyboardEvent(type, keyCode, target))));
+        return dispatchEvent(node, createKeyboardEvent(type, keyCode, target));
     }
-    /**
-     * Shorthand to dispatch a mouse event on the specified coordinates.
-     * @param {?} node
-     * @param {?} type
-     * @param {?=} x
-     * @param {?=} y
-     * @param {?=} event
-     * @return {?}
-     */
+    /** Shorthand to dispatch a mouse event on the specified coordinates. */
     function dispatchMouseEvent(node, type, x, y, event) {
         if (x === void 0) { x = 0; }
         if (y === void 0) { y = 0; }
         if (event === void 0) { event = createMouseEvent(type, x, y); }
-        return ( /** @type {?} */(dispatchEvent(node, event)));
+        return dispatchEvent(node, event);
     }
-    /**
-     * Shorthand to dispatch a touch event on the specified coordinates.
-     * @param {?} node
-     * @param {?} type
-     * @param {?=} x
-     * @param {?=} y
-     * @return {?}
-     */
+    /** Shorthand to dispatch a touch event on the specified coordinates. */
     // tslint:disable-next-line:no-reserved-keywords
     function dispatchTouchEvent(node, type, x, y) {
         if (x === void 0) { x = 0; }
@@ -182,16 +92,10 @@
     }
 
     /**
-     * @fileoverview added by tsickle
-     * Generated from: type-in-element.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
      * Focuses an input, sets its value and dispatches
      * the `input` event, simulating the user typing.
-     * @param {?} value Value to be set on the input.
-     * @param {?} element Element onto which to set the value.
-     * @return {?}
+     * @param value Value to be set on the input.
+     * @param element Element onto which to set the value.
      */
     function typeInElement(value, element) {
         element.focus();
@@ -200,24 +104,13 @@
     }
 
     /**
-     * @fileoverview added by tsickle
-     * Generated from: element-focus.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
      * Patches an elements focus and blur methods to emit events consistently and predictably.
      * This is necessary, because some browsers, like IE11, will call the focus handlers asynchronously,
      * while others won't fire them at all if the browser window is not focused.
-     * @param {?} element
-     * @return {?}
      */
     function patchElementFocus(element) {
-        element.focus = ( /**
-         * @return {?}
-         */function () { return dispatchFakeEvent(element, 'focus'); });
-        element.blur = ( /**
-         * @return {?}
-         */function () { return dispatchFakeEvent(element, 'blur'); });
+        element.focus = function () { return dispatchFakeEvent(element, 'focus'); };
+        element.blur = function () { return dispatchFakeEvent(element, 'blur'); };
     }
 
     /*! *****************************************************************************
@@ -526,7 +419,7 @@
      * to flush out `onStable` subscriptions in tests.
      *
      * via: https://github.com/angular/angular/blob/master/packages/core/testing/src/ng_zone_mock.ts
-     * \@docs-private
+     * @docs-private
      */
     var MockNgZone = /** @class */ (function (_super) {
         __extends(MockNgZone, _super);
@@ -535,25 +428,14 @@
             _this.onStable = new core.EventEmitter(false);
             return _this;
         }
-        /**
-         * @param {?} fn
-         * @return {?}
-         */
         MockNgZone.prototype.run = function (fn) {
             // tslint:disable-next-line
             return fn();
         };
-        /**
-         * @param {?} fn
-         * @return {?}
-         */
         MockNgZone.prototype.runOutsideAngular = function (fn) {
             // tslint:disable-next-line
             return fn();
         };
-        /**
-         * @return {?}
-         */
         MockNgZone.prototype.simulateZoneExit = function () {
             this.onStable.emit(null);
         };
@@ -564,42 +446,14 @@
     ];
     /** @nocollapse */
     MockNgZone.ctorParameters = function () { return []; };
-    if (false) {
-        /** @type {?} */
-        MockNgZone.prototype.onStable;
-    }
 
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: wrapped-error-message.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-    /**
-     * @param {?} e
-     * @return {?}
-     */
     function wrappedErrorMessage(e) {
-        /** @type {?} */
         var escapedMessage = e.message.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
         return new RegExp(escapedMessage);
     }
 
     /**
-     * @fileoverview added by tsickle
-     * Generated from: public-api.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: index.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-     */
-
-    /**
-     * @fileoverview added by tsickle
-     * Generated from: ptsecurity-cdk-testing.ts
-     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * Generated bundle index. Do not edit.
      */
 
     exports.MockNgZone = MockNgZone;
