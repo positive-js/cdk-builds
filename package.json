@@ -1,6 +1,6 @@
 {
     "name": "@ptsecurity/cdk",
-    "version": "11.0.1-0b55f51",
+    "version": "11.0.0-13588798",
     "description": "Mosaic Component Development Kit",
     "repository": {
         "type": "git",
