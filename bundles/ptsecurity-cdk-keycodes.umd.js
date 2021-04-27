@@ -158,10 +158,10 @@
         return keyCode >= 112 && keyCode <= 123;
     }
     function isVerticalMovement(event) {
-        return ~[UP_ARROW, DOWN_ARROW, PAGE_DOWN, PAGE_UP, HOME, END].indexOf(event);
+        return [UP_ARROW, DOWN_ARROW, PAGE_DOWN, PAGE_UP, HOME, END].indexOf(event) !== -1;
     }
     function isHorizontalMovement(event) {
-        return ~[LEFT_ARROW, RIGHT_ARROW, BACKSPACE, DELETE].indexOf(event);
+        return [LEFT_ARROW, RIGHT_ARROW, BACKSPACE, DELETE].indexOf(event) !== -1;
     }
     function isSelectAll(event) {
         return event.ctrlKey && event.keyCode === 65;
