@@ -69,7 +69,7 @@
                 this.getDate(first) - this.getDate(second);
         };
         /**
-         * Compares two datetimes.
+         * Compares two dates.
          * @param first The first date to compare.
          * @param second The second date to compare.
          * @returns 0 if the dates are equal, a number less than 0 if the first date is earlier,

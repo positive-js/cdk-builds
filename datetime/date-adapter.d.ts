@@ -1,57 +1,37 @@
 import { InjectionToken } from '@angular/core';
-import { Moment } from 'moment';
 import { Observable } from 'rxjs';
 /** InjectionToken for datepicker that can be used to override default locale code. */
 export declare const MC_DATE_LOCALE: InjectionToken<string>;
 /** @docs-private */
 export declare function MC_DATE_LOCALE_FACTORY(): string;
-/**
- * interface for absolute date or datetime formatter template
- */
-export interface IFormatterAbsoluteTemplate {
-    variables?: {
+export interface DateAdapterConfig {
+    variables: {
         [name: string]: string;
     };
-    DATE: string;
-    DATETIME: string;
-}
-/**
- * interface for range date or datetime formatter template
- */
-export interface IFormatterRangeTemplate {
-    variables?: {
-        [name: string]: string;
+    monthNames: {
+        long: string[];
+        short: {
+            standalone: string[];
+            formatted: string[];
+        };
+        narrow: string[];
     };
-    START_DATE: string;
-    END_DATE: string;
-    DATE: string;
-    START_DATETIME: string;
-    END_DATETIME: string;
-    DATETIME: string;
-}
-/**
- * interface for relative date or datetime formatter template
- */
-export interface IFormatterRelativeTemplate {
-    variables?: {
-        [name: string]: string;
+    dayOfWeekNames: {
+        long: string[];
+        short: string[];
+        narrow: string[];
     };
-    SECONDS_AGO: string;
-    MINUTES_AGO: string;
-    TODAY: string;
-    YESTERDAY: string;
-    BEFORE_YESTERDAY: string;
-}
-export interface IAbsoluteDateTimeOptions {
-    milliseconds?: boolean;
-    microseconds?: boolean;
+    firstDayOfWeek: number;
 }
 /** Adapts type `D` to be usable as a date by cdk-based components that work with dates. */
 export declare abstract class DateAdapter<D> {
+    config: DateAdapterConfig;
+    firstMonth: number;
+    abstract lastMonth: number;
     /** The locale to use for all dates. */
     protected locale: any;
     /** A stream that emits when the locale changes. */
-    get localeChanges(): Observable<void>;
+    get localeChanges(): Observable<any>;
     private _localeChanges;
     /**
      * Gets the year component of the given date.
@@ -155,7 +135,7 @@ export declare abstract class DateAdapter<D> {
      * @param date The date of month of the date. Must be an integer 1 - length of the given month.
      * @returns The new date, or null if invalid.
      */
-    abstract createDate(year: number, month: number, date: number): D;
+    abstract createDate(year: number, month?: number, date?: number): D;
     /**
      * Creates a date time with the given year, month, date, hours, minutes, seconds and milliseconds.
      * Does not allow over/under-flow of the month and date.
@@ -240,111 +220,93 @@ export declare abstract class DateAdapter<D> {
      * @returns An invalid date.
      */
     abstract invalid(): D;
+    abstract hasSame(startDate: D, endDate: D, unit: any): boolean;
+    abstract diffNow(date: D, unit: any): number;
     /**
-     * @param date - date
-     * @param template - template
-     * @returns relative date by template
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract relativeDate(date: Moment, template: IFormatterRelativeTemplate): string;
+    abstract relativeDate(date: D, template: any): string;
     /**
-     * @param date - date
-     * @returns relative date in short format
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract relativeShortDate(date: Moment): string;
+    abstract relativeShortDate(date: D): string;
     /**
-     * @param date - date
-     * @returns relative date in long format
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract relativeLongDate(date: Moment): string;
+    abstract relativeLongDate(date: D): string;
     /**
-     * @param date - date
-     * @param params - parameters
-     * @param datetime - should time be shown as well
-     * @param milliseconds - should time with milliseconds be shown as well
-     * @param microseconds - should time with microseconds be shown as well
-     * @returns absolute date in common format
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract absoluteDate(date: Moment, params: IFormatterAbsoluteTemplate, datetime: boolean, milliseconds: boolean, microseconds: boolean): string;
+    abstract absoluteDate(date: D, params: any, datetime: boolean, milliseconds: boolean, microseconds: boolean): string;
     /**
-     * @param date - date
-     * @returns absolute date in short format
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract absoluteShortDate(date: Moment): string;
+    abstract absoluteShortDate(date: D): string;
     /**
-     * @param date - date
-     * @param options - AbsoluteDateTimeOptions
-     * @returns absolute date in short format with time
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract absoluteShortDateTime(date: Moment, options?: IAbsoluteDateTimeOptions): string;
+    abstract absoluteShortDateTime(date: D, options?: any): string;
     /**
-     * @param date - date
-     * @returns absolute date in long format
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract absoluteLongDate(date: Moment): string;
+    abstract absoluteLongDate(date: D): string;
     /**
-     * @param startDate - start date
-     * @param endDate - end date
-     * @param template - template
-     * @returns opened date
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract openedRangeDate(startDate: Moment, endDate: Moment, template: IFormatterRangeTemplate): string;
+    abstract openedRangeDate(startDate: D, endDate: D, template: any): string;
     /**
-     * @param startDate - start date
-     * @param endDate - end date
-     * @param template - template
-     * @returns opened date
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract openedRangeDateTime(startDate: Moment, endDate: Moment, template: IFormatterRangeTemplate): string;
+    abstract openedRangeDateTime(startDate: D, endDate: D, template: any): string;
     /**
-     * @param date - date
-     * @param options - AbsoluteDateTimeOptions
-     * @returns absolute date in long format with time
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract absoluteLongDateTime(date: Moment, options?: IAbsoluteDateTimeOptions): string;
+    abstract absoluteLongDateTime(date: D, options?: any): string;
     /**
-     * @param startDate - start date
-     * @param endDate - end date
-     * @param template - template
-     * @returns range date in template format
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract rangeDate(startDate: Moment, endDate: Moment, template: IFormatterRangeTemplate): string;
+    abstract rangeDate(startDate: D, endDate: D, template: any): string;
     /**
-     * @param startDate - start date
-     * @param endDate - end date
-     * @param template - template
-     * @returns range date in template format with time
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract rangeDateTime(startDate: Moment, endDate: Moment, template: IFormatterRangeTemplate): string;
+    abstract rangeDateTime(startDate: D, endDate: D, template: any): string;
     /**
-     * @param startDate - start date
-     * @param endDate - end date
-     * @returns range date in short format
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract rangeShortDate(startDate: Moment, endDate: Moment): string;
+    abstract rangeShortDate(startDate: D, endDate: D): string;
     /**
-     * @param startDate - start date
-     * @param endDate - end date
-     * @returns range date in short format with time
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract rangeShortDateTime(startDate: Moment, endDate: Moment): string;
+    abstract rangeShortDateTime(startDate: D, endDate: D): string;
     /**
-     * @param startDate - start date
-     * @param endDate - end date
-     * @returns range date in long format
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract rangeLongDate(startDate: Moment, endDate: Moment): string;
+    abstract rangeLongDate(startDate: D, endDate: D): string;
     /**
-     * @param startDate - start date
-     * @param endDate - end date
-     * @returns range date in long format with time
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract rangeLongDateTime(startDate: Moment, endDate: Moment): string;
+    abstract rangeLongDateTime(startDate: D, endDate: D): string;
     /**
-     * @param startDate - start date
-     * @param endDate - end date
-     * @returns range middle date with time
+     * @deprecated Moved in `DateFormatter`.
+     * @breaking-change 13.0.0
      */
-    abstract rangeMiddleDateTime(startDate: Moment, endDate: Moment): string;
+    abstract rangeMiddleDateTime(startDate: D, endDate: D): string;
     /**
      * Attempts to deserialize a value to a valid date object. This is different from parsing in that
      * deserialize should only accept non-ambiguous, locale-independent formats (e.g. a ISO 8601
@@ -372,7 +334,7 @@ export declare abstract class DateAdapter<D> {
      */
     compareDate(first: D, second: D): number;
     /**
-     * Compares two datetimes.
+     * Compares two dates.
      * @param first The first date to compare.
      * @param second The second date to compare.
      * @returns 0 if the dates are equal, a number less than 0 if the first date is earlier,
