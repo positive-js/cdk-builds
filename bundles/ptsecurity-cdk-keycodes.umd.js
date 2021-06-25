@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/keycodes', ['exports'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.keycodes = {})));
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.mc = global.mc || {}, global.mc.cdk = global.mc.cdk || {}, global.mc.cdk.keycodes = {})));
 }(this, (function (exports) { 'use strict';
 
     /* tslint:disable:no-magic-numbers no-bitwise */

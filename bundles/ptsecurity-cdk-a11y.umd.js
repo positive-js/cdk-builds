@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@ptsecurity/cdk/keycodes'), require('rxjs'), require('rxjs/operators')) :
     typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/a11y', ['exports', '@angular/core', '@ptsecurity/cdk/keycodes', 'rxjs', 'rxjs/operators'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.ng = global.ng || {}, global.ng.cdk = global.ng.cdk || {}, global.ng.cdk.a11y = {}), global.ng.core, global.ng.cdk.keycodes, global.rxjs, global.rxjs.operators));
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.mc = global.mc || {}, global.mc.cdk = global.mc.cdk || {}, global.mc.cdk.a11y = {}), global.ng.core, global.mc.cdk.keycodes, global.rxjs, global.rxjs.operators));
 }(this, (function (exports, core, keycodes, rxjs, operators) { 'use strict';
 
     /*! *****************************************************************************
