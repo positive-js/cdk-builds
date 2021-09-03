@@ -26,8 +26,6 @@ export interface DateAdapterConfig {
 /** Adapts type `D` to be usable as a date by cdk-based components that work with dates. */
 export declare abstract class DateAdapter<D> {
     config: DateAdapterConfig;
-    firstMonth: number;
-    abstract lastMonth: number;
     /** The locale to use for all dates. */
     protected locale: any;
     /** A stream that emits when the locale changes. */
