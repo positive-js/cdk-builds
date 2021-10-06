@@ -1,6 +1,7 @@
 import { AfterContentInit, ElementRef, IterableDiffers, OnDestroy, QueryList } from '@angular/core';
 import { CdkTreeNodeOutlet } from './outlet';
 import { CdkTree, CdkTreeNode } from './tree';
+import * as i0 from "@angular/core";
 /**
  * Nested node is a child of `<cdk-tree>`. It works with nested tree.
  * By using `cdk-nested-tree-node` component in tree node template, children of the parent node will
@@ -38,4 +39,6 @@ export declare class CdkNestedTreeNode<T> extends CdkTreeNode<T> implements Afte
     protected updateChildrenNodes(): void;
     /** Clear the children dataNodes. */
     protected clear(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CdkNestedTreeNode<any>, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkNestedTreeNode<any>, "cdk-nested-tree-node", ["cdkNestedTreeNode"], {}, {}, ["nodeOutlet"]>;
 }

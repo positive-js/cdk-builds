@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { TreeControl } from './control/tree-control';
 import { CdkTreeNodeDef } from './node';
 import { CdkTreeNodeOutlet } from './outlet';
+import * as i0 from "@angular/core";
 /**
  * CDK tree component that connects with a data source to retrieve data of type `T` and renders
  * dataNodes with hierarchy. Updates the dataNodes when new data is provided by the data source.
@@ -76,6 +77,8 @@ export declare class CdkTree<T> implements AfterContentChecked, CollectionViewer
      * clearing the node outlet. Otherwise start listening for new data.
      */
     private switchDataSource;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CdkTree<any>, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CdkTree<any>, "cdk-tree", ["cdkTree"], { "treeControl": "treeControl"; "trackBy": "trackBy"; "dataSource": "dataSource"; }, {}, ["nodeDefs"], never>;
 }
 /**
  * Tree node for CdkTree. It contains the data in the tree node.
@@ -98,4 +101,6 @@ export declare class CdkTreeNode<T> implements IFocusableOption, OnDestroy {
     constructor(elementRef: ElementRef, tree: CdkTree<T>);
     ngOnDestroy(): void;
     focus(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CdkTreeNode<any>, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkTreeNode<any>, "cdk-tree-node", ["cdkTreeNode"], { "role": "role"; }, {}, never>;
 }

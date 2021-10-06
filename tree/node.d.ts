@@ -1,4 +1,5 @@
 import { TemplateRef } from '@angular/core';
+import * as i0 from "@angular/core";
 /** Context provided to the tree node component. */
 export declare class CdkTreeNodeOutletContext<T> {
     /** Data for the node. */
@@ -27,4 +28,6 @@ export declare class CdkTreeNodeDef<T> {
     when: (index: number, nodeData: T) => boolean;
     /** @docs-private */
     constructor(template: TemplateRef<any>);
+    static ɵfac: i0.ɵɵFactoryDeclaration<CdkTreeNodeDef<any>, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkTreeNodeDef<any>, "[cdkTreeNodeDef]", never, { "when": "cdkTreeNodeDefWhen"; }, {}, never>;
 }

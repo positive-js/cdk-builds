@@ -5,7 +5,6 @@
   "esm2015": "../esm2015/datetime/ptsecurity-cdk-datetime.js",
   "fesm2015": "../fesm2015/ptsecurity-cdk-datetime.js",
   "typings": "ptsecurity-cdk-datetime.d.ts",
-  "metadata": "ptsecurity-cdk-datetime.metadata.json",
   "sideEffects": false,
   "name": "@ptsecurity/cdk/datetime"
 }

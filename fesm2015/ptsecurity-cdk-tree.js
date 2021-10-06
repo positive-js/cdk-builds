@@ -1,8 +1,9 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { BehaviorSubject, Subject, Observable, of } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { Directive, ViewContainerRef, ChangeDetectorRef, TemplateRef, Component, ViewEncapsulation, ChangeDetectionStrategy, IterableDiffers, Input, ViewChild, ContentChildren, ElementRef, Inject, forwardRef, Renderer2, Optional, NgModule } from '@angular/core';
-import { Directionality } from '@angular/cdk/bidi';
+import * as i0 from '@angular/core';
+import { Directive, Component, ViewEncapsulation, ChangeDetectionStrategy, Input, ViewChild, ContentChildren, forwardRef, Inject, Optional, NgModule } from '@angular/core';
+import * as i2 from '@angular/cdk/bidi';
 import { coerceNumberProperty } from '@angular/cdk/coercion';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
@@ -194,14 +195,12 @@ class CdkTreeNodeOutlet {
         this.changeDetectorRef = changeDetectorRef;
     }
 }
-CdkTreeNodeOutlet.decorators = [
-    { type: Directive, args: [{ selector: '[cdkTreeNodeOutlet]' },] }
-];
-/** @nocollapse */
-CdkTreeNodeOutlet.ctorParameters = () => [
-    { type: ViewContainerRef },
-    { type: ChangeDetectorRef }
-];
+/** @nocollapse */ CdkTreeNodeOutlet.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTreeNodeOutlet, deps: [{ token: i0.ViewContainerRef }, { token: i0.ChangeDetectorRef }], target: i0.ɵɵFactoryTarget.Directive });
+/** @nocollapse */ CdkTreeNodeOutlet.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "12.2.5", type: CdkTreeNodeOutlet, selector: "[cdkTreeNodeOutlet]", ngImport: i0 });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTreeNodeOutlet, decorators: [{
+            type: Directive,
+            args: [{ selector: '[cdkTreeNodeOutlet]' }]
+        }], ctorParameters: function () { return [{ type: i0.ViewContainerRef }, { type: i0.ChangeDetectorRef }]; } });
 
 /** Context provided to the tree node component. */
 class CdkTreeNodeOutletContext {
@@ -219,18 +218,17 @@ class CdkTreeNodeDef {
         this.template = template;
     }
 }
-CdkTreeNodeDef.decorators = [
-    { type: Directive, args: [{
-                selector: '[cdkTreeNodeDef]',
-                inputs: [
-                    'when: cdkTreeNodeDefWhen'
-                ]
-            },] }
-];
-/** @nocollapse */
-CdkTreeNodeDef.ctorParameters = () => [
-    { type: TemplateRef }
-];
+/** @nocollapse */ CdkTreeNodeDef.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTreeNodeDef, deps: [{ token: i0.TemplateRef }], target: i0.ɵɵFactoryTarget.Directive });
+/** @nocollapse */ CdkTreeNodeDef.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "12.2.5", type: CdkTreeNodeDef, selector: "[cdkTreeNodeDef]", inputs: { when: ["cdkTreeNodeDefWhen", "when"] }, ngImport: i0 });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTreeNodeDef, decorators: [{
+            type: Directive,
+            args: [{
+                    selector: '[cdkTreeNodeDef]',
+                    inputs: [
+                        'when: cdkTreeNodeDefWhen'
+                    ]
+                }]
+        }], ctorParameters: function () { return [{ type: i0.TemplateRef }]; } });
 
 /**
  * Returns an error to be thrown when there is no usable data.
@@ -446,31 +444,34 @@ class CdkTree {
         }
     }
 }
-CdkTree.decorators = [
-    { type: Component, args: [{
-                selector: 'cdk-tree',
-                exportAs: 'cdkTree',
-                template: `<ng-container cdkTreeNodeOutlet></ng-container>`,
-                host: {
-                    class: 'cdk-tree',
-                    role: 'tree'
-                },
-                encapsulation: ViewEncapsulation.None,
-                changeDetection: ChangeDetectionStrategy.OnPush
-            },] }
-];
-/** @nocollapse */
-CdkTree.ctorParameters = () => [
-    { type: IterableDiffers },
-    { type: ChangeDetectorRef }
-];
-CdkTree.propDecorators = {
-    treeControl: [{ type: Input }],
-    trackBy: [{ type: Input }],
-    nodeOutlet: [{ type: ViewChild, args: [CdkTreeNodeOutlet, { static: true },] }],
-    nodeDefs: [{ type: ContentChildren, args: [CdkTreeNodeDef,] }],
-    dataSource: [{ type: Input }]
-};
+/** @nocollapse */ CdkTree.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTree, deps: [{ token: i0.IterableDiffers }, { token: i0.ChangeDetectorRef }], target: i0.ɵɵFactoryTarget.Component });
+/** @nocollapse */ CdkTree.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.2.5", type: CdkTree, selector: "cdk-tree", inputs: { treeControl: "treeControl", trackBy: "trackBy", dataSource: "dataSource" }, host: { attributes: { "role": "tree" }, classAttribute: "cdk-tree" }, queries: [{ propertyName: "nodeDefs", predicate: CdkTreeNodeDef }], viewQueries: [{ propertyName: "nodeOutlet", first: true, predicate: CdkTreeNodeOutlet, descendants: true, static: true }], exportAs: ["cdkTree"], ngImport: i0, template: `<ng-container cdkTreeNodeOutlet></ng-container>`, isInline: true, directives: [{ type: CdkTreeNodeOutlet, selector: "[cdkTreeNodeOutlet]" }], changeDetection: i0.ChangeDetectionStrategy.OnPush, encapsulation: i0.ViewEncapsulation.None });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTree, decorators: [{
+            type: Component,
+            args: [{
+                    selector: 'cdk-tree',
+                    exportAs: 'cdkTree',
+                    template: `<ng-container cdkTreeNodeOutlet></ng-container>`,
+                    host: {
+                        class: 'cdk-tree',
+                        role: 'tree'
+                    },
+                    encapsulation: ViewEncapsulation.None,
+                    changeDetection: ChangeDetectionStrategy.OnPush
+                }]
+        }], ctorParameters: function () { return [{ type: i0.IterableDiffers }, { type: i0.ChangeDetectorRef }]; }, propDecorators: { treeControl: [{
+                type: Input
+            }], trackBy: [{
+                type: Input
+            }], nodeOutlet: [{
+                type: ViewChild,
+                args: [CdkTreeNodeOutlet, { static: true }]
+            }], nodeDefs: [{
+                type: ContentChildren,
+                args: [CdkTreeNodeDef]
+            }], dataSource: [{
+                type: Input
+            }] } });
 /**
  * Tree node for CdkTree. It contains the data in the tree node.
  */
@@ -507,26 +508,26 @@ class CdkTreeNode {
  * in `CdkTree` and set the data to it.
  */
 CdkTreeNode.mostRecentTreeNode = null;
-CdkTreeNode.decorators = [
-    { type: Directive, args: [{
-                selector: 'cdk-tree-node',
-                exportAs: 'cdkTreeNode',
-                host: {
-                    class: 'cdk-tree-node',
-                    '[attr.aria-expanded]': 'isExpanded',
-                    '[attr.aria-level]': 'role === "treeitem" ? level : null',
-                    '[attr.role]': 'role'
-                }
-            },] }
-];
-/** @nocollapse */
-CdkTreeNode.ctorParameters = () => [
-    { type: ElementRef },
-    { type: CdkTree, decorators: [{ type: Inject, args: [forwardRef(() => CdkTree),] }] }
-];
-CdkTreeNode.propDecorators = {
-    role: [{ type: Input }]
-};
+/** @nocollapse */ CdkTreeNode.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTreeNode, deps: [{ token: i0.ElementRef }, { token: forwardRef(() => CdkTree) }], target: i0.ɵɵFactoryTarget.Directive });
+/** @nocollapse */ CdkTreeNode.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "12.2.5", type: CdkTreeNode, selector: "cdk-tree-node", inputs: { role: "role" }, host: { properties: { "attr.aria-expanded": "isExpanded", "attr.aria-level": "role === \"treeitem\" ? level : null", "attr.role": "role" }, classAttribute: "cdk-tree-node" }, exportAs: ["cdkTreeNode"], ngImport: i0 });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTreeNode, decorators: [{
+            type: Directive,
+            args: [{
+                    selector: 'cdk-tree-node',
+                    exportAs: 'cdkTreeNode',
+                    host: {
+                        class: 'cdk-tree-node',
+                        '[attr.aria-expanded]': 'isExpanded',
+                        '[attr.aria-level]': 'role === "treeitem" ? level : null',
+                        '[attr.role]': 'role'
+                    }
+                }]
+        }], ctorParameters: function () { return [{ type: i0.ElementRef }, { type: CdkTree, decorators: [{
+                    type: Inject,
+                    args: [forwardRef(() => CdkTree)]
+                }] }]; }, propDecorators: { role: [{
+                type: Input
+            }] } });
 
 /**
  * Nested node is a child of `<cdk-tree>`. It works with nested tree.
@@ -592,27 +593,24 @@ class CdkNestedTreeNode extends CdkTreeNode {
         }
     }
 }
-CdkNestedTreeNode.decorators = [
-    { type: Directive, args: [{
-                selector: 'cdk-nested-tree-node',
-                exportAs: 'cdkNestedTreeNode',
-                host: {
-                    '[attr.aria-expanded]': 'isExpanded',
-                    '[attr.role]': 'role',
-                    class: 'cdk-tree-node cdk-nested-tree-node'
-                },
-                providers: [{ provide: CdkTreeNode, useExisting: CdkNestedTreeNode }]
-            },] }
-];
-/** @nocollapse */
-CdkNestedTreeNode.ctorParameters = () => [
-    { type: ElementRef },
-    { type: CdkTree },
-    { type: IterableDiffers }
-];
-CdkNestedTreeNode.propDecorators = {
-    nodeOutlet: [{ type: ContentChildren, args: [CdkTreeNodeOutlet,] }]
-};
+/** @nocollapse */ CdkNestedTreeNode.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkNestedTreeNode, deps: [{ token: i0.ElementRef }, { token: CdkTree }, { token: i0.IterableDiffers }], target: i0.ɵɵFactoryTarget.Directive });
+/** @nocollapse */ CdkNestedTreeNode.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "12.2.5", type: CdkNestedTreeNode, selector: "cdk-nested-tree-node", host: { properties: { "attr.aria-expanded": "isExpanded", "attr.role": "role" }, classAttribute: "cdk-tree-node cdk-nested-tree-node" }, providers: [{ provide: CdkTreeNode, useExisting: CdkNestedTreeNode }], queries: [{ propertyName: "nodeOutlet", predicate: CdkTreeNodeOutlet }], exportAs: ["cdkNestedTreeNode"], usesInheritance: true, ngImport: i0 });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkNestedTreeNode, decorators: [{
+            type: Directive,
+            args: [{
+                    selector: 'cdk-nested-tree-node',
+                    exportAs: 'cdkNestedTreeNode',
+                    host: {
+                        '[attr.aria-expanded]': 'isExpanded',
+                        '[attr.role]': 'role',
+                        class: 'cdk-tree-node cdk-nested-tree-node'
+                    },
+                    providers: [{ provide: CdkTreeNode, useExisting: CdkNestedTreeNode }]
+                }]
+        }], ctorParameters: function () { return [{ type: i0.ElementRef }, { type: CdkTree }, { type: i0.IterableDiffers }]; }, propDecorators: { nodeOutlet: [{
+                type: ContentChildren,
+                args: [CdkTreeNodeOutlet]
+            }] } });
 
 /** Regex used to split a string on its CSS units. */
 const cssUnitPattern = /([A-Za-z%]+)$/;
@@ -694,23 +692,22 @@ class CdkTreeNodePadding {
         this.renderer.setStyle(this.element.nativeElement, paddingProp, padding);
     }
 }
-CdkTreeNodePadding.decorators = [
-    { type: Directive, args: [{
-                selector: '[cdkTreeNodePadding]'
-            },] }
-];
-/** @nocollapse */
-CdkTreeNodePadding.ctorParameters = () => [
-    { type: CdkTreeNode },
-    { type: CdkTree },
-    { type: Renderer2 },
-    { type: ElementRef },
-    { type: Directionality, decorators: [{ type: Optional }] }
-];
-CdkTreeNodePadding.propDecorators = {
-    level: [{ type: Input, args: ['cdkTreeNodePadding',] }],
-    indent: [{ type: Input, args: ['cdkTreeNodePaddingIndent',] }]
-};
+/** @nocollapse */ CdkTreeNodePadding.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTreeNodePadding, deps: [{ token: CdkTreeNode }, { token: CdkTree }, { token: i0.Renderer2 }, { token: i0.ElementRef }, { token: i2.Directionality, optional: true }], target: i0.ɵɵFactoryTarget.Directive });
+/** @nocollapse */ CdkTreeNodePadding.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "12.2.5", type: CdkTreeNodePadding, selector: "[cdkTreeNodePadding]", inputs: { level: ["cdkTreeNodePadding", "level"], indent: ["cdkTreeNodePaddingIndent", "indent"] }, ngImport: i0 });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTreeNodePadding, decorators: [{
+            type: Directive,
+            args: [{
+                    selector: '[cdkTreeNodePadding]'
+                }]
+        }], ctorParameters: function () { return [{ type: CdkTreeNode }, { type: CdkTree }, { type: i0.Renderer2 }, { type: i0.ElementRef }, { type: i2.Directionality, decorators: [{
+                    type: Optional
+                }] }]; }, propDecorators: { level: [{
+                type: Input,
+                args: ['cdkTreeNodePadding']
+            }], indent: [{
+                type: Input,
+                args: ['cdkTreeNodePaddingIndent']
+            }] } });
 
 class CdkTreeNodeToggle {
     constructor(tree, treeNode) {
@@ -731,22 +728,20 @@ class CdkTreeNodeToggle {
         event.stopPropagation();
     }
 }
-CdkTreeNodeToggle.decorators = [
-    { type: Directive, args: [{
-                selector: '[cdkTreeNodeToggle]',
-                host: {
-                    '(click)': 'toggle($event)'
-                }
-            },] }
-];
-/** @nocollapse */
-CdkTreeNodeToggle.ctorParameters = () => [
-    { type: CdkTree },
-    { type: CdkTreeNode }
-];
-CdkTreeNodeToggle.propDecorators = {
-    recursive: [{ type: Input, args: ['cdkTreeNodeToggleRecursive',] }]
-};
+/** @nocollapse */ CdkTreeNodeToggle.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTreeNodeToggle, deps: [{ token: CdkTree }, { token: CdkTreeNode }], target: i0.ɵɵFactoryTarget.Directive });
+/** @nocollapse */ CdkTreeNodeToggle.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "12.2.5", type: CdkTreeNodeToggle, selector: "[cdkTreeNodeToggle]", inputs: { recursive: ["cdkTreeNodeToggleRecursive", "recursive"] }, host: { listeners: { "click": "toggle($event)" } }, ngImport: i0 });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTreeNodeToggle, decorators: [{
+            type: Directive,
+            args: [{
+                    selector: '[cdkTreeNodeToggle]',
+                    host: {
+                        '(click)': 'toggle($event)'
+                    }
+                }]
+        }], ctorParameters: function () { return [{ type: CdkTree }, { type: CdkTreeNode }]; }, propDecorators: { recursive: [{
+                type: Input,
+                args: ['cdkTreeNodeToggleRecursive']
+            }] } });
 
 const EXPORTED_DECLARATIONS = [
     CdkNestedTreeNode,
@@ -759,14 +754,30 @@ const EXPORTED_DECLARATIONS = [
 ];
 class CdkTreeModule {
 }
-CdkTreeModule.decorators = [
-    { type: NgModule, args: [{
-                imports: [CommonModule],
-                exports: EXPORTED_DECLARATIONS,
-                declarations: EXPORTED_DECLARATIONS,
-                providers: [FocusMonitor]
-            },] }
-];
+/** @nocollapse */ CdkTreeModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTreeModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+/** @nocollapse */ CdkTreeModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTreeModule, declarations: [CdkNestedTreeNode,
+        CdkTreeNodeDef,
+        CdkTreeNodePadding,
+        CdkTreeNodeToggle,
+        CdkTree,
+        CdkTreeNode,
+        CdkTreeNodeOutlet], imports: [CommonModule], exports: [CdkNestedTreeNode,
+        CdkTreeNodeDef,
+        CdkTreeNodePadding,
+        CdkTreeNodeToggle,
+        CdkTree,
+        CdkTreeNode,
+        CdkTreeNodeOutlet] });
+/** @nocollapse */ CdkTreeModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTreeModule, providers: [FocusMonitor], imports: [[CommonModule]] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: CdkTreeModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    imports: [CommonModule],
+                    exports: EXPORTED_DECLARATIONS,
+                    declarations: EXPORTED_DECLARATIONS,
+                    providers: [FocusMonitor]
+                }]
+        }] });
 
 /**
  * Generated bundle index. Do not edit.

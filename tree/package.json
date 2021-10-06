@@ -5,7 +5,6 @@
   "esm2015": "../esm2015/tree/ptsecurity-cdk-tree.js",
   "fesm2015": "../fesm2015/ptsecurity-cdk-tree.js",
   "typings": "ptsecurity-cdk-tree.d.ts",
-  "metadata": "ptsecurity-cdk-tree.metadata.json",
   "sideEffects": false,
   "name": "@ptsecurity/cdk/tree"
 }

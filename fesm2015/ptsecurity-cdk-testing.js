@@ -1,3 +1,4 @@
+import * as i0 from '@angular/core';
 import { NgZone, EventEmitter, Injectable } from '@angular/core';
 
 /** Creates a browser MouseEvent with the specified options. */
@@ -121,11 +122,11 @@ class MockNgZone extends NgZone {
         this.onStable.emit(null);
     }
 }
-MockNgZone.decorators = [
-    { type: Injectable }
-];
-/** @nocollapse */
-MockNgZone.ctorParameters = () => [];
+/** @nocollapse */ MockNgZone.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: MockNgZone, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
+/** @nocollapse */ MockNgZone.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: MockNgZone });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: MockNgZone, decorators: [{
+            type: Injectable
+        }], ctorParameters: function () { return []; } });
 
 function wrappedErrorMessage(e) {
     const escapedMessage = e.message.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');

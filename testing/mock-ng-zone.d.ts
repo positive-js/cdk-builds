@@ -1,4 +1,5 @@
 import { EventEmitter, NgZone } from '@angular/core';
+import * as i0 from "@angular/core";
 /**
  * Mock synchronous NgZone implementation that can be used
  * to flush out `onStable` subscriptions in tests.
@@ -12,4 +13,6 @@ export declare class MockNgZone extends NgZone {
     run(fn: () => void): any;
     runOutsideAngular(fn: () => void): any;
     simulateZoneExit(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<MockNgZone, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<MockNgZone>;
 }

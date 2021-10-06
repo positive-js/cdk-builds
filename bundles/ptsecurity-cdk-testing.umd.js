@@ -2,7 +2,29 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core')) :
     typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/testing', ['exports', '@angular/core'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.ptsecurity = global.ptsecurity || {}, global.ptsecurity.cdk = global.ptsecurity.cdk || {}, global.ptsecurity.cdk.testing = {}), global.ng.core));
-}(this, (function (exports, core) { 'use strict';
+}(this, (function (exports, i0) { 'use strict';
+
+    function _interopNamespace(e) {
+        if (e && e.__esModule) return e;
+        var n = Object.create(null);
+        if (e) {
+            Object.keys(e).forEach(function (k) {
+                if (k !== 'default') {
+                    var d = Object.getOwnPropertyDescriptor(e, k);
+                    Object.defineProperty(n, k, d.get ? d : {
+                        enumerable: true,
+                        get: function () {
+                            return e[k];
+                        }
+                    });
+                }
+            });
+        }
+        n['default'] = e;
+        return Object.freeze(n);
+    }
+
+    var i0__namespace = /*#__PURE__*/_interopNamespace(i0);
 
     /** Creates a browser MouseEvent with the specified options. */
     // tslint:disable-next-line:no-reserved-keywords
@@ -442,7 +464,7 @@
         __extends(MockNgZone, _super);
         function MockNgZone() {
             var _this = _super.call(this, { enableLongStackTrace: false }) || this;
-            _this.onStable = new core.EventEmitter(false);
+            _this.onStable = new i0.EventEmitter(false);
             return _this;
         }
         MockNgZone.prototype.run = function (fn) {
@@ -457,12 +479,12 @@
             this.onStable.emit(null);
         };
         return MockNgZone;
-    }(core.NgZone));
-    MockNgZone.decorators = [
-        { type: core.Injectable }
-    ];
-    /** @nocollapse */
-    MockNgZone.ctorParameters = function () { return []; };
+    }(i0.NgZone));
+    /** @nocollapse */ MockNgZone.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: MockNgZone, deps: [], target: i0__namespace.ɵɵFactoryTarget.Injectable });
+    /** @nocollapse */ MockNgZone.ɵprov = i0__namespace.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: MockNgZone });
+    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: MockNgZone, decorators: [{
+                type: i0.Injectable
+            }], ctorParameters: function () { return []; } });
 
     function wrappedErrorMessage(e) {
         var escapedMessage = e.message.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');

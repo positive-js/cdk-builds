@@ -1,8 +1,31 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/cdk/collections'), require('rxjs'), require('rxjs/operators'), require('@angular/core'), require('@angular/cdk/bidi'), require('@angular/cdk/coercion'), require('@angular/cdk/a11y'), require('@angular/common')) :
-    typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/tree', ['exports', '@angular/cdk/collections', 'rxjs', 'rxjs/operators', '@angular/core', '@angular/cdk/bidi', '@angular/cdk/coercion', '@angular/cdk/a11y', '@angular/common'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.ptsecurity = global.ptsecurity || {}, global.ptsecurity.cdk = global.ptsecurity.cdk || {}, global.ptsecurity.cdk.tree = {}), global.ng.cdk.collections, global.rxjs, global.rxjs.operators, global.ng.core, global.ng.cdk.bidi, global.ng.cdk.coercion, global.ng.cdk.a11y, global.ng.common));
-}(this, (function (exports, collections, rxjs, operators, core, bidi, coercion, a11y, common) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/cdk/collections'), require('rxjs'), require('rxjs/operators'), require('@angular/core'), require('@angular/cdk/coercion'), require('@angular/cdk/bidi'), require('@angular/cdk/a11y'), require('@angular/common')) :
+    typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/tree', ['exports', '@angular/cdk/collections', 'rxjs', 'rxjs/operators', '@angular/core', '@angular/cdk/coercion', '@angular/cdk/bidi', '@angular/cdk/a11y', '@angular/common'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.ptsecurity = global.ptsecurity || {}, global.ptsecurity.cdk = global.ptsecurity.cdk || {}, global.ptsecurity.cdk.tree = {}), global.ng.cdk.collections, global.rxjs, global.rxjs.operators, global.ng.core, global.ng.cdk.coercion, global.ng.cdk.bidi, global.ng.cdk.a11y, global.ng.common));
+}(this, (function (exports, collections, rxjs, operators, i0, coercion, i2, a11y, common) { 'use strict';
+
+    function _interopNamespace(e) {
+        if (e && e.__esModule) return e;
+        var n = Object.create(null);
+        if (e) {
+            Object.keys(e).forEach(function (k) {
+                if (k !== 'default') {
+                    var d = Object.getOwnPropertyDescriptor(e, k);
+                    Object.defineProperty(n, k, d.get ? d : {
+                        enumerable: true,
+                        get: function () {
+                            return e[k];
+                        }
+                    });
+                }
+            });
+        }
+        n['default'] = e;
+        return Object.freeze(n);
+    }
+
+    var i0__namespace = /*#__PURE__*/_interopNamespace(i0);
+    var i2__namespace = /*#__PURE__*/_interopNamespace(i2);
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
@@ -370,15 +393,15 @@
         BaseTreeControl.prototype.expandDescendants = function (dataNode) {
             var _a;
             var toBeProcessed = [dataNode];
-            toBeProcessed.push.apply(toBeProcessed, __spread(this.getDescendants(dataNode)));
-            (_a = this.expansionModel).select.apply(_a, __spread(toBeProcessed));
+            toBeProcessed.push.apply(toBeProcessed, __spreadArray([], __read(this.getDescendants(dataNode))));
+            (_a = this.expansionModel).select.apply(_a, __spreadArray([], __read(toBeProcessed)));
         };
         /** Collapses a subtree rooted at given data node recursively. */
         BaseTreeControl.prototype.collapseDescendants = function (dataNode) {
             var _a;
             var toBeProcessed = [dataNode];
-            toBeProcessed.push.apply(toBeProcessed, __spread(this.getDescendants(dataNode)));
-            (_a = this.expansionModel).deselect.apply(_a, __spread(toBeProcessed));
+            toBeProcessed.push.apply(toBeProcessed, __spreadArray([], __read(this.getDescendants(dataNode))));
+            (_a = this.expansionModel).deselect.apply(_a, __spreadArray([], __read(toBeProcessed)));
         };
         return BaseTreeControl;
     }());
@@ -441,7 +464,7 @@
          */
         FlatTreeControl.prototype.expandAll = function () {
             var _a;
-            (_a = this.expansionModel).select.apply(_a, __spread(this.dataNodes));
+            (_a = this.expansionModel).select.apply(_a, __spreadArray([], __read(this.dataNodes)));
         };
         FlatTreeControl.prototype.getParents = function (node, result) {
             if (node.parent) {
@@ -466,7 +489,7 @@
                 _this.getParents(filteredNode, []).forEach(function (node) { return filteredNodesWithTheirParents.add(node); });
                 filteredNodesWithTheirParents.add(filteredNode);
             });
-            (_a = this.filterModel).select.apply(_a, __spread(Array.from(filteredNodesWithTheirParents)));
+            (_a = this.filterModel).select.apply(_a, __spreadArray([], __read(Array.from(filteredNodesWithTheirParents))));
             this.filterValue.next(value);
         };
         return FlatTreeControl;
@@ -491,8 +514,8 @@
             var _a;
             var _this = this;
             this.expansionModel.clear();
-            var allNodes = this.dataNodes.reduce(function (accumulator, dataNode) { return __spread(accumulator, _this.getDescendants(dataNode), [dataNode]); }, []);
-            (_a = this.expansionModel).select.apply(_a, __spread(allNodes));
+            var allNodes = this.dataNodes.reduce(function (accumulator, dataNode) { return __spreadArray(__spreadArray(__spreadArray([], __read(accumulator)), __read(_this.getDescendants(dataNode))), [dataNode]); }, []);
+            (_a = this.expansionModel).select.apply(_a, __spreadArray([], __read(allNodes)));
         };
         /** Gets a list of descendant dataNodes of a subtree rooted at given data node recursively. */
         NestedTreeControl.prototype.getDescendants = function (dataNode) {
@@ -528,14 +551,12 @@
         }
         return CdkTreeNodeOutlet;
     }());
-    CdkTreeNodeOutlet.decorators = [
-        { type: core.Directive, args: [{ selector: '[cdkTreeNodeOutlet]' },] }
-    ];
-    /** @nocollapse */
-    CdkTreeNodeOutlet.ctorParameters = function () { return [
-        { type: core.ViewContainerRef },
-        { type: core.ChangeDetectorRef }
-    ]; };
+    /** @nocollapse */ CdkTreeNodeOutlet.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTreeNodeOutlet, deps: [{ token: i0__namespace.ViewContainerRef }, { token: i0__namespace.ChangeDetectorRef }], target: i0__namespace.ɵɵFactoryTarget.Directive });
+    /** @nocollapse */ CdkTreeNodeOutlet.ɵdir = i0__namespace.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "12.2.5", type: CdkTreeNodeOutlet, selector: "[cdkTreeNodeOutlet]", ngImport: i0__namespace });
+    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTreeNodeOutlet, decorators: [{
+                type: i0.Directive,
+                args: [{ selector: '[cdkTreeNodeOutlet]' }]
+            }], ctorParameters: function () { return [{ type: i0__namespace.ViewContainerRef }, { type: i0__namespace.ChangeDetectorRef }]; } });
 
     /** Context provided to the tree node component. */
     var CdkTreeNodeOutletContext = /** @class */ (function () {
@@ -555,18 +576,17 @@
         }
         return CdkTreeNodeDef;
     }());
-    CdkTreeNodeDef.decorators = [
-        { type: core.Directive, args: [{
-                    selector: '[cdkTreeNodeDef]',
-                    inputs: [
-                        'when: cdkTreeNodeDefWhen'
-                    ]
-                },] }
-    ];
-    /** @nocollapse */
-    CdkTreeNodeDef.ctorParameters = function () { return [
-        { type: core.TemplateRef }
-    ]; };
+    /** @nocollapse */ CdkTreeNodeDef.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTreeNodeDef, deps: [{ token: i0__namespace.TemplateRef }], target: i0__namespace.ɵɵFactoryTarget.Directive });
+    /** @nocollapse */ CdkTreeNodeDef.ɵdir = i0__namespace.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "12.2.5", type: CdkTreeNodeDef, selector: "[cdkTreeNodeDef]", inputs: { when: ["cdkTreeNodeDefWhen", "when"] }, ngImport: i0__namespace });
+    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTreeNodeDef, decorators: [{
+                type: i0.Directive,
+                args: [{
+                        selector: '[cdkTreeNodeDef]',
+                        inputs: [
+                            'when: cdkTreeNodeDefWhen'
+                        ]
+                    }]
+            }], ctorParameters: function () { return [{ type: i0__namespace.TemplateRef }]; } });
 
     /**
      * Returns an error to be thrown when there is no usable data.
@@ -791,31 +811,34 @@
         };
         return CdkTree;
     }());
-    CdkTree.decorators = [
-        { type: core.Component, args: [{
-                    selector: 'cdk-tree',
-                    exportAs: 'cdkTree',
-                    template: "<ng-container cdkTreeNodeOutlet></ng-container>",
-                    host: {
-                        class: 'cdk-tree',
-                        role: 'tree'
-                    },
-                    encapsulation: core.ViewEncapsulation.None,
-                    changeDetection: core.ChangeDetectionStrategy.OnPush
-                },] }
-    ];
-    /** @nocollapse */
-    CdkTree.ctorParameters = function () { return [
-        { type: core.IterableDiffers },
-        { type: core.ChangeDetectorRef }
-    ]; };
-    CdkTree.propDecorators = {
-        treeControl: [{ type: core.Input }],
-        trackBy: [{ type: core.Input }],
-        nodeOutlet: [{ type: core.ViewChild, args: [CdkTreeNodeOutlet, { static: true },] }],
-        nodeDefs: [{ type: core.ContentChildren, args: [CdkTreeNodeDef,] }],
-        dataSource: [{ type: core.Input }]
-    };
+    /** @nocollapse */ CdkTree.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTree, deps: [{ token: i0__namespace.IterableDiffers }, { token: i0__namespace.ChangeDetectorRef }], target: i0__namespace.ɵɵFactoryTarget.Component });
+    /** @nocollapse */ CdkTree.ɵcmp = i0__namespace.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.2.5", type: CdkTree, selector: "cdk-tree", inputs: { treeControl: "treeControl", trackBy: "trackBy", dataSource: "dataSource" }, host: { attributes: { "role": "tree" }, classAttribute: "cdk-tree" }, queries: [{ propertyName: "nodeDefs", predicate: CdkTreeNodeDef }], viewQueries: [{ propertyName: "nodeOutlet", first: true, predicate: CdkTreeNodeOutlet, descendants: true, static: true }], exportAs: ["cdkTree"], ngImport: i0__namespace, template: "<ng-container cdkTreeNodeOutlet></ng-container>", isInline: true, directives: [{ type: CdkTreeNodeOutlet, selector: "[cdkTreeNodeOutlet]" }], changeDetection: i0__namespace.ChangeDetectionStrategy.OnPush, encapsulation: i0__namespace.ViewEncapsulation.None });
+    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTree, decorators: [{
+                type: i0.Component,
+                args: [{
+                        selector: 'cdk-tree',
+                        exportAs: 'cdkTree',
+                        template: "<ng-container cdkTreeNodeOutlet></ng-container>",
+                        host: {
+                            class: 'cdk-tree',
+                            role: 'tree'
+                        },
+                        encapsulation: i0.ViewEncapsulation.None,
+                        changeDetection: i0.ChangeDetectionStrategy.OnPush
+                    }]
+            }], ctorParameters: function () { return [{ type: i0__namespace.IterableDiffers }, { type: i0__namespace.ChangeDetectorRef }]; }, propDecorators: { treeControl: [{
+                    type: i0.Input
+                }], trackBy: [{
+                    type: i0.Input
+                }], nodeOutlet: [{
+                    type: i0.ViewChild,
+                    args: [CdkTreeNodeOutlet, { static: true }]
+                }], nodeDefs: [{
+                    type: i0.ContentChildren,
+                    args: [CdkTreeNodeDef]
+                }], dataSource: [{
+                    type: i0.Input
+                }] } });
     /**
      * Tree node for CdkTree. It contains the data in the tree node.
      */
@@ -865,26 +888,28 @@
      * in `CdkTree` and set the data to it.
      */
     CdkTreeNode.mostRecentTreeNode = null;
-    CdkTreeNode.decorators = [
-        { type: core.Directive, args: [{
-                    selector: 'cdk-tree-node',
-                    exportAs: 'cdkTreeNode',
-                    host: {
-                        class: 'cdk-tree-node',
-                        '[attr.aria-expanded]': 'isExpanded',
-                        '[attr.aria-level]': 'role === "treeitem" ? level : null',
-                        '[attr.role]': 'role'
-                    }
-                },] }
-    ];
-    /** @nocollapse */
-    CdkTreeNode.ctorParameters = function () { return [
-        { type: core.ElementRef },
-        { type: CdkTree, decorators: [{ type: core.Inject, args: [core.forwardRef(function () { return CdkTree; }),] }] }
-    ]; };
-    CdkTreeNode.propDecorators = {
-        role: [{ type: core.Input }]
-    };
+    /** @nocollapse */ CdkTreeNode.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTreeNode, deps: [{ token: i0__namespace.ElementRef }, { token: i0.forwardRef(function () { return CdkTree; }) }], target: i0__namespace.ɵɵFactoryTarget.Directive });
+    /** @nocollapse */ CdkTreeNode.ɵdir = i0__namespace.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "12.2.5", type: CdkTreeNode, selector: "cdk-tree-node", inputs: { role: "role" }, host: { properties: { "attr.aria-expanded": "isExpanded", "attr.aria-level": "role === \"treeitem\" ? level : null", "attr.role": "role" }, classAttribute: "cdk-tree-node" }, exportAs: ["cdkTreeNode"], ngImport: i0__namespace });
+    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTreeNode, decorators: [{
+                type: i0.Directive,
+                args: [{
+                        selector: 'cdk-tree-node',
+                        exportAs: 'cdkTreeNode',
+                        host: {
+                            class: 'cdk-tree-node',
+                            '[attr.aria-expanded]': 'isExpanded',
+                            '[attr.aria-level]': 'role === "treeitem" ? level : null',
+                            '[attr.role]': 'role'
+                        }
+                    }]
+            }], ctorParameters: function () {
+            return [{ type: i0__namespace.ElementRef }, { type: CdkTree, decorators: [{
+                            type: i0.Inject,
+                            args: [i0.forwardRef(function () { return CdkTree; })]
+                        }] }];
+        }, propDecorators: { role: [{
+                    type: i0.Input
+                }] } });
 
     /**
      * Nested node is a child of `<cdk-tree>`. It works with nested tree.
@@ -954,27 +979,24 @@
         };
         return CdkNestedTreeNode;
     }(CdkTreeNode));
-    CdkNestedTreeNode.decorators = [
-        { type: core.Directive, args: [{
-                    selector: 'cdk-nested-tree-node',
-                    exportAs: 'cdkNestedTreeNode',
-                    host: {
-                        '[attr.aria-expanded]': 'isExpanded',
-                        '[attr.role]': 'role',
-                        class: 'cdk-tree-node cdk-nested-tree-node'
-                    },
-                    providers: [{ provide: CdkTreeNode, useExisting: CdkNestedTreeNode }]
-                },] }
-    ];
-    /** @nocollapse */
-    CdkNestedTreeNode.ctorParameters = function () { return [
-        { type: core.ElementRef },
-        { type: CdkTree },
-        { type: core.IterableDiffers }
-    ]; };
-    CdkNestedTreeNode.propDecorators = {
-        nodeOutlet: [{ type: core.ContentChildren, args: [CdkTreeNodeOutlet,] }]
-    };
+    /** @nocollapse */ CdkNestedTreeNode.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkNestedTreeNode, deps: [{ token: i0__namespace.ElementRef }, { token: CdkTree }, { token: i0__namespace.IterableDiffers }], target: i0__namespace.ɵɵFactoryTarget.Directive });
+    /** @nocollapse */ CdkNestedTreeNode.ɵdir = i0__namespace.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "12.2.5", type: CdkNestedTreeNode, selector: "cdk-nested-tree-node", host: { properties: { "attr.aria-expanded": "isExpanded", "attr.role": "role" }, classAttribute: "cdk-tree-node cdk-nested-tree-node" }, providers: [{ provide: CdkTreeNode, useExisting: CdkNestedTreeNode }], queries: [{ propertyName: "nodeOutlet", predicate: CdkTreeNodeOutlet }], exportAs: ["cdkNestedTreeNode"], usesInheritance: true, ngImport: i0__namespace });
+    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkNestedTreeNode, decorators: [{
+                type: i0.Directive,
+                args: [{
+                        selector: 'cdk-nested-tree-node',
+                        exportAs: 'cdkNestedTreeNode',
+                        host: {
+                            '[attr.aria-expanded]': 'isExpanded',
+                            '[attr.role]': 'role',
+                            class: 'cdk-tree-node cdk-nested-tree-node'
+                        },
+                        providers: [{ provide: CdkTreeNode, useExisting: CdkNestedTreeNode }]
+                    }]
+            }], ctorParameters: function () { return [{ type: i0__namespace.ElementRef }, { type: CdkTree }, { type: i0__namespace.IterableDiffers }]; }, propDecorators: { nodeOutlet: [{
+                    type: i0.ContentChildren,
+                    args: [CdkTreeNodeOutlet]
+                }] } });
 
     /** Regex used to split a string on its CSS units. */
     var cssUnitPattern = /([A-Za-z%]+)$/;
@@ -1066,23 +1088,24 @@
         };
         return CdkTreeNodePadding;
     }());
-    CdkTreeNodePadding.decorators = [
-        { type: core.Directive, args: [{
-                    selector: '[cdkTreeNodePadding]'
-                },] }
-    ];
-    /** @nocollapse */
-    CdkTreeNodePadding.ctorParameters = function () { return [
-        { type: CdkTreeNode },
-        { type: CdkTree },
-        { type: core.Renderer2 },
-        { type: core.ElementRef },
-        { type: bidi.Directionality, decorators: [{ type: core.Optional }] }
-    ]; };
-    CdkTreeNodePadding.propDecorators = {
-        level: [{ type: core.Input, args: ['cdkTreeNodePadding',] }],
-        indent: [{ type: core.Input, args: ['cdkTreeNodePaddingIndent',] }]
-    };
+    /** @nocollapse */ CdkTreeNodePadding.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTreeNodePadding, deps: [{ token: CdkTreeNode }, { token: CdkTree }, { token: i0__namespace.Renderer2 }, { token: i0__namespace.ElementRef }, { token: i2__namespace.Directionality, optional: true }], target: i0__namespace.ɵɵFactoryTarget.Directive });
+    /** @nocollapse */ CdkTreeNodePadding.ɵdir = i0__namespace.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "12.2.5", type: CdkTreeNodePadding, selector: "[cdkTreeNodePadding]", inputs: { level: ["cdkTreeNodePadding", "level"], indent: ["cdkTreeNodePaddingIndent", "indent"] }, ngImport: i0__namespace });
+    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTreeNodePadding, decorators: [{
+                type: i0.Directive,
+                args: [{
+                        selector: '[cdkTreeNodePadding]'
+                    }]
+            }], ctorParameters: function () {
+            return [{ type: CdkTreeNode }, { type: CdkTree }, { type: i0__namespace.Renderer2 }, { type: i0__namespace.ElementRef }, { type: i2__namespace.Directionality, decorators: [{
+                            type: i0.Optional
+                        }] }];
+        }, propDecorators: { level: [{
+                    type: i0.Input,
+                    args: ['cdkTreeNodePadding']
+                }], indent: [{
+                    type: i0.Input,
+                    args: ['cdkTreeNodePaddingIndent']
+                }] } });
 
     var CdkTreeNodeToggle = /** @class */ (function () {
         function CdkTreeNodeToggle(tree, treeNode) {
@@ -1108,22 +1131,20 @@
         };
         return CdkTreeNodeToggle;
     }());
-    CdkTreeNodeToggle.decorators = [
-        { type: core.Directive, args: [{
-                    selector: '[cdkTreeNodeToggle]',
-                    host: {
-                        '(click)': 'toggle($event)'
-                    }
-                },] }
-    ];
-    /** @nocollapse */
-    CdkTreeNodeToggle.ctorParameters = function () { return [
-        { type: CdkTree },
-        { type: CdkTreeNode }
-    ]; };
-    CdkTreeNodeToggle.propDecorators = {
-        recursive: [{ type: core.Input, args: ['cdkTreeNodeToggleRecursive',] }]
-    };
+    /** @nocollapse */ CdkTreeNodeToggle.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTreeNodeToggle, deps: [{ token: CdkTree }, { token: CdkTreeNode }], target: i0__namespace.ɵɵFactoryTarget.Directive });
+    /** @nocollapse */ CdkTreeNodeToggle.ɵdir = i0__namespace.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "12.2.5", type: CdkTreeNodeToggle, selector: "[cdkTreeNodeToggle]", inputs: { recursive: ["cdkTreeNodeToggleRecursive", "recursive"] }, host: { listeners: { "click": "toggle($event)" } }, ngImport: i0__namespace });
+    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTreeNodeToggle, decorators: [{
+                type: i0.Directive,
+                args: [{
+                        selector: '[cdkTreeNodeToggle]',
+                        host: {
+                            '(click)': 'toggle($event)'
+                        }
+                    }]
+            }], ctorParameters: function () { return [{ type: CdkTree }, { type: CdkTreeNode }]; }, propDecorators: { recursive: [{
+                    type: i0.Input,
+                    args: ['cdkTreeNodeToggleRecursive']
+                }] } });
 
     var EXPORTED_DECLARATIONS = [
         CdkNestedTreeNode,
@@ -1139,14 +1160,30 @@
         }
         return CdkTreeModule;
     }());
-    CdkTreeModule.decorators = [
-        { type: core.NgModule, args: [{
-                    imports: [common.CommonModule],
-                    exports: EXPORTED_DECLARATIONS,
-                    declarations: EXPORTED_DECLARATIONS,
-                    providers: [a11y.FocusMonitor]
-                },] }
-    ];
+    /** @nocollapse */ CdkTreeModule.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTreeModule, deps: [], target: i0__namespace.ɵɵFactoryTarget.NgModule });
+    /** @nocollapse */ CdkTreeModule.ɵmod = i0__namespace.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTreeModule, declarations: [CdkNestedTreeNode,
+            CdkTreeNodeDef,
+            CdkTreeNodePadding,
+            CdkTreeNodeToggle,
+            CdkTree,
+            CdkTreeNode,
+            CdkTreeNodeOutlet], imports: [common.CommonModule], exports: [CdkNestedTreeNode,
+            CdkTreeNodeDef,
+            CdkTreeNodePadding,
+            CdkTreeNodeToggle,
+            CdkTree,
+            CdkTreeNode,
+            CdkTreeNodeOutlet] });
+    /** @nocollapse */ CdkTreeModule.ɵinj = i0__namespace.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTreeModule, providers: [a11y.FocusMonitor], imports: [[common.CommonModule]] });
+    i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0__namespace, type: CdkTreeModule, decorators: [{
+                type: i0.NgModule,
+                args: [{
+                        imports: [common.CommonModule],
+                        exports: EXPORTED_DECLARATIONS,
+                        declarations: EXPORTED_DECLARATIONS,
+                        providers: [a11y.FocusMonitor]
+                    }]
+            }] });
 
     /**
      * Generated bundle index. Do not edit.

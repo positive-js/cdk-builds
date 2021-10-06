@@ -1,6 +1,7 @@
 import { Directionality } from '@angular/cdk/bidi';
 import { ElementRef, OnDestroy, Renderer2 } from '@angular/core';
 import { CdkTree, CdkTreeNode } from './tree';
+import * as i0 from "@angular/core";
 /**
  * Indent for the children tree dataNodes.
  * This directive will add left-padding to the node to show hierarchy.
@@ -40,4 +41,6 @@ export declare class CdkTreeNodePadding<T> implements OnDestroy {
     /** The padding indent value for the tree node. Returns a string with px numbers if not null. */
     protected paddingIndent(): string | null;
     protected setPadding(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CdkTreeNodePadding<any>, [null, null, null, null, { optional: true; }]>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkTreeNodePadding<any>, "[cdkTreeNodePadding]", never, { "level": "cdkTreeNodePadding"; "indent": "cdkTreeNodePaddingIndent"; }, {}, never>;
 }
