@@ -347,6 +347,8 @@
             this.scrollSize = 0;
             // Buffer for the letters that the user has pressed when the typeahead option is turned on.
             this.pressedLetters = [];
+            this.homeAndEnd = false;
+            this.allowedModifierKeys = [];
             /**
              * Predicate function that can be used to check whether an item should be skipped
              * by the key manager. By default, disabled items are skipped.
@@ -380,16 +382,38 @@
             enumerable: false,
             configurable: true
         });
+        /** Gets whether the user is currently typing into the manager using the typeahead feature. */
+        ListKeyManager.prototype.isTyping = function () {
+            return this.pressedLetters.length > 0;
+        };
         ListKeyManager.prototype.withScrollSize = function (scrollSize) {
             this.scrollSize = scrollSize;
+            return this;
+        };
+        /**
+         * Modifier keys which are allowed to be held down and whose default actions will be prevented
+         * as the user is pressing the arrow keys. Defaults to not allowing any modifier keys.
+         */
+        ListKeyManager.prototype.withAllowedModifierKeys = function (keys) {
+            this.allowedModifierKeys = keys;
             return this;
         };
         /**
          * Turns on wrapping mode, which ensures that the active item will wrap to
          * the other end of list when there are no more items in the given direction.
          */
-        ListKeyManager.prototype.withWrap = function () {
-            this.wrap = true;
+        ListKeyManager.prototype.withWrap = function (shouldWrap) {
+            if (shouldWrap === void 0) { shouldWrap = true; }
+            this.wrap = shouldWrap;
+            return this;
+        };
+        /**
+         * Sets the predicate function that determines which items should be skipped by the
+         * list key manager.
+         * @param predicate Function that determines whether the given item should be skipped.
+         */
+        ListKeyManager.prototype.skipPredicate = function (predicate) {
+            this.skipPredicateFn = predicate;
             return this;
         };
         /**
@@ -447,6 +471,16 @@
             return this;
         };
         /**
+         * Configures the key manager to activate the first and last items
+         * respectively when the Home or End key is pressed.
+         * @param enabled Whether pressing the Home or End key activates the first/last item.
+         */
+        ListKeyManager.prototype.withHomeAndEnd = function (enabled) {
+            if (enabled === void 0) { enabled = true; }
+            this.homeAndEnd = enabled;
+            return this;
+        };
+        /**
          * Sets the active item to the item at the index specified.
          * @param item The index of the item to be set as active.
          */
@@ -461,9 +495,15 @@
          * Sets the active item depending on the key event passed in.
          * @param event Keyboard event to be used for determining which element should be active.
          */
+        // tslint:disable-next-line:cyclomatic-complexity
         ListKeyManager.prototype.onKeydown = function (event) {
+            var _this = this;
             // tslint:disable-next-line: deprecation
             var keyCode = event.keyCode;
+            var modifiers = ['altKey', 'ctrlKey', 'metaKey', 'shiftKey'];
+            var isModifierAllowed = modifiers.every(function (modifier) {
+                return !event[modifier] || _this.allowedModifierKeys.indexOf(modifier) > -1;
+            });
             switch (keyCode) {
                 case keycodes.TAB:
                     this.tabOut.next();
@@ -503,6 +543,22 @@
                     }
                     else if (this.horizontal === 'rtl') {
                         this.setNextItemActive();
+                        break;
+                    }
+                    else {
+                        return;
+                    }
+                case keycodes.HOME:
+                    if (this.homeAndEnd && isModifierAllowed) {
+                        this.setFirstItemActive();
+                        break;
+                    }
+                    else {
+                        return;
+                    }
+                case keycodes.END:
+                    if (this.homeAndEnd && isModifierAllowed) {
+                        this.setLastItemActive();
                         break;
                     }
                     else {
@@ -662,6 +718,9 @@
         FocusKeyManager.prototype.setFocusOrigin = function (origin) {
             this.origin = origin;
             return this;
+        };
+        FocusKeyManager.prototype.getFocusOrigin = function () {
+            return this.origin;
         };
         FocusKeyManager.prototype.setActiveItem = function (item) {
             _super.prototype.setActiveItem.call(this, item);

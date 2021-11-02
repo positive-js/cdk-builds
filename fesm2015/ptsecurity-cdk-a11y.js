@@ -1,5 +1,5 @@
 import { QueryList } from '@angular/core';
-import { A, Z, ZERO, NINE, LEFT_ARROW, RIGHT_ARROW, UP_ARROW, DOWN_ARROW, TAB } from '@ptsecurity/cdk/keycodes';
+import { A, Z, ZERO, NINE, END, HOME, LEFT_ARROW, RIGHT_ARROW, UP_ARROW, DOWN_ARROW, TAB } from '@ptsecurity/cdk/keycodes';
 import { Subject, Subscription } from 'rxjs';
 import { tap, debounceTime, filter, map } from 'rxjs/operators';
 
@@ -27,6 +27,8 @@ class ListKeyManager {
         this.scrollSize = 0;
         // Buffer for the letters that the user has pressed when the typeahead option is turned on.
         this.pressedLetters = [];
+        this.homeAndEnd = false;
+        this.allowedModifierKeys = [];
         /**
          * Predicate function that can be used to check whether an item should be skipped
          * by the key manager. By default, disabled items are skipped.
@@ -52,16 +54,37 @@ class ListKeyManager {
     get activeItem() {
         return this._activeItem;
     }
+    /** Gets whether the user is currently typing into the manager using the typeahead feature. */
+    isTyping() {
+        return this.pressedLetters.length > 0;
+    }
     withScrollSize(scrollSize) {
         this.scrollSize = scrollSize;
+        return this;
+    }
+    /**
+     * Modifier keys which are allowed to be held down and whose default actions will be prevented
+     * as the user is pressing the arrow keys. Defaults to not allowing any modifier keys.
+     */
+    withAllowedModifierKeys(keys) {
+        this.allowedModifierKeys = keys;
         return this;
     }
     /**
      * Turns on wrapping mode, which ensures that the active item will wrap to
      * the other end of list when there are no more items in the given direction.
      */
-    withWrap() {
-        this.wrap = true;
+    withWrap(shouldWrap = true) {
+        this.wrap = shouldWrap;
+        return this;
+    }
+    /**
+     * Sets the predicate function that determines which items should be skipped by the
+     * list key manager.
+     * @param predicate Function that determines whether the given item should be skipped.
+     */
+    skipPredicate(predicate) {
+        this.skipPredicateFn = predicate;
         return this;
     }
     /**
@@ -115,6 +138,15 @@ class ListKeyManager {
         return this;
     }
     /**
+     * Configures the key manager to activate the first and last items
+     * respectively when the Home or End key is pressed.
+     * @param enabled Whether pressing the Home or End key activates the first/last item.
+     */
+    withHomeAndEnd(enabled = true) {
+        this.homeAndEnd = enabled;
+        return this;
+    }
+    /**
      * Sets the active item to the item at the index specified.
      * @param item The index of the item to be set as active.
      */
@@ -129,9 +161,14 @@ class ListKeyManager {
      * Sets the active item depending on the key event passed in.
      * @param event Keyboard event to be used for determining which element should be active.
      */
+    // tslint:disable-next-line:cyclomatic-complexity
     onKeydown(event) {
         // tslint:disable-next-line: deprecation
         const keyCode = event.keyCode;
+        const modifiers = ['altKey', 'ctrlKey', 'metaKey', 'shiftKey'];
+        const isModifierAllowed = modifiers.every((modifier) => {
+            return !event[modifier] || this.allowedModifierKeys.indexOf(modifier) > -1;
+        });
         switch (keyCode) {
             case TAB:
                 this.tabOut.next();
@@ -171,6 +208,22 @@ class ListKeyManager {
                 }
                 else if (this.horizontal === 'rtl') {
                     this.setNextItemActive();
+                    break;
+                }
+                else {
+                    return;
+                }
+            case HOME:
+                if (this.homeAndEnd && isModifierAllowed) {
+                    this.setFirstItemActive();
+                    break;
+                }
+                else {
+                    return;
+                }
+            case END:
+                if (this.homeAndEnd && isModifierAllowed) {
+                    this.setLastItemActive();
                     break;
                 }
                 else {
@@ -320,6 +373,9 @@ class FocusKeyManager extends ListKeyManager {
     setFocusOrigin(origin) {
         this.origin = origin;
         return this;
+    }
+    getFocusOrigin() {
+        return this.origin;
     }
     setActiveItem(item) {
         super.setActiveItem(item);

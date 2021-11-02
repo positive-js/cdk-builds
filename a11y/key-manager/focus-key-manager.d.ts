@@ -15,6 +15,7 @@ export declare class FocusKeyManager<T> extends ListKeyManager<IFocusableOption 
      * @param origin Focus origin to be used when focusing items.
      */
     setFocusOrigin(origin: FocusOrigin): this;
+    getFocusOrigin(): FocusOrigin;
     /**
      * Sets the active item or index to the item that is specified and focuses it.
      * @param item Item to be set as active.

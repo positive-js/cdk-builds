@@ -4,6 +4,8 @@ export interface ListKeyManagerOption {
     disabled?: boolean;
     getLabel?(): string;
 }
+/** Modifier keys handled by the ListKeyManager. */
+export declare type ListKeyManagerModifierKey = 'altKey' | 'ctrlKey' | 'metaKey' | 'shiftKey';
 /**
  * This class manages keyboard events for selectable lists. If you pass it a query list
  * of items, it will set the active item correctly when arrow events occur.
@@ -29,13 +31,28 @@ export declare class ListKeyManager<T extends ListKeyManagerOption> {
     private horizontal;
     private scrollSize;
     private pressedLetters;
+    private homeAndEnd;
+    private allowedModifierKeys;
     constructor(_items: QueryList<T>);
+    /** Gets whether the user is currently typing into the manager using the typeahead feature. */
+    isTyping(): boolean;
     withScrollSize(scrollSize: number): this;
+    /**
+     * Modifier keys which are allowed to be held down and whose default actions will be prevented
+     * as the user is pressing the arrow keys. Defaults to not allowing any modifier keys.
+     */
+    withAllowedModifierKeys(keys: ListKeyManagerModifierKey[]): this;
     /**
      * Turns on wrapping mode, which ensures that the active item will wrap to
      * the other end of list when there are no more items in the given direction.
      */
-    withWrap(): this;
+    withWrap(shouldWrap?: boolean): this;
+    /**
+     * Sets the predicate function that determines which items should be skipped by the
+     * list key manager.
+     * @param predicate Function that determines whether the given item should be skipped.
+     */
+    skipPredicate(predicate: (item: T) => boolean): this;
     /**
      * Configures whether the key manager should be able to move the selection vertically.
      * @param enabled Whether vertical selection should be enabled.
@@ -53,6 +70,12 @@ export declare class ListKeyManager<T extends ListKeyManagerOption> {
      * @param debounceInterval Time to wait after the last keystroke before setting the active item.
      */
     withTypeAhead(debounceInterval?: number, searchLetterIndex?: number): this;
+    /**
+     * Configures the key manager to activate the first and last items
+     * respectively when the Home or End key is pressed.
+     * @param enabled Whether pressing the Home or End key activates the first/last item.
+     */
+    withHomeAndEnd(enabled?: boolean): this;
     /**
      * Sets the active item to the item at the index specified.
      * @param index The index of the item to be set as active or item The item to be set as active.

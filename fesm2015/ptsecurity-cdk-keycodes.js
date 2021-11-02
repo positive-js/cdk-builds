@@ -125,39 +125,36 @@ function hasModifierKey(event, ...modifiers) {
     return event.altKey || event.shiftKey || event.ctrlKey || event.metaKey;
 }
 function isControl(event) {
-    const keyCode = event.which;
+    const keyCode = event.keyCode;
     switch (keyCode) {
         case SHIFT:
         case CONTROL:
         case ALT:
             return true;
         default:
-            return !!event.metaKey;
+            return event.metaKey;
     }
 }
-function isNumberKey(event) {
-    const keyCode = event.which ? event.which : event;
-    return keyCode >= 49 && keyCode <= 57;
+function isNumberKey({ keyCode }) {
+    return keyCode >= ZERO && keyCode <= NINE;
 }
-function isLetterKey(event) {
-    const keyCode = event.which ? event.which : event;
-    return keyCode >= 65 && keyCode <= 90;
+function isLetterKey({ keyCode }) {
+    return keyCode >= A && keyCode <= Z;
 }
-function isFunctionKey(event) {
-    const keyCode = event.which ? event.which : event;
-    return keyCode >= 112 && keyCode <= 123;
+function isFunctionKey({ keyCode }) {
+    return keyCode >= F1 && keyCode <= F12;
 }
-function isVerticalMovement(event) {
-    return [UP_ARROW, DOWN_ARROW, PAGE_DOWN, PAGE_UP, HOME, END].indexOf(event) !== -1;
+function isVerticalMovement({ keyCode }) {
+    return [UP_ARROW, DOWN_ARROW, PAGE_DOWN, PAGE_UP, HOME, END].includes(keyCode);
 }
-function isHorizontalMovement(event) {
-    return [LEFT_ARROW, RIGHT_ARROW, BACKSPACE, DELETE].indexOf(event) !== -1;
+function isHorizontalMovement({ keyCode }) {
+    return [LEFT_ARROW, RIGHT_ARROW, BACKSPACE, DELETE].includes(keyCode);
 }
 function isSelectAll(event) {
-    return event.ctrlKey && event.keyCode === 65;
+    return event.ctrlKey && event.keyCode === A;
 }
 function isCopy(event) {
-    return event.ctrlKey && event.keyCode === 67;
+    return (event.ctrlKey || event.metaKey) && event.keyCode === C;
 }
 function isInput(event) {
     return event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA';
@@ -168,8 +165,8 @@ function isLeftBracket(event) {
 function isRightBracket(event) {
     return event.code === 'BracketRight';
 }
-function isDigit(event) {
-    return [48, 49, 50, 51, 52, 53, 54, 55, 56, 57].indexOf(event.which) !== -1;
+function isDigit({ keyCode }) {
+    return [ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE].includes(keyCode);
 }
 
 /**
