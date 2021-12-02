@@ -122,9 +122,9 @@ class MockNgZone extends NgZone {
         this.onStable.emit(null);
     }
 }
-/** @nocollapse */ MockNgZone.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: MockNgZone, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
-/** @nocollapse */ MockNgZone.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: MockNgZone });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.5", ngImport: i0, type: MockNgZone, decorators: [{
+/** @nocollapse */ MockNgZone.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.13", ngImport: i0, type: MockNgZone, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
+/** @nocollapse */ MockNgZone.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "12.2.13", ngImport: i0, type: MockNgZone });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.13", ngImport: i0, type: MockNgZone, decorators: [{
             type: Injectable
         }], ctorParameters: function () { return []; } });
 

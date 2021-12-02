@@ -2,7 +2,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs')) :
     typeof define === 'function' && define.amd ? define('@ptsecurity/cdk/datetime', ['exports', '@angular/core', 'rxjs'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.mc = global.mc || {}, global.mc.cdk = global.mc.cdk || {}, global.mc.cdk.datetime = {}), global.ng.core, global.rxjs));
-}(this, (function (exports, core, rxjs) { 'use strict';
+})(this, (function (exports, core, rxjs) { 'use strict';
 
     var MC_DATE_FORMATS = new core.InjectionToken('mc-date-formats');
 
@@ -133,5 +133,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=ptsecurity-cdk-datetime.umd.js.map
