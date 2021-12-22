@@ -1,9 +1,9 @@
 {
-  "main": "../bundles/ptsecurity-cdk-testing.umd.js",
-  "module": "../fesm2015/ptsecurity-cdk-testing.js",
-  "es2015": "../fesm2015/ptsecurity-cdk-testing.js",
-  "esm2015": "../esm2015/testing/ptsecurity-cdk-testing.js",
-  "fesm2015": "../fesm2015/ptsecurity-cdk-testing.js",
+  "module": "../fesm2015/ptsecurity-cdk-testing.mjs",
+  "es2020": "../fesm2020/ptsecurity-cdk-testing.mjs",
+  "esm2020": "../esm2020/testing/ptsecurity-cdk-testing.mjs",
+  "fesm2020": "../fesm2020/ptsecurity-cdk-testing.mjs",
+  "fesm2015": "../fesm2015/ptsecurity-cdk-testing.mjs",
   "typings": "ptsecurity-cdk-testing.d.ts",
   "sideEffects": false,
   "name": "@ptsecurity/cdk/testing"

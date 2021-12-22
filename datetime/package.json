@@ -1,9 +1,9 @@
 {
-  "main": "../bundles/ptsecurity-cdk-datetime.umd.js",
-  "module": "../fesm2015/ptsecurity-cdk-datetime.js",
-  "es2015": "../fesm2015/ptsecurity-cdk-datetime.js",
-  "esm2015": "../esm2015/datetime/ptsecurity-cdk-datetime.js",
-  "fesm2015": "../fesm2015/ptsecurity-cdk-datetime.js",
+  "module": "../fesm2015/ptsecurity-cdk-datetime.mjs",
+  "es2020": "../fesm2020/ptsecurity-cdk-datetime.mjs",
+  "esm2020": "../esm2020/datetime/ptsecurity-cdk-datetime.mjs",
+  "fesm2020": "../fesm2020/ptsecurity-cdk-datetime.mjs",
+  "fesm2015": "../fesm2015/ptsecurity-cdk-datetime.mjs",
   "typings": "ptsecurity-cdk-datetime.d.ts",
   "sideEffects": false,
   "name": "@ptsecurity/cdk/datetime"

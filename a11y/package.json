@@ -1,9 +1,9 @@
 {
-  "main": "../bundles/ptsecurity-cdk-a11y.umd.js",
-  "module": "../fesm2015/ptsecurity-cdk-a11y.js",
-  "es2015": "../fesm2015/ptsecurity-cdk-a11y.js",
-  "esm2015": "../esm2015/a11y/ptsecurity-cdk-a11y.js",
-  "fesm2015": "../fesm2015/ptsecurity-cdk-a11y.js",
+  "module": "../fesm2015/ptsecurity-cdk-a11y.mjs",
+  "es2020": "../fesm2020/ptsecurity-cdk-a11y.mjs",
+  "esm2020": "../esm2020/a11y/ptsecurity-cdk-a11y.mjs",
+  "fesm2020": "../fesm2020/ptsecurity-cdk-a11y.mjs",
+  "fesm2015": "../fesm2015/ptsecurity-cdk-a11y.mjs",
   "typings": "ptsecurity-cdk-a11y.d.ts",
   "sideEffects": false,
   "name": "@ptsecurity/cdk/a11y"
