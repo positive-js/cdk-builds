@@ -220,6 +220,7 @@ export declare abstract class DateAdapter<D> {
     abstract invalid(): D;
     abstract hasSame(startDate: D, endDate: D, unit: any): boolean;
     abstract diffNow(date: D, unit: any): number;
+    abstract daysFromToday(date: D): number;
     /**
      * Attempts to deserialize a value to a valid date object. This is different from parsing in that
      * deserialize should only accept non-ambiguous, locale-independent formats (e.g. a ISO 8601
